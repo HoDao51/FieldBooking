@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+
 
 class UpdateEmployeeRequest extends FormRequest
 {
@@ -22,7 +24,26 @@ class UpdateEmployeeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string',
+            'phoneNumber' => 'required|regex:/^[0-9]{10}$/',
+            // Email: unique nhưng bỏ qua user đang update
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('users', 'email')->ignore($this->route('nhanVien')->user_id)
+            ],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name.required' => 'Vui lòng nhập họ tên.',
+            'phoneNumber.required' => 'Vui lòng nhập số điện thoại.',
+            'phoneNumber.regex' => 'Số điện thoại không hợp lệ. Vui lòng nhập 10 chữ số.',
+            'email.required' => 'Vui lòng nhập email.',
+            'email.email' => 'Email không hợp lệ.',
+            'email.unique' => 'Email này đã được sử dụng.',
         ];
     }
 }

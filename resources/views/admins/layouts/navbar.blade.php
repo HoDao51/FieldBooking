@@ -1,4 +1,4 @@
-<header class="flex items-center justify-between border-b border-[E5E6E6] px-6 py-3 bg-white">
+<header class="flex items-center justify-between border-b border-[E5E6E6] px-6 py-1 bg-white">
     <!-- Logo + tên -->
     <a href="">
         <div class="flex items-center">
@@ -27,6 +27,39 @@
         </div>
     </a>
 
+    @if (session('success'))
+        <div id="toast-success"
+            class="fixed top-6 left-1/2 -translate-x-1/2 
+                bg-white shadow-lg rounded-xl px-6 py-3 
+                flex items-center gap-3 border border-green-200 
+                animate-fadeIn z-50">
+
+            <!-- Icon -->
+            <div class="bg-green-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                        d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10s10-4.5 10-10S17.5 2 12 2m-2 15l-5-5l1.41-1.41L10 14.17l7.59-7.59L19 8z" />
+                </svg>
+            </div>
+
+            <!-- Message -->
+            <span class="text-gray-800 font-medium">
+                {{ session('success') }}
+            </span>
+        </div>
+
+        <script>
+            setTimeout(() => {
+                const toast = document.getElementById('toast-success');
+                if (toast) {
+                    toast.style.transition = "all 0.5s ease";
+                    toast.style.opacity = "0";
+                    toast.style.transform = "translate(-50%, -10px)";
+                    setTimeout(() => toast.remove(), 500);
+                }
+            }, 3000);
+        </script>
+    @endif
 
     <div class="relative inline-block text-left">
 
@@ -44,8 +77,14 @@
 
             <!-- Name + Role -->
             <div class="text-left leading-tight">
-                <p class="font-semibold text-gray-800">Trần Đức Hiếu</p>
-                <p class="text-sm text-gray-500">Quản trị viên</p>
+                <p class="font-semibold text-gray-800">{{ auth()->user()->name }}</p>
+                <p class="text-sm text-gray-500">
+                    @if (auth()->user()->role == 0)
+                        Quản trị viên
+                    @elseif (auth()->user()->role == 1)
+                        Nhân viên
+                    @endif
+                </p>
             </div>
 
             <!-- Icon mũi tên -->
@@ -66,7 +105,7 @@
 
             <hr class="my-2">
 
-            <a href=""
+            <a href="{{ route('logout') }}"
                 class="font-semibold block px-4 py-2 text-gray-600 hover:bg-red-600 hover:text-white rounded-md">
                 Đăng xuất
             </a>

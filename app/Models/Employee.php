@@ -16,7 +16,6 @@ class Employee extends Model
         'email',
         'role',
         'status',
-        'avatar',
         'user_id',
     ];
     public function Field(){

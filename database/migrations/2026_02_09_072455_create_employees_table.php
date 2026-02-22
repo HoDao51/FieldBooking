@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('email', 100)->unique()->notnullable();
             $table->integer('role')->notnullable();
             $table->integer('status')->default('0');
-            $table->string('avatar')->nullable();
             $table->unsignedBigInteger('user_id')->unique();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users');

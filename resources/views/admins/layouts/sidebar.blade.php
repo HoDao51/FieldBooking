@@ -3,9 +3,9 @@
         <nav class="flex flex-col space-y-2">
 
             <!-- Trang tổng quan -->
-            <a href=""
-                class="flex items-center space-x-2  px-3 py-2 rounded hover:text-green-800
-        {{ request()->routeIs() ? 'bg-green-200 font-semibold' : ' hover:bg-green-200' }}">
+            <a href="{{route('admins.index')}}"
+                class="flex items-center space-x-2  px-3 py-2 rounded hover:text-green-800 font-semibold
+        {{ request()->routeIs('admins.index') ? 'bg-green-200 text-green-800 font-semibold' : ' hover:bg-green-200' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 opacity-60" fill="#222C3A" viewBox="0 0 24 24"
                     stroke="currentColor" stroke-width="0">
                     <path fill="currentColor"
@@ -14,9 +14,10 @@
                 <span>Thống kê</span>
             </a>
 
-            <a href=""
-                class="flex items-center space-x-2  px-3 py-2 rounded hover:text-green-800
-      {{ request()->routeIs('nhanVien.*') ? 'bg-green-200 font-semibold' : ' hover:bg-green-200' }}">
+            <!-- Quản lý nhân viên -->
+            <a href="{{ route('nhanVien.index') }}"
+                class="flex items-center space-x-2  px-3 py-2 rounded hover:text-green-800 font-semibold
+      {{ request()->routeIs('nhanVien.*') ? 'bg-green-200 text-green-800 font-semibold' : ' hover:bg-green-200' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 36 36"
                     stroke="currentColor" stroke-width="0">
                     <path fill="currentColor"
@@ -31,9 +32,10 @@
                 <span>Quản lý nhân viên</span>
             </a>
 
+            <!-- Quản lý khách hàng -->
             <a href=""
-                class="flex items-center space-x-2  px-3 py-2 rounded hover:text-green-800
-        {{ request()->routeIs('sinhVien.*') ? 'bg-green-200 font-semibold' : ' hover:bg-green-200' }}">
+                class="flex items-center space-x-2  px-3 py-2 rounded hover:text-green-800 font-semibold
+        {{ request()->routeIs('sinhVien.*') ? 'bg-green-200 text-green-800 font-semibold' : ' hover:bg-green-200' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 24 24"
                     stroke="currentColor" stroke-width="0">
                     <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -46,20 +48,22 @@
                 <span>Quản lý khách hàng</span>
             </a>
 
+            <!-- Quản lý sân bóng -->
             <a href=""
-                class="flex items-center space-x-2  px-3 py-2 rounded hover:text-green-800
-        {{ request()->routeIs('thongTinCaNhan.*') ? 'bg-green-200 font-semibold' : ' hover:bg-green-200' }}">
+                class="flex items-center space-x-2  px-3 py-2 rounded hover:text-green-800 font-semibold
+        {{ request()->routeIs('thongTinCaNhan.*') ? 'bg-green-200 text-green-800 font-semibold' : ' hover:bg-green-200' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 256 256"
-                    stroke="currentColor" stroke-width="1">
+                    stroke="currentColor" stroke-width="3">
                     <path fill="currentColor"
                         d="M128 66a38 38 0 1 0 38 38a38 38 0 0 0-38-38m0 64a26 26 0 1 1 26-26a26 26 0 0 1-26 26m0-112a86.1 86.1 0 0 0-86 86c0 30.91 14.34 63.74 41.47 94.94a252.3 252.3 0 0 0 41.09 38a6 6 0 0 0 6.88 0a252.3 252.3 0 0 0 41.09-38c27.13-31.2 41.47-64 41.47-94.94a86.1 86.1 0 0 0-86-86m0 206.51C113 212.93 54 163.62 54 104a74 74 0 0 1 148 0c0 59.62-59 108.93-74 120.51" />
                 </svg>
                 <span>Quản lý sân bóng</span>
             </a>
 
+            <!-- Cấu hình giá giờ -->
             <a href=""
-                class="flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800
-        {{ request()->routeIs('lop.*') ? 'bg-green-200 font-semibold' : 'hover:bg-green-200' }}">
+                class="flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold
+        {{ request()->routeIs('lop.*') ? 'bg-green-200 text-green-800 font-semibold' : 'hover:bg-green-200' }}">
                 <span class="w-6 h-6 flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 scale-125 opacity-80" viewBox="0 0 56 56"
                         fill="currentColor">
@@ -71,9 +75,10 @@
                 <span>Cấu hình giá giờ</span>
             </a>
 
+            <!-- Quản lý đơn đặt -->
             <a href=""
-                class="flex items-center space-x-2  px-3 py-2 rounded hover:text-green-800
-        {{ request()->routeIs('namHoc.*') ? 'bg-green-200 font-semibold' : 'hover:bg-green-200' }}">
+                class="flex items-center space-x-2  px-3 py-2 rounded hover:text-green-800 font-semibold
+        {{ request()->routeIs('namHoc.*') ? 'bg-green-200 text-green-800 font-semibold' : 'hover:bg-green-200' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 16 16"
                     stroke="currentColor" stroke-width="0">
                     <path fill="none" stroke="currentColor" stroke-linejoin="round"
@@ -82,9 +87,10 @@
                 <span>Quản lý đơn đặt</span>
             </a>
 
+            <!-- Phương thức thanh toán -->
             <a href=""
-                class="flex items-center space-x-2  px-3 py-2 rounded hover:text-green-800
-        {{ request()->routeIs('hocPhi.*') ? 'bg-green-200 font-semibold' : 'hover:bg-green-200' }}">
+                class="flex items-center space-x-2  px-3 py-2 rounded hover:text-green-800 font-semibold
+        {{ request()->routeIs('hocPhi.*') ? 'bg-green-200 text-green-800 font-semibold' : 'hover:bg-green-200' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 24 24"
                     stroke="currentColor" stroke-width="0">
                     <path fill="currentColor"
@@ -93,9 +99,10 @@
                 <span>Phương thức thanh toán</span>
             </a>
 
+            <!-- Lịch sử đặt sân -->
             <a href=""
-                class="flex items-center space-x-2  px-3 py-2 rounded hover:text-green-800
-        {{ request()->routeIs('thongTinHocPhi.index') ? 'bg-green-200 font-semibold' : 'hover:bg-green-200' }}">
+                class="flex items-center space-x-2  px-3 py-2 rounded hover:text-green-800 font-semibold
+        {{ request()->routeIs('thongTinHocPhi.index') ? 'bg-green-200 text-green-800 font-semibold' : 'hover:bg-green-200' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 scale-110" fill="#222C3A" viewBox="0 0 24 24"
                     stroke="currentColor" stroke-width="0">
                     <path fill="currentColor"
@@ -104,8 +111,9 @@
                 <span>Lịch sử đặt sân</span>
             </a>
 
-            <a href=""
-                class="flex items-center space-x-2 px-3 py-2 rounded hover:bg-red-600 hover:text-white transition">
+            <!-- Đăng xuất -->
+            <a href="{{route('logout')}}"
+                class="flex items-center space-x-2 px-3 py-2 rounded hover:bg-red-600 hover:text-white transition font-semibold">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 32 32" fill="currentColor">
                     <path d="M26 4h2v24h-2zM11.414 20.586L7.828 17H22v-2H7.828l3.586-3.586L10 10l-6 6l6 6z" />
                 </svg>

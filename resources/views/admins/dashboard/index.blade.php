@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('admins.layouts.app')
 @section('content')
 <div class="flex h-screen">
     <!-- Main -->
