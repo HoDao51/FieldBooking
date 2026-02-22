@@ -16,7 +16,7 @@
 
     <!-- main -->
     <div class="flex flex-1 w-full">
-        <div class="fixed top-16 left-0 h-screen z-40 hidden md:block">
+        <div class="fixed top-18 left-0 h-screen z-40 hidden md:block">
             @include('layouts.sidebar')
         </div>
         <main class="flex-1 h-full pl-3 bg-gray-100 overflow-auto pr-6 pt-2 md:ml-60">

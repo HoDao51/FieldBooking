@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('field_types', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 20)->notnullable();
-            $table->boolean('deleted')->default(false);
+            $table->string('name', 20);
             $table->timestamps();
         });
     }

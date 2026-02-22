@@ -12,10 +12,9 @@ class FieldType extends Model
 
     protected $fillable = [
         'name',
-        'deleted',
     ];
 
-    public function Field(){
+    public function fields(){
         return $this->hasMany(Field::class);
     }
 }
