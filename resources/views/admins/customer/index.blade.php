@@ -5,29 +5,27 @@
         <div class="mb-6">
             <h1 class="flex items-center gap-3 text-2xl font-bold text-gray-800">
 
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-green-600" viewBox="0 0 36 36" fill="currentColor">
-
-                    <path fill="currentColor"
-                        d="M18.42 16.31a5.7 5.7 0 1 1 5.76-5.7a5.74 5.74 0 0 1-5.76 5.7m0-9.4a3.7 3.7 0 1 0 3.76 3.7a3.74 3.74 0 0 0-3.76-3.7" />
-                    <path fill="currentColor"
-                        d="M18.42 16.31a5.7 5.7 0 1 1 5.76-5.7a5.74 5.74 0 0 1-5.76 5.7m0-9.4a3.7 3.7 0 1 0 3.76 3.7a3.74 3.74 0 0 0-3.76-3.7m3.49 10.74a20.6 20.6 0 0 0-13 2a1.77 1.77 0 0 0-.91 1.6v3.56a1 1 0 0 0 2 0v-3.43a18.92 18.92 0 0 1 12-1.68Z" />
-                    <path fill="currentColor"
-                        d="M33 22h-6.7v-1.48a1 1 0 0 0-2 0V22H17a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V23a1 1 0 0 0-1-1m-1 10H18v-8h6.3v.41a1 1 0 0 0 2 0V24H32Z" />
-                    <path fill="currentColor"
-                        d="M21.81 27.42h5.96v1.4h-5.96zM10.84 12.24a18 18 0 0 0-7.95 2A1.67 1.67 0 0 0 2 15.71v3.1a1 1 0 0 0 2 0v-2.9a16 16 0 0 1 7.58-1.67a7.3 7.3 0 0 1-.74-2m22.27 1.99a17.8 17.8 0 0 0-7.12-2a7.5 7.5 0 0 1-.73 2A15.9 15.9 0 0 1 32 15.91v2.9a1 1 0 1 0 2 0v-3.1a1.67 1.67 0 0 0-.89-1.48m-22.45-3.62v-.67a3.07 3.07 0 0 1 .54-6.11a3.15 3.15 0 0 1 2.2.89a8.2 8.2 0 0 1 1.7-1.08a5.13 5.13 0 0 0-9 3.27a5.1 5.1 0 0 0 4.7 5a7.4 7.4 0 0 1-.14-1.3m14.11-8.78a5.17 5.17 0 0 0-3.69 1.55a8 8 0 0 1 1.9 1a3.14 3.14 0 0 1 4.93 2.52a3.09 3.09 0 0 1-1.79 2.77a7 7 0 0 1 .06.93a8 8 0 0 1-.1 1.2a5.1 5.1 0 0 0 3.83-4.9a5.12 5.12 0 0 0-5.14-5.07" />
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-green-600" viewBox="0 0 24 24" stroke="currentColor"
+                    stroke-width="0">
+                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="1.5">
+                        <path
+                            d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M16 3.128a4 4 0 0 1 0 7.744M22 21v-2a4 4 0 0 0-3-3.87" />
+                        <circle cx="9" cy="7" r="4" />
+                    </g>
                 </svg>
 
-                <span>Quản lý thông tin nhân viên</span>
+                <span>Quản lý thông tin khách hàng</span>
             </h1>
 
             <p class="text-gray-500 mt-1">
-                Quản lý tài khoản nhân viên trong hệ thống
+                Quản lý tài khoản khách hàng trong hệ thống
             </p>
         </div>
 
         <div class="flex justify-between items-center mb-4">
             <!-- Search -->
-            <form method="GET" action="{{ route('nhanVien.index') }}" class="flex items-center space-x-2 mb-2">
+            <form method="GET" action="{{ route('khachHang.index') }}" class="flex items-center space-x-2 mb-2">
                 <!-- Thanh tìm kiếm -->
                 <div class="relative w-[400px] rounded border border-gray-300 ">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
@@ -53,17 +51,17 @@
                     <path fill="currentColor"
                         d="M16 3C8.832 3 3 8.832 3 16s5.832 13 13 13s13-5.832 13-13S23.168 3 16 3m0 2c6.087 0 11 4.913 11 11s-4.913 11-11 11S5 22.087 5 16S9.913 5 16 5m-1 5v5h-5v2h5v5h2v-5h5v-2h-5v-5z" />
                 </svg>
-                Thêm nhân viên
+                Thêm khách hàng
             </button>
         </div>
 
+        <!-- ===== TABLE ===== -->
         <div class="bg-white rounded-xl shadow border overflow-hidden">
             <table class="min-w-full text-sm">
-                <thead class="bg-gray-200 text-gray-600 uppercase text-xs">
+                <thead class="bg-gray-200 text-gray-800 uppercase text-xs">
                     <tr>
                         <th class="px-6 py-3 text-left">Người dùng</th>
                         <th class="px-6 py-3 text-center">Số điện thoại</th>
-                        <th class="px-6 py-3 text-center">Vai trò</th>
                         <th class="px-6 py-3 text-center">Trạng thái</th>
                         <th class="px-6 py-3 text-center">Ngày tạo</th>
                         <th class="px-6 py-3 text-center">Thao tác</th>
@@ -72,12 +70,25 @@
 
                 <tbody class="divide-y">
 
-                    @forelse($nhanVien as $item)
+                    @forelse($khachHang as $item)
                         <tr class="hover:bg-gray-50">
 
-                            <!-- Tên -->
                             <td class="px-6 py-4">
-                                <div class="flex flex-col text-2x1">
+                                <div class="flex items-center gap-x-3">
+
+                                    <!-- Avatar -->
+                                    <div class="w-12 h-12 rounded-full overflow-hidden border-2 border-gray-300">
+                                        @if ($item->avatar == null)
+                                        <img src="{{asset('images/sbcf-default-avatar.png')}}" alt="Ảnh đại diện"
+                                            class="w-full h-full object-cover">
+                                        @else
+                                        <img src="{{ asset('storage/' . $item->avatar) }}" alt="Ảnh đại diện"
+                                            class="w-full h-full object-cover">
+                                        @endif
+                                    </div>
+
+                                    <!-- Name + Email -->
+                                    <div class="flex flex-col text-2x1">
                                         <span class="font-semibold text-gray-800">
                                             {{ $item->name }}
                                         </span>
@@ -85,25 +96,13 @@
                                             {{ $item->email }}
                                         </span>
                                     </div>
+
+                                </div>
                             </td>
 
                             <!-- SĐT -->
                             <td class="px-6 py-4 text-center">
-                                {{ $item->phoneNumber ?? 'Chưa cập nhật' }}
-                            </td>
-
-                            <!-- Vai trò -->
-                            <td class="px-6 py-4 text-center">
-                                @if ($item->role == 0)
-                                    <span
-                                        class="px-3 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-700">
-                                        Quản trị viên
-                                    </span>
-                                @else
-                                    <span class="px-3 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-700">
-                                        Nhân viên
-                                    </span>
-                                @endif
+                                {{ $item->phoneNumber }}
                             </td>
 
                             <!-- Trạng thái -->
@@ -131,7 +130,7 @@
                                         onclick='openEditModal({
                                           modalId: "editModal",
                                           formId: "editForm",
-                                          actionUrl: "{{ route('nhanVien.update', $item->id) }}",
+                                          actionUrl: "{{ route('khachHang.update', $item->id) }}",
                                           data: @json($item)
                                       })'
                                         class="bg-[#10B981] text-white text-[16px] font-semibold px-3 py-2 rounded hover:bg-[#1D8F6A]">
@@ -151,7 +150,7 @@
                                     </button>
                                 @else
                                     @if ($item->status == 0)
-                                        <form action="{{ route('nhanVien.destroy', $item->id) }}" method="POST"
+                                        <form action="{{ route('khachHang.destroy', $item->id) }}" method="POST"
                                             class="inline-block mt-3">
                                             @csrf
                                             @method('DELETE')
@@ -167,7 +166,7 @@
                                             </button>
                                         </form>
                                     @else
-                                        <form action="{{ route('nhanVien.restore', $item->id) }}" method="POST"
+                                        <form action="{{ route('khachHang.restore', $item->id) }}" method="POST"
                                             class="inline-block mt-3">
                                             @csrf
                                             @method('POST')
@@ -198,16 +197,16 @@
             </table>
         </div>
 
-        @if ($nhanVien->hasPages())
+        @if ($khachHang->hasPages())
             <div class="flex justify-center items-center gap-2 mt-6 mb-6">
                 {{-- Page Numbers --}}
-                @for ($i = 1; $i <= $nhanVien->lastPage(); $i++)
-                    @if ($i == $nhanVien->currentPage())
+                @for ($i = 1; $i <= $khachHang->lastPage(); $i++)
+                    @if ($i == $khachHang->currentPage())
                         <span class="px-4 py-2 bg-green-600 text-white rounded">
                             {{ $i }}
                         </span>
                     @else
-                        <a href="{{ $nhanVien->url($i) }}"
+                        <a href="{{ $khachHang->url($i) }}"
                             class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-green-500 hover:text-white transition">
                             {{ $i }}
                         </a>
@@ -217,8 +216,8 @@
         @endif
 
     </div>
-    @include('admins.employee._create_modal')
-    @include('admins.employee._edit_modal')
+    @include('admins.customer._create_modal')
+    @include('admins.customer._edit_modal')
     @if (session('modal') === 'create')
         <script>
             document.addEventListener('DOMContentLoaded', function() {

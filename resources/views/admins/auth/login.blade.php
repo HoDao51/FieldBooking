@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Đăng nhập quản trị - SânBóngPro</title>
+    <title>Đăng nhập quản trị - SBP</title>
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 

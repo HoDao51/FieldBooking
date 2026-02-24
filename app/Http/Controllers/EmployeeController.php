@@ -29,9 +29,9 @@ class EmployeeController extends Controller
                 ->orWhere('email', 'like', '%' . $search . '%');
         }
         // Phân trang
-        $nhanVien = $query->orderBy('status', 'asc')->orderBy('role', 'asc')->paginate(5)->withQueryString();
+        $nhanVien = $query->orderBy('status', 'asc')->orderBy('role', 'asc')->orderBy('id', 'desc')->paginate(5)->withQueryString();
 
-       // Trả về view với dữ liệu phân trang và từ khóa search
+        // Trả về view với dữ liệu phân trang và từ khóa search
         return view('admins.employee.index', compact('nhanVien', 'search'));
     }
 
@@ -55,7 +55,7 @@ class EmployeeController extends Controller
             'password' => Hash::make($password),
             'role' => $request->role
         ]);
-        
+
         $name = $request->name;
         $role = $request->role;
         $email = $request->email;
@@ -69,7 +69,7 @@ class EmployeeController extends Controller
             'user_id' => $user->id,
         ]);
 
-        return redirect::route('nhanVien.index')->with('success', 'Thêm nhân viên thành công!');;
+        return redirect::route('nhanVien.index')->with('success', 'Thêm nhân viên thành công!');
     }
 
     /**
@@ -94,7 +94,7 @@ class EmployeeController extends Controller
     public function update(UpdateEmployeeRequest $request, Employee $nhanVien)
     {
         $role = null;
-        
+
         if (Auth::user()->id == $nhanVien->user_id) {
             $role = $nhanVien->role;
         } else {
@@ -103,30 +103,38 @@ class EmployeeController extends Controller
 
         $nhanVien->user()->update([
             'name'  => $request->name,
-            'email' => $request->email,
+            'phoneNumber' => $request->phoneNumber,
             'role' => $role
         ]);
 
         $name = $request->name;
-        $email = $request->email;
         $phoneNumber = $request->phoneNumber;
 
         // Cập nhật thông tin nhân viên
         $nhanVien->update([
             'name' => $name,
             'role' => $role,
-            'email' => $email,
             'phoneNumber' => $phoneNumber,
         ]);
 
-        return redirect::route('nhanVien.index');
+        return redirect::route('nhanVien.index')->with('success', 'Cập nhật thông tin thành công!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Employee $employee)
+    public function destroy(Employee $nhanVien)
     {
-        //
+        $nhanVien->status = 1;
+        $nhanVien->save();
+        return redirect::route('nhanVien.index')->with('success', 'Cập nhật thông tin thành công!');
+    }
+
+    public function restore(Employee $nhanVien)
+    {
+        $nhanVien = Employee::findOrFail($nhanVien->id);
+        $nhanVien->status = 0;
+        $nhanVien->save();
+        return redirect::route('nhanVien.index')->with('success', 'Cập nhật thông tin thành công!');
     }
 }

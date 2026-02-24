@@ -1,6 +1,6 @@
 @extends('admins.layouts.app')
 @section('content')
-<div class="flex h-screen">
+<div class="flex">
     <!-- Main -->
     <div class="flex-1 flex flex-col">
         <!-- Content -->

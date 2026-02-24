@@ -3,6 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\ValidationException;
 
 class StoreEmployeeRequest extends FormRequest
 {
@@ -19,6 +22,17 @@ class StoreEmployeeRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
+    protected function failedValidation(Validator $validator)
+    {
+        $response = redirect()
+            ->back()
+            ->withErrors($validator, 'create')
+            ->withInput()
+            ->with('modal', 'create');
+
+        throw new HttpResponseException($response);
+    }
+
     public function rules(): array
     {
         return [

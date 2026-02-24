@@ -7,7 +7,7 @@ window.openModal = function (modalId) {
     }
 };
 
-// ===== CLOSE MODAL (DÙNG CHUNG) =====
+// ===== CLOSE MODAL =====
 window.closeModal = function (modalId) {
     const modal = document.getElementById(modalId);
     if (modal) {
@@ -20,20 +20,37 @@ window.closeModal = function (modalId) {
 window.openEditModal = function ({ modalId, formId, actionUrl, data }) {
 
     const form = document.getElementById(formId);
-    if (form) {
-        form.action = actionUrl;
+    form.action = actionUrl;
 
-        Object.keys(data).forEach(key => {
-            const input = form.querySelector(`[name="${key}"]`);
-            if (input) {
-                input.value = data[key] ?? '';
-            }
-        });
+    // Set các input bình thường (trừ avatar)
+    Object.keys(data).forEach(key => {
+
+        if (key === 'avatar') return; // ❗ Bỏ qua avatar
+
+        const input = form.querySelector(`[name="${key}"]`);
+        if (input) {
+            input.value = data[key] ?? '';
+        }
+    });
+
+    // ===== XỬ LÝ AVATAR PREVIEW =====
+    const avatarPreview = document.getElementById('editAvatarPreview');
+    const fileInput = form.querySelector('input[name="avatar"]');
+
+    if (avatarPreview) {
+        if (data.avatar) {
+            avatarPreview.src = '/storage/' + data.avatar;
+            avatarPreview.classList.remove('hidden');
+        } else {
+            avatarPreview.classList.add('hidden');
+        }
     }
 
-    const modal = document.getElementById(modalId);
-    if (modal) {
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
+    // Reset file input
+    if (fileInput) {
+        fileInput.value = '';
     }
+
+    document.getElementById(modalId).classList.remove('hidden');
+    document.getElementById(modalId).classList.add('flex');
 };
