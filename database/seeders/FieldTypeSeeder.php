@@ -15,22 +15,22 @@ class FieldTypeSeeder extends Seeder
     {
         DB::table('field_types')->insert([
             [
-                'name' => '5 người',
+                'name' => 'Sân 5 người',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'name' => '7 người',
+                'name' => 'Sân 7 người',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'name' => '9 người',
+                'name' => 'Sân 9 người',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'name' => '11 người',
+                'name' => 'Sân 11 người',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

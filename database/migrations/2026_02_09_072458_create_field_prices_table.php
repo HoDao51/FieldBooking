@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('field_prices', function (Blueprint $table) {
             $table->id();
             $table->integer('price')->notnullable();
-            $table->date('applyDate')->notnullable();
+            $table->tinyInteger('day_of_week');
             $table->unsignedBigInteger('field_id');
             $table->unsignedBigInteger('time_id');
             $table->timestamps();
-            $table->foreign('field_id')->references('id')->on('fields');
-            $table->foreign('time_id')->references('id')->on('time_slots');
+            $table->foreign('field_id')->references('id')->on('fields')->onDelete('cascade');
+            $table->foreign('time_id')->references('id')->on('time_slots')->onDelete('cascade');
         });
     }
 

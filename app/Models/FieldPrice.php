@@ -12,7 +12,7 @@ class FieldPrice extends Model
 
     protected $fillable = [
         'price',
-        'applyDate',
+        'day_of_week',
         'field_id',
         'time_id',
     ];

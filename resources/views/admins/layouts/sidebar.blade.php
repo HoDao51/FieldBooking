@@ -60,9 +60,9 @@
         </a>
 
         <!-- Cấu hình giá giờ -->
-        <a href=""
+        <a href="{{route('cauHinhGiaGio.index')}}"
             class="flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold
-        {{ request()->routeIs('lop.*') ? 'bg-green-200 text-green-800 font-semibold' : 'hover:bg-green-200' }}">
+        {{ request()->routeIs('cauHinhGiaGio.*') ? 'bg-green-200 text-green-800 font-semibold' : 'hover:bg-green-200' }}">
             <span class="w-6 h-6 flex items-center justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 scale-125 opacity-80" viewBox="0 0 56 56"
                     fill="currentColor">

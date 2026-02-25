@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('time_slots', function (Blueprint $table) {
             $table->id();
-            $table->date('startTime')->notnullable();
-            $table->date('endTime')->notnullable();
+            $table->time('startTime');
+            $table->time('endTime');
             $table->timestamps();
         });
     }

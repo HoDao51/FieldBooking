@@ -31,7 +31,7 @@
                             clip-rule="evenodd" />
                     </svg>
                     <input type="text" name="search" value="{{ $search }}"
-                        placeholder="Tìm kiếm theo tên, email,..."
+                        placeholder="Tìm kiếm theo tên, địa chỉ,..."
                         class="bg-[#F2F2F2] pl-10 pr-3 py-2 rounded w-full d-lg focus:ring-2 focus:ring-green-400 outline-none">
                 </div>
                 <!-- Nút tìm kiếm -->
@@ -50,8 +50,7 @@
                 Thêm sân bóng
             </button>
         </div>
-
-        <!-- ===== TABLE ===== -->
+        
         <div class="bg-white rounded-xl shadow border overflow-hidden">
             <table class="min-w-full text-sm">
                 <thead class="bg-gray-200 text-gray-800 uppercase text-xs">
