@@ -16,16 +16,20 @@ window.closeModal = function (modalId) {
     }
 };
 
-// ===== OPEN EDIT MODAL =====
 window.openEditModal = function ({ modalId, formId, actionUrl, data }) {
 
+    if (typeof resetEditPreview === 'function') {
+        resetEditPreview();
+    }
+
     const form = document.getElementById(formId);
+    if (!form) return;
+
     form.action = actionUrl;
 
-    // Set các input bình thường (trừ avatar)
     Object.keys(data).forEach(key => {
 
-        if (key === 'avatar') return; // ❗ Bỏ qua avatar
+        if (key === 'avatar' || key === 'images') return;
 
         const input = form.querySelector(`[name="${key}"]`);
         if (input) {
@@ -33,24 +37,57 @@ window.openEditModal = function ({ modalId, formId, actionUrl, data }) {
         }
     });
 
-    // ===== XỬ LÝ AVATAR PREVIEW =====
-    const avatarPreview = document.getElementById('editAvatarPreview');
-    const fileInput = form.querySelector('input[name="avatar"]');
+    // ===== CHỈ XỬ LÝ ẢNH NẾU CÓ currentImages =====
+    const currentImages = document.getElementById('currentImages');
 
-    if (avatarPreview) {
-        if (data.avatar) {
-            avatarPreview.src = '/storage/' + data.avatar;
-            avatarPreview.classList.remove('hidden');
-        } else {
-            avatarPreview.classList.add('hidden');
-        }
+    if (currentImages && data.images) {
+
+        currentImages.innerHTML = '';
+
+        data.images.forEach(image => {
+
+            const wrapper = document.createElement('div');
+            wrapper.classList.add('relative', 'w-28', 'h-28');
+
+            const img = document.createElement('img');
+            img.src = '/storage/' + image.name;
+            img.classList.add('w-full', 'h-full', 'object-cover', 'rounded-lg', 'border');
+
+            const removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.innerHTML = '✕';
+            removeBtn.classList.add(
+                'absolute',
+                'top-1',
+                'right-1',
+                'bg-red-600',
+                'text-white',
+                'w-6',
+                'h-6',
+                'rounded-full',
+                'text-sm'
+            );
+
+            removeBtn.onclick = function () {
+
+                const inputDelete = document.createElement('input');
+                inputDelete.type = 'hidden';
+                inputDelete.name = 'delete_images[]';
+                inputDelete.value = image.id;
+
+                form.appendChild(inputDelete);
+                wrapper.remove();
+            };
+
+            wrapper.appendChild(img);
+            wrapper.appendChild(removeBtn);
+            currentImages.appendChild(wrapper);
+        });
     }
 
-    // Reset file input
-    if (fileInput) {
-        fileInput.value = '';
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
     }
-
-    document.getElementById(modalId).classList.remove('hidden');
-    document.getElementById(modalId).classList.add('flex');
 };

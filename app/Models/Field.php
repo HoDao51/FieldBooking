@@ -17,7 +17,7 @@ class Field extends Model
         'type_id',
         'employee_id',
     ];
-    public function Image(){
+    public function images(){
         return $this->hasMany(Image::class);
     }
 

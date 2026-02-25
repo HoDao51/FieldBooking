@@ -20,4 +20,5 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('admins/nhanVien/{nhanVien}/restore', [EmployeeController::class, 'restore'])->name('nhanVien.restore');
     Route::resource('admins/khachHang', CustomerController::class);
     Route::post('admins/khachHang/{khachHang}/restore', [CustomerController::class, 'restoreCus'])->name('khachHang.restore');
+    Route::resource('admins/sanBong', FieldController::class);
 });

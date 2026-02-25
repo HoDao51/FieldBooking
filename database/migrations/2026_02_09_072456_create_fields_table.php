@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('fields', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 20)->notnullable();
+            $table->string('name', 255)->notnullable();
             $table->string('address', 255)->notnullable();
             $table->integer('status')->default('0');
             $table->unsignedBigInteger('type_id');

@@ -199,7 +199,7 @@
         </div>
 
         @if ($nhanVien->hasPages())
-            <div class="flex justify-center items-center gap-2 mt-6 mb-6">
+            <div class="flex justify-center items-center gap-2 mt-6">
                 {{-- Page Numbers --}}
                 @for ($i = 1; $i <= $nhanVien->lastPage(); $i++)
                     @if ($i == $nhanVien->currentPage())

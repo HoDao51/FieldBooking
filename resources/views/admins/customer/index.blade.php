@@ -198,7 +198,7 @@
         </div>
 
         @if ($khachHang->hasPages())
-            <div class="flex justify-center items-center gap-2 mt-6 mb-6">
+            <div class="flex justify-center items-center gap-2 mt-6">
                 {{-- Page Numbers --}}
                 @for ($i = 1; $i <= $khachHang->lastPage(); $i++)
                     @if ($i == $khachHang->currentPage())
