@@ -2,21 +2,21 @@
 
     <div class="bg-white w-full max-w-2xl rounded-xl shadow-xl p-6 relative">
 
-        <div class="flex justify-between items-center mb-4">
-            <h2 class="text-lg font-semibold text-gray-800">
+        <div class="flex justify-between items-center">
+            <h1 class="text-lg font-semibold text-gray-800">
                 Thêm sân bóng mới
-            </h2>
+            </h1>
             <button type="button" onclick="closeModal('createModal')" class="text-gray-400 hover:text-gray-700 text-xl">
                 ✕
             </button>
         </div>
 
-        <form action="{{ route('sanBong.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+        <form action="{{ route('sanBong.store') }}" method="POST" enctype="multipart/form-data" class="space-y-1">
             @csrf
 
             <!-- Tên sân -->
             <div>
-                <label class="block text-lg text-gray-600 mb-1">Tên sân bóng</label>
+                <label class="block text-lg text-gray-600">Tên sân bóng</label>
                 <input type="text" name="name" value="{{ old('name') }}"
                     class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400"
                     placeholder="Nhập tên sân bóng">
@@ -27,7 +27,7 @@
 
             <!-- Địa chỉ -->
             <div>
-                <label class="block text-lg text-gray-600 mb-1">Địa chỉ</label>
+                <label class="block text-lg text-gray-600">Địa chỉ</label>
                 <input type="text" name="address" value="{{ old('address') }}"
                     class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400"
                     placeholder="Nhập địa chỉ">
@@ -38,7 +38,7 @@
 
             <!-- Loại sân -->
             <div>
-                <label class="block text-lg text-gray-600 mb-1">Loại sân</label>
+                <label class="block text-lg text-gray-600">Loại sân</label>
                 <div class="relative">
                     <select name="type_id"
                         class="appearance-none text-[#4B5563] w-full border border-gray-300 rounded-md px-3 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-green-400">

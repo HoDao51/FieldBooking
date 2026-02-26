@@ -47,7 +47,7 @@ window.openEditModal = function ({ modalId, formId, actionUrl, data }) {
         data.images.forEach(image => {
 
             const wrapper = document.createElement('div');
-            wrapper.classList.add('relative', 'w-28', 'h-28');
+            wrapper.classList.add('relative', 'w-16', 'h-16');
 
             const img = document.createElement('img');
             img.src = '/storage/' + image.name;
@@ -58,14 +58,14 @@ window.openEditModal = function ({ modalId, formId, actionUrl, data }) {
             removeBtn.innerHTML = '✕';
             removeBtn.classList.add(
                 'absolute',
-                'top-1',
-                'right-1',
+                '-top-2',
+                '-right-2',
                 'bg-red-600',
                 'text-white',
-                'w-6',
-                'h-6',
+                'w-5',
+                'h-5',
                 'rounded-full',
-                'text-sm'
+                'text-xs'
             );
 
             removeBtn.onclick = function () {

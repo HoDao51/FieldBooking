@@ -2,7 +2,7 @@
 
     <div class="bg-white w-full max-w-2xl rounded-xl shadow-xl p-6 relative">
 
-        <div class="flex justify-between items-center mb-4">
+        <div class="flex justify-between items-center">
             <h2 class="text-lg font-semibold text-gray-800">
                 Chỉnh sửa thông tin sân bóng
             </h2>
@@ -11,29 +11,29 @@
             </button>
         </div>
 
-        <form id="editForm" method="POST" enctype="multipart/form-data" class="space-y-4">
+        <form id="editForm" method="POST" enctype="multipart/form-data" class="space-y-1">
             @csrf
             @method('PUT')
 
             <!-- Tên sân -->
             <div>
-                <label class="block text-lg text-gray-600 mb-1">Tên sân bóng</label>
+                <label class="block text-lg text-gray-600">Tên sân bóng</label>
                 <input type="text" name="name" id="editName"
-                    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-1 focus:ring-green-400">
+                    class="w-full border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:ring-1 focus:ring-green-400">
 
                 @error('name')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    <p class="text-red-500 text-lg mt-1">{{ $message }}</p>
                 @enderror
             </div>
 
             <!-- Địa chỉ -->
             <div>
-                <label class="block text-lg text-gray-600 mb-1">Địa chỉ</label>
+                <label class="block text-lg text-gray-600">Địa chỉ</label>
                 <input type="text" name="address" id="editAddress"
-                    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:ring-1 focus:ring-green-400">
+                    class="w-full border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:ring-1 focus:ring-green-400">
 
                 @error('address')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    <p class="text-red-500 text-lg mt-1">{{ $message }}</p>
                 @enderror
             </div>
 
@@ -42,12 +42,12 @@
 
                 <!-- Loại sân -->
                 <div>
-                    <label class="block text-lg text-gray-600 mb-1">
+                    <label class="block text-lg text-gray-600">
                         Loại sân
                     </label>
                     <div class="relative">
                         <select name="type_id"
-                            class="appearance-none w-full border border-gray-300 rounded-lg px-4 py-2.5 bg-white focus:ring-2 focus:ring-green-500 focus:outline-none">
+                            class="appearance-none w-full border border-gray-300 rounded-lg px-4 py-1 bg-white focus:outline-none focus:ring-1 focus:ring-green-400">
                             @foreach ($fieldTypes as $type)
                                 <option value="{{ $type->id }}">
                                     {{ $type->name }}
@@ -66,12 +66,12 @@
 
                 <!-- Trạng thái -->
                 <div>
-                    <label class="block text-lg text-gray-600 mb-1">
+                    <label class="block text-lg text-gray-600">
                         Trạng thái
                     </label>
                     <div class="relative">
                         <select name="status"
-                            class="appearance-none w-full border border-gray-300 rounded-lg px-4 py-2.5 bg-white focus:ring-2 focus:ring-green-500 focus:outline-none">
+                            class="appearance-none w-full border border-gray-300 rounded-lg px-4 py-1 bg-white focus:outline-none focus:ring-1 focus:ring-green-400">
                             <option value="0">Hoạt động</option>
                             <option value="1">Ngưng hoạt động</option>
                         </select>
@@ -89,13 +89,13 @@
             <!-- Hình ảnh sân -->
             <div>
                 <label class="block text-lg text-gray-600 mb-2">Hình ảnh sân</label>
+                <div class="flex">
+                    <!-- Ảnh hiện tại -->
+                    <div id="currentImages" class="flex flex-wrap gap-3 mb-1 mr-3"></div>
 
-                <!-- Ảnh hiện tại -->
-                <div id="currentImages" class="flex flex-wrap gap-3 mb-3"></div>
-
-                <!-- Preview ảnh mới -->
-                <div id="editPreviewContainer" class="flex flex-wrap gap-3 mb-3"></div>
-
+                    <!-- Preview ảnh mới -->
+                    <div id="editPreviewContainer" class="flex flex-wrap gap-3 mb-1"></div>
+                </div>
                 <!-- Upload box -->
                 <label
                     class="flex items-center justify-center gap-2 w-full h-32 border-2 border-dashed border-gray-300 rounded-lg 

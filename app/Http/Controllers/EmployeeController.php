@@ -103,7 +103,6 @@ class EmployeeController extends Controller
 
         $nhanVien->user()->update([
             'name'  => $request->name,
-            'phoneNumber' => $request->phoneNumber,
             'role' => $role
         ]);
 

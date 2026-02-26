@@ -23,8 +23,8 @@ function setupImagePreview(inputId, previewId) {
                 const img = document.createElement('img');
                 img.src = event.target.result;
                 img.classList.add(
-                    'w-24',
-                    'h-24',
+                    'w-16',
+                    'h-16',
                     'object-cover',
                     'rounded-lg',
                     'shadow'
@@ -37,7 +37,7 @@ function setupImagePreview(inputId, previewId) {
                     'absolute',
                     '-top-2',
                     '-right-2',
-                    'bg-red-500',
+                    'bg-red-600',
                     'text-white',
                     'text-xs',
                     'w-5',
