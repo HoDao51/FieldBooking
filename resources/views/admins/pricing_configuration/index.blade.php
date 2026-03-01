@@ -21,7 +21,7 @@
         {{-- SEARCH --}}
         <div class="flex justify-between items-center mb-4">
             <!-- Search -->
-            <form method="GET" action="{{ route('sanBong.index') }}" class="flex items-center space-x-2 mb-2">
+            <form method="GET" action="{{ route('cauHinhGiaGio.index') }}" class="flex items-center space-x-2 mb-2">
                 <!-- Thanh tìm kiếm -->
                 <div class="relative w-[400px] rounded border border-gray-300 ">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"

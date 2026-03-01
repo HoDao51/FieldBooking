@@ -20,22 +20,23 @@ class FieldController extends Controller
      */
     public function index(Request $request)
     {
-        // Lấy từ khóa tìm kiếm từ request
         $search = $request->get('search');
-        // Query cơ bản
-        $query = Field::query();
-        // Áp dụng tìm kiếm nếu có từ khóa
+
+        $query = Field::with(['images', 'fieldType']);
+
         if ($search) {
-            $query->where('name', 'like', '%' . $search . '%')
-                ->orWhere('address', 'like', '%' . $search . '%');
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('address', 'like', '%' . $search . '%');
+            });
         }
+
+        $sanBong = $query->orderBy('status', 'asc')->orderBy('id', 'desc')->paginate(5)->withQueryString();
+
         $fieldTypes = FieldType::all();
         $employees  = Employee::all();
-        $images = Image::all();
-        // Phân trang
-        $sanBong = Field::with('images')->orderBy('status', 'asc')->orderBy('id', 'desc')->paginate(5);
+        $images     = Image::all();
 
-        // Trả về view với dữ liệu phân trang và từ khóa search
         return view('admins.field.index', compact('sanBong', 'search', 'fieldTypes', 'employees', 'images'));
     }
 
