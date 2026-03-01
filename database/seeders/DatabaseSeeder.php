@@ -20,7 +20,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             FieldTypeSeeder::class,
             EmployeeSeeder::class,
+            CustomerSeeder::class,
             TimeSlotSeeder::class,
+            PaymentMethodSeeder::class,
         ]);
     }
 }
