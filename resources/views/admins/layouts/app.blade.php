@@ -31,4 +31,7 @@
     </div>
 </body>
 @vite(['resources/js/app.js'])
+<script>
+    window.currentUserId = {{ auth()->id() }};
+</script>
 </html>

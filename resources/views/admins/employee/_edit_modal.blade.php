@@ -28,21 +28,14 @@
 
             <div id="editRoleWrapper">
                 <!-- Chức vụ -->
-                @if (auth()->id() !== $item->user_id)
                     <div>
                         <label class="block text-lg text-[#4B5563] mb-1">Chức vụ</label>
                         <div class="relative">
                             <select name="role"
                                 class="appearance-none text-[#4B5563] w-full border border-gray-300 rounded-md px-3 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-green-400">
                                 <option value="" disabled>Chọn chức vụ</option>
-                                <option value="0" {{ old('role') == 0 ? 'selected' : '' }}>
-                                    Quản trị viên
-                                </option>
-
-                                <option value="1" {{ old('role') == 1 ? 'selected' : '' }}>
-                                    Nhân viên
-                                </option>
-
+                                <option value="0">Quản trị viên</option>
+                                <option value="1">Nhân viên</option>
                             </select>
                             <!-- icon mũi tên -->
                             <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
@@ -58,13 +51,13 @@
                             <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                         @enderror
                     </div>
-                @endif
             </div>
 
             <!-- SĐT -->
             <div>
                 <label class="block text-lg text-[#4B5563] mb-1">Số điện thoại</label>
-                <input type="text" name="phoneNumber" value="{{ old('phoneNumber') }}" placeholder="Nhập số điện thoại"
+                <input type="text" name="phoneNumber" value="{{ old('phoneNumber') }}"
+                    placeholder="Nhập số điện thoại"
                     class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400">
 
                 @error('phoneNumber', 'edit')

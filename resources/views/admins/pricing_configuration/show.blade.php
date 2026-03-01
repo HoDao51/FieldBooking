@@ -90,21 +90,16 @@
 
                             {{-- ACTION --}}
                             <div class="flex items-center gap-4 text-gray-500">
-                                <button
-                                    onclick='openEditModal({
-                                        modalId: "editModal",
-                                        formId: "editForm",
-                                        actionUrl: "{{ route('sanBong.update', $price->id) }}",
-                                        data: {
-                                            name: "{{ $price->name }}",
-                                            address: "{{ $price->address }}",
-                                            type_id: "{{ $price->type_id }}",
-                                            images: @json($price->images)
-                                        }
-                                    })'
-                                    class="bg-[#10B981] text-white text-[16px] font-semibold px-3 py-2 rounded hover:bg-[#1D8F6A]">
-                                    Sửa
-                                </button>
+                                <button type="button"
+                                        onclick='openEditModal({
+                                          modalId: "editModal",
+                                          formId: "editForm",
+                                          actionUrl: "{{ route('cauHinhGiaGio.update', $price->id) }}",
+                                          data: @json($price)
+                                      })'
+                                        class="bg-[#10B981] text-white text-[16px] font-semibold px-3 py-2 rounded hover:bg-[#1D8F6A]">
+                                        Sửa
+                                    </button>
                                 <!-- Nút xóa -->
                                 <form action="{{ route('sanBong.destroy', $price->id) }}" method="POST"
                                     class="inline-block">

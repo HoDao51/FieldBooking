@@ -37,7 +37,21 @@ window.openEditModal = function ({ modalId, formId, actionUrl, data }) {
         }
     });
 
-    // ===== CHỈ XỬ LÝ ẢNH NẾU CÓ currentImages =====
+    // ====== XỬ LÝ ẨN / HIỆN CHỨC VỤ ======
+    const roleWrapper = document.getElementById('editRoleWrapper');
+
+    if (roleWrapper) {
+        const currentUserId = window.currentUserId;
+
+        // nếu đang sửa chính mình thì ẩn chức vụ
+        if (data.user_id == currentUserId) {
+            roleWrapper.style.display = 'none';
+        } else {
+            roleWrapper.style.display = 'block';
+        }
+    }
+
+    // ===== XỬ LÝ ẢNH =====
     const currentImages = document.getElementById('currentImages');
 
     if (currentImages && data.images) {
