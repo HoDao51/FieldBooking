@@ -23,11 +23,6 @@ class AuthController extends Controller
             if ($role === 0 || $role === 1) {
                 return redirect()->route('admins.index');
             }
-
-            // Nếu role = 2 → sinh viên
-            if ($role === 2) {
-                return redirect()->route('students.index');
-            }
         }
 
         return back()->withErrors([
