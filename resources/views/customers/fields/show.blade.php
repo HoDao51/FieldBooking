@@ -72,76 +72,74 @@
             </div>
 
             <!-- Bảng giá -->
-            <!-- Bảng giá -->
-<div class="bg-white rounded-xl shadow p-6">
+            <div class="bg-white rounded-xl shadow p-6">
 
-    <h2 class="font-semibold text-lg mb-4">
-        Bảng giá
-    </h2>
+                <h2 class="font-semibold text-lg mb-4">
+                    Bảng giá
+                </h2>
 
-    <div class="grid grid-cols-3 gap-2">
-        @foreach($prices as $price)
-        <div class="mr-3 flex items-center justify-between gap-3 bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">
-            <!-- Left -->
-            <div class="flex items-center gap-2">
-                <span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
-                        viewBox="0 0 24 24">
-                        <path fill="currentColor"
-                            d="M11.5 3a9.5 9.5 0 0 1 9.5 9.5a9.5 9.5 0 0 1-9.5 9.5A9.5 9.5 0 0 1 2 12.5A9.5 9.5 0 0 1 11.5 3m0 1A8.5 8.5 0 0 0 3 12.5a8.5 8.5 0 0 0 8.5 8.5a8.5 8.5 0 0 0 8.5-8.5A8.5 8.5 0 0 0 11.5 4M11 7h1v5.42l4.7 2.71l-.5.87l-5.2-3z" />
-                    </svg>
-                </span>
+                <div class="grid grid-cols-3 gap-2">
+                    @foreach($prices as $price)
+                    <div class="mr-3 flex items-center justify-between gap-3 bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">
+                        <!-- Left -->
+                        <div class="flex items-center gap-2">
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                                    viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                        d="M11.5 3a9.5 9.5 0 0 1 9.5 9.5a9.5 9.5 0 0 1-9.5 9.5A9.5 9.5 0 0 1 2 12.5A9.5 9.5 0 0 1 11.5 3m0 1A8.5 8.5 0 0 0 3 12.5a8.5 8.5 0 0 0 8.5 8.5a8.5 8.5 0 0 0 8.5-8.5A8.5 8.5 0 0 0 11.5 4M11 7h1v5.42l4.7 2.71l-.5.87l-5.2-3z" />
+                                </svg>
+                            </span>
 
-                <span class="text-sm text-gray-500">
-                    {{ \Carbon\Carbon::parse($price->TimeSlot->startTime)->format('H:i') }}
-                    - 
-                    {{ \Carbon\Carbon::parse($price->TimeSlot->endTime)->format('H:i') }}
-                </span>
+                            <span class="text-sm text-gray-500">
+                                {{ \Carbon\Carbon::parse($price->TimeSlot->startTime)->format('H:i') }}
+                                - 
+                                {{ \Carbon\Carbon::parse($price->TimeSlot->endTime)->format('H:i') }}
+                            </span>
+                        </div>
+
+                        <!-- right -->
+                        <span class="text-green-600 font-semibold">
+                            {{ number_format($price->price,0,',','.') }}đ
+                        </span>
+                    </div>
+                    @endforeach
+                </div>
             </div>
 
-            <!-- right -->
-            <span class="text-green-600 font-semibold">
-                {{ number_format($price->price,0,',','.') }}đ
-            </span>
-        </div>
-        @endforeach
-    </div>
-</div>
-
-
             <!-- Chọn lịch -->
-<div class="bg-white rounded-xl shadow p-6">
+        <div class="bg-white rounded-xl shadow p-6">
 
-    <h2 class="font-semibold text-lg mb-4">
-        Chọn lịch đặt sân
-    </h2>
+            <h2 class="font-semibold text-lg mb-4">
+                Chọn lịch đặt sân
+            </h2>
 
-    <!-- Chọn ngày -->
-    <form method="GET" action="{{ route('san.show', $field->id) }}">
-        <input 
-            type="date"
-            name="date"
-            value="{{ $date }}"
-            onchange="this.form.submit()"
-            class="border rounded-lg p-3 w-full mb-6">
-    </form>
+            <!-- Chọn ngày -->
+            <form method="GET" action="{{ route('san.show', $field->id) }}">
+                <input 
+                    type="date"
+                    name="date"
+                    value="{{ $date }}"
+                    onchange="this.form.submit()"
+                    class="border rounded-lg p-3 w-full mb-6">
+            </form>
 
-    <!-- Ngày đang chọn -->
-    <p class="text-sm text-gray-500 mb-3">
-        Khung giờ khả dụng
-    </p>
-    @php
-        \Carbon\Carbon::setLocale('vi');
-    @endphp
+            <!-- Ngày đang chọn -->
+            <p class="text-sm text-gray-500 mb-3">
+                Khung giờ khả dụng
+            </p>
+            @php
+                \Carbon\Carbon::setLocale('vi');
+            @endphp
 
-    <p class="text-sm text-gray-500 mb-3">
-        Khung giờ khả dụng - 
-        {{ \Carbon\Carbon::parse($date)->translatedFormat('l d/m') }}
-    </p>
-
-</div>
+            <p class="text-sm text-gray-500 mb-3">
+                Khung giờ khả dụng - 
+                {{ \Carbon\Carbon::parse($date)->translatedFormat('l d/m') }}
+            </p>
 
         </div>
+
+    </div>
 
 
         <!-- RIGHT -->
