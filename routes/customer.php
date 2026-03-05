@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CustomerAuthController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('customer')->group(function () {
@@ -12,4 +13,6 @@ Route::prefix('customer')->group(function () {
     Route::post('register', [CustomerAuthController::class, 'postRegister'])->name('customer.postRegister');
 
     Route::post('logout', [CustomerAuthController::class, 'logout'])->name('customer.logout');
+
+    Route::resource('/san', HomeController::class);
 });
