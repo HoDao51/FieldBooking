@@ -4,7 +4,6 @@
     <div class="pl-2">
         <div class="mb-6">
             <h1 class="flex items-center gap-3 text-2xl font-bold text-gray-800">
-
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-green-600" viewBox="0 0 24 24" stroke="currentColor"
                     stroke-width="0">
                     <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -14,10 +13,8 @@
                         <circle cx="9" cy="7" r="4" />
                     </g>
                 </svg>
-
                 <span>Quản lý thông tin khách hàng</span>
             </h1>
-
             <p class="text-gray-500 mt-1">
                 Quản lý tài khoản khách hàng trong hệ thống
             </p>
@@ -72,7 +69,6 @@
 
                     @forelse($khachHang as $item)
                         <tr class="hover:bg-gray-50">
-
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-x-3">
 
@@ -96,7 +92,6 @@
                                             {{ $item->email }}
                                         </span>
                                     </div>
-
                                 </div>
                             </td>
 
@@ -199,7 +194,6 @@
 
         @if ($khachHang->hasPages())
             <div class="flex justify-center items-center gap-2 mt-6">
-                {{-- Page Numbers --}}
                 @for ($i = 1; $i <= $khachHang->lastPage(); $i++)
                     @if ($i == $khachHang->currentPage())
                         <span class="px-4 py-2 bg-green-600 text-white rounded">
@@ -214,7 +208,6 @@
                 @endfor
             </div>
         @endif
-
     </div>
     @include('admins.customer._create_modal')
     @include('admins.customer._edit_modal')

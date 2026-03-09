@@ -254,7 +254,7 @@
                         </div>
                     </div>
                     <div class="border-t mt-6 pt-4">
-                        <div class="flex justify-between  ">
+                        <div class="flex justify-between">
                             <span class="text-gray-500 text-lg">Tổng cộng</span>
                             <span id="totalPrice" class="font-bold text-2xl">0đ</span>
                         </div>

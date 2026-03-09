@@ -1,13 +1,10 @@
 <div id="editModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
-
     <div class="bg-white w-full max-w-2xl rounded-xl shadow-xl p-6 relative">
-
         <!-- Header -->
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-lg font-semibold text-gray-800">
                 Chỉnh sửa giá theo khung giờ
             </h2>
-
             <button type="button"
                 onclick="closeModal('editModal')"
                 class="text-gray-400 hover:text-gray-700 text-xl">
@@ -18,9 +15,7 @@
         <form id="editForm" method="POST" class="space-y-4">
             @csrf
             @method('PUT')
-
             <input type="hidden" name="field_id" value="{{ $field->id }}">
-
             <!-- Ngày trong tuần -->
             <div>
                 <label class="block text-lg text-gray-600 mb-1">
@@ -30,7 +25,6 @@
                 <div class="relative">
                     <select name="day_of_week"
                         class="appearance-none text-[#4B5563] w-full border border-gray-300 rounded-md px-3 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-green-400">
-
                         <option value="">-- Chọn ngày --</option>
                         <option value="0" {{ old('day_of_week') === 0 ? 'selected' : '' }}>Chủ nhật</option>
                         <option value="1" {{ old('day_of_week') == 1 ? 'selected' : '' }}>Thứ 2</option>
@@ -40,7 +34,6 @@
                         <option value="5" {{ old('day_of_week') == 5 ? 'selected' : '' }}>Thứ 6</option>
                         <option value="6" {{ old('day_of_week') == 6 ? 'selected' : '' }}>Thứ 7</option>
                     </select>
-
                     <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg"
                             class="w-5 h-5 text-gray-500"
@@ -50,7 +43,6 @@
                         </svg>
                     </div>
                 </div>
-
                 @error('day_of_week', 'edit')
                     <p class="text-red-500 mt-1">{{ $message }}</p>
                 @enderror
@@ -61,13 +53,10 @@
                 <label class="block text-lg text-gray-600 mb-1">
                     Khung giờ
                 </label>
-
                 <div class="relative">
                     <select name="time_id"
                         class="appearance-none text-[#4B5563] w-full border border-gray-300 rounded-md px-3 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-green-400">
-
                         <option value="">-- Chọn khung giờ --</option>
-
                         @foreach($timeSlots as $slot)
                             <option value="{{ $slot->id }}"
                                 {{ old('time_id') == $slot->id ? 'selected' : '' }}>
@@ -85,7 +74,6 @@
                         </svg>
                     </div>
                 </div>
-
                 @error('time_id', 'edit')
                     <p class="text-red-500 mt-1">{{ $message }}</p>
                 @enderror
@@ -96,13 +84,11 @@
                 <label class="block text-lg text-gray-600 mb-1">
                     Giá (VNĐ)
                 </label>
-
                 <input type="number"
                     name="price"
                     value="{{ old('price') }}"
                     class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400"
                     placeholder="Nhập giá">
-
                 @error('price', 'edit')
                     <p class="text-red-500 mt-1">{{ $message }}</p>
                 @enderror
@@ -115,13 +101,11 @@
                     class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400">
                     Hủy
                 </button>
-
                 <button type="submit"
                     class="px-5 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
                     Cập nhật
                 </button>
             </div>
-
         </form>
     </div>
 </div>

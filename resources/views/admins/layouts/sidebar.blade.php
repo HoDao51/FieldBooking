@@ -1,6 +1,5 @@
 <aside class="bg-white border-r border-gray-200 text-black p-4 h-full flex flex-col">
     <nav class="flex flex-col space-y-2 flex-1">
-
         <!-- Trang tổng quan -->
         <a href="{{ route('admins.index') }}"
             class="flex items-center space-x-2  px-3 py-2 rounded hover:text-green-800 font-semibold
@@ -97,17 +96,16 @@
             </svg>
             <span>Lịch sử đặt sân</span>
         </a>
-
     </nav>
 
     <div class="pt-4 border-t">
         <!-- Đăng xuất -->
-            <a href="{{route('logout')}}"
-                class="flex items-center space-x-2 px-3 bg-red-600 text-white py-2 rounded hover:bg-red-700 transition font-semibold">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 32 32" fill="currentColor">
-                    <path d="M26 4h2v24h-2zM11.414 20.586L7.828 17H22v-2H7.828l3.586-3.586L10 10l-6 6l6 6z" />
-                </svg>
-                <span>Đăng xuất</span>
-            </a>
+        <a href="{{route('logout')}}"
+            class="flex items-center space-x-2 px-3 bg-red-600 text-white py-2 rounded hover:bg-red-700 transition font-semibold">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 32 32" fill="currentColor">
+                <path d="M26 4h2v24h-2zM11.414 20.586L7.828 17H22v-2H7.828l3.586-3.586L10 10l-6 6l6 6z" />
+            </svg>
+            <span>Đăng xuất</span>
+        </a>
     </div>
 </aside>

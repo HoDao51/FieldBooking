@@ -14,20 +14,16 @@
     <div class="sticky top-0 z-50">
         @include('admins.layouts.navbar')
     </div>
-
     <!-- main -->
     <div class="flex flex-1 w-full">
-
         <!-- sidebar -->
         <div class="hidden md:block">
             @include('admins.layouts.sidebar')
         </div>
-
         <!-- content -->
         <main class="flex-1 bg-gray-100 overflow-auto p-6">
             @yield('content')
         </main>
-
     </div>
 </body>
 @vite(['resources/js/app.js'])

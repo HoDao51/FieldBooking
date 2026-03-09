@@ -4,16 +4,13 @@
     <div class="pl-2">
         <div class="mb-6">
             <h1 class="flex items-center gap-3 text-2xl font-bold text-gray-800">
-
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-green-600" viewBox="0 0 256 256"
                     stroke="currentColor" stroke-width="3">
                     <path fill="currentColor"
                         d="M128 66a38 38 0 1 0 38 38a38 38 0 0 0-38-38m0 64a26 26 0 1 1 26-26a26 26 0 0 1-26 26m0-112a86.1 86.1 0 0 0-86 86c0 30.91 14.34 63.74 41.47 94.94a252.3 252.3 0 0 0 41.09 38a6 6 0 0 0 6.88 0a252.3 252.3 0 0 0 41.09-38c27.13-31.2 41.47-64 41.47-94.94a86.1 86.1 0 0 0-86-86m0 206.51C113 212.93 54 163.62 54 104a74 74 0 0 1 148 0c0 59.62-59 108.93-74 120.51" />
                 </svg>
-
                 <span>Quản lý sân bóng</span>
             </h1>
-
             <p class="text-gray-500 mt-1">
                 Quản lý tất cả sân bóng trong hệ thống
             </p>
@@ -67,7 +64,6 @@
 
                     @forelse($sanBong as $item)
                         <tr class="hover:bg-gray-50">
-
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-x-3">
                                     <!-- ảnh sân -->
@@ -80,14 +76,12 @@
                                                 class="w-full h-full object-cover">
                                         @endif
                                     </div>
-
                                     <!-- Name + Email -->
                                     <div class="flex flex-col text-2x1">
                                         <span class="font-semibold text-gray-800">
                                             {{ $item->name }}
                                         </span>
                                     </div>
-
                                 </div>
                             </td>
 
@@ -171,7 +165,6 @@
                 @endfor
             </div>
         @endif
-
     </div>
     @include('admins.field._create_modal')
     @include('admins.field._edit_modal')

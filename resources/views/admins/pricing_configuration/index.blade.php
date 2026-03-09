@@ -9,10 +9,8 @@
                     <path fill-rule="evenodd"
                         d="M29 30v10c3.519-.316 5-2.287 5-4.89c0-2.507-1.152-3.99-5-5.11m-3-5v-9c-3.273.415-5 2.33-5 4.43s1.364 3.647 5 4.57m2.84.737l1.072.277C35.784 27.423 39 29.917 39 34.836c0 5.658-4.466 8.868-10.16 9.284V48h-2.523v-3.88c-5.672-.439-10.16-3.741-10.317-9.284h4.622c.402 2.702 2.1 4.688 5.695 5.08V29.849l-.916-.231c-5.672-1.363-8.731-3.996-8.731-8.684c0-5.173 4.02-8.591 9.647-9.03V8h2.523v3.903c5.582.462 9.624 3.926 9.803 9.169h-4.645c-.29-2.91-2.3-4.596-5.158-4.966z" />
                 </svg>
-
                 <span>Cấu hình giá giờ</span>
             </h1>
-
             <p class="text-gray-500 mt-1">
                 Chọn sân bóng để cấu hình bảng giá theo khung giờ
             </p>
@@ -45,8 +43,7 @@
             @forelse($fields as $item)
                 <a href="{{ route('cauHinhGiaGio.show', $item->id) }}"
                     class="bg-white rounded-xl border shadow-sm hover:shadow-md hover:border-green-400 transition p-4 flex gap-4">
-
-                    {{-- ẢNH --}}
+                    <!-- ẢNH -->
                     <div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
                         @if ($item->images->first())
                             <img src="{{ asset('storage/' . $item->images->first()->name) }}"
@@ -56,7 +53,7 @@
                         @endif
                     </div>
 
-                    {{-- THÔNG TIN --}}
+                    <!-- THÔNG TIN -->
                     <div class="flex flex-col justify-center">
 
                         <h3 class="font-semibold text-gray-800 text-lg">
@@ -68,8 +65,7 @@
                         </p>
 
                         <div class="mt-1 flex items-center gap-2 text-sm">
-
-                            {{-- Loại sân --}}
+                            <!-- Loại sân -->
                             <span class="px-2 py-0.5 text-xs rounded-full bg-gray-100 text-gray-600">
                                 {{ $item->fieldType->name ?? '' }}
                             </span>
@@ -83,12 +79,10 @@
                     Không có sân nào
                 </div>
             @endforelse
-
         </div>
 
         @if ($fields->hasPages())
             <div class="flex justify-center items-center gap-2 mt-6">
-                {{-- Page Numbers --}}
                 @for ($i = 1; $i <= $fields->lastPage(); $i++)
                     @if ($i == $fields->currentPage())
                         <span class="px-4 py-2 bg-green-600 text-white rounded">
@@ -103,6 +97,5 @@
                 @endfor
             </div>
         @endif
-
     </div>
 @endsection

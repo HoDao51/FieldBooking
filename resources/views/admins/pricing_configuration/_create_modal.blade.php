@@ -1,13 +1,10 @@
 <div id="createModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
-
     <div class="bg-white w-full max-w-2xl rounded-xl shadow-xl p-6 relative">
-
         <!-- Header -->
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-lg font-semibold text-gray-800">
                 Thêm giá theo khung giờ
             </h2>
-
             <button type="button"
                 onclick="closeModal('createModal')"
                 class="text-gray-400 hover:text-gray-700 text-xl">
@@ -17,19 +14,15 @@
 
         <form action="{{ route('cauHinhGiaGio.store') }}" method="POST" class="space-y-4">
             @csrf
-
             <input type="hidden" name="field_id" value="{{ $field->id }}">
-
             <!-- Ngày trong tuần -->
             <div>
                 <label class="block text-lg text-gray-600 mb-1">
                     Ngày trong tuần
                 </label>
-
                 <div class="relative">
                     <select name="day_of_week"
                         class="appearance-none text-[#4B5563] w-full border border-gray-300 rounded-md px-3 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-green-400">
-
                         <option value="">-- Chọn ngày --</option>
                         <option value="0" {{ old('day_of_week') === 0 ? 'selected' : '' }}>Chủ nhật</option>
                         <option value="1" {{ old('day_of_week') == 1 ? 'selected' : '' }}>Thứ 2</option>
@@ -50,7 +43,6 @@
                         </svg>
                     </div>
                 </div>
-
                 @error('day_of_week', 'create')
                     <p class="text-red-500 mt-1">{{ $message }}</p>
                 @enderror
@@ -61,7 +53,6 @@
                 <label class="block text-lg text-gray-600 mb-1">
                     Khung giờ
                 </label>
-
                 <div class="relative">
                     <select name="time_id"
                         class="appearance-none text-[#4B5563] w-full border border-gray-300 rounded-md px-3 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-green-400">
@@ -74,7 +65,6 @@
                             </option>
                         @endforeach
                     </select>
-
                     <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg"
                             class="w-5 h-5 text-gray-500"
@@ -84,7 +74,6 @@
                         </svg>
                     </div>
                 </div>
-
                 @error('time_id', 'create')
                     <p class="text-red-500 mt-1">{{ $message }}</p>
                 @enderror
@@ -95,7 +84,6 @@
                 <label class="block text-lg text-gray-600 mb-1">
                     Giá (VNĐ)
                 </label>
-
                 <input type="number"
                     name="price"
                     value="{{ old('price') }}"
@@ -114,7 +102,6 @@
                     class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400">
                     Hủy
                 </button>
-
                 <button type="submit"
                     class="px-5 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
                     Tạo mới

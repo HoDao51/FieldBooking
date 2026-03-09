@@ -1,7 +1,5 @@
 <div id="editModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
-
     <div class="bg-white w-full max-w-2xl rounded-xl shadow-xl p-6 relative">
-
         <div class="flex justify-between items-center">
             <h2 class="text-lg font-semibold text-gray-800">
                 Chỉnh sửa thông tin sân bóng
@@ -14,13 +12,11 @@
         <form id="editForm" method="POST" enctype="multipart/form-data" class="space-y-1">
             @csrf
             @method('PUT')
-
             <!-- Tên sân -->
             <div>
                 <label class="block text-lg text-gray-600">Tên sân bóng</label>
                 <input type="text" name="name" id="editName"
                     class="w-full border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:ring-1 focus:ring-green-400">
-
                 @error('name')
                     <p class="text-red-500 text-lg mt-1">{{ $message }}</p>
                 @enderror
@@ -39,7 +35,6 @@
 
             <!-- 2 CỘT -->
             <div class="grid grid-cols-2 gap-4">
-
                 <!-- Loại sân -->
                 <div>
                     <label class="block text-lg text-gray-600">
@@ -92,7 +87,6 @@
                 <div class="flex">
                     <!-- Ảnh hiện tại -->
                     <div id="currentImages" class="flex flex-wrap gap-3 mb-1 mr-3"></div>
-
                     <!-- Preview ảnh mới -->
                     <div id="editPreviewContainer" class="flex flex-wrap gap-3 mb-1"></div>
                 </div>
@@ -108,10 +102,8 @@
                         </svg>
                         <span>Nhấn để tải ảnh lên</span>
                     </div>
-
                     <input type="file" name="images[]" id="editImageInput" multiple accept="image/*" class="hidden">
                 </label>
-
                 @error('images', 'edit')
                     <p class="text-red-500 mt-2">{{ $message }}</p>
                 @enderror
@@ -127,7 +119,6 @@
                     Cập nhật
                 </button>
             </div>
-
         </form>
     </div>
 </div>

@@ -1,7 +1,5 @@
 <div id="createModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
-
     <div class="bg-white w-full max-w-2xl rounded-xl shadow-xl p-6 relative">
-
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-lg font-semibold text-gray-800">
                 Thêm khách hàng mới
@@ -13,7 +11,6 @@
 
         <form action="{{ route('khachHang.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
             @csrf
-
             <!-- Tên khách hàng -->
             <div>
                 <label class="block text-lg text-[#4B5563] mb-1" for="name">Tên khách hàng</label>
@@ -35,7 +32,6 @@
                     <p class="text-red-500">{{ $message }}</p>
                 @enderror
             </div>
-
 
             <!-- Số điện thoại -->
             <div>
@@ -81,7 +77,6 @@
                     Tạo mới
                 </button>
             </div>
-
         </form>
     </div>
 </div>

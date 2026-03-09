@@ -1,7 +1,5 @@
 <div id="createModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-50">
-
     <div class="bg-white w-full max-w-2xl rounded-xl shadow-xl p-6 relative">
-
         <div class="flex justify-between items-center">
             <h1 class="text-lg font-semibold text-gray-800">
                 Thêm sân bóng mới
@@ -13,7 +11,6 @@
 
         <form action="{{ route('sanBong.store') }}" method="POST" enctype="multipart/form-data" class="space-y-1">
             @csrf
-
             <!-- Tên sân -->
             <div>
                 <label class="block text-lg text-gray-600">Tên sân bóng</label>
@@ -65,10 +62,8 @@
             <!-- Upload nhiều ảnh -->
             <div>
                 <label class="block text-lg text-gray-600 mb-2">Hình ảnh sân</label>
-
                 <!-- Preview images -->
                 <div id="previewContainer" class="flex flex-wrap gap-3 mb-3"></div>
-
                 <!-- Upload box -->
                 <label
                     class="flex items-center justify-center gap-2 w-full h-32 border-2 border-dashed border-gray-300 rounded-lg 
@@ -81,10 +76,8 @@
 
                         <span>Nhấn để tải ảnh lên</span>
                     </div>
-
                     <input type="file" name="images[]" id="imageInput" multiple accept="image/*" class="hidden">
                 </label>
-
                 @error('images', 'create')
                     <p class="text-red-500 mt-2">{{ $message }}</p>
                 @enderror
@@ -100,7 +93,6 @@
                     Tạo mới
                 </button>
             </div>
-
         </form>
     </div>
 </div>

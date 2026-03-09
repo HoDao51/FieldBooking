@@ -1,6 +1,4 @@
-
 <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
-
     <div>
         <h3 class="text-xl font-bold text-green-600 mb-4">SânBóngPro</h3>
         <p class="text-gray-600 text-sm">
@@ -63,11 +61,9 @@
                 </svg>
                 <span>contact@sanbongpro.com</span>
             </div>
-
         </div>
     </div>
 </div>
-
 <div class="text-center text-gray-500 text-sm mt-5">
     © 2026 SânBóngPro. All rights reserved.
 </div>

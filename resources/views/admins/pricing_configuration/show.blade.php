@@ -2,10 +2,7 @@
 
 @section('content')
     <div class="pl-2">
-
-        {{-- HEADER --}}
         <div class="flex justify-between items-center mb-6">
-
             <div class="flex items-center gap-3">
                 <a href="{{ route('cauHinhGiaGio.index') }}" class="text-gray-600 hover:text-green-600 transition">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24">
@@ -34,7 +31,6 @@
             </button>
 
         </div>
-
         @php
             $days = [
                 1 => 'Thứ 2',
@@ -47,23 +43,17 @@
             ];
         @endphp
 
-        {{-- HIỂN THỊ THEO TỪNG NGÀY --}}
+        <!-- HIỂN THỊ THEO TỪNG NGÀY -->
         @foreach ($days as $key => $label)
             <div class="bg-white rounded-xl shadow border mb-6 overflow-hidden">
-
-                {{-- HEADER NGÀY --}}
                 <div class="bg-green-600 text-white px-4 py-3 font-semibold">
                     {{ $label }}
                 </div>
 
-                {{-- DANH SÁCH GIÁ --}}
                 @if (isset($prices[$key]))
                     @foreach ($prices[$key] as $price)
                         <div class="flex justify-between items-center px-4 py-3 border-t hover:bg-gray-50">
-
                             <div class="flex items-center gap-6">
-
-                                {{-- Khung giờ --}}
                                 <div class="flex items-center gap-2 text-gray-600">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                         viewBox="0 0 24 24">
@@ -85,7 +75,6 @@
 
                                     {{ number_format($price->price) }} ₫
                                 </div>
-
                             </div>
 
                             {{-- ACTION --}}
@@ -110,9 +99,7 @@
                                         Xóa
                                     </button>
                                 </form>
-
                             </div>
-
                         </div>
                     @endforeach
                 @else
@@ -120,10 +107,8 @@
                         Chưa có giá cho ngày này
                     </div>
                 @endif
-
             </div>
         @endforeach
-
     </div>
     @include('admins.pricing_configuration._create_modal')
     @include('admins.pricing_configuration._edit_modal')
@@ -134,7 +119,6 @@
             });
         </script>
     @endif
-
     @if (session('modal') === 'edit')
         <script>
             document.addEventListener('DOMContentLoaded', function() {

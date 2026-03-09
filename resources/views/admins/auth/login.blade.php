@@ -1,17 +1,13 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
     <meta charset="UTF-8">
     <title>Đăng nhập quản trị - SBP</title>
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-
 <body class="min-h-screen bg-gradient-to-br from-green-800 to-green-600 flex items-center justify-center">
-
     <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8">
-
         <!-- Logo -->
         <div class="text-center mb-6">
             <div class="flex items-center justify-center gap-2 text-green-600">
@@ -28,7 +24,6 @@
                     SânBóng<span class="font-bold text-gray-800">Pro</span>
                 </span>
             </div>
-
             <p class="text-sm text-gray-500 mt-2">
                 Trang quản trị hệ thống
             </p>
@@ -90,16 +85,11 @@
                 class="w-full bg-green-600 hover:bg-green-700 text-white py-2.5 rounded-lg font-semibold transition">
                 Đăng nhập
             </button>
-
         </form>
-
         <!-- Footer -->
         <p class="text-xs text-gray-400 text-center mt-6">
             © 2026 SânBóngPro - Hệ thống quản lý sân bóng
         </p>
-
     </div>
-
 </body>
-
 </html>
