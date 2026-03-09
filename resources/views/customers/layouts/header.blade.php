@@ -1,4 +1,3 @@
-
         <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
 
             <a href="{{route('san.index')}}">

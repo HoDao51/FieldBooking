@@ -22,7 +22,7 @@ return new class extends Migration
             $table->unsignedBigInteger('field_id');
             $table->unsignedBigInteger('time_id');
             $table->unsignedBigInteger('payment_id');
-            $table->unsignedBigInteger('customer_id');
+            $table->unsignedBigInteger('customer_id')->nullable();
             $table->timestamps();
             $table->foreign('field_id')->references('id')->on('fields');
             $table->foreign('time_id')->references('id')->on('time_slots');

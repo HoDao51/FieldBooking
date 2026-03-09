@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
+use App\Models\Field;
+use App\Models\PaymentMethod;
 
 class BookingController extends Controller
 {
@@ -27,9 +30,34 @@ class BookingController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreBookingRequest $request)
+    public function store(Request $request)
     {
-        //
+        // tách giờ
+        [$start, $end] = explode(' - ', $request->time);
+
+        // format về dạng database
+        $start = date('H:i:s', strtotime($start));
+        $end = date('H:i:s', strtotime($end));
+
+        $timeSlot = \App\Models\TimeSlot::where('startTime', $start)
+            ->where('endTime', $end)
+            ->first();
+
+        Booking::create([
+            'bookingDate' => $request->date,
+            'totalPrice' => $request->price,
+            'status' => 0,
+            'contactName' => $request->contactName,
+            'contactPhone' => $request->contactPhone,
+            'contactEmail' => $request->contactEmail,
+            'field_id' => $request->field_id,
+            'time_id' => $timeSlot->id,
+            'payment_id' => $request->payment_id,
+        ]);
+
+        return redirect()
+            ->route('san.show', $request->field_id)
+            ->with('success', 'Đặt sân thành công');
     }
 
     /**
@@ -62,5 +90,18 @@ class BookingController extends Controller
     public function destroy(Booking $booking)
     {
         //
+    }
+
+    public function checkout(Request $request)
+    {
+        $field = Field::findOrFail($request->field_id);
+        $payments = PaymentMethod::all();
+
+        return view('customers.booking.checkout', compact('field', 'payments'), [
+            'field' => $field,
+            'date' => $request->date,
+            'time' => $request->time,
+            'price' => $request->price,
+        ]);
     }
 }

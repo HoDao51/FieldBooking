@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CustomerAuthController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
@@ -15,4 +16,6 @@ Route::prefix('customer')->group(function () {
     Route::post('logout', [CustomerAuthController::class, 'logout'])->name('customer.logout');
 
     Route::resource('/san', HomeController::class);
+    Route::post('/checkout', [BookingController::class,'checkout'])->name('booking.checkout');
+    Route::post('/booking/store', [BookingController::class,'store'])->name('booking.store');
 });
