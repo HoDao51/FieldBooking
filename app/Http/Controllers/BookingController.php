@@ -14,9 +14,27 @@ class BookingController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $search = $request->get('search');
+
+        $query = Booking::with(['Fields', 'TimeSlot', 'PaymentMethod']);
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('contactName', 'like', '%' . $search . '%')
+                    ->orWhere('contactPhone', 'like', '%' . $search . '%')
+                    ->orWhere('contactEmail', 'like', '%' . $search . '%');
+            });
+        }
+
+        $booking = $query
+            ->orderBy('status', 'asc')
+            ->orderBy('id', 'desc')
+            ->paginate(5)
+            ->withQueryString();
+
+        return view('admins.order.index', compact('search', 'booking'));
     }
 
     /**
@@ -43,7 +61,7 @@ class BookingController extends Controller
             ->where('endTime', $end)
             ->first();
 
-        Booking::create([
+        $booking = Booking::create([
             'bookingDate' => $request->date,
             'totalPrice' => $request->price,
             'status' => 0,
@@ -55,9 +73,7 @@ class BookingController extends Controller
             'payment_id' => $request->payment_id,
         ]);
 
-        return redirect()
-            ->route('san.show', $request->field_id)
-            ->with('success', 'Đặt sân thành công');
+        return redirect()->route('booking.success', $booking->id);
     }
 
     /**
@@ -103,5 +119,12 @@ class BookingController extends Controller
             'time' => $request->time,
             'price' => $request->price,
         ]);
+    }
+
+    public function success($id)
+    {
+        $booking = Booking::with(['Fields', 'TimeSlot', 'PaymentMethod'])->findOrFail($id);
+
+        return view('customers.booking.success', compact('booking'));
     }
 }

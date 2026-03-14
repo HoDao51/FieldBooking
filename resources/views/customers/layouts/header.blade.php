@@ -39,7 +39,7 @@
             </form>
 
             <div class="flex items-center gap-4">
-                <a href="#" class="text-gray-600 hover:text-green-600">Đăng nhập</a>
+                <a href="{{route('customer.login')}}" class="text-gray-600 hover:text-green-600">Đăng nhập</a>
                 <a href="#" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
                     Đăng ký
                 </a>

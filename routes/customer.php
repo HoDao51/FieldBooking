@@ -18,4 +18,5 @@ Route::prefix('customer')->group(function () {
     Route::resource('/san', HomeController::class);
     Route::post('/checkout', [BookingController::class,'checkout'])->name('booking.checkout');
     Route::post('/booking/store', [BookingController::class,'store'])->name('booking.store');
+    Route::get('/booking/success/{id}', [BookingController::class,'success'])->name('booking.success');
 });

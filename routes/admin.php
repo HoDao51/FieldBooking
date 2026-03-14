@@ -22,5 +22,5 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('admins/khachHang/{khachHang}/restore', [CustomerController::class, 'restoreCus'])->name('khachHang.restore');
     Route::resource('admins/sanBong', FieldController::class);
     Route::resource('admins/cauHinhGiaGio', FieldPriceController::class);
-
+    Route::resource('admins/donDatSan', BookingController::class);
 });

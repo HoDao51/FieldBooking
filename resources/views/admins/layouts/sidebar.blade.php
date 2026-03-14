@@ -74,9 +74,9 @@
         </a>
 
         <!-- Quản lý đơn đặt -->
-        <a href=""
+        <a href="{{route('donDatSan.index')}}"
             class="flex items-center space-x-2  px-3 py-2 rounded hover:text-green-800 font-semibold
-        {{ request()->routeIs('namHoc.*') ? 'bg-green-200 text-green-800 font-semibold' : 'hover:bg-green-200' }}">
+        {{ request()->routeIs('donDatSan.*') ? 'bg-green-200 text-green-800 font-semibold' : 'hover:bg-green-200' }}">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 16 16"
                 stroke="currentColor" stroke-width="0">
                 <path fill="none" stroke="currentColor" stroke-linejoin="round"

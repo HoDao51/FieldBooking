@@ -73,13 +73,13 @@
                             <!-- Tên -->
                             <td class="px-6 py-4">
                                 <div class="flex flex-col text-2x1">
-                                        <span class="font-semibold text-gray-800">
-                                            {{ $item->name }}
-                                        </span>
-                                        <span class="text-sm text-gray-500">
-                                            {{ $item->email }}
-                                        </span>
-                                    </div>
+                                    <span class="font-semibold text-gray-800">
+                                        {{ $item->name }}
+                                    </span>
+                                    <span class="text-sm text-gray-500">
+                                        {{ $item->email }}
+                                    </span>
+                                </div>
                             </td>
 
                             <!-- SĐT -->
@@ -114,7 +114,7 @@
                                 @endif
                             </td>
 
-                            <!-- Email -->
+                            <!-- ngày tạo -->
                             <td class="px-6 py-4 text-center">
                                 {{ $item->created_at->format('d-m-Y') }}
                             </td>

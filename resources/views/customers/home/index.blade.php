@@ -58,12 +58,12 @@
             </div>
 
             <!-- Stats -->
-            <div class="flex gap-10 mt-12">
-                <div>
+            <div class="flex gap-10 mt-12 text-white">
+                <div class="pr-5 border-r border-white">
                     <h2 class="text-3xl font-bold">500+</h2>
                     <p class="text-gray-300">Sân bóng</p>
                 </div>
-                <div>
+                <div class="pr-5 border-r border-white">
                     <h2 class="text-3xl font-bold">10K+</h2>
                     <p class="text-gray-300">Lượt đặt</p>
                 </div>
@@ -72,6 +72,7 @@
                     <p class="text-gray-300">Tỉnh thành</p>
                 </div>
             </div>
+
         </div>
     </section>
 
