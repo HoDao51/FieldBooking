@@ -84,18 +84,6 @@
             </svg>
             <span>Quản lý đơn đặt</span>
         </a>
-
-        <!-- Lịch sử đặt sân -->
-        <a href=""
-            class="flex items-center space-x-2  px-3 py-2 rounded hover:text-green-800 font-semibold
-        {{ request()->routeIs('thongTinHocPhi.index') ? 'bg-green-200 text-green-800 font-semibold' : 'hover:bg-green-200' }}">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 scale-110" fill="#222C3A" viewBox="0 0 24 24"
-                stroke="currentColor" stroke-width="0">
-                <path fill="currentColor"
-                    d="M12 21q-3.45 0-6.012-2.287T3.05 13H5.1q.35 2.6 2.313 4.3T12 19q2.925 0 4.963-2.037T19 12t-2.037-4.962T12 5q-1.725 0-3.225.8T6.25 8H9v2H3V4h2v2.35q1.275-1.6 3.113-2.475T12 3q1.875 0 3.513.713t2.85 1.924t1.925 2.85T21 12t-.712 3.513t-1.925 2.85t-2.85 1.925T12 21m2.8-4.8L11 12.4V7h2v4.6l3.2 3.2z" />
-            </svg>
-            <span>Lịch sử đặt sân</span>
-        </a>
     </nav>
 
     <div class="pt-4 border-t">

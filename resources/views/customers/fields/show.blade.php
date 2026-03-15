@@ -167,7 +167,7 @@
                     <!-- Chọn ngày -->
                     <form method="GET" action="{{ route('san.show', $field->id) }}">
                         <input type="date" name="date" value="{{ $date }}" onchange="this.form.submit()"
-                            class="border rounded-lg p-3 w-full mb-6">
+                            class="border rounded-lg p-3 w-full mb-6" min="{{ date('Y-m-d') }}">
                     </form>
                     <!-- Ngày đang chọn -->
                     @php
@@ -199,6 +199,7 @@
                                 <!-- CÓ THỂ ĐẶT -->
                                 <a href="#"
                                     class="time-slot px-4 py-2 rounded-lg text-green-600 bg-green-200 font-semibold hover:bg-green-600 hover:text-white text-sm transition"
+                                    data-time-id="{{ $slot->id }}"
                                     data-time="{{ \Carbon\Carbon::parse($slot->startTime)->format('H:i') }} - {{ \Carbon\Carbon::parse($slot->endTime)->format('H:i') }}"
                                     data-price="{{ $prices->firstWhere('time_id', $slot->id)->price ?? 0 }}">
 
@@ -215,12 +216,11 @@
 
             <!-- RIGHT -->
             <div class="col-span-12 lg:col-span-4">
-                <form action="{{ route('booking.checkout') }}" method="POST"
+                <form action="{{ route('booking.checkout') }}" method="GET"
                     class="bg-white rounded-xl shadow p-6 sticky top-24">
-                    @csrf
                     <input type="hidden" name="field_id" value="{{ $field->id }}">
                     <input type="hidden" name="date" value="{{ $date }}">
-                    <input type="hidden" name="time" id="hiddenTime">
+                    <input type="hidden" name="time_id" id="hiddenTimeId">
                     <input type="hidden" name="price" id="hiddenPrice">
                     <div class="text-2xl font-bold text-green-600">
                         <h1 class="text-2xl font-bold">
@@ -238,7 +238,8 @@
                                 Ngày đã chọn
                             </label>
                             <input type="text" value="{{ \Carbon\Carbon::parse($date)->format('d/m/Y') }}"
-                                class="border rounded-lg w-full px-4 py-2 mt-1" readonly>
+                                class="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400"
+                                readonly>
                         </div>
                         <div>
                             <label class="flex items-center gap-2 text-sm">
@@ -250,7 +251,11 @@
                                 Khung giờ đã chọn
                             </label>
                             <input type="text" id="selectedTime" placeholder="Chưa chọn khung giờ nào"
-                                class="border rounded-lg w-full px-4 py-2 mt-1" readonly>
+                                class="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400"
+                                readonly>
+                            @error('time_id')
+                                <p class="text-red-500">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
                     <div class="border-t mt-6 pt-4">
@@ -258,9 +263,18 @@
                             <span class="text-gray-500 text-lg">Tổng cộng</span>
                             <span id="totalPrice" class="font-bold text-2xl">0đ</span>
                         </div>
-                        <button class="w-full bg-green-600 text-white py-3 rounded-lg mt-4 hover:bg-green-700">
-                            Đặt sân ngay
-                        </button>
+                        @guest
+                            <a href="{{ route('customer.login') }}"
+                                class="block w-full text-center bg-green-600 text-white py-3 rounded-lg mt-4 hover:bg-green-700">
+                                Đặt sân ngay
+                            </a>
+                        @endguest
+                        @auth
+                            <button type="submit"
+                                class="w-full bg-green-600 text-white py-3 rounded-lg mt-4 hover:bg-green-700">
+                                Đặt sân ngay
+                            </button>
+                        @endauth
                     </div>
                 </form>
             </div>
@@ -269,20 +283,25 @@
     <script>
         document.querySelectorAll('.time-slot').forEach(slot => {
             slot.addEventListener('click', function(e) {
-                e.preventDefault();
+                e.preventDefault()
+
                 document.querySelectorAll('.time-slot').forEach(s => {
                     s.classList.remove('ring', 'ring-green-600')
-                });
-                this.classList.add('ring', 'ring-green-600');
+                })
+
+                this.classList.add('ring', 'ring-green-600')
+
                 let time = this.dataset.time
                 let price = this.dataset.price
-                // hiển thị UI
+                let timeId = this.dataset.timeId // sửa ở đây
+
                 document.getElementById('selectedTime').value = time
+
                 document.getElementById('totalPrice').innerText =
                     new Intl.NumberFormat('vi-VN').format(price) + 'đ'
-                // GÁN VÀO FORM
-                document.getElementById('hiddenTime').value = time
+
                 document.getElementById('hiddenPrice').value = price
+                document.getElementById('hiddenTimeId').value = timeId
             })
         })
     </script>

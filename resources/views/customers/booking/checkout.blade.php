@@ -58,42 +58,57 @@
                         @csrf
                         <input type="hidden" name="field_id" value="{{ $field->id }}">
                         <input type="hidden" name="date" value="{{ $date }}">
-                        <input type="hidden" name="time" value="{{ $time }}">
+                        <input type="hidden" name="time_id" value="{{ $time_id }}">
                         <input type="hidden" name="price" value="{{ $price }}">
 
                         <div>
-                            <label class="text-sm text-gray-500">
+                            <label class="text-base text-gray-500 font-semibold">
                                 Họ và tên
                             </label>
                             <input type="text" name="contactName" placeholder="Nhập họ và tên"
-                                class="border rounded-lg w-full px-4 py-2 mt-1">
+                                value="{{ old('contactName', auth()->user()->name ?? '') }}"
+                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400 @error('contactName') border-red-500 @enderror">
+                            @error('contactName')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <div>
-                            <label class="text-sm text-gray-500">
+                            <label class="text-base text-gray-500 font-semibold">
                                 Số điện thoại
                             </label>
                             <input type="text" name="contactPhone" placeholder="Nhập số điện thoại"
-                                class="border rounded-lg w-full px-4 py-2 mt-1">
+                                value="{{ old('contactPhone', auth()->user()->customers->phoneNumber ?? '') }}"
+                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400 @error('contactPhone') border-red-500 @enderror">
+                            @error('contactPhone')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <div>
-                            <label class="text-sm text-gray-500">
+                            <label class="text-base text-gray-500 font-semibold">
                                 Email
                             </label>
-                            <input type="text" name="contactEmail" placeholder="Nhập email"
-                                class="border rounded-lg w-full px-4 py-2 mt-1">
+                            <input type="email" name="contactEmail" placeholder="Nhập email"
+                                value="{{ old('contactEmail', auth()->user()->email ?? '') }}"
+                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400 @error('contactEmail') border-red-500 @enderror">
+                            @error('contactEmail')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
 
                         <div class="mt-4">
                             <label class="font-semibold">Phương thức thanh toán</label>
                             @foreach ($payments as $payment)
                                 <div class="flex items-center mt-2">
-                                    <input type="radio" name="payment_id" value="{{ $payment->id }}" required
-                                        class="mr-2">
-                                    <span>{{ $payment->name }}</span>
+                                    <input type="radio" id="payment{{ $payment->id }}" name="payment_id"
+                                        value="{{ $payment->id }}" required class="mr-2">
+                                    <label for="payment{{ $payment->id }}">{{ $payment->name }}</label>
                                 </div>
                             @endforeach
+                            @error('payment_id')
+                                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                 </div>
             </div>
@@ -119,13 +134,18 @@
 
                     <div class="flex justify-between text-sm mb-3">
                         <span>{{ $time }}</span>
-                        <span>{{ number_format($price) }}đ</span>
+                        <span>{{ number_format($price, 0, ',', '.') }}đ</span>
                     </div>
+                    @error('time_id')
+                        <div class="bg-red-50 border-l-4 border-red-400 p-3 mt-2 rounded text-sm text-red-700">
+                            {{ $message }}
+                        </div>
+                    @enderror
 
                     <div class="border-t pt-4 space-y-2 text-sm">
                         <div class="flex justify-between">
                             <span>Tạm tính</span>
-                            <span>{{ number_format($price) }}đ</span>
+                            <span>{{ number_format($price, 0, ',', '.') }}đ</span>
                         </div>
                         <div class="flex justify-between text-green-600">
                             <span>Phí dịch vụ</span>
@@ -136,14 +156,16 @@
                     <div class="border-t pt-4 mt-4 flex justify-between font-semibold">
                         <span class="text-lg">Tổng cộng</span>
                         <span class="text-green-600 font-bold text-2xl">
-                            {{ number_format($price) }}đ
+                            {{ number_format($price, 0, ',', '.') }}đ
                         </span>
                     </div>
-                    <button class="w-full bg-green-600 text-white py-3 rounded-lg mt-4 hover:bg-green-700">
+
+                    <button type="submit"
+                        class="w-full bg-green-600 text-white py-3 rounded-lg mt-4 hover:bg-green-700 transition">
                         Xác nhận thanh toán
                     </button>
-                    </form>
                 </div>
+                </form>
             </div>
         </div>
     </div>

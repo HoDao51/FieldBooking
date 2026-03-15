@@ -194,13 +194,13 @@
         @if ($booking->hasPages())
             <div class="flex justify-center items-center gap-2 mt-6">
                 {{-- Page Numbers --}}
-                @for ($i = 1; $i <= $sanBong->lastPage(); $i++)
-                    @if ($i == $sanBong->currentPage())
+                @for ($i = 1; $i <= $booking->lastPage(); $i++)
+                    @if ($i == $booking->currentPage())
                         <span class="px-4 py-2 bg-green-600 text-white rounded">
                             {{ $i }}
                         </span>
                     @else
-                        <a href="{{ $sanBong->url($i) }}"
+                        <a href="{{ $booking->url($i) }}"
                             class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-green-500 hover:text-white transition">
                             {{ $i }}
                         </a>

@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CheckoutRequest;
 use App\Models\Booking;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
 use App\Models\Field;
 use App\Models\PaymentMethod;
+use App\Models\TimeSlot;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
 {
@@ -48,32 +53,49 @@ class BookingController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreBookingRequest $request)
     {
-        // tách giờ
-        [$start, $end] = explode(' - ', $request->time);
+        $user = Auth::user();
+        $customerId = $user->customers->id;
 
-        // format về dạng database
-        $start = date('H:i:s', strtotime($start));
-        $end = date('H:i:s', strtotime($end));
+        DB::beginTransaction();
 
-        $timeSlot = \App\Models\TimeSlot::where('startTime', $start)
-            ->where('endTime', $end)
-            ->first();
+        try {
+            $exists = Booking::where('field_id', $request->field_id)
+                ->where('bookingDate', $request->date)
+                ->where('time_id', $request->time_id)
+                ->lockForUpdate()
+                ->exists();
 
-        $booking = Booking::create([
-            'bookingDate' => $request->date,
-            'totalPrice' => $request->price,
-            'status' => 0,
-            'contactName' => $request->contactName,
-            'contactPhone' => $request->contactPhone,
-            'contactEmail' => $request->contactEmail,
-            'field_id' => $request->field_id,
-            'time_id' => $timeSlot->id,
-            'payment_id' => $request->payment_id,
-        ]);
+            if ($exists) {
+                DB::rollBack();
+                return back()->withInput()->withErrors(['time_id' => 'Khung giờ này đã được đặt!']);
+            }
 
-        return redirect()->route('booking.success', $booking->id);
+            $booking = Booking::create([
+                'bookingDate' => $request->date,
+                'totalPrice' => $request->price,
+                'status' => 0,
+                'contactName' => $request->contactName,
+                'contactPhone' => $request->contactPhone,
+                'contactEmail' => $request->contactEmail,
+                'field_id' => $request->field_id,
+                'time_id' => $request->time_id,
+                'payment_id' => $request->payment_id,
+                'customer_id' => $customerId,
+            ]);
+
+            DB::commit();
+            return redirect()->route('booking.success', $booking->id);
+        } catch (QueryException $e) {
+            DB::rollBack();
+
+            if ($e->getCode() == 23000) {
+                return back()->withErrors(['time_id' => 'Khung giờ này đã được đặt.']);
+            }
+
+            throw $e;
+        }
     }
 
     /**
@@ -108,17 +130,30 @@ class BookingController extends Controller
         //
     }
 
-    public function checkout(Request $request)
+    public function checkout(CheckoutRequest $request)
     {
         $field = Field::findOrFail($request->field_id);
+
+        $timeSlot = TimeSlot::findOrFail($request->time_id);
+
+        $date = $request->date;
+        $price = $request->price;
+        $time_id = $request->time_id;
         $payments = PaymentMethod::all();
 
-        return view('customers.booking.checkout', compact('field', 'payments'), [
-            'field' => $field,
-            'date' => $request->date,
-            'time' => $request->time,
-            'price' => $request->price,
-        ]);
+        $time =
+            date('H:i', strtotime($timeSlot->startTime)) .
+            ' - ' .
+            date('H:i', strtotime($timeSlot->endTime));
+
+        return view('customers.booking.checkout', compact(
+            'field',
+            'date',
+            'time',
+            'time_id',
+            'price',
+            'payments'
+        ));
     }
 
     public function success($id)

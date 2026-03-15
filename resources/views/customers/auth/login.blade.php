@@ -90,7 +90,7 @@
                 </h2>
 
                 <p class="text-center text-gray-500 text-sm mt-1">
-                    Chào mừng bạn trở lại! Vui lòng đăng nhập.
+                    Vui lòng đăng nhập để sử dụng hệ thống.
                 </p>
 
                 <form method="POST" action="{{ route('customer.postLogin') }}" class="mt-6 space-y-4">
