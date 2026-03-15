@@ -22,5 +22,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('admins/khachHang/{khachHang}/restore', [CustomerController::class, 'restoreCus'])->name('khachHang.restore');
     Route::resource('admins/sanBong', FieldController::class);
     Route::resource('admins/cauHinhGiaGio', FieldPriceController::class);
+    
     Route::resource('admins/donDatSan', BookingController::class);
+    Route::put('/don-dat-san/{id}/confirm', [BookingController::class, 'confirm'])->name('donDatSan.confirm');
+    Route::put('/don-dat-san/{id}/reject', [BookingController::class, 'reject'])->name('donDatSan.reject');
+    Route::put('/don-dat-san/{id}/complete', [BookingController::class, 'complete'])->name('donDatSan.complete');
+    Route::put('/don-dat-san/{id}/cancel', [BookingController::class, 'cancel'])->name('donDatSan.cancel');
 });

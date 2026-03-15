@@ -94,40 +94,89 @@
                             <!-- Trạng thái -->
                             <td class="text-center">
                                 @if ($item->status == 0)
-                                    <span class="">
+                                    <span
+                                        class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-semibold">
                                         Chờ xác nhận
                                     </span>
                                 @elseif ($item->status == 1)
-                                    <span class="">
+                                    <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
                                         Đã xác nhận
                                     </span>
                                 @elseif ($item->status == 2)
-                                    <span class="">
+                                    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
+                                        Hoàn thành
+                                    </span>
+                                @elseif ($item->status == 3)
+                                    <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-xs font-semibold">
                                         Đã hủy
+                                    </span>
+                                @elseif ($item->status == 4)
+                                    <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-semibold">
+                                        Từ chối
                                     </span>
                                 @endif
                             </td>
 
-                            <!-- Thao tác -->
-                            <td class="border text-center">
-                                <form action="{{ route('nhanVien.destroy', $item->id) }}" method="POST"
-                                    class="inline-block mt-3">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit"
-                                        class="bg-[#10B981] text-white text-[16px] font-semibold px-[18px] py-2 rounded hover:bg-red-800">
-                                        Xác nhận
-                                    </button>
-                                </form>
-                                <form action="{{ route('nhanVien.destroy', $item->id) }}" method="POST"
-                                    class="inline-block mt-3">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit"
-                                        class="bg-[#DC2626] text-white text-[16px] font-semibold px-[18px] py-2 rounded hover:bg-red-800 ml-2">
-                                        Từ chối
-                                    </button>
-                                </form>
+                            <td class="border text-center py-3">
+
+                                @if ($item->status == 0)
+                                    <!-- Xác nhận -->
+                                    <form action="{{ route('donDatSan.confirm', $item->id) }}" method="POST"
+                                        class="inline-block">
+                                        @csrf
+                                        @method('PUT')
+                                        <button
+                                            class="bg-green-600 text-[16px] font-semibold text-white px-4 py-2 rounded hover:bg-green-700">
+                                            Xác nhận
+                                        </button>
+                                    </form>
+
+                                    <!-- Từ chối -->
+                                    <form action="{{ route('donDatSan.reject', $item->id) }}" method="POST"
+                                        class="inline-block ml-2">
+                                        @csrf
+                                        @method('PUT')
+                                        <button
+                                            class="bg-red-600 text-[16px] font-semibold text-white px-4 py-2 rounded hover:bg-red-700">
+                                            Từ chối
+                                        </button>
+                                    </form>
+                                @elseif ($item->status == 1)
+                                    <!-- Hoàn thành -->
+                                    <form action="{{ route('donDatSan.complete', $item->id) }}" method="POST"
+                                        class="inline-block">
+                                        @csrf
+                                        @method('PUT')
+                                        <button
+                                            class="bg-blue-600 text-[16px] font-semibold text-white px-4 py-2 rounded hover:bg-blue-700">
+                                            Hoàn thành
+                                        </button>
+                                    </form>
+
+                                    <!-- Hủy -->
+                                    <form action="{{ route('donDatSan.cancel', $item->id) }}" method="POST"
+                                        class="inline-block ml-2">
+                                        @csrf
+                                        @method('PUT')
+                                        <button
+                                            class="bg-gray-600 text-[16px] font-semibold text-white px-4 py-2 rounded hover:bg-gray-700">
+                                            Hủy
+                                        </button>
+                                    </form>
+                                @elseif ($item->status == 2)
+                                    <span class="text-green-600 text-[16px] font-semibold">
+                                        Đã hoàn thành
+                                    </span>
+                                @elseif ($item->status == 3)
+                                    <span class="text-gray-500 text-[16px] font-semibold">
+                                        Đã hủy
+                                    </span>
+                                @elseif ($item->status == 4)
+                                    <span class="text-red-600 text-[16px] font-semibold">
+                                        Đã từ chối
+                                    </span>
+                                @endif
+
                             </td>
                         </tr>
                     @empty

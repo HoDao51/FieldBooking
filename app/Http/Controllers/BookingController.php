@@ -127,4 +127,28 @@ class BookingController extends Controller
 
         return view('customers.booking.success', compact('booking'));
     }
+
+    public function confirm($id)
+    {
+        Booking::findOrFail($id)->update(['status' => 1]);
+        return back();
+    }
+
+    public function reject($id)
+    {
+        Booking::findOrFail($id)->update(['status' => 4]);
+        return back();
+    }
+
+    public function complete($id)
+    {
+        Booking::findOrFail($id)->update(['status' => 2]);
+        return back();
+    }
+
+    public function cancel($id)
+    {
+        Booking::findOrFail($id)->update(['status' => 3]);
+        return back();
+    }
 }
