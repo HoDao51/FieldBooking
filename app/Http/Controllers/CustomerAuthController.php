@@ -11,7 +11,7 @@ class CustomerAuthController extends Controller
     public function login() {
         return view('customers.auth.login');
     }
-    public function CusPostLogin(CustomerLoginRequest $request) {
+    public function PostLogin(CustomerLoginRequest $request) {
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)){
@@ -19,7 +19,7 @@ class CustomerAuthController extends Controller
             $request->session()->regenerate();
 
             $role = Auth::user()->role;
-            return redirect()->route('/');
+            return redirect()->route('home');
         }
 
         return back()->withErrors([
@@ -35,6 +35,6 @@ class CustomerAuthController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect()->route('login');
+        return redirect()->route('home');
     }
 }

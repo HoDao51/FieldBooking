@@ -38,10 +38,66 @@
                 </div>
             </form>
 
-            <div class="flex items-center gap-4">
-                <a href="{{route('customer.login')}}" class="text-gray-600 hover:text-green-600">Đăng nhập</a>
-                <a href="#" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
-                    Đăng ký
-                </a>
-            </div>
+            @guest
+                <div class="flex items-center gap-4">
+                    <a href="{{ route('customer.login') }}" class="text-gray-600 hover:text-green-600">
+                        Đăng nhập
+                    </a>
+
+                    <a href="{{ route('customer.register') }}"
+                        class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
+                        Đăng ký
+                    </a>
+                </div>
+            @endguest
+
+
+            @auth
+                <div class="relative inline-block text-left">
+
+                    <!-- Profile button -->
+                    <button id="profileBtn" class="flex items-center gap-3 px-3 py-2 rounded-lg transition"
+                        aria-haspopup="true" aria-expanded="false">
+                        <!-- Avatar tròn -->
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center text-green-600 font-semibold">
+                            @if (auth()->user()->customers->avatar == null)
+                                <img src="{{ asset('images/sbcf-default-avatar.png') }}"
+                                    class="w-full h-full object-cover rounded-full">
+                            @else
+                                <img src="{{ asset('storage/' . auth()->user()->customers->avatar) }}"
+                                    class="w-full h-full object-cover rounded-full">
+                            @endif
+                        </div>
+                        <!-- Name + Role -->
+                        <div class="text-left leading-tight">
+                            <p class="font-semibold text-gray-800">{{ auth()->user()->name }}</p>
+                        </div>
+                        <!-- Icon mũi tên -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-500 ml-1" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+
+                    <!-- Dropdown -->
+                    <div id="profileDropdown"
+                        class="hidden absolute right-0 mt-2 w-48 bg-white shadow-lg border border-gray-200 rounded-lg p-2 z-50">
+
+                        <a href=""
+                            class="font-semibold block px-4 py-2 text-green-600 hover:bg-green-100 rounded-md">
+                            Thông tin cá nhân
+                        </a>
+
+                        <hr class="my-2">
+
+                        <a href="{{ route('customer.logout') }}"
+                            class="font-semibold block px-4 py-2 text-gray-600 hover:bg-red-600 hover:text-white rounded-md">
+                            Đăng xuất
+                        </a>
+
+                    </div>
+
+                </div>
+            @endauth
         </div>
+        @vite('resources/js/profile_dropdown.js')

@@ -22,7 +22,7 @@ class CustomerLoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email|exists:employees,email',
+            'email' => 'required|email|exists:customers,email',
             'password' => 'required|string'
         ];
     }

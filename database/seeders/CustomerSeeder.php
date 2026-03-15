@@ -26,7 +26,7 @@ class CustomerSeeder extends Seeder
         DB::table('customers')->insert([
             'name'        => 'Nghiêm Trường Dương',
             'phoneNumber'  => '0909921836',
-            'email'        => 'vu@gmail.com',
+            'email'        => 'duong@gmail.com',
             'status' => 0,
             'avatar' => null,
             'user_id'      => $user1,

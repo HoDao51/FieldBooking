@@ -13,7 +13,7 @@ Route::prefix('customer')->group(function () {
     Route::get('register', [CustomerAuthController::class, 'register'])->name('customer.register');
     Route::post('register', [CustomerAuthController::class, 'postRegister'])->name('customer.postRegister');
 
-    Route::post('logout', [CustomerAuthController::class, 'logout'])->name('customer.logout');
+    Route::get('logout', [CustomerAuthController::class, 'logout'])->name('customer.logout');
 
     Route::resource('/san', HomeController::class);
     Route::post('/checkout', [BookingController::class,'checkout'])->name('booking.checkout');
