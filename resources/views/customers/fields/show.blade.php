@@ -254,7 +254,7 @@
                                 class="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400"
                                 readonly>
                             @error('time_id')
-                                <p class="text-red-500">{{ $message }}</p>
+                                <p class="bg-red-50 border-l-4 border-red-400 p-3 mt-2 rounded text-sm text-red-700">{{ $message }}</p>
                             @enderror
                         </div>
                     </div>

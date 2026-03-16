@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class CheckoutRequest extends FormRequest
+class UpdateProfileRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,14 +22,18 @@ class CheckoutRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'time_id' => 'required|string',
+            'name' => 'required|string|max:255',
+            'phoneNumber' => 'nullable|string|max:20',
+            'avatar' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'time_id.required' => 'Vui lòng chọn thời gian.',
+            'name.required' => 'Vui lòng nhập họ tên.',
+            'phoneNumber.required' => 'Vui lòng nhập số điện thoại.',
+            'phoneNumber.regex' => 'Số điện thoại không hợp lệ. Vui lòng nhập 10 chữ số.',
         ];
     }
 }
