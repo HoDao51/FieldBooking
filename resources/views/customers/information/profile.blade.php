@@ -1,9 +1,9 @@
 @extends('customers.layouts.app')
 
 @section('content')
-    <div class="flex max-w-6xl mx-auto mt-10 mb-10 gap-6">
+    <div class="flex items-start max-w-6xl mx-auto mt-10 mb-10 gap-6 ">
         <!-- Sidebar -->
-        <div class="w-64 bg-white rounded-xl shadow p-6 text-center">
+        <div class="w-64 bg-white rounded-xl shadow p-6 text-center flex flex-col">
             <div
                 class="w-16 h-16 bg-green-500 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto">
                 @if (auth()->user()->customers->avatar == null)
@@ -19,22 +19,20 @@
                 {{ auth()->user()->email }}
             </p>
 
-            <div class="mt-6 space-y-2">
-
-                <a href="#" class="flex items-center space-x-2  px-3 py-2 rounded hover:text-green-800 font-semibold">
+            <!-- Menu -->
+            <div class="mt-8 space-y-2 text-left">
+                <a href="#" class="block px-3 py-2 rounded hover:text-green-800 font-semibold">
                     Thông tin cá nhân
                 </a>
 
-                <a href="#" class="flex items-center space-x-2  px-3 py-2 rounded hover:text-green-800 font-semibold">
+                <a href="#" class="block px-3 py-2 rounded hover:text-green-800 font-semibold">
                     Lịch sử đặt sân
                 </a>
 
-                <a href="#" class="flex items-center space-x-2  px-3 py-2 rounded hover:text-green-800 font-semibold">
+                <a href="#" class="block px-3 py-2 rounded hover:text-green-800 font-semibold">
                     Đăng xuất
                 </a>
-
             </div>
-
         </div>
 
 

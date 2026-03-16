@@ -84,7 +84,7 @@
                     <h2 class="text-2xl font-bold">Sân nổi bật</h2>
                     <p class="text-gray-500">Những sân được đặt nhiều nhất tuần này</p>
                 </div>
-                <a href="#" class="text-green-600 font-semibold hover:underline">
+                <a href="{{ route('home.search') }}" class="text-green-600 font-semibold hover:underline">
                     Xem tất cả →
                 </a>
             </div>

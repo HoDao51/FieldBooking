@@ -1,11 +1,9 @@
 @extends('customers.layouts.app')
 
 @section('content')
-    <div class="max-w-3xl mx-auto py-12">
-
-        <div class="text-center mb-8">
+    <div class="max-w-3xl mx-auto pb-12 pt-6">
+        <div class="text-center mb-2">
             <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto">
-
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-14 h-14 text-green-600" viewBox="0 0 16 16">
                     <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
                         <path
@@ -15,7 +13,7 @@
                 </svg>
             </div>
 
-            <h1 class="text-2xl font-bold text-green-600 mt-4">
+            <h1 class="text-2xl font-bold text-green-600 mt-2">
                 Đặt sân thành công!
             </h1>
 

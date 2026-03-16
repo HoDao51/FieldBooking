@@ -12,43 +12,85 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $types = FieldType::all();
-        $fields = Field::where('status', 0)
-            ->latest()
+        $search = $request->get('search');
+
+        $query = Field::with(['images', 'fieldType'])
+            ->where('status', 0);
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%')
+                ->orWhere('address', 'like', '%' . $search . '%');
+            });
+        }
+
+        $fields = $query->latest()
             ->take(6)
             ->get();
 
-        return view('customers.home.index', compact('fields', 'types'));
+        $types = FieldType::all();
+
+        return view('customers.home.index', compact('search', 'fields', 'types'));
     }
 
+    public function search(Request $request){
+
+        $search = $request->get('search');
+
+        $query = Field::with(['images', 'fieldType'])
+            ->where('status', 0);
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%')
+                ->orWhere('address', 'like', '%' . $search . '%');
+            });
+        }
+
+        $fields = $query->latest()
+            ->take(6)
+            ->get();
+
+        $types = FieldType::all();
+
+        return view('customers.fields.search', compact('search', 'fields', 'types'));
+    }
+    
     public function show(Request $request, $id)
     {
+        $search = $request->get('search');
+
+        $query = Field::with(['images', 'fieldType'])
+            ->where('status', 0);
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%')
+                ->orWhere('address', 'like', '%' . $search . '%');
+            });
+        }
+
         $field = Field::with(['FieldPrice.TimeSlot'])->findOrFail($id);
 
-        // ngày được chọn
         $date = $request->date ?? Carbon::today()->toDateString();
 
-        // lấy thứ
         $dayOfWeek = Carbon::parse($date)->dayOfWeekIso;
 
-        // bảng giá theo thứ
         $prices = $field->FieldPrice
             ->where('day_of_week', $dayOfWeek)
             ->sortBy(fn($p) => $p->TimeSlot->startTime);
 
-        // tất cả khung giờ
         $timeSlots = $prices->map(function ($price) {
             return $price->TimeSlot;
         });
 
-        // các khung giờ đã đặt
         $bookedSlots = Booking::where('field_id', $field->id)
             ->where('bookingDate', $date)
             ->pluck('time_id')
             ->toArray();
 
-        return view('customers.fields.show', compact('field', 'prices', 'date', 'timeSlots', 'bookedSlots'));
+        return view('customers.fields.show', compact('search', 'field', 'prices', 'date', 'timeSlots', 'bookedSlots'));
     }
 }
