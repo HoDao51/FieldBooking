@@ -98,11 +98,11 @@
                             <!-- Trạng thái -->
                             <td class="text-center">
                                 @if ($item->status == 0)
-                                    <span class="px-3 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-700">
+                                    <span class="px-3 py-1 font-semibold text-xs rounded-full bg-green-100 text-green-700">
                                         Hoạt động
                                     </span>
                                 @else
-                                    <span class="px-3 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-700">
+                                    <span class="px-3 py-1 font-semibold text-xs rounded-full bg-red-100 text-red-700">
                                         Ngưng hoạt động
                                     </span>
                                 @endif
@@ -122,7 +122,7 @@
                                             images: @json($item->images)
                                         }
                                     })'
-                                    class="bg-[#10B981] text-white text-[16px] font-semibold px-3 py-2 rounded hover:bg-[#1D8F6A]">
+                                    class="bg-[#10B981] text-white font-semibold px-2 py-2 rounded hover:bg-[#1D8F6A]">
                                     Sửa
                                 </button>
                                 <!-- Nút xóa -->
@@ -130,7 +130,7 @@
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"
-                                        class="bg-[#DC2626] text-white text-[16px] font-semibold px-3 py-2 rounded hover:bg-red-800 ml-2">
+                                        class="bg-[#DC2626] text-white font-semibold px-2 py-2 rounded hover:bg-red-800 ml-2">
                                         Xóa
                                     </button>
                                 </form>

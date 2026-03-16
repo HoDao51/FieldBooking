@@ -31,7 +31,7 @@ class FieldController extends Controller
             });
         }
 
-        $sanBong = $query->orderBy('status', 'asc')->orderBy('id', 'desc')->paginate(5)->withQueryString();
+        $sanBong = $query->orderBy('status', 'asc')->orderBy('id', 'desc')->paginate(4)->withQueryString();
 
         $fieldTypes = FieldType::all();
         $employees  = Employee::all();

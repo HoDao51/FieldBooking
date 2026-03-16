@@ -56,15 +56,15 @@
                     <!-- THÔNG TIN -->
                     <div class="flex flex-col justify-center">
 
-                        <h3 class="font-semibold text-gray-800 text-lg">
+                        <h3 class="font-semibold text-gray-800 text-base">
                             {{ $item->name }}
                         </h3>
 
-                        <p class="text-sm text-gray-500">
+                        <p class="text-xs text-gray-500">
                             {{ $item->address }}
                         </p>
 
-                        <div class="mt-1 flex items-center gap-2 text-sm">
+                        <div class="mt-1 flex items-center gap-2 text-xs">
                             <!-- Loại sân -->
                             <span class="px-2 py-0.5 text-xs rounded-full bg-gray-100 text-gray-600">
                                 {{ $item->fieldType->name ?? '' }}

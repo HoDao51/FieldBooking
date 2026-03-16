@@ -61,7 +61,7 @@
                                     <span class="font-semibold text-gray-800">
                                         {{ $item->contactName }}
                                     </span>
-                                    <span class="text-sm text-gray-500">
+                                    <span class="text-xs text-gray-500">
                                         {{ $item->contactEmail }}
                                     </span>
                                 </div>
@@ -117,7 +117,7 @@
                                 @endif
                             </td>
 
-                            <td class="border text-center py-3">
+                            <td class="border text-center px-2">
 
                                 @if ($item->status == 0)
                                     <!-- Xác nhận -->
@@ -126,7 +126,7 @@
                                         @csrf
                                         @method('PUT')
                                         <button
-                                            class="bg-green-600 text-[16px] font-semibold text-white px-4 py-2 rounded hover:bg-green-700">
+                                            class="bg-green-600 font-semibold text-white px-2 py-2 rounded hover:bg-green-700">
                                             Xác nhận
                                         </button>
                                     </form>
@@ -137,7 +137,7 @@
                                         @csrf
                                         @method('PUT')
                                         <button
-                                            class="bg-red-600 text-[16px] font-semibold text-white px-4 py-2 rounded hover:bg-red-700">
+                                            class="bg-red-600 font-semibold text-white px-2 py-2 rounded hover:bg-red-700">
                                             Từ chối
                                         </button>
                                     </form>
@@ -148,7 +148,7 @@
                                         @csrf
                                         @method('PUT')
                                         <button
-                                            class="bg-blue-600 text-[16px] font-semibold text-white px-4 py-2 rounded hover:bg-blue-700">
+                                            class="bg-blue-600 font-semibold text-white px-2 py-2 rounded hover:bg-blue-700">
                                             Hoàn thành
                                         </button>
                                     </form>
@@ -159,20 +159,20 @@
                                         @csrf
                                         @method('PUT')
                                         <button
-                                            class="bg-gray-600 text-[16px] font-semibold text-white px-4 py-2 rounded hover:bg-gray-700">
+                                            class="bg-gray-600 font-semibold text-white px-2 py-2 rounded hover:bg-gray-700">
                                             Hủy
                                         </button>
                                     </form>
                                 @elseif ($item->status == 2)
-                                    <span class="text-green-600 text-[16px] font-semibold">
+                                    <span class="text-green-600 font-semibold">
                                         Đã hoàn thành
                                     </span>
                                 @elseif ($item->status == 3)
-                                    <span class="text-gray-500 text-[16px] font-semibold">
+                                    <span class="text-gray-500 font-semibold">
                                         Đã hủy
                                     </span>
                                 @elseif ($item->status == 4)
-                                    <span class="text-red-600 text-[16px] font-semibold">
+                                    <span class="text-red-600 font-semibold">
                                         Đã từ chối
                                     </span>
                                 @endif

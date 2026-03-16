@@ -56,7 +56,7 @@
 
         <div class="bg-white rounded-xl shadow border overflow-hidden">
             <table class="min-w-full text-sm">
-                <thead class="bg-gray-200 text-gray-600 uppercase text-xs">
+                <thead class="bg-gray-200 text-gray-800 uppercase text-xs">
                     <tr>
                         <th class="px-6 py-3 text-left">Người dùng</th>
                         <th class="px-6 py-3 text-center">Số điện thoại</th>
@@ -129,19 +129,19 @@
                                           actionUrl: "{{ route('nhanVien.update', $item->id) }}",
                                           data: @json($item)
                                       })'
-                                        class="bg-[#10B981] text-white text-[16px] font-semibold px-3 py-2 rounded hover:bg-[#1D8F6A]">
+                                        class="bg-[#10B981] text-white font-semibold px-2 py-2 rounded hover:bg-[#1D8F6A]">
                                         Sửa
                                     </button>
                                 @else
                                     <button
-                                        type="button"class="bg-[#10B981] cursor-not-allowed text-white text-[16px] font-semibold px-3 py-2 rounded hover:bg-[#1D8F6A]">
+                                        type="button"class="bg-[#10B981] cursor-not-allowed text-white font-semibold px-2 py-2 rounded hover:bg-[#1D8F6A]">
                                         Sửa
                                     </button>
                                 @endif
 
                                 @if (auth()->user()->id == $item->user_id)
                                     <button
-                                        class="bg-[#DC2626] cursor-not-allowed text-white text-[16px] font-semibold px-[18px] py-2 rounded ml-2 mt-2 mb-2">
+                                        class="bg-[#DC2626] cursor-not-allowed text-white font-semibold px-[16px] py-2 rounded ml-2 mt-2 mb-2">
                                         Vô hiệu
                                     </button>
                                 @else
@@ -157,7 +157,7 @@
                                 } else {
                                     return false;
                                 }"
-                                                class="bg-[#DC2626] text-white text-[16px] font-semibold px-[18px] py-2 rounded hover:bg-red-800 ml-2">
+                                                class="bg-[#DC2626] text-white font-semibold px-[16px] py-2 rounded hover:bg-red-800 ml-2">
                                                 Vô hiệu
                                             </button>
                                         </form>
@@ -173,7 +173,7 @@
                                 } else {
                                     return false;
                                 }"
-                                                class="bg-[#F97316] text-white text-[16px] font-semibold px-3 py-2 rounded hover:bg-[#C55E17] ml-2">
+                                                class="bg-[#F97316] text-white font-semibold px-2 py-2 rounded hover:bg-[#C55E17] ml-2">
                                                 Khôi phục
                                             </button>
                                         </form>

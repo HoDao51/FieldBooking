@@ -52,7 +52,7 @@
 
                 @if (isset($prices[$key]))
                     @foreach ($prices[$key] as $price)
-                        <div class="flex justify-between items-center px-4 py-3 border-t hover:bg-gray-50">
+                        <div class="flex justify-between items-center text-base px-4 py-3 border-t hover:bg-gray-50">
                             <div class="flex items-center gap-6">
                                 <div class="flex items-center gap-2 text-gray-600">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -86,7 +86,7 @@
                                           actionUrl: "{{ route('cauHinhGiaGio.update', $price->id) }}",
                                           data: @json($price)
                                       })'
-                                        class="bg-[#10B981] text-white text-[16px] font-semibold px-3 py-2 rounded hover:bg-[#1D8F6A]">
+                                        class="bg-[#10B981] text-white font-semibold px-3 py-2 rounded hover:bg-[#1D8F6A]">
                                         Sửa
                                     </button>
                                 <!-- Nút xóa -->
@@ -95,7 +95,7 @@
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"
-                                        class="bg-[#DC2626] text-white text-[16px] font-semibold px-3 py-2 rounded hover:bg-red-800 ml-2">
+                                        class="bg-[#DC2626] text-white  font-semibold px-3 py-2 rounded hover:bg-red-800 ml-2">
                                         Xóa
                                     </button>
                                 </form>
