@@ -86,17 +86,17 @@
                             </td>
 
                             <!-- SĐT -->
-                            <td class="px-6 py-4 text-center">
+                            <td class="text-center">
                                 {{ $item->address }}
                             </td>
 
                             <!-- loại sân -->
-                            <td class="px-6 py-4 text-center">
+                            <td class="text-center">
                                 {{ $item->fieldType->name }}
                             </td>
 
                             <!-- Trạng thái -->
-                            <td class="px-6 py-4 text-center">
+                            <td class="text-center">
                                 @if ($item->status == 0)
                                     <span class="px-3 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-700">
                                         Hoạt động

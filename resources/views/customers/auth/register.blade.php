@@ -82,7 +82,7 @@
         <!-- RIGHT -->
         <div class="flex items-center justify-center bg-gray-50">
 
-            <div class="bg-white w-[420px] p-8 rounded-xl shadow">
+            <div class="bg-white w-[420px] px-8 py-4 my-6 rounded-xl shadow">
 
                 <h2 class="text-2xl font-bold text-center">
                     Đăng ký
@@ -92,12 +92,12 @@
                     Tạo tài khoản để bắt đầu đặt sân
                 </p>
 
-                <form method="POST" action="{{ route('customer.postRegister') }}" class="mt-6 space-y-4"
+                <form method="POST" action="{{ route('customer.postRegister') }}" class="space-y-4"
                     enctype="multipart/form-data">
                     @csrf
                     <!-- Tên khách hàng -->
                     <div>
-                        <label class="pt-0 label label-text font-semibold text-[#1f2937]" for="name">Họ &
+                        <label class="label label-text font-semibold text-[#1f2937]" for="name">Họ &
                             tên</label>
                         <div class="flex-1 relative border border-gray-300 rounded">
                             <input type="text" value="{{ old('name') }}" name="name" id="name"
@@ -117,7 +117,7 @@
 
                     <!-- mật khẩu -->
                     <div>
-                        <label class="pt-0 label label-text font-semibold text-[#1f2937]" for="password">Mật
+                        <label class="label label-text font-semibold text-[#1f2937]" for="password">Mật
                             khẩu</label>
                         <div class="flex-1 relative border border-gray-300 rounded">
                             <input type="password" value="{{ old('password') }}" name="password" id="password"
@@ -140,7 +140,7 @@
 
                     <!-- Số điện thoại -->
                     <div>
-                        <label class="pt-0 label label-text font-semibold text-[#1f2937]" for="phoneNumber">Số điện
+                        <label class="label label-text font-semibold text-[#1f2937]" for="phoneNumber">Số điện
                             thoại</label>
                         <div class="flex-1 relative border border-gray-300 rounded">
                             <input type="text" value="{{ old('phoneNumber') }}" name="phoneNumber"
@@ -162,7 +162,7 @@
 
                     <!-- Email -->
                     <div>
-                        <label class="pt-0 label label-text font-semibold text-[#1f2937]" for="email">Email</label>
+                        <label class="label label-text font-semibold text-[#1f2937]" for="email">Email</label>
                         <div class="flex-1 relative border border-gray-300 rounded">
                             <input type="email" value="{{ old('email') }}" name="email" id="email"
                                 class="w-full pl-10 pt-2.5 pb-2.5 bg-transparent focus:outline-none rounded focus:ring-1 focus:ring-green-400"
@@ -181,7 +181,7 @@
 
                     <!-- Avatar -->
                     <div>
-                        <label class="pt-0 label label-text font-semibold text-[#1f2937]" for="avatar">Ảnh đại
+                        <label class="label label-text font-semibold text-[#1f2937]" for="avatar">Ảnh đại
                             diện</label>
 
                         <input type="file" value="{{ old('avatar') }}" name="avatar" id="avatar"
