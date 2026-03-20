@@ -83,11 +83,11 @@
                 class="hidden absolute right-0 mt-2 w-48 bg-white shadow-lg border border-gray-200 rounded-lg p-2 z-50">
 
                 <a href="{{route('information.index')}}"
-                    class="font-semibold block px-4 py-2 text-green-600 hover:bg-green-100 rounded-md">
+                    class="font-semibold block px-4 py-2 text-green-600 hover:bg-green-100 rounded-md mb-2">
                     Thông tin cá nhân
                 </a>
 
-                <a href=""
+                <a href="{{route('information.history')}}"
                     class="font-semibold block px-4 py-2 text-green-600 hover:bg-green-100 rounded-md">
                     Lịch sử đặt sân
                 </a>

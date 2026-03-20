@@ -1,23 +1,23 @@
 @extends('customers.layouts.app')
 
 @section('content')
-<!-- sân nối bật -->
+    <!-- sân nối bật -->
     <section class="py-5">
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex justify-between items-center mb-8">
-                @if ( $search == null)
-                    <div>
-                        <h2 class="text-2xl font-bold">Tất cả sân bóng đang hoạt động</h2>
-                    </div>
+                @if ($search)
+                    <h2 class="text-2xl font-bold">
+                        Kết quả tìm kiếm: "{{ $search }}"
+                    </h2>
                 @else
-                    <div>
-                        <h2 class="text-2xl font-bold">Kết quả tìm kiếm liên quan "{{ $search }}"</h2>
-                    </div>
+                    <h2 class="text-2xl font-bold">
+                        Tất cả sân bóng đang hoạt động
+                    </h2>
                 @endif
             </div>
 
             <div class="mb-10 grid grid-cols-1 md:grid-cols-3 gap-8">
-                @foreach ($fields as $field)
+                @forelse ($fields as $field)
                     <div
                         class="bg-white rounded-xl shadow hover:shadow-xl hover:-translate-y-1 
                                 transition duration-300 ease-in-out group">
@@ -72,7 +72,11 @@
                             </div>
                         </div>
                     </div>
-                @endforeach
+                @empty
+                    <div class="col-span-3 text-center text-gray-500 py-32">
+                        Không tìm thấy sân phù hợp
+                    </div>
+                @endforelse
             </div>
         </div>
     </section>

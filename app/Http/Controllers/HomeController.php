@@ -22,7 +22,7 @@ class HomeController extends Controller
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', '%' . $search . '%')
-                ->orWhere('address', 'like', '%' . $search . '%');
+                    ->orWhere('address', 'like', '%' . $search . '%');
             });
         }
 
@@ -35,29 +35,42 @@ class HomeController extends Controller
         return view('customers.home.index', compact('search', 'fields', 'types'));
     }
 
-    public function search(Request $request){
+    public function search(Request $request)
+    {
 
         $search = $request->get('search');
+        $type_id = $request->get('type_id');
+        $province = $request->get('province');
 
         $query = Field::with(['images', 'fieldType'])
             ->where('status', 0);
 
+        // search theo tên + địa chỉ
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', '%' . $search . '%')
-                ->orWhere('address', 'like', '%' . $search . '%');
+                    ->orWhere('address', 'like', '%' . $search . '%');
             });
         }
+        // lọc theo địa chỉ
+        if ($request->province) {
+            $province = str_replace('Thành phố ', '', $request->province);
 
-        $fields = $query->latest()
-            ->take(6)
-            ->get();
+            $query->where('address', 'like', "%$province%");
+        }
+
+        // lọc theo loại sân
+        if ($type_id) {
+            $query->where('type_id', $type_id);
+        }
+
+        $fields = $query->latest()->paginate(6);
 
         $types = FieldType::all();
 
-        return view('customers.fields.search', compact('search', 'fields', 'types'));
+        return view('customers.fields.search', compact('search', 'fields', 'types', 'type_id'));
     }
-    
+
     public function show(Request $request, $id)
     {
         $field = Field::with(['FieldPrice.TimeSlot'])->findOrFail($id);
@@ -79,6 +92,6 @@ class HomeController extends Controller
             ->pluck('time_id')
             ->toArray();
 
-        return view('customers.fields.show', compact( 'field', 'prices', 'date', 'timeSlots', 'bookedSlots'));
+        return view('customers.fields.show', compact('field', 'prices', 'date', 'timeSlots', 'bookedSlots'));
     }
 }

@@ -18,23 +18,18 @@
             </p>
 
             <!-- Search Box -->
-            <div class="bg-white text-gray-600 rounded-xl shadow-xl p-6 max-w-4xl">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                    <select class="border p-3 rounded-lg focus:ring-2 focus:ring-green-600">
-                        <option>Chọn tỉnh thành</option>
-                    </select>
+            <form method="GET" action="{{ route('home.search') }}"
+                class="bg-white text-gray-600 rounded-xl shadow-xl p-6 max-w-4xl">
 
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                     <div class="relative">
-                        <select name="type_id"
-                            class="appearance-none text-[#4B5563] w-full border border-gray-300 rounded-md px-3 py-3 bg-white focus:outline-none focus:ring-1 focus:ring-green-400">
-                            <option value="">Tất cả loại sân</option>
-                            @foreach ($types as $type)
-                                <option value="{{ $type->id }}" {{ old('type_id') == $type->id ? 'selected' : '' }}>
-                                    {{ $type->name }}
-                                </option>
-                            @endforeach
+                        <!-- Tỉnh -->
+                        <select name="province" id="province"
+                            class="appearance-none text-[#4B5563] w-full border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-green-600">
+                            <option value="">Chọn tỉnh thành</option>
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+                            <!-- SVG GIỮ NGUYÊN -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-[#4B5563]" viewBox="0 0 16 16">
                                 <path fill="currentColor"
                                     d="M13.069 5.157L8.384 9.768a.546.546 0 0 1-.768 0L2.93 5.158a.55.55 0 0 0-.771 0a.53.53 0 0 0 0 .759l4.684 4.61a1.65 1.65 0 0 0 2.312 0l4.684-4.61a.53.53 0 0 0 0-.76a.55.55 0 0 0-.771 0" />
@@ -42,20 +37,51 @@
                         </div>
                     </div>
 
-                    <button
-                        class="relative gap-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-semibold">
+                    <!-- Loại sân -->
+                    <div class="relative">
+                        <select name="type_id"
+                            class="appearance-none text-[#4B5563] w-full border border-gray-300 rounded-md px-3 py-3 bg-white focus:outline-none focus:ring-1 focus:ring-green-400">
+
+                            <option value="">Tất cả loại sân</option>
+
+                            @foreach ($types as $type)
+                                <option value="{{ $type->id }}" {{ request('type_id') == $type->id ? 'selected' : '' }}>
+                                    {{ $type->name }}
+                                </option>
+                            @endforeach
+
+                        </select>
+
+                        <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+                            <!-- SVG GIỮ NGUYÊN -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-[#4B5563]" viewBox="0 0 16 16">
+                                <path fill="currentColor"
+                                    d="M13.069 5.157L8.384 9.768a.546.546 0 0 1-.768 0L2.93 5.158a.55.55 0 0 0-.771 0a.53.53 0 0 0 0 .759l4.684 4.61a1.65 1.65 0 0 0 2.312 0l4.684-4.61a.53.53 0 0 0 0-.76a.55.55 0 0 0-.771 0" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Button -->
+                    <button type="submit"
+                        class="flex items-center justify-center gap-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-semibold py-3">
+
+                        <!-- SVG GIỮ NGUYÊN -->
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24"
-                            class="absolute left-14 top-7 -translate-y-1/2 text-white">
+                            class="text-white">
                             <path fill="currentColor" fill-rule="evenodd"
                                 d="M18.319 14.433A8.001 8.001 0 0 0 6.343 3.868a8 8 0 0 0 10.564 11.976l.043.045l4.242 4.243a1 1 0 1 0 1.415-1.415l-4.243-4.242zm-2.076-9.15a6 6 0 1 1-8.485 8.485a6 6 0 0 1 8.485-8.485"
                                 clip-rule="evenodd" />
                         </svg>
-                        <span class="text-lg pl-3">
+
+                        <span class="text-base">
                             Tìm sân ngay
                         </span>
+
                     </button>
+
                 </div>
-            </div>
+
+            </form>
 
             <!-- Stats -->
             <div class="flex gap-10 mt-12 text-white">
@@ -158,3 +184,32 @@
         </a>
     </section>
 @endsection
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+
+        const select = document.getElementById("province");
+        const selectedProvince = "{{ request('province') }}";
+
+        fetch("https://provinces.open-api.vn/api/p/")
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(province => {
+
+                    const option = document.createElement("option");
+                    option.value = province.name;
+                    option.textContent = province.name;
+
+                    // giữ lại giá trị đã chọn
+                    if (selectedProvince === province.name) {
+                        option.selected = true;
+                    }
+
+                    select.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error("Lỗi load tỉnh:", error);
+            });
+
+    });
+</script>
