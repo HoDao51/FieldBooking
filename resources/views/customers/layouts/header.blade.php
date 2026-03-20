@@ -37,6 +37,39 @@
                 class="pl-10 pr-3 py-2 rounded-lg w-full d-lg focus:ring-1 focus:ring-green-400 outline-none">
         </div>
     </form>
+    @if (session('success'))
+        <div id="toast-success"
+            class="fixed top-6 left-1/2 -translate-x-1/2 
+                bg-white shadow-lg rounded-xl px-6 py-3 
+                flex items-center gap-3 border border-green-200 
+                animate-fadeIn z-50">
+
+            <!-- Icon -->
+            <div class="bg-green-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                        d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10s10-4.5 10-10S17.5 2 12 2m-2 15l-5-5l1.41-1.41L10 14.17l7.59-7.59L19 8z" />
+                </svg>
+            </div>
+
+            <!-- Message -->
+            <span class="text-gray-800 font-medium">
+                {{ session('success') }}
+            </span>
+        </div>
+
+        <script>
+            setTimeout(() => {
+                const toast = document.getElementById('toast-success');
+                if (toast) {
+                    toast.style.transition = "all 0.5s ease";
+                    toast.style.opacity = "0";
+                    toast.style.transform = "translate(-50%, -10px)";
+                    setTimeout(() => toast.remove(), 500);
+                }
+            }, 3000);
+        </script>
+    @endif
 
     @guest
         <div class="flex items-center gap-4">
@@ -55,8 +88,8 @@
     @auth
         <div class="relative inline-block text-left">
             <!-- Profile button -->
-            <button id="profileBtn" class="flex items-center gap-3 px-3 py-2 rounded-lg transition"
-                aria-haspopup="true" aria-expanded="false">
+            <button id="profileBtn" class="flex items-center gap-3 px-3 py-2 rounded-lg transition" aria-haspopup="true"
+                aria-expanded="false">
                 <!-- Avatar tròn -->
                 <div class="w-12 h-12 rounded-full flex items-center justify-center text-green-600 font-semibold">
                     @if (auth()->user()->customers->avatar == null)
@@ -82,12 +115,12 @@
             <div id="profileDropdown"
                 class="hidden absolute right-0 mt-2 w-48 bg-white shadow-lg border border-gray-200 rounded-lg p-2 z-50">
 
-                <a href="{{route('information.index')}}"
+                <a href="{{ route('information.index') }}"
                     class="font-semibold block px-4 py-2 text-green-600 hover:bg-green-100 rounded-md mb-2">
                     Thông tin cá nhân
                 </a>
 
-                <a href="{{route('information.history')}}"
+                <a href="{{ route('information.history') }}"
                     class="font-semibold block px-4 py-2 text-green-600 hover:bg-green-100 rounded-md">
                     Lịch sử đặt sân
                 </a>

@@ -86,7 +86,7 @@ class BookingController extends Controller
             ]);
 
             DB::commit();
-            return redirect()->route('booking.success', $booking->id);
+            return redirect()->route('booking.success', $booking->id)->with('success', 'Đặt sân bóng thành công!');
         } catch (QueryException $e) {
             DB::rollBack();
 

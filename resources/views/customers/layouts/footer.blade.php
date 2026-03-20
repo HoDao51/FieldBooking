@@ -10,8 +10,8 @@
     <div>
         <h4 class="font-semibold mb-4">Liên kết nhanh</h4>
         <ul class="space-y-2 text-gray-600 text-sm">
-            <li><a href="#" class="hover:text-green-600 hover:ml-3">Trang chủ</a></li>
-            <li><a href="#" class="hover:text-green-600 hover:ml-3">Danh sách sân</a></li>
+            <li><a href="{{ route('san.index') }}" class="hover:text-green-600 hover:ml-3">Trang chủ</a></li>
+            <li><a href="{{ route('home.search') }}" class="hover:text-green-600 hover:ml-3">Danh sách sân</a></li>
             <li><a href="#" class="hover:text-green-600 hover:ml-3">Hướng dẫn đặt sân</a></li>
             <li><a href="#" class="hover:text-green-600 hover:ml-3">Tin tức & Sự kiện</a></li>
         </ul>

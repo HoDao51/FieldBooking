@@ -41,15 +41,12 @@
                     <div class="relative">
                         <select name="type_id"
                             class="appearance-none text-[#4B5563] w-full border border-gray-300 rounded-md px-3 py-3 bg-white focus:outline-none focus:ring-1 focus:ring-green-400">
-
                             <option value="">Tất cả loại sân</option>
-
                             @foreach ($types as $type)
                                 <option value="{{ $type->id }}" {{ request('type_id') == $type->id ? 'selected' : '' }}>
                                     {{ $type->name }}
                                 </option>
                             @endforeach
-
                         </select>
 
                         <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
@@ -64,7 +61,6 @@
                     <!-- Button -->
                     <button type="submit"
                         class="flex items-center justify-center gap-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-semibold py-3">
-
                         <!-- SVG GIỮ NGUYÊN -->
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24"
                             class="text-white">
@@ -76,11 +72,8 @@
                         <span class="text-base">
                             Tìm sân ngay
                         </span>
-
                     </button>
-
                 </div>
-
             </form>
 
             <!-- Stats -->
@@ -183,33 +176,5 @@
             Đăng ký miễn phí
         </a>
     </section>
+@vite('resources/js/province.js')
 @endsection
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-
-        const select = document.getElementById("province");
-        const selectedProvince = "{{ request('province') }}";
-
-        fetch("https://provinces.open-api.vn/api/p/")
-            .then(response => response.json())
-            .then(data => {
-                data.forEach(province => {
-
-                    const option = document.createElement("option");
-                    option.value = province.name;
-                    option.textContent = province.name;
-
-                    // giữ lại giá trị đã chọn
-                    if (selectedProvince === province.name) {
-                        option.selected = true;
-                    }
-
-                    select.appendChild(option);
-                });
-            })
-            .catch(error => {
-                console.error("Lỗi load tỉnh:", error);
-            });
-
-    });
-</script>

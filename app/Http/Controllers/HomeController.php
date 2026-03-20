@@ -55,6 +55,7 @@ class HomeController extends Controller
         // lọc theo địa chỉ
         if ($request->province) {
             $province = str_replace('Thành phố ', '', $request->province);
+            $province = str_replace('Tỉnh ', '', $request->province);
 
             $query->where('address', 'like', "%$province%");
         }
