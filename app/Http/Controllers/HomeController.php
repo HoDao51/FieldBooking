@@ -60,18 +60,6 @@ class HomeController extends Controller
     
     public function show(Request $request, $id)
     {
-        $search = $request->get('search');
-
-        $query = Field::with(['images', 'fieldType'])
-            ->where('status', 0);
-
-        if ($search) {
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', '%' . $search . '%')
-                ->orWhere('address', 'like', '%' . $search . '%');
-            });
-        }
-
         $field = Field::with(['FieldPrice.TimeSlot'])->findOrFail($id);
 
         $date = $request->date ?? Carbon::today()->toDateString();
@@ -91,6 +79,6 @@ class HomeController extends Controller
             ->pluck('time_id')
             ->toArray();
 
-        return view('customers.fields.show', compact('search', 'field', 'prices', 'date', 'timeSlots', 'bookedSlots'));
+        return view('customers.fields.show', compact( 'field', 'prices', 'date', 'timeSlots', 'bookedSlots'));
     }
 }

@@ -33,7 +33,7 @@
                     d="M18.319 14.433A8.001 8.001 0 0 0 6.343 3.868a8 8 0 0 0 10.564 11.976l.043.045l4.242 4.243a1 1 0 1 0 1.415-1.415l-4.243-4.242zm-2.076-9.15a6 6 0 1 1-8.485 8.485a6 6 0 0 1 8.485-8.485"
                     clip-rule="evenodd" />
             </svg>
-            <input type="text" name="search" value="{{ $search }}" placeholder="Tìm kiếm sân theo tên, địa chỉ,..."
+            <input type="text" name="search" value="" placeholder="Tìm kiếm sân theo tên, địa chỉ,..."
                 class="pl-10 pr-3 py-2 rounded-lg w-full d-lg focus:ring-1 focus:ring-green-400 outline-none">
         </div>
     </form>

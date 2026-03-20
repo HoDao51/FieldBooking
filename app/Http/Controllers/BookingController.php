@@ -132,18 +132,6 @@ class BookingController extends Controller
 
     public function checkout(CheckoutRequest $request)
     {
-        $search = $request->get('search');
-
-        $query = Field::with(['images', 'fieldType'])
-            ->where('status', 0);
-
-        if ($search) {
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', '%' . $search . '%')
-                ->orWhere('address', 'like', '%' . $search . '%');
-            });
-        }
-
         $field = Field::findOrFail($request->field_id);
 
         $timeSlot = TimeSlot::findOrFail($request->time_id);
@@ -159,7 +147,6 @@ class BookingController extends Controller
             date('H:i', strtotime($timeSlot->endTime));
 
         return view('customers.booking.checkout', compact(
-            'search',
             'field',
             'date',
             'time',
@@ -171,21 +158,9 @@ class BookingController extends Controller
 
     public function success(Request $request, $id)
     {
-        $search = $request->get('search');
-
-        $query = Field::with(['images', 'fieldType'])
-            ->where('status', 0);
-
-        if ($search) {
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', '%' . $search . '%')
-                ->orWhere('address', 'like', '%' . $search . '%');
-            });
-        }
-
         $booking = Booking::with(['Fields', 'TimeSlot', 'PaymentMethod'])->findOrFail($id);
 
-        return view('customers.booking.success', compact('booking', 'search'));
+        return view('customers.booking.success', compact('booking'));
     }
 
     public function confirm($id)

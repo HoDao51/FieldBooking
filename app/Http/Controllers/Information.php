@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\UpdateProfileRequest;
+use App\Models\Booking;
 use App\Models\Customer;
 use App\Models\Field;
 use App\Models\User;
@@ -16,19 +17,7 @@ class Information extends Controller
 
     public function index(Request $request)
     {
-        $search = $request->get('search');
-
-        $query = Field::with(['images', 'fieldType'])
-            ->where('status', 0);
-
-        if ($search) {
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', '%' . $search . '%')
-                ->orWhere('address', 'like', '%' . $search . '%');
-            });
-        }
-
-        return view('customers.information.profile', compact('search'));
+        return view('customers.information.profile');
     }
 
     public function postProfile(UpdateProfileRequest $request)
@@ -57,5 +46,18 @@ class Information extends Controller
         ]);
 
         return redirect()->route('information.index')->with('success', 'Cập nhật thông tin thành công');
+    }
+
+    public function history(Request $request)
+    {
+        $query = Booking::with(['Fields', 'TimeSlot', 'PaymentMethod']);
+
+        $booking = $query
+            ->orderBy('status', 'asc')
+            ->orderBy('id', 'desc')
+            ->paginate(5)
+            ->withQueryString();
+
+        return view('customers.information.history', compact( 'booking'));
     }
 }

@@ -5,7 +5,7 @@
         <!-- Sidebar -->
         <div class="w-64 bg-white rounded-xl shadow p-6 text-center flex flex-col">
             <div
-                class="w-16 h-16 bg-green-500 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto">
+                class="w-24 h-24 bg-green-500 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto">
                 @if (auth()->user()->customers->avatar == null)
                     <img src="{{ asset('images/sbcf-default-avatar.png') }}"
                         class="w-full h-full object-cover rounded-full border-2 border-gray-300">
@@ -21,16 +21,34 @@
 
             <!-- Menu -->
             <div class="mt-8 space-y-2 text-left">
-                <a href="#" class="block px-3 py-2 rounded hover:text-green-800 font-semibold">
-                    Thông tin cá nhân
+                <a href="{{route('information.index')}}"
+                    class="flex items-center space-x-2 block px-3 py-2 rounded hover:text-green-600 font-semibold
+                    {{ request()->routeIs('information.index') ? 'bg-green-100 text-green-600 font-semibold' : ' hover:bg-green-100' }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 24 24">
+                        <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M19.618 21.25c0-3.602-4.016-6.53-7.618-6.53s-7.618 2.928-7.618 6.53M12 11.456a4.353 4.353 0 1 0 0-8.706a4.353 4.353 0 0 0 0 8.706" />
+                    </svg>
+                    <span>Thông tin cá nhân</span>
                 </a>
 
-                <a href="#" class="block px-3 py-2 rounded hover:text-green-800 font-semibold">
-                    Lịch sử đặt sân
+                <a href="{{route('information.history')}}" 
+                    class="flex items-center space-x-2 block px-3 py-2 rounded hover:text-green-600 font-semibold
+                    {{ request()->routeIs('information.history') ? 'bg-green-100 text-green-600 font-semibold' : ' hover:bg-green-100' }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 24 24">
+                        <path fill="currentColor" stroke="none" 
+                        d="M19 4h-2V3a1 1 0 0 0-2 0v1H9V3a1 1 0 0 0-2 0v1H5a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3m1 15a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-7h16Zm0-9H4V7a1 1 0 0 1 1-1h2v1a1 1 0 0 0 2 0V6h6v1a1 1 0 0 0 2 0V6h2a1 1 0 0 1 1 1Z" />
+                    </svg>
+                    <span>Lịch sử đặt sân</span>
                 </a>
 
-                <a href="#" class="block px-3 py-2 rounded hover:text-green-800 font-semibold">
-                    Đăng xuất
+                <a href="{{ route('customer.logout') }}" 
+                    class="flex items-center space-x-2 block px-3 py-2 rounded text-red-600 font-semibold hover:bg-red-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 32 32">
+                        <path fill="currentColor" stroke="none" 
+                            d="M26 4h2v24h-2zM11.414 20.586L7.828 17H22v-2H7.828l3.586-3.586L10 10l-6 6l6 6z" />
+                    </svg>
+                    <span>Đăng xuất</span>
                 </a>
             </div>
         </div>
