@@ -136,4 +136,9 @@ class EmployeeController extends Controller
         $nhanVien->save();
         return redirect::route('nhanVien.index')->with('success', 'Cập nhật thông tin thành công!');
     }
+
+    public function profile(Request $request)
+    {
+        return view('admins.information.profile');
+    }
 }

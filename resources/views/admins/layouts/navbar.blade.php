@@ -92,7 +92,7 @@
         <!-- Dropdown -->
         <div id="profileDropdown"
             class="hidden absolute right-0 mt-2 w-48 bg-white shadow-lg border border-gray-200 rounded-lg p-2 z-50">
-            <a href="" class="font-semibold block px-4 py-2 text-green-600 hover:bg-green-100 rounded-md">
+            <a href="{{route('admin.profile')}}" class="font-semibold block px-4 py-2 text-green-600 hover:bg-green-100 rounded-md">
                 Thông tin cá nhân
             </a>
             <hr class="my-2">

@@ -28,4 +28,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::put('/don-dat-san/{id}/reject', [BookingController::class, 'reject'])->name('donDatSan.reject');
     Route::put('/don-dat-san/{id}/complete', [BookingController::class, 'complete'])->name('donDatSan.complete');
     Route::put('/don-dat-san/{id}/cancel', [BookingController::class, 'cancel'])->name('donDatSan.cancel');
+
+    Route::get('/profile', [EmployeeController::class, 'profile'])->name('admin.profile');
 });
