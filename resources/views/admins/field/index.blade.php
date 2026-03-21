@@ -16,7 +16,7 @@
             </p>
         </div>
 
-        <div class="flex justify-between items-center mb-4">
+        <div class="flex justify-between items-center mb-2">
             <!-- Search -->
             <form method="GET" action="{{ route('sanBong.index') }}" class="flex items-center space-x-2 mb-2">
                 <!-- Thanh tìm kiếm -->
@@ -52,11 +52,11 @@
             <table class="min-w-full text-sm">
                 <thead class="bg-gray-200 text-gray-800 uppercase text-xs">
                     <tr>
-                        <th class="px-6 py-3 text-left">Sân bóng</th>
-                        <th class="px-6 py-3 text-center">Địa chỉ</th>
-                        <th class="px-6 py-3 text-center">Loại sân</th>
-                        <th class="px-6 py-3 text-center">Trạng thái</th>
-                        <th class="px-6 py-3 text-center">Thao tác</th>
+                        <th class="px-6 py-2 text-left">Sân bóng</th>
+                        <th class="px-6 py-2 text-center">Địa chỉ</th>
+                        <th class="px-6 py-2 text-center">Loại sân</th>
+                        <th class="px-6 py-2 text-center">Trạng thái</th>
+                        <th class="px-6 py-2 text-center">Thao tác</th>
                     </tr>
                 </thead>
 
@@ -149,7 +149,7 @@
         </div>
 
         @if ($sanBong->hasPages())
-            <div class="flex justify-center items-center gap-2 mt-6">
+            <div class="flex justify-center items-center gap-2 mt-4">
                 {{-- Page Numbers --}}
                 @for ($i = 1; $i <= $sanBong->lastPage(); $i++)
                     @if ($i == $sanBong->currentPage())

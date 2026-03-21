@@ -21,7 +21,7 @@
             @include('admins.layouts.sidebar')
         </div>
         <!-- content -->
-        <main class="flex-1 bg-gray-100 overflow-auto p-6">
+        <main class="flex-1 bg-gray-100 overflow-auto p-6 pb-0">
             @yield('content')
         </main>
     </div>

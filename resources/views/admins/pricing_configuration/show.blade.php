@@ -90,7 +90,7 @@
                                         Sửa
                                     </button>
                                 <!-- Nút xóa -->
-                                <form action="{{ route('sanBong.destroy', $price->id) }}" method="POST"
+                                <form action="{{ route('cauHinhGiaGio.destroy', $price->id) }}" method="POST"
                                     class="inline-block">
                                     @csrf
                                     @method('DELETE')

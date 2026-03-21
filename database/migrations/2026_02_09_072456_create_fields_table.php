@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('type_id');
             $table->unsignedBigInteger('employee_id');
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign('type_id')->references('id')->on('field_types');
             $table->foreign('employee_id')->references('id')->on('employees');
         });

@@ -22,7 +22,7 @@ class FieldController extends Controller
     {
         $search = $request->get('search');
 
-        $query = Field::with(['images', 'fieldType']);
+        $query = Field::with(['images', 'fieldType'])->withoutTrashed();
 
         if ($search) {
             $query->where(function ($q) use ($search) {
@@ -152,8 +152,9 @@ class FieldController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Field $field)
+    public function destroy(Field $sanBong)
     {
-        //
+        $sanBong->delete();
+        return redirect()->route('sanBong.index')->with('success', 'Xóa sân bóng thành công');
     }
 }

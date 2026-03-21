@@ -44,7 +44,7 @@ class StoreFieldRequest extends FormRequest
 
             'images' => 'nullable|array|max:10',
 
-            'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',
+            'images.*' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
         ];
     }
 
@@ -63,6 +63,7 @@ class StoreFieldRequest extends FormRequest
             'images.array' => 'Dữ liệu ảnh không hợp lệ.',
             'images.max' => 'Chỉ được tải lên tối đa 10 ảnh.',
 
+            'images.*.required' => 'Vui lòng chọn ảnh sân bóng.',
             'images.*.image' => 'File tải lên phải là hình ảnh.',
             'images.*.mimes' => 'Ảnh phải có định dạng jpg, jpeg, png hoặc webp.',
             'images.*.max' => 'Mỗi ảnh không được vượt quá 2MB.',
