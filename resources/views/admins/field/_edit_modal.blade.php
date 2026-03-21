@@ -15,7 +15,7 @@
             <!-- Tên sân -->
             <div>
                 <label class="block text-lg text-gray-600">Tên sân bóng</label>
-                <input type="text" name="name" id="editName"
+                <input type="text" name="name" id="editName" value="{{ old('name') }}"
                     class="w-full border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:ring-1 focus:ring-green-400">
                 @error('name')
                     <p class="text-red-500 text-lg mt-1">{{ $message }}</p>
@@ -25,7 +25,7 @@
             <!-- Địa chỉ -->
             <div>
                 <label class="block text-lg text-gray-600">Địa chỉ</label>
-                <input type="text" name="address" id="editAddress"
+                <input type="text" name="address" id="editAddress" value="{{ old('address') }}"
                     class="w-full border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:ring-1 focus:ring-green-400">
 
                 @error('address')

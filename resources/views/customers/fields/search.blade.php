@@ -18,14 +18,18 @@
 
             <div class="mb-10 grid grid-cols-1 md:grid-cols-3 gap-8">
                 @forelse ($fields as $field)
-                    <div
-                        class="bg-white rounded-xl shadow hover:shadow-xl hover:-translate-y-1 
+                    <div class="bg-white rounded-xl shadow hover:shadow-xl hover:-translate-y-1 
                                 transition duration-300 ease-in-out group">
                         <!-- Ảnh -->
                         <div class="overflow-hidden rounded-t-xl">
                             <a href="{{ route('san.show', $field->id) }}">
-                                <img src="{{ asset('storage/' . $field->images->first()->name) }}"
-                                    class="h-48 w-full object-cover transition duration-500 group-hover:scale-110">
+                                @if ($field->images->first())
+                                    <img src="{{ asset('storage/' . $field->images->first()->name) }}"
+                                        class="h-48 w-full object-cover transition duration-500 group-hover:scale-110">
+                                @else
+                                    <img src="{{ asset('images/banner-client-placeholder.jpg') }}"
+                                        class="h-full w-full object-cover transition duration-500 group-hover:scale-110">
+                                @endif
                             </a>
                         </div>
 

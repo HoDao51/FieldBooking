@@ -26,8 +26,14 @@
                         Thông tin đặt sân
                     </h2>
                     <div class="flex gap-4">
-                        <img src="{{ asset('storage/' . $field->images->first()->name) }}"
-                            class="w-28 h-20 rounded-lg object-cover">
+                        @if ($field->images->first())
+                            <img src="{{ asset('storage/' . $field->images->first()->name) }}"
+                                class="w-28 h-20 rounded-lg object-cover">
+                        @else
+                            <img src="{{ asset('images/banner-client-placeholder.jpg') }}"
+                                class="w-28 h-20 rounded-lg object-cover">
+                        @endif
+
                         <div>
                             <h3 class="font-semibold">
                                 {{ $field->name }}
@@ -120,8 +126,14 @@
                         Tóm tắt đơn hàng
                     </h3>
                     <div class="flex items-center gap-3 mb-4">
-                        <img src="{{ asset('storage/' . $field->images->first()->name) }}"
-                            class="w-12 h-12 rounded-lg object-cover">
+                        @if ($field->images->first())
+                            <img src="{{ asset('storage/' . $field->images->first()->name) }}"
+                                class="w-12 h-12 rounded-lg object-cover">
+                        @else
+                            <img src="{{ asset('images/banner-client-placeholder.jpg') }}"
+                                class="w-12 h-12 rounded-lg object-cover">
+                        @endif
+
                         <div>
                             <p class="font-semibold text-sm">
                                 {{ $field->name }}

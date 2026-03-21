@@ -6,12 +6,19 @@
             <!-- LEFT -->
             <div class="col-span-12 lg:col-span-8 space-y-6">
                 <div class="bg-white rounded-xl shadow p-3">
-                    <div class="grid grid-cols-3 gap-3">
-                        @foreach ($field->images()->limit(3)->get() as $image)
-                            <img src="{{ asset('storage/' . $image->name) }}"
+                    @if ($field->images->count() > 0)
+                        <div class="grid grid-cols-3 gap-3">
+                            @foreach ($field->images()->limit(3)->get() as $image)
+                                <img src="{{ asset('storage/' . $image->name) }}"
+                                    class="h-48 w-full object-cover rounded-lg hover:scale-105 transition">
+                            @endforeach
+                        </div>
+                    @else
+                        <div class="grid grid-cols-1 gap-1">
+                            <img src="{{ asset('images/banner-client-placeholder.jpg') }}"
                                 class="h-48 w-full object-cover rounded-lg hover:scale-105 transition">
-                        @endforeach
-                    </div>
+                        </div>
+                    @endif
                 </div>
 
                 <!-- Thông tin sân -->
@@ -259,7 +266,8 @@
                                 class="mt-1 w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400"
                                 readonly>
                             @error('time_id')
-                                <p class="bg-red-50 border-l-4 border-red-400 p-3 mt-2 rounded text-sm text-red-700">{{ $message }}</p>
+                                <p class="bg-red-50 border-l-4 border-red-400 p-3 mt-2 rounded text-sm text-red-700">
+                                    {{ $message }}</p>
                             @enderror
                         </div>
                     </div>

@@ -72,7 +72,7 @@
                                             <img src="{{ asset('storage/' . $item->images->first()->name) }}"
                                                 class="w-full h-full object-cover">
                                         @else
-                                            <img src="{{ asset('images/sbcf-default-avatar.png') }}"
+                                            <img src="{{ asset('images/banner-client-placeholder.jpg') }}"
                                                 class="w-full h-full object-cover">
                                         @endif
                                     </div>

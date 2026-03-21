@@ -25,9 +25,14 @@
 
         <div class="bg-white rounded-xl shadow p-6 max-w-xl mx-auto">
             <div class="flex gap-4 mb-6">
-                <img src="{{ asset('storage/' . $booking->fields->images->first()->name) }}"
-                    class="w-20 h-16 rounded-lg object-cover">
 
+                @if ($booking->Fields->images->first())
+                    <img src="{{ asset('storage/' . $booking->fields->images->first()->name) }}"
+                        class="w-20 h-16 rounded-lg object-cover">
+                @else
+                    <img src="{{ asset('images/banner-client-placeholder.jpg') }}"
+                        class="w-20 h-16 rounded-lg object-cover">
+                @endif
                 <div>
                     <div>
                         <h1 class="font-bold text-lg">

@@ -116,8 +116,13 @@
                         <!-- Ảnh -->
                         <div class="overflow-hidden rounded-t-xl">
                             <a href="{{ route('san.show', $field->id) }}">
-                                <img src="{{ asset('storage/' . $field->images->first()->name) }}"
-                                    class="h-48 w-full object-cover transition duration-500 group-hover:scale-110">
+                                @if ($field->images->first())
+                                    <img src="{{ asset('storage/' . $field->images->first()->name) }}"
+                                        class="h-48 w-full object-cover transition duration-500 group-hover:scale-110">
+                                @else
+                                    <img src="{{ asset('images/banner-client-placeholder.jpg') }}"
+                                        class="w-full h-full object-cover">
+                                @endif
                             </a>
                         </div>
 
@@ -176,5 +181,5 @@
             Đăng ký miễn phí
         </a>
     </section>
-@vite('resources/js/province.js')
+    @vite('resources/js/province.js')
 @endsection
