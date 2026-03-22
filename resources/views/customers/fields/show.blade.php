@@ -186,7 +186,8 @@
                     <!-- Chọn ngày -->
                     <form method="GET" action="{{ route('san.show', $field->id) }}">
                         <input type="date" name="date" value="{{ $date }}" onchange="this.form.submit()"
-                            class="border rounded-lg p-3 w-full mb-6" min="{{ date('Y-m-d') }}">
+                            class="border border-gray-300 rounded-lg p-3 w-full mb-6 focus:outline-none focus:ring-1 focus:ring-green-400"
+                            min="{{ date('Y-m-d') }}">
                     </form>
                     <!-- Ngày đang chọn -->
                     @php
@@ -307,6 +308,12 @@
             </div>
         </div>
     </div>
+
+    {{-- <a href="#" class="time-slot flex items-center justify-between bg-gray-100 px-3 py-1 rounded-full text-sm hover:bg-green-200 transition"
+        data-time-id="{{ $price->time_id }}"
+        data-time="{{ \Carbon\Carbon::parse($price->TimeSlot->startTime)->format('H:i') }} - {{ \Carbon\Carbon::parse($price->TimeSlot->endTime)->format('H:i') }}"
+        data-price="{{ $price->price }}">
+    </a> --}}
     <script>
         document.querySelectorAll('.time-slot').forEach(slot => {
             slot.addEventListener('click', function(e) {
@@ -320,7 +327,7 @@
 
                 let time = this.dataset.time
                 let price = this.dataset.price
-                let timeId = this.dataset.timeId // sửa ở đây
+                let timeId = this.dataset.timeId
 
                 document.getElementById('selectedTime').value = time
 

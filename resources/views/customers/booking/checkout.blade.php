@@ -73,7 +73,7 @@
                             </label>
                             <input type="text" name="contactName" placeholder="Nhập họ và tên"
                                 value="{{ old('contactName', auth()->user()->name ?? '') }}"
-                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400 @error('contactName') border-red-500 @enderror">
+                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400">
                             @error('contactName')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
@@ -85,7 +85,7 @@
                             </label>
                             <input type="text" name="contactPhone" placeholder="Nhập số điện thoại"
                                 value="{{ old('contactPhone', auth()->user()->customers->phoneNumber ?? '') }}"
-                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400 @error('contactPhone') border-red-500 @enderror">
+                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400">
                             @error('contactPhone')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
@@ -97,7 +97,7 @@
                             </label>
                             <input type="email" name="contactEmail" placeholder="Nhập email"
                                 value="{{ old('contactEmail', auth()->user()->email ?? '') }}"
-                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400 @error('contactEmail') border-red-500 @enderror">
+                                class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400">
                             @error('contactEmail')
                                 <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
                             @enderror
