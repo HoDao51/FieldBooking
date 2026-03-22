@@ -1,10 +1,10 @@
 @extends('customers.layouts.app')
 
 @section('content')
-    <div class="max-w-3xl mx-auto pb-12 pt-6">
+    <div class="max-w-3xl mx-auto pb-12 pt-4">
         <div class="text-center mb-2">
             <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-14 h-14 text-green-600" viewBox="0 0 16 16">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-green-600" viewBox="0 0 16 16">
                     <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
                         <path
                             d="m14.25 8.75c-.5 2.5-2.3849 4.85363-5.03069 5.37991-2.64578.5263-5.33066-.7044-6.65903-3.0523-1.32837-2.34784-1.00043-5.28307.81336-7.27989 1.81379-1.99683 4.87636-2.54771 7.37636-1.54771" />
@@ -23,12 +23,12 @@
         </div>
 
 
-        <div class="bg-white rounded-xl shadow p-6 max-w-xl mx-auto">
-            <div class="flex gap-4 mb-6">
+        <div class="bg-white rounded-xl shadow p-4 max-w-xl mx-auto">
+            <div class="flex gap-4 mb-4">
 
                 @if ($booking->Fields->images->first())
                     <img src="{{ asset('storage/' . $booking->fields->images->first()->name) }}"
-                        class="w-20 h-16 rounded-lg object-cover">
+                        class="w-24 h-20 rounded-lg object-cover">
                 @else
                     <img src="{{ asset('images/banner-client-placeholder.jpg') }}"
                         class="w-20 h-16 rounded-lg object-cover">
@@ -125,7 +125,8 @@
         </div>
 
         <div class="text-center mt-6">
-            <a href="{{ route('san.index') }}" class="bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700">
+            <a href="{{ route('san.index') }}" 
+                class="bg-green-600 font-medium text-white px-6 py-3 rounded-lg hover:bg-green-700">
                 Quay về trang chủ
             </a>
         </div>
