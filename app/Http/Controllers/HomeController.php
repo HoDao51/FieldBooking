@@ -26,9 +26,7 @@ class HomeController extends Controller
             });
         }
 
-        $fields = $query->latest()
-            ->take(6)
-            ->get();
+        $fields = $query->orderBy('id', 'desc')->paginate(6)->withQueryString();
 
         $types = FieldType::all();
 
@@ -45,13 +43,13 @@ class HomeController extends Controller
         $query = Field::with(['images', 'fieldType'])
             ->where('status', 0);
 
-        // search theo tên + địa chỉ
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', '%' . $search . '%')
                     ->orWhere('address', 'like', '%' . $search . '%');
             });
         }
+
         // lọc theo địa chỉ
         if ($request->province) {
             $province = str_replace(['Thành phố ', 'Tỉnh '], '', $request->province);

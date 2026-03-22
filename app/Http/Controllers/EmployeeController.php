@@ -19,19 +19,17 @@ class EmployeeController extends Controller
      */
     public function index(Request $request)
     {
-        // Lấy từ khóa tìm kiếm từ request
         $search = $request->get('search');
-        // Query cơ bản
+
         $query = Employee::query();
-        // Áp dụng tìm kiếm nếu có từ khóa
+
         if ($search) {
             $query->where('name', 'like', '%' . $search . '%')
                 ->orWhere('email', 'like', '%' . $search . '%');
         }
-        // Phân trang
-        $nhanVien = $query->orderBy('status', 'asc')->orderBy('role', 'asc')->orderBy('id', 'desc')->paginate(5)->withQueryString();
+        
+        $nhanVien = $query->orderBy('status', 'asc')->orderBy('role', 'asc')->orderBy('id', 'desc')->paginate(4)->withQueryString();
 
-        // Trả về view với dữ liệu phân trang và từ khóa search
         return view('admins.employee.index', compact('nhanVien', 'search'));
     }
 

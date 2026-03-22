@@ -18,19 +18,17 @@ class CustomerController extends Controller
      */
     public function index(Request $request)
     {
-        // Lấy từ khóa tìm kiếm từ request
         $search = $request->get('search');
-        // Query cơ bản
+
         $query = Customer::query();
-        // Áp dụng tìm kiếm nếu có từ khóa
+
         if ($search) {
             $query->where('name', 'like', '%' . $search . '%')
                 ->orWhere('email', 'like', '%' . $search . '%');
         }
-        // Phân trang
-        $khachHang = $query->orderBy('status', 'asc')->orderBy('id', 'desc')->paginate(5)->withQueryString();
 
-        // Trả về view với dữ liệu phân trang và từ khóa search
+        $khachHang = $query->orderBy('status', 'asc')->orderBy('id', 'desc')->paginate(4)->withQueryString();
+
         return view('admins.customer.index', compact('khachHang', 'search'));
     }
 

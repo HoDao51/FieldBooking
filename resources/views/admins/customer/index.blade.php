@@ -20,7 +20,7 @@
             </p>
         </div>
 
-        <div class="flex justify-between items-center mb-4">
+        <div class="flex justify-between items-center mb-2">
             <!-- Search -->
             <form method="GET" action="{{ route('khachHang.index') }}" class="flex items-center space-x-2 mb-2">
                 <!-- Thanh tìm kiếm -->
@@ -57,11 +57,11 @@
             <table class="min-w-full text-sm">
                 <thead class="bg-gray-200 text-gray-800 uppercase text-xs">
                     <tr>
-                        <th class="px-6 py-3 text-left">Người dùng</th>
-                        <th class="px-6 py-3 text-center">Số điện thoại</th>
-                        <th class="px-6 py-3 text-center">Trạng thái</th>
-                        <th class="px-6 py-3 text-center">Ngày tạo</th>
-                        <th class="px-6 py-3 text-center">Thao tác</th>
+                        <th class="px-6 py-2 text-left">Người dùng</th>
+                        <th class="px-6 py-2 text-center">Số điện thoại</th>
+                        <th class="px-6 py-2 text-center">Trạng thái</th>
+                        <th class="px-6 py-2 text-center">Ngày tạo</th>
+                        <th class="px-6 py-2 text-center">Thao tác</th>
                     </tr>
                 </thead>
 
@@ -193,7 +193,7 @@
         </div>
 
         @if ($khachHang->hasPages())
-            <div class="flex justify-center items-center gap-2 mt-6">
+            <div class="flex justify-center items-center gap-2 mt-4">
                 @for ($i = 1; $i <= $khachHang->lastPage(); $i++)
                     @if ($i == $khachHang->currentPage())
                         <span class="px-4 py-2 bg-green-600 text-white rounded">

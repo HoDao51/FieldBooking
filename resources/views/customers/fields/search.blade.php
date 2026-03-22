@@ -65,12 +65,9 @@
                                 </div>
                             </div>
 
-                            <div class="flex justify-between mt-4">
-                                <span class="text-yellow-500">
-                                    ⭐⭐⭐⭐⭐
-                                </span>
+                            <div class="mt-4">
                                 <a href="{{ route('san.show', $field->id) }}"
-                                    class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
+                                    class="text-center font-medium block w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
                                     Đặt ngay
                                 </a>
                             </div>

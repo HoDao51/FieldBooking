@@ -89,86 +89,93 @@
                             fn($p) => \Carbon\Carbon::parse($p->TimeSlot->startTime)->hour >= 18,
                         );
                     @endphp
-                    <!-- SÁNG -->
-                    @if ($morning->count())
-                        <span class=" gap-2 uppercase items-center flex font-semibold text-gray-700 mt-4 mb-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-yellow-500" viewBox="0 0 48 48">
-                                <path fill="currentColor" stroke="currentColor" stroke-width="4"
-                                    d="M24 33a9 9 0 1 0 0-18a9 9 0 0 0 0 18Z" />
-                            </svg>
-                            <span class="text-gray-500 text-sm">
-                                Buổi sáng
+                    @if ($morning->count() == 0 && $afternoon->count() == 0 && $evening->count() == 0)
+                        <p class="font-semibold text-gray-700 ml-5 italic">Đang cập nhật...</p>
+                    @else
+                        <!-- SÁNG -->
+                        @if ($morning->count())
+                            <span class=" gap-2 uppercase items-center flex font-semibold text-gray-700 mt-4 mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-yellow-500" viewBox="0 0 48 48">
+                                    <path fill="currentColor" stroke="currentColor" stroke-width="4"
+                                        d="M24 33a9 9 0 1 0 0-18a9 9 0 0 0 0 18Z" />
+                                </svg>
+                                <span class="text-gray-500 text-sm">
+                                    Buổi sáng
+                                </span>
                             </span>
-                        </span>
-                        <div class="grid grid-cols-3 gap-2">
-                            @foreach ($morning as $price)
-                                <div class="flex items-center justify-between bg-gray-100 px-3 py-1 rounded-full text-sm">
-                                    <span class="text-gray-500">
-                                        {{ \Carbon\Carbon::parse($price->TimeSlot->startTime)->format('H:i') }}
-                                        -
-                                        {{ \Carbon\Carbon::parse($price->TimeSlot->endTime)->format('H:i') }}
-                                    </span>
+                            <div class="grid grid-cols-3 gap-2">
+                                @foreach ($morning as $price)
+                                    <div
+                                        class="flex items-center justify-between bg-gray-100 px-3 py-1 rounded-full text-sm">
+                                        <span class="text-gray-500">
+                                            {{ \Carbon\Carbon::parse($price->TimeSlot->startTime)->format('H:i') }}
+                                            -
+                                            {{ \Carbon\Carbon::parse($price->TimeSlot->endTime)->format('H:i') }}
+                                        </span>
 
-                                    <span class="text-green-600 font-semibold">
-                                        {{ number_format($price->price, 0, ',', '.') }}đ
-                                    </span>
-                                </div>
-                            @endforeach
-                        </div>
-                    @endif
-                    <!-- CHIỀU -->
-                    @if ($afternoon->count())
-                        <span class="gap-2 uppercase items-center flex font-semibold text-gray-700 mt-6 mb-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-orange-500" viewBox="0 0 48 48">
-                                <path fill="currentColor" stroke="currentColor" stroke-width="4"
-                                    d="M24 33a9 9 0 1 0 0-18a9 9 0 0 0 0 18Z" />
-                            </svg>
-                            <span class="text-gray-500 text-sm">
-                                Buổi chiều
+                                        <span class="text-green-600 font-semibold">
+                                            {{ number_format($price->price, 0, ',', '.') }}đ
+                                        </span>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
+                        <!-- CHIỀU -->
+                        @if ($afternoon->count())
+                            <span class="gap-2 uppercase items-center flex font-semibold text-gray-700 mt-6 mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-orange-500" viewBox="0 0 48 48">
+                                    <path fill="currentColor" stroke="currentColor" stroke-width="4"
+                                        d="M24 33a9 9 0 1 0 0-18a9 9 0 0 0 0 18Z" />
+                                </svg>
+                                <span class="text-gray-500 text-sm">
+                                    Buổi chiều
+                                </span>
                             </span>
-                        </span>
-                        <div class="grid grid-cols-3 gap-2">
-                            @foreach ($afternoon as $price)
-                                <div class="flex items-center justify-between bg-gray-100 px-3 py-1 rounded-full text-sm">
-                                    <span class="text-gray-500">
-                                        {{ \Carbon\Carbon::parse($price->TimeSlot->startTime)->format('H:i') }}
-                                        -
-                                        {{ \Carbon\Carbon::parse($price->TimeSlot->endTime)->format('H:i') }}
-                                    </span>
+                            <div class="grid grid-cols-3 gap-2">
+                                @foreach ($afternoon as $price)
+                                    <div
+                                        class="flex items-center justify-between bg-gray-100 px-3 py-1 rounded-full text-sm">
+                                        <span class="text-gray-500">
+                                            {{ \Carbon\Carbon::parse($price->TimeSlot->startTime)->format('H:i') }}
+                                            -
+                                            {{ \Carbon\Carbon::parse($price->TimeSlot->endTime)->format('H:i') }}
+                                        </span>
 
-                                    <span class="text-green-600 font-semibold">
-                                        {{ number_format($price->price, 0, ',', '.') }}đ
-                                    </span>
-                                </div>
-                            @endforeach
-                        </div>
-                    @endif
-                    <!-- TỐI -->
-                    @if ($evening->count())
-                        <span class="gap-2 uppercase items-center flex font-semibold text-gray-700 mt-6 mb-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-500" viewBox="0 0 48 48">
-                                <path fill="currentColor" stroke="currentColor" stroke-width="4"
-                                    d="M24 33a9 9 0 1 0 0-18a9 9 0 0 0 0 18Z" />
-                            </svg>
-                            <span class="text-gray-500 text-sm">
-                                Buổi tối
+                                        <span class="text-green-600 font-semibold">
+                                            {{ number_format($price->price, 0, ',', '.') }}đ
+                                        </span>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
+                        <!-- TỐI -->
+                        @if ($evening->count())
+                            <span class="gap-2 uppercase items-center flex font-semibold text-gray-700 mt-6 mb-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-500" viewBox="0 0 48 48">
+                                    <path fill="currentColor" stroke="currentColor" stroke-width="4"
+                                        d="M24 33a9 9 0 1 0 0-18a9 9 0 0 0 0 18Z" />
+                                </svg>
+                                <span class="text-gray-500 text-sm">
+                                    Buổi tối
+                                </span>
                             </span>
-                        </span>
-                        <div class="grid grid-cols-3 gap-2">
-                            @foreach ($evening as $price)
-                                <div class="flex items-center justify-between bg-gray-100 px-3 py-1 rounded-full text-sm">
-                                    <span class="text-gray-500">
-                                        {{ \Carbon\Carbon::parse($price->TimeSlot->startTime)->format('H:i') }}
-                                        -
-                                        {{ \Carbon\Carbon::parse($price->TimeSlot->endTime)->format('H:i') }}
-                                    </span>
+                            <div class="grid grid-cols-3 gap-2">
+                                @foreach ($evening as $price)
+                                    <div
+                                        class="flex items-center justify-between bg-gray-100 px-3 py-1 rounded-full text-sm">
+                                        <span class="text-gray-500">
+                                            {{ \Carbon\Carbon::parse($price->TimeSlot->startTime)->format('H:i') }}
+                                            -
+                                            {{ \Carbon\Carbon::parse($price->TimeSlot->endTime)->format('H:i') }}
+                                        </span>
 
-                                    <span class="text-green-600 font-semibold">
-                                        {{ number_format($price->price, 0, ',', '.') }}đ
-                                    </span>
-                                </div>
-                            @endforeach
-                        </div>
+                                        <span class="text-green-600 font-semibold">
+                                            {{ number_format($price->price, 0, ',', '.') }}đ
+                                        </span>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
                     @endif
                 </div>
                 <!-- Chọn lịch -->
@@ -184,45 +191,52 @@
                     <!-- Ngày đang chọn -->
                     @php
                         \Carbon\Carbon::setLocale('vi');
+                        $availableSlots = collect($timeSlots)->filter(function ($slot) use ($bookedSlots) {
+                            return !in_array($slot->id, $bookedSlots);
+                        });
                     @endphp
                     <p class="text-sm text-gray-500 mb-3">
                         Khung giờ khả dụng -
                         {{ \Carbon\Carbon::parse($date)->translatedFormat('l d/m') }}
                     </p>
-                    <div class="flex flex-wrap gap-3 mt-3">
-                        @foreach ($timeSlots as $slot)
-                            @php
-                                $isBooked = in_array($slot->id, $bookedSlots);
-                            @endphp
-                            @if ($isBooked)
-                                <!-- ĐÃ ĐẶT -->
-                                <div
-                                    class="px-4 py-2 rounded-lg bg-gray-200 font-semibold text-gray-400 text-sm cursor-not-allowed">
+                    @if ($availableSlots->isEmpty())
+                        <p class="text-gray-500 text-sm ml-5 italic">Đang cập nhật...</p>
+                    @else
+                        <div class="flex flex-wrap gap-3 mt-3">
+                            @foreach ($timeSlots as $slot)
+                                @php
+                                    $isBooked = in_array($slot->id, $bookedSlots);
+                                @endphp
+                                @if ($isBooked)
+                                    <!-- ĐÃ ĐẶT -->
+                                    <div
+                                        class="px-4 py-2 rounded-lg bg-gray-200 font-semibold text-gray-400 text-sm cursor-not-allowed">
 
-                                    {{ \Carbon\Carbon::parse($slot->startTime)->format('H:i') }}
-                                    -
-                                    {{ \Carbon\Carbon::parse($slot->endTime)->format('H:i') }}
+                                        {{ \Carbon\Carbon::parse($slot->startTime)->format('H:i') }}
+                                        -
+                                        {{ \Carbon\Carbon::parse($slot->endTime)->format('H:i') }}
 
-                                    <div class="text-xs text-center">
-                                        Đã đặt
+                                        <div class="text-xs text-center">
+                                            Đã đặt
+                                        </div>
                                     </div>
-                                </div>
-                            @else
-                                <!-- CÓ THỂ ĐẶT -->
-                                <a href="#"
-                                    class="time-slot px-4 py-2 rounded-lg text-green-600 bg-green-200 font-semibold hover:bg-green-600 hover:text-white text-sm transition"
-                                    data-time-id="{{ $slot->id }}"
-                                    data-time="{{ \Carbon\Carbon::parse($slot->startTime)->format('H:i') }} - {{ \Carbon\Carbon::parse($slot->endTime)->format('H:i') }}"
-                                    data-price="{{ $prices->firstWhere('time_id', $slot->id)->price ?? 0 }}">
+                                @else
+                                    <!-- CÓ THỂ ĐẶT -->
+                                    <a href="#"
+                                        class="time-slot px-4 py-2 rounded-lg text-green-600 bg-green-200 font-semibold hover:bg-green-600 hover:text-white text-sm transition"
+                                        data-time-id="{{ $slot->id }}"
+                                        data-time="{{ \Carbon\Carbon::parse($slot->startTime)->format('H:i') }} - {{ \Carbon\Carbon::parse($slot->endTime)->format('H:i') }}"
+                                        data-price="{{ $prices->firstWhere('time_id', $slot->id)->price ?? 0 }}">
 
-                                    {{ \Carbon\Carbon::parse($slot->startTime)->format('H:i') }}
-                                    -
-                                    {{ \Carbon\Carbon::parse($slot->endTime)->format('H:i') }}
+                                        {{ \Carbon\Carbon::parse($slot->startTime)->format('H:i') }}
+                                        -
+                                        {{ \Carbon\Carbon::parse($slot->endTime)->format('H:i') }}
 
-                                </a>
-                            @endif
-                        @endforeach
-                    </div>
+                                    </a>
+                                @endif
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
             </div>
 

@@ -96,7 +96,7 @@
     </section>
 
     <!-- sân nối bật -->
-    <section class="py-16">
+    <section class="py-8">
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex justify-between items-center mb-8">
                 <div>
@@ -110,8 +110,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 @foreach ($fields as $field)
-                    <div
-                        class="bg-white rounded-xl shadow hover:shadow-xl hover:-translate-y-1 
+                    <div class="bg-white rounded-xl shadow hover:shadow-xl hover:-translate-y-1 
                                 transition duration-300 ease-in-out group">
                         <!-- Ảnh -->
                         <div class="overflow-hidden rounded-t-xl">
@@ -158,12 +157,9 @@
                                 </div>
                             </div>
 
-                            <div class="flex justify-between mt-4">
-                                <span class="text-yellow-500">
-                                    ⭐⭐⭐⭐⭐
-                                </span>
+                            <div class="mt-4">
                                 <a href="{{ route('san.show', $field->id) }}"
-                                    class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
+                                    class="text-center font-medium block w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
                                     Đặt ngay
                                 </a>
                             </div>
@@ -171,6 +167,23 @@
                     </div>
                 @endforeach
             </div>
+            @if ($fields->hasPages())
+                <div class="flex justify-center items-center gap-2 mt-4">
+                    {{-- Page Numbers --}}
+                    @for ($i = 1; $i <= $fields->lastPage(); $i++)
+                        @if ($i == $fields->currentPage())
+                            <span class="px-4 py-2 bg-green-600 text-white rounded">
+                                {{ $i }}
+                            </span>
+                        @else
+                            <a href="{{ $fields->url($i) }}"
+                                class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-green-500 hover:text-white transition">
+                                {{ $i }}
+                            </a>
+                        @endif
+                    @endfor
+                </div>
+            @endif
         </div>
     </section>
 
