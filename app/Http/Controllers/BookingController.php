@@ -36,7 +36,7 @@ class BookingController extends Controller
         $booking = $query
             ->orderBy('status', 'asc')
             ->orderBy('id', 'desc')
-            ->paginate(5)
+            ->paginate(4)
             ->withQueryString();
 
         return view('admins.order.index', compact('search', 'booking'));

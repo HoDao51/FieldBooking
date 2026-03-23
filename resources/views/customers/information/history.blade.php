@@ -99,8 +99,9 @@
                                 </td>
 
                                 <!-- Tổng tiền -->
-                                <td class="px-6 py-4 text-center font-semibold text-green-600">
-                                    {{ number_format($item->totalPrice) }}đ
+                                <td class="px-6 py-4 text-center ">
+                                    <p class="font-semibold text-green-600">{{ number_format($item->totalPrice) }}đ</p>
+                                    <p class="italic">({{ $item->PaymentMethod->name }})</p>
                                 </td>
 
                                 <!-- Trạng thái -->
@@ -142,6 +143,23 @@
                     </tbody>
                 </table>
             </div>
+            @if ($booking->hasPages())
+                <div class="flex justify-center items-center gap-2">
+                    {{-- Page Numbers --}}
+                    @for ($i = 1; $i <= $booking->lastPage(); $i++)
+                        @if ($i == $booking->currentPage())
+                            <span class="px-4 py-2 bg-green-600 text-white rounded">
+                                {{ $i }}
+                            </span>
+                        @else
+                            <a href="{{ $booking->url($i) }}"
+                                class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-green-500 hover:text-white transition">
+                                {{ $i }}
+                            </a>
+                        @endif
+                    @endfor
+                </div>
+            @endif
         </div>
     </div>
 @endsection

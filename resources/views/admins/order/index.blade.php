@@ -87,8 +87,9 @@
                             </td>
 
                             <!-- Tổng tiền -->
-                            <td class="text-center font-semibold text-green-600">
-                                {{ number_format($item->totalPrice) }}đ
+                            <td class="text-center ">
+                                <p class="font-semibold text-green-600">{{ number_format($item->totalPrice) }}đ</p>
+                                <p class="italic">({{$item->PaymentMethod->name}})</p>
                             </td>
 
                             <!-- Trạng thái -->

@@ -21,7 +21,7 @@ class DashboardController extends Controller
         $booking = $query
             ->orderBy('status', 'asc')
             ->orderBy('id', 'desc')
-            ->paginate(5)
+            ->paginate(3)
             ->withQueryString();
 
         return view('admins.dashboard.index', compact('booking', 'customers', 'fields', 'bookings', 'revenue'));
