@@ -53,7 +53,7 @@ class Information extends Controller
         $query = Booking::with(['Fields', 'TimeSlot', 'PaymentMethod']);
 
         $booking = $query
-            ->orderBy('status', 'asc')
+            ->orderByRaw("FIELD(status, 1, 0, 2, 3, 4)")
             ->orderBy('id', 'desc')
             ->paginate(5)
             ->withQueryString();

@@ -149,7 +149,7 @@
                                         @elseif ($item->status == 1)
                                             <span
                                                 class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
-                                                Đã xác nhận
+                                                Chờ thanh toán
                                             </span>
                                         @elseif ($item->status == 2)
                                             <span

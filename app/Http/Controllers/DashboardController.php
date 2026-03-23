@@ -16,10 +16,10 @@ class DashboardController extends Controller
         $customers = Customer::count();
         $fields = Field::count();
         $bookings = Booking::count();
-        $revenue = Booking::where('status', 3)->sum('totalPrice');
+        $revenue = Booking::where('status', 2)->sum('totalPrice');
 
         $booking = $query
-            ->orderBy('status', 'asc')
+            ->orderByRaw("FIELD(status, 1, 0, 2, 3, 4)")
             ->orderBy('id', 'desc')
             ->paginate(3)
             ->withQueryString();

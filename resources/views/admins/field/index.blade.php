@@ -121,7 +121,7 @@
                                             type_id: "{{ $item->type_id }}",
                                             images: @json($item->images)
                                         }
-                                    })'
+                                '
                                     class="bg-[#10B981] text-white font-semibold px-2 py-2 rounded hover:bg-[#1D8F6A]">
                                     Sửa
                                 </button>

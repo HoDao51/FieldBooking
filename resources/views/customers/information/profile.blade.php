@@ -1,7 +1,7 @@
 @extends('customers.layouts.app')
 
 @section('content')
-    <div class="flex items-start max-w-6xl mx-auto mt-10 mb-10 gap-6 ">
+    <div class="flex items-start max-w-6xl mx-auto mt-5 mb-10 gap-6 ">
         <!-- Sidebar -->
         <div class="w-64 bg-white rounded-xl shadow p-6 text-center flex flex-col">
             <div

@@ -1,7 +1,7 @@
 @extends('customers.layouts.app')
 
 @section('content')
-    <div class="flex items-start max-w-6xl mx-auto mt-10 mb-10 gap-6 ">
+    <div class="flex items-start max-w-6xl mx-auto mt-5 mb-10 gap-6 ">
         <!-- Sidebar -->
         <div class="w-64 bg-white rounded-xl shadow p-6 text-center flex flex-col">
             <div
@@ -114,7 +114,7 @@
                                     @elseif ($item->status == 1)
                                         <span
                                             class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
-                                            Đã xác nhận
+                                            Chờ thanh toán
                                         </span>
                                     @elseif ($item->status == 2)
                                         <span
