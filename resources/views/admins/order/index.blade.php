@@ -32,7 +32,7 @@
                         class="bg-[#F2F2F2] pl-10 pr-3 py-2 rounded w-full d-lg focus:ring-2 focus:ring-green-400 outline-none">
                 </div>
                 <!-- Nút tìm kiếm -->
-                <button type="submit" class="bg-[#D9D9D9] text-gray-800 px-4 py-2 rounded hover:bg-gray-400 transition">
+                <button type="submit" class="bg-[#D9D9D9] text-gray-800 px-4 py-2 rounded hover:bg-gray-400 transition whitespace-nowrap">
                     Tìm kiếm
                 </button>
             </form>
@@ -74,12 +74,14 @@
 
                             <!-- ngày đặt -->
                             <td class="text-center">
-                                {{ $item->created_at->format('d-m-Y') }}
+                                <span class="whitespace-nowrap">
+                                    {{ $item->created_at->format('d-m-Y') }}
+                                </span>
                             </td>
 
                             <!-- Khung giờ -->
                             <td class="text-center">
-                                <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm w-fit">
+                                <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm whitespace-nowrap">
                                     {{ \Carbon\Carbon::parse($item->timeSlot->startTime)->format('H:i') }}
                                     -
                                     {{ \Carbon\Carbon::parse($item->timeSlot->endTime)->format('H:i') }}
@@ -89,11 +91,11 @@
                             <!-- Tổng tiền -->
                             <td class="text-center ">
                                 <p class="font-semibold text-green-600">{{ number_format($item->totalPrice) }}đ</p>
-                                <p class="italic">({{$item->PaymentMethod->name}})</p>
+                                <p class="italic">({{ $item->PaymentMethod->name }})</p>
                             </td>
 
                             <!-- Trạng thái -->
-                            <td class="text-center">
+                            <td class="text-center whitespace-nowrap">
                                 @if ($item->status == 0)
                                     <span
                                         class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-semibold">
@@ -118,7 +120,7 @@
                                 @endif
                             </td>
 
-                            <td class="border text-center px-2">
+                            <td class="border text-center px-2 whitespace-nowrap">
 
                                 @if ($item->status == 0)
                                     <!-- Xác nhận -->

@@ -17,7 +17,7 @@
                 Đặt sân thành công!
             </h1>
 
-            <p class="text-gray-500">
+            <p class="text-gray-600">
                 Đơn đặt sân của bạn đã được xác nhận.
             </p>
         </div>
@@ -34,22 +34,18 @@
                         class="w-20 h-16 rounded-lg object-cover">
                 @endif
                 <div>
-                    <div>
-                        <h1 class="font-bold text-lg">
-                            {{ $booking->fields->name }}
-                        </h1>
-                        <p class="text-gray-500 text-sm">
-                        <div class="flex items-start gap-1 text-gray-500 text-sm">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-600 mt-0.5 shrink-0"
-                                viewBox="0 0 256 256" stroke="currentColor" stroke-width="3">
-                                <path fill="currentColor"
-                                    d="M128 66a38 38 0 1 0 38 38a38 38 0 0 0-38-38m0 64a26 26 0 1 1 26-26a26 26 0 0 1-26 26m0-112a86.1 86.1 0 0 0-86 86c0 30.91 14.34 63.74 41.47 94.94a252.3 252.3 0 0 0 41.09 38a6 6 0 0 0 6.88 0a252.3 252.3 0 0 0 41.09-38c27.13-31.2 41.47-64 41.47-94.94a86.1 86.1 0 0 0-86-86m0 206.51C113 212.93 54 163.62 54 104a74 74 0 0 1 148 0c0 59.62-59 108.93-74 120.51" />
-                            </svg>
-                            <span>{{ $booking->fields->address }}</span>
-                        </div>
-                        </p>
+                    <h1 class="font-bold text-lg">
+                        {{ $booking->fields->name }}
+                    </h1>
+                    <div class="flex items-start gap-1 text-gray-500 text-sm my-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-600 mt-0.5 shrink-0"
+                            viewBox="0 0 256 256" stroke="currentColor" stroke-width="3">
+                            <path fill="currentColor"
+                                d="M128 66a38 38 0 1 0 38 38a38 38 0 0 0-38-38m0 64a26 26 0 1 1 26-26a26 26 0 0 1-26 26m0-112a86.1 86.1 0 0 0-86 86c0 30.91 14.34 63.74 41.47 94.94a252.3 252.3 0 0 0 41.09 38a6 6 0 0 0 6.88 0a252.3 252.3 0 0 0 41.09-38c27.13-31.2 41.47-64 41.47-94.94a86.1 86.1 0 0 0-86-86m0 206.51C113 212.93 54 163.62 54 104a74 74 0 0 1 148 0c0 59.62-59 108.93-74 120.51" />
+                        </svg>
+                        <span>{{ $booking->fields->address }}</span>
                     </div>
-                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">
+                    <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm mt-2">
                         {{ $booking->fields->fieldType->name }}
                     </span>
                 </div>
@@ -115,7 +111,6 @@
                 </div>
             </div>
 
-
             <div class="border-t mt-6 pt-4 flex justify-between font-semibold">
                 <span class="text-lg">Tổng tiền: </span>
                 <span class="text-green-600 text-2xl font-bold">
@@ -124,12 +119,15 @@
             </div>
         </div>
 
-        <div class="text-center mt-6">
-            <a href="{{ route('san.index') }}" 
-                class="bg-green-600 font-medium text-white px-6 py-3 rounded-lg hover:bg-green-700">
+        <div class="flex justify-center gap-4 mt-6">
+            <a href="{{ route('san.index') }}"
+                class="bg-gray-600 font-medium text-white px-6 py-3 rounded-lg hover:bg-gray-700">
                 Quay về trang chủ
             </a>
+            <a href="{{ route('information.history') }}"
+                class="bg-green-600 font-medium text-white px-6 py-3 rounded-lg hover:bg-green-700">
+                Xem lịch sử đặt sân
+            </a>
         </div>
-
     </div>
 @endsection

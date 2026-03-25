@@ -28,16 +28,16 @@
                             <h1 class="text-2xl font-bold">
                                 {{ $field->name }}
                             </h1>
-                            <p class="text-gray-500 mt-1 flex items-start gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-green-600 mt-0.5 shrink-0"
+                            <div class="flex items-center gap-2 text-gray-500">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-green-600 shrink-0"
                                     viewBox="0 0 256 256" stroke="currentColor" stroke-width="3">
                                     <path fill="currentColor"
                                         d="M128 66a38 38 0 1 0 38 38a38 38 0 0 0-38-38m0 64a26 26 0 1 1 26-26a26 26 0 0 1-26 26m0-112a86.1 86.1 0 0 0-86 86c0 30.91 14.34 63.74 41.47 94.94a252.3 252.3 0 0 0 41.09 38a6 6 0 0 0 6.88 0a252.3 252.3 0 0 0 41.09-38c27.13-31.2 41.47-64 41.47-94.94a86.1 86.1 0 0 0-86-86m0 206.51C113 212.93 54 163.62 54 104a74 74 0 0 1 148 0c0 59.62-59 108.93-74 120.51" />
                                 </svg>
-                                {{ $field->address }}
-                            </p>
+                                <span> {{ $field->address }} </span>
+                            </div>
                         </div>
-                        <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">
+                        <span class="bg-green-100 font-medium text-green-600 px-3 py-1 rounded-full text-sm">
                             {{ $field->fieldType->name }}
                         </span>
                     </div>
@@ -131,20 +131,21 @@
                                     </div>
                                 @else
                                     <a href="#"
-                                        class="time-slot block rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm transition hover:text-white hover:bg-green-600"
+                                        class="time-slot block rounded-xl border border-green-200 text-green-600
+                                        bg-green-50 px-4 py-3 text-sm transition hover:text-white hover:bg-green-600"
                                         data-time-id="{{ $price->time_id }}" data-time="{{ $timeLabel }}"
                                         data-price="{{ $price->price }}">
 
                                         <div class="flex items-center justify-between gap-4">
                                             <span class="font-medium">{{ $timeLabel }}</span>
-                                            <span class="whitespace-nowrap font-semibold text-green-900">
+                                            <span class="whitespace-nowrap font-semibold">
                                                 {{ number_format($price->price, 0, ',', '.') }}đ
                                             </span>
                                         </div>
 
                                         <div class="mt-2">
                                             <span
-                                                class="rounded-full bg-green-200 px-2.5 py-1 text-xs font-semibold text-green-700">
+                                                class="rounded-full bg-green-200 px-3 py-1 text-xs font-semibold text-green-700">
                                                 Chưa đặt
                                             </span>
                                         </div>
@@ -185,27 +186,28 @@
                                         </div>
                                         <div class="mt-2">
                                             <span
-                                                class="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-500">
+                                                class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-gray-500">
                                                 Đã đặt
                                             </span>
                                         </div>
                                     </div>
                                 @else
                                     <a href="#"
-                                        class="time-slot block rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm transition hover:text-white hover:bg-green-600"
+                                        class="time-slot block rounded-xl border border-green-200 text-green-600
+                                        bg-green-50 px-4 py-3 text-sm transition hover:text-white hover:bg-green-600"
                                         data-time-id="{{ $price->time_id }}" data-time="{{ $timeLabel }}"
                                         data-price="{{ $price->price }}">
 
                                         <div class="flex items-center justify-between gap-4">
                                             <span class="font-medium">{{ $timeLabel }}</span>
-                                            <span class="whitespace-nowrap font-semibold text-green-900">
+                                            <span class="whitespace-nowrap font-semibold">
                                                 {{ number_format($price->price, 0, ',', '.') }}đ
                                             </span>
                                         </div>
 
                                         <div class="mt-2">
                                             <span
-                                                class="rounded-full bg-green-200 px-2.5 py-1 text-xs font-semibold text-green-700">
+                                                class="rounded-full bg-green-200 px-3 py-1 text-xs font-semibold text-green-700">
                                                 Chưa đặt
                                             </span>
                                         </div>
@@ -254,13 +256,14 @@
                                     </div>
                                 @else
                                     <a href="#"
-                                        class="time-slot block rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm transition hover:text-white hover:bg-green-600"
+                                        class="time-slot block rounded-xl border border-green-200 text-green-600
+                                        bg-green-50 px-4 py-3 text-sm transition hover:text-white hover:bg-green-600"
                                         data-time-id="{{ $price->time_id }}" data-time="{{ $timeLabel }}"
                                         data-price="{{ $price->price }}">
 
                                         <div class="flex items-center justify-between gap-4">
                                             <span class="font-medium">{{ $timeLabel }}</span>
-                                            <span class="whitespace-nowrap font-semibold text-green-900">
+                                            <span class="whitespace-nowrap font-semibold">
                                                 {{ number_format($price->price, 0, ',', '.') }}đ
                                             </span>
                                         </div>
@@ -309,7 +312,7 @@
                         <div>
                             <label class="flex items-center gap-2 text-sm">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
-                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="0.5">
+                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
                                     <path fill="currentColor"
                                         d="M11.5 3a9.5 9.5 0 0 1 9.5 9.5a9.5 9.5 0 0 1-9.5 9.5A9.5 9.5 0 0 1 2 12.5A9.5 9.5 0 0 1 11.5 3m0 1A8.5 8.5 0 0 0 3 12.5a8.5 8.5 0 0 0 8.5 8.5a8.5 8.5 0 0 0 8.5-8.5A8.5 8.5 0 0 0 11.5 4M11 7h1v5.42l4.7 2.71l-.5.87l-5.2-3z" />
                                 </svg>
@@ -337,7 +340,7 @@
                         @endguest
                         @auth
                             <button type="submit"
-                                class="w-full bg-green-600 text-white py-3 rounded-lg mt-4 hover:bg-green-700">
+                                class="w-full font-medium bg-green-600 text-white py-3 rounded-lg mt-4 hover:bg-green-700">
                                 Đặt sân ngay
                             </button>
                         @endauth
@@ -346,30 +349,5 @@
             </div>
         </div>
     </div>
-
-    <script>
-        document.querySelectorAll('.time-slot').forEach(slot => {
-            slot.addEventListener('click', function(e) {
-                e.preventDefault()
-
-                document.querySelectorAll('.time-slot').forEach(s => {
-                    s.classList.remove('ring-2', 'ring-green-500')
-                })
-
-                this.classList.add('ring-2', 'ring-green-500')
-
-                let time = this.dataset.time
-                let price = this.dataset.price
-                let timeId = this.dataset.timeId
-
-                document.getElementById('selectedTime').value = time
-
-                document.getElementById('totalPrice').innerText =
-                    new Intl.NumberFormat('vi-VN').format(price) + 'đ'
-
-                document.getElementById('hiddenPrice').value = price
-                document.getElementById('hiddenTimeId').value = timeId
-            })
-        })
-    </script>
+@vite('resources/js/checkout.js')
 @endsection
