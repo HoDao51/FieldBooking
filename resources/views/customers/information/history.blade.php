@@ -55,7 +55,7 @@
 
 
         <!-- Main Content -->
-        <div class="flex-1 bg-white rounded-xl shadow p-8">
+        <div class="flex-1 bg-white rounded-xl shadow p-5">
 
             <h2 class="text-2xl font-bold mb-6">
                 Lịch sử đặt sân
@@ -80,18 +80,18 @@
                             <tr class="hover:bg-gray-50 transition">
 
                                 <!-- Sân -->
-                                <td class="px-6 py-4 text-center font-medium">
+                                <td class="px-6 py-4 text-center font-medium break-words">
                                     {{ $item->fields->name }}
                                 </td>
 
                                 <!-- ngày đặt -->
-                                <td class="px-6 py-4 text-center">
+                                <td class="px-6 py-4 text-center whitespace-nowrap">
                                     {{ $item->created_at->format('d-m-Y') }}
                                 </td>
 
                                 <!-- Khung giờ -->
                                 <td class="px-6 py-4 text-center">
-                                    <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-xs font-medium">
+                                    <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap">
                                         {{ \Carbon\Carbon::parse($item->timeSlot->startTime)->format('H:i') }}
                                         -
                                         {{ \Carbon\Carbon::parse($item->timeSlot->endTime)->format('H:i') }}
@@ -101,11 +101,11 @@
                                 <!-- Tổng tiền -->
                                 <td class="px-6 py-4 text-center ">
                                     <p class="font-semibold text-green-600">{{ number_format($item->totalPrice) }}đ</p>
-                                    <p class="italic">({{ $item->PaymentMethod->name }})</p>
+                                    <p class="italic break-words">({{ $item->PaymentMethod->name }})</p>
                                 </td>
 
                                 <!-- Trạng thái -->
-                                <td class="px-6 py-4 text-center">
+                                <td class="px-6 py-4 text-center whitespace-nowrap">
                                     @if ($item->status == 0)
                                         <span
                                             class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-semibold">

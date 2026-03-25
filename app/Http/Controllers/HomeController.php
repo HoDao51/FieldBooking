@@ -87,6 +87,7 @@ class HomeController extends Controller
 
         $bookedSlots = Booking::where('field_id', $field->id)
             ->where('bookingDate', $date)
+            ->whereNotIn('status', [3, 4])
             ->pluck('time_id')
             ->toArray();
 

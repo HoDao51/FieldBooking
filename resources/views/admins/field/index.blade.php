@@ -129,7 +129,7 @@
                                 <form action="{{ route('sanBong.destroy', $item->id) }}" method="POST" class="inline-block">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit"
+                                    <button type="submit" onclick="return confirm('Bạn có chắc muốn xóa khung giờ này không?')"
                                         class="bg-[#DC2626] text-white font-semibold px-2 py-2 rounded hover:bg-red-800 ml-2">
                                         Xóa
                                     </button>

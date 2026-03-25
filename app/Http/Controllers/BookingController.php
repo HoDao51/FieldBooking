@@ -64,6 +64,7 @@ class BookingController extends Controller
             $exists = Booking::where('field_id', $request->field_id)
                 ->where('bookingDate', $request->date)
                 ->where('time_id', $request->time_id)
+                ->whereNotIn('status', [3, 4])
                 ->lockForUpdate()
                 ->exists();
 
