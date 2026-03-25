@@ -73,7 +73,11 @@ class HomeController extends Controller
     {
         $field = Field::with(['FieldPrice.TimeSlot'])->findOrFail($id);
 
-        $date = $request->date ?? Carbon::today()->toDateString();
+        if ($request->has('date')) {
+            $date = $request->date;
+        } else {
+            $date = Carbon::today()->toDateString();
+        }
 
         $dayOfWeek = Carbon::parse($date)->dayOfWeekIso;
 
@@ -81,16 +85,32 @@ class HomeController extends Controller
             ->where('day_of_week', $dayOfWeek)
             ->sortBy(fn($p) => $p->TimeSlot->startTime);
 
-        $timeSlots = $prices->map(function ($price) {
-            return $price->TimeSlot;
-        });
-
         $bookedSlots = Booking::where('field_id', $field->id)
             ->where('bookingDate', $date)
             ->whereNotIn('status', [3, 4])
             ->pluck('time_id')
             ->toArray();
 
-        return view('customers.fields.show', compact('field', 'prices', 'date', 'timeSlots', 'bookedSlots'));
+        $morning = $prices->filter(function ($p) {
+            return Carbon::parse($p->TimeSlot->startTime)->hour < 12;
+        });
+
+        $afternoon = $prices->filter(function ($p) {
+            $hour = Carbon::parse($p->TimeSlot->startTime)->hour;
+            return $hour >= 12 && $hour < 18;
+        });
+
+        $evening = $prices->filter(function ($p) {
+            return Carbon::parse($p->TimeSlot->startTime)->hour >= 18;
+        });
+
+        return view('customers.fields.show', compact(
+            'field',
+            'date',
+            'morning',
+            'afternoon',
+            'evening',
+            'bookedSlots'
+        ));
     }
 }
