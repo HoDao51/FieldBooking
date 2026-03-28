@@ -1,4 +1,4 @@
-<aside class="bg-white border-r border-gray-200 text-black p-4 h-full flex flex-col">
+<aside class="bg-white border-r border-gray-200 text-gray-800 p-4 h-full flex flex-col">
     <nav class="flex flex-col space-y-2 flex-1">
         <!-- Trang tổng quan -->
         <a href="{{ route('admins.index') }}"
