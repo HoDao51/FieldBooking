@@ -46,7 +46,7 @@
                 <div class="flex-1 relative border border-gray-200 rounded-md">
                     <input id="email" name="email" type="text" placeholder="Địa chỉ email"
                         value="{{ old('email') }}" autocomplete="off"
-                        class="w-full pl-10 pt-3 pb-3 bg-transparent focus:outline-none focus:ring-1 focus:ring-green-400">
+                        class="w-full pl-10 pt-3 pb-3 bg-transparent rounded-md focus:outline-none focus:ring-1 focus:ring-green-400">
                     <svg class="inline w-5 h-5 absolute top-1/2 -translate-y-1/2 left-3 text-gray-400 pointer-events-none"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor">
@@ -66,7 +66,7 @@
                 <div class="flex-1 relative border border-gray-200 rounded-md">
                     <input id="password" name="password" type="password" placeholder="Mật khẩu"
                         autocomplete="new-password"
-                        class="w-full pl-10 pt-3 pb-3 bg-transparent focus:outline-none focus:ring-1 focus:ring-green-400">
+                        class="w-full pl-10 pt-3 pb-3 bg-transparent rounded-md focus:outline-none focus:ring-1 focus:ring-green-400">
                     <svg class="inline w-5 h-5 absolute top-1/2 -translate-y-1/2 left-3 text-gray-400 pointer-events-none"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor">

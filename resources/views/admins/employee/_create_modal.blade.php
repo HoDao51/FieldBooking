@@ -4,8 +4,13 @@
             <h2 class="text-lg font-semibold text-gray-800">
                 Thêm nhân viên mới
             </h2>
-            <button onclick="closeModal('createModal')" class="text-gray-400 hover:text-gray-700 text-xl">
-                ✕
+            <button onclick="closeModal('createModal')" class="text-red-500 hover:text-red-700 text-xl">
+                <svg y="0" xmlns="http://www.w3.org/2000/svg" x="0" width="100" viewBox="0 0 100 100"
+                    preserveAspectRatio="xMidYMid meet" height="100" class="w-12 h-12 fill-current">
+                    <path fill-rule="evenodd"
+                        d="M50,87.4A37.4,37.4,0,1,0,12.6,50,37.3,37.3,0,0,0,50,87.4ZM44,37.3A4.7,4.7,0,0,0,37.3,44l6.1,6-6.1,6A4.7,4.7,0,0,0,44,62.7l6-6.1,6,6.1A4.7,4.7,0,0,0,62.7,56l-6.1-6,6.1-6A4.7,4.7,0,0,0,56,37.3l-6,6.1Z">
+                    </path>
+                </svg>
             </button>
         </div>
 
