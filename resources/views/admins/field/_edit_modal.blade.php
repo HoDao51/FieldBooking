@@ -14,47 +14,40 @@
             </button>
         </div>
 
-        <form id="editForm" method="POST" enctype="multipart/form-data" class="space-y-1">
+        <form id="editForm" method="POST" enctype="multipart/form-data" class="space-y-3">
             @csrf
             @method('PUT')
-            <!-- Tên sân -->
+
             <div>
                 <label class="block text-lg text-gray-600">Tên sân bóng</label>
                 <input type="text" name="name" id="editName" value="{{ old('name') }}"
-                    class="w-full border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:ring-1 focus:ring-green-400">
-                @error('name')
+                    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400">
+                @error('name', 'edit')
                     <p class="text-red-500 text-lg mt-1">{{ $message }}</p>
                 @enderror
             </div>
 
-            <!-- Địa chỉ -->
             <div>
                 <label class="block text-lg text-gray-600">Địa chỉ</label>
                 <input type="text" name="address" id="editAddress" value="{{ old('address') }}"
-                    class="w-full border border-gray-300 rounded-md px-3 py-1 focus:outline-none focus:ring-1 focus:ring-green-400">
-
-                @error('address')
+                    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400">
+                @error('address', 'edit')
                     <p class="text-red-500 text-lg mt-1">{{ $message }}</p>
                 @enderror
             </div>
 
-            <!-- 2 CỘT -->
             <div class="grid grid-cols-2 gap-4">
-                <!-- Loại sân -->
                 <div>
-                    <label class="block text-lg text-gray-600">
-                        Loại sân
-                    </label>
+                    <label class="block text-lg text-gray-600">Loại sân</label>
                     <div class="relative">
                         <select name="type_id"
-                            class="appearance-none w-full border border-gray-300 rounded-lg px-4 py-1 bg-white focus:outline-none focus:ring-1 focus:ring-green-400">
+                            class="appearance-none w-full border border-gray-300 rounded-lg px-4 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-green-400">
                             @foreach ($fieldTypes as $type)
                                 <option value="{{ $type->id }}">
                                     {{ $type->name }}
                                 </option>
                             @endforeach
                         </select>
-                        <!-- icon mũi tên -->
                         <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-[#4B5563]" viewBox="0 0 16 16">
                                 <path fill="currentColor"
@@ -64,18 +57,14 @@
                     </div>
                 </div>
 
-                <!-- Trạng thái -->
                 <div>
-                    <label class="block text-lg text-gray-600">
-                        Trạng thái
-                    </label>
+                    <label class="block text-lg text-gray-600">Trạng thái</label>
                     <div class="relative">
                         <select name="status"
-                            class="appearance-none w-full border border-gray-300 rounded-lg px-4 py-1 bg-white focus:outline-none focus:ring-1 focus:ring-green-400">
+                            class="appearance-none w-full border border-gray-300 rounded-lg px-4 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-green-400">
                             <option value="0">Hoạt động</option>
                             <option value="1">Ngưng hoạt động</option>
                         </select>
-                        <!-- icon mũi tên -->
                         <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-[#4B5563]" viewBox="0 0 16 16">
                                 <path fill="currentColor"
@@ -84,22 +73,16 @@
                         </div>
                     </div>
                 </div>
-
             </div>
-            <!-- Hình ảnh sân -->
+
             <div>
                 <label class="block text-lg text-gray-600 mb-2">Hình ảnh sân</label>
                 <div class="flex">
-                    <!-- Ảnh hiện tại -->
                     <div id="currentImages" class="flex flex-wrap gap-3 mb-1 mr-3"></div>
-                    <!-- Preview ảnh mới -->
                     <div id="editPreviewContainer" class="flex flex-wrap gap-3 mb-1"></div>
                 </div>
-                <!-- Upload box -->
                 <label
-                    class="flex items-center justify-center gap-2 w-full h-32 border-2 border-dashed border-gray-300 rounded-lg 
-                        cursor-pointer text-gray-500 hover:text-green-600 hover:border-green-500 hover:bg-gray-50 transition">
-
+                    class="flex items-center justify-center gap-2 w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer text-gray-500 hover:text-green-600 hover:border-green-500 hover:bg-gray-50 transition">
                     <div class="flex items-center gap-2 text-sm font-medium">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
                             <path fill="currentColor"

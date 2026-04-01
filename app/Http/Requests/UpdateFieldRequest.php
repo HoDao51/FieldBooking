@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Validation\ValidationException;
 
 class UpdateFieldRequest extends FormRequest
 {
@@ -17,11 +16,6 @@ class UpdateFieldRequest extends FormRequest
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     protected function failedValidation(Validator $validator)
     {
         $response = redirect()
@@ -39,11 +33,12 @@ class UpdateFieldRequest extends FormRequest
             'name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'type_id' => 'required|exists:field_types,id',
-
+            'status' => 'required|in:0,1',
+            'conflict_fields' => 'nullable|array',
+            'conflict_fields.*' => 'exists:fields,id',
             'images' => 'nullable|array|max:3',
             'images.*' => 'image|mimes:jpg,jpeg,png,webp|max:2048',
-
-            'delete_images' => 'nullable|array'
+            'delete_images' => 'nullable|array',
         ];
     }
 
@@ -51,23 +46,22 @@ class UpdateFieldRequest extends FormRequest
     {
         return [
             'name.required' => 'Tên sân không được để trống.',
-            'name.string'   => 'Tên sân phải là chuỗi ký tự.',
-            'name.max'      => 'Tên sân không được vượt quá 255 ký tự.',
-
+            'name.string' => 'Tên sân phải là chuỗi ký tự.',
+            'name.max' => 'Tên sân không được vượt quá 255 ký tự.',
             'address.required' => 'Địa chỉ không được để trống.',
-            'address.string'   => 'Địa chỉ phải là chuỗi ký tự.',
-            'address.max'      => 'Địa chỉ không được vượt quá 255 ký tự.',
-
+            'address.string' => 'Địa chỉ phải là chuỗi ký tự.',
+            'address.max' => 'Địa chỉ không được vượt quá 255 ký tự.',
             'type_id.required' => 'Vui lòng chọn loại sân.',
-            'type_id.exists'   => 'Loại sân không tồn tại trong hệ thống.',
-
+            'type_id.exists' => 'Loại sân không tồn tại trong hệ thống.',
+            'status.required' => 'Vui lòng chọn trạng thái sân.',
+            'status.in' => 'Trạng thái sân không hợp lệ.',
+            'conflict_fields.array' => 'Dữ liệu sân liên kết không hợp lệ.',
+            'conflict_fields.*.exists' => 'Sân liên kết không tồn tại trong hệ thống.',
             'images.array' => 'Dữ liệu ảnh không hợp lệ.',
-            'images.max'   => 'Chỉ được tải lên tối đa 3 ảnh.',
-
+            'images.max' => 'Chỉ được tải lên tối đa 3 ảnh.',
             'images.*.image' => 'File tải lên phải là hình ảnh.',
             'images.*.mimes' => 'Ảnh phải có định dạng jpg, jpeg, png hoặc webp.',
-            'images.*.max'   => 'Mỗi ảnh không được vượt quá 2MB.',
-
+            'images.*.max' => 'Mỗi ảnh không được vượt quá 2MB.',
             'delete_images.array' => 'Dữ liệu xoá ảnh không hợp lệ.',
         ];
     }

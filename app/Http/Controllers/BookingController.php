@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\UpdateBookingRequest;
+use App\Models\Bill;
 use App\Models\Field;
 use App\Models\PaymentMethod;
 use App\Models\TimeSlot;
@@ -23,7 +24,7 @@ class BookingController extends Controller
     {
         $search = $request->get('search');
 
-        $query = Booking::with(['Fields', 'TimeSlot', 'PaymentMethod']);
+        $query = Booking::with(['Fields', 'TimeSlot', 'PaymentMethod', 'Bills', 'Employee']);
 
         if ($search) {
             $query->where(function ($q) use ($search) {
@@ -57,11 +58,13 @@ class BookingController extends Controller
     {
         $user = Auth::user();
         $customerId = $user->customers->id;
+        $field = Field::with(['conflicts', 'reverseConflicts'])->findOrFail($request->field_id);
+        $conflictFieldIds = $field->getConflictFieldIds();
 
         DB::beginTransaction();
 
         try {
-            $exists = Booking::where('field_id', $request->field_id)
+            $exists = Booking::whereIn('field_id', $conflictFieldIds)
                 ->where('bookingDate', $request->date)
                 ->where('time_id', $request->time_id)
                 ->whereNotIn('status', [3, 4])
@@ -73,6 +76,12 @@ class BookingController extends Controller
                 return back()->withInput()->withErrors(['time_id' => 'Khung giờ này đã được đặt!']);
             }
 
+            $billAmount = $request->price;
+
+            if ($request->payment_type == 'deposit') {
+                $billAmount = $request->price / 2;
+            }
+
             $booking = Booking::create([
                 'bookingDate' => $request->date,
                 'totalPrice' => $request->price,
@@ -82,8 +91,18 @@ class BookingController extends Controller
                 'contactEmail' => $request->contactEmail,
                 'field_id' => $request->field_id,
                 'time_id' => $request->time_id,
-                'payment_id' => $request->payment_id,
                 'customer_id' => $customerId,
+                'employee_id' => null,
+            ]);
+
+            Bill::create([
+                'booking_id' => $booking->id,
+                'payment_id' => $request->payment_id,
+                'amount' => $billAmount,
+                'status' => 0,
+                'payment_type' => $request->payment_type,
+                'paid_at' => null,
+                'note' => null,
             ]);
 
             DB::commit();
@@ -141,6 +160,7 @@ class BookingController extends Controller
         $price = $request->price;
         $time_id = $request->time_id;
         $payments = PaymentMethod::all();
+        $depositPrice = $price / 2;
 
         $time =
             date('H:i', strtotime($timeSlot->startTime)) .
@@ -153,13 +173,14 @@ class BookingController extends Controller
             'time',
             'time_id',
             'price',
-            'payments'
+            'payments',
+            'depositPrice'
         ));
     }
 
     public function success(Request $request, $id)
     {
-        $booking = Booking::with(['Fields', 'TimeSlot', 'PaymentMethod'])->findOrFail($id);
+        $booking = Booking::with(['Fields', 'TimeSlot', 'PaymentMethod', 'Bills'])->findOrFail($id);
 
         return view('customers.booking.success', compact('booking'));
     }

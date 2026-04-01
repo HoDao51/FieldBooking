@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Field;
-use Illuminate\Support\Facades\Redirect;
-use App\Models\Image;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreFieldRequest;
-use Illuminate\Http\Request;
 use App\Http\Requests\UpdateFieldRequest;
-use App\Models\Employee;
+use App\Models\Field;
 use App\Models\FieldType;
+use App\Models\Image;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 
 class FieldController extends Controller
@@ -22,7 +21,7 @@ class FieldController extends Controller
     {
         $search = $request->get('search');
 
-        $query = Field::with(['images', 'fieldType'])->withoutTrashed();
+        $query = Field::with(['images', 'fieldType', 'conflicts.fieldType'])->withoutTrashed();
 
         if ($search) {
             $query->where(function ($q) use ($search) {
@@ -34,10 +33,9 @@ class FieldController extends Controller
         $sanBong = $query->orderBy('status', 'asc')->orderBy('id', 'desc')->paginate(4)->withQueryString();
 
         $fieldTypes = FieldType::all();
-        $employees  = Employee::all();
-        $images     = Image::all();
+        $images = Image::all();
 
-        return view('admins.field.index', compact('sanBong', 'search', 'fieldTypes', 'employees', 'images'));
+        return view('admins.field.index', compact('sanBong', 'search', 'fieldTypes', 'images'));
     }
 
     /**
@@ -53,8 +51,6 @@ class FieldController extends Controller
      */
     public function store(StoreFieldRequest $request)
     {
-        $employee = Auth::user();
-
         $name = $request->name;
         $address = $request->address;
         $type_id = $request->type_id;
@@ -63,13 +59,10 @@ class FieldController extends Controller
             'name' => $name,
             'address' => $address,
             'type_id' => $type_id,
-            'employee_id' => $employee->id,
         ]);
 
         if ($request->hasFile('images')) {
-
             foreach ($request->file('images') as $file) {
-
                 $fileName = time() . "-" . $file->getClientOriginalName();
 
                 $path = $file->storeAs('sanBong', $fileName, 'public');
@@ -105,7 +98,6 @@ class FieldController extends Controller
      */
     public function update(UpdateFieldRequest $request, Field $sanBong)
     {
-        // Update thông tin cơ bản
         $sanBong->update([
             'name' => $request->name,
             'address' => $request->address,
@@ -113,28 +105,20 @@ class FieldController extends Controller
             'status' => $request->status,
         ]);
 
-        // Xử lý xoá ảnh cũ (nếu có)
         if ($request->has('delete_images')) {
-
             $imagesToDelete = Image::whereIn('id', $request->delete_images)->get();
 
             foreach ($imagesToDelete as $image) {
-
-                // Xoá file trong storage
                 if (Storage::disk('public')->exists($image->name)) {
                     Storage::disk('public')->delete($image->name);
                 }
 
-                // Xoá record database
                 $image->delete();
             }
         }
 
-        // Thêm ảnh mới (nếu có)
         if ($request->hasFile('images')) {
-
             foreach ($request->file('images') as $file) {
-
                 $fileName = time() . '-' . uniqid() . '.' . $file->getClientOriginalExtension();
 
                 $path = $file->storeAs('sanBong', $fileName, 'public');
@@ -154,7 +138,13 @@ class FieldController extends Controller
      */
     public function destroy(Field $sanBong)
     {
+        DB::table('field_conflicts')
+            ->where('field_id', $sanBong->id)
+            ->orWhere('conflict_field_id', $sanBong->id)
+            ->delete();
+
         $sanBong->delete();
+
         return redirect()->route('sanBong.index')->with('success', 'Xóa sân bóng thành công');
     }
 }

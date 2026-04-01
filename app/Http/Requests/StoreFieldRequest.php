@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Validation\ValidationException;
 
 class StoreFieldRequest extends FormRequest
 {
@@ -17,11 +16,6 @@ class StoreFieldRequest extends FormRequest
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     protected function failedValidation(Validator $validator)
     {
         $response = redirect()
@@ -37,13 +31,11 @@ class StoreFieldRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-
             'address' => 'required|string|max:255',
-
             'type_id' => 'required|exists:field_types,id',
-
+            'conflict_fields' => 'nullable|array',
+            'conflict_fields.*' => 'exists:fields,id',
             'images' => 'nullable|array|max:3',
-
             'images.*' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
         ];
     }
@@ -53,16 +45,14 @@ class StoreFieldRequest extends FormRequest
         return [
             'name.required' => 'Vui lòng nhập tên sân.',
             'name.max' => 'Tên sân không được vượt quá 255 ký tự.',
-
             'address.required' => 'Vui lòng nhập địa chỉ.',
             'address.max' => 'Địa chỉ không được vượt quá 255 ký tự.',
-
             'type_id.required' => 'Vui lòng chọn loại sân.',
             'type_id.exists' => 'Loại sân không hợp lệ.',
-
+            'conflict_fields.array' => 'Dữ liệu sân liên kết không hợp lệ.',
+            'conflict_fields.*.exists' => 'Sân liên kết không tồn tại.',
             'images.array' => 'Dữ liệu ảnh không hợp lệ.',
             'images.max' => 'Chỉ được tải lên tối đa 3 ảnh.',
-
             'images.*.image' => 'File tải lên phải là hình ảnh.',
             'images.*.mimes' => 'Ảnh phải có định dạng jpg, jpeg, png hoặc webp.',
             'images.*.max' => 'Mỗi ảnh không được vượt quá 2MB.',

@@ -10,32 +10,58 @@ class Field extends Model
 {
     /** @use HasFactory<\Database\Factories\FieldFactory> */
     use HasFactory, SoftDeletes;
-    
+
     protected $fillable = [
         'name',
         'address',
         'status',
         'type_id',
-        'employee_id',
     ];
 
-    public function images(){
+    public function images()
+    {
         return $this->hasMany(Image::class);
     }
 
-    public function FieldPrice(){
+    public function FieldPrice()
+    {
         return $this->hasMany(FieldPrice::class);
     }
 
-    public function Booking(){
+    public function Booking()
+    {
         return $this->hasMany(Booking::class);
     }
 
-    public function FieldType(){
+    public function FieldType()
+    {
         return $this->belongsTo(FieldType::class, 'type_id');
     }
 
-    public function Employee(){
-        return $this->belongsTo(Employee::class, 'employee_id');
+    public function conflicts()
+    {
+        return $this->belongsToMany(Field::class, 'field_conflicts', 'field_id', 'conflict_field_id');
+    }
+
+    public function reverseConflicts()
+    {
+        return $this->belongsToMany(Field::class, 'field_conflicts', 'conflict_field_id', 'field_id');
+    }
+
+    public function getConflictFieldIds()
+    {
+        $ids = [];
+
+        $ids[] = $this->id;
+
+        foreach ($this->conflicts as $item) {
+            $ids[] = $item->id;
+        }
+
+        foreach ($this->reverseConflicts as $item) {
+            $ids[] = $item->id;
+        }
+
+        return array_values(array_unique($ids));
     }
 }

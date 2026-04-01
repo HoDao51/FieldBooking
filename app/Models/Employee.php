@@ -18,11 +18,14 @@ class Employee extends Model
         'status',
         'user_id',
     ];
-    public function Field(){
-        return $this->hasMany(Field::class);
+
+    public function Booking()
+    {
+        return $this->hasMany(Booking::class, 'employee_id');
     }
 
-    public function User(){
+    public function User()
+    {
         return $this->belongsTo(User::class, 'user_id');
     }
 }

@@ -14,9 +14,9 @@
             </button>
         </div>
 
-        <form action="{{ route('sanBong.store') }}" method="POST" enctype="multipart/form-data" class="space-y-1">
+        <form action="{{ route('sanBong.store') }}" method="POST" enctype="multipart/form-data" class="space-y-3">
             @csrf
-            <!-- Tên sân -->
+
             <div>
                 <label class="block text-lg text-gray-600">Tên sân bóng</label>
                 <input type="text" name="name" value="{{ old('name') }}"
@@ -27,7 +27,6 @@
                 @enderror
             </div>
 
-            <!-- Địa chỉ -->
             <div>
                 <label class="block text-lg text-gray-600">Địa chỉ</label>
                 <input type="text" name="address" value="{{ old('address') }}"
@@ -38,7 +37,6 @@
                 @enderror
             </div>
 
-            <!-- Loại sân -->
             <div>
                 <label class="block text-lg text-gray-600">Loại sân</label>
                 <div class="relative">
@@ -46,12 +44,11 @@
                         class="appearance-none text-[#4B5563] w-full border border-gray-300 rounded-md px-3 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-green-400">
                         <option value="">-- Chọn loại sân --</option>
                         @foreach ($fieldTypes as $type)
-                            <option value="{{ $type->id }}" {{ old('type_id') == $type->id ? 'selected' : '' }}>
+                            <option value="{{ $type->id }}" @if (old('type_id') == $type->id) selected @endif>
                                 {{ $type->name }}
                             </option>
                         @endforeach
                     </select>
-                    <!-- icon mũi tên -->
                     <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-[#4B5563]" viewBox="0 0 16 16">
                             <path fill="currentColor"
@@ -64,21 +61,16 @@
                 @enderror
             </div>
 
-            <!-- Upload nhiều ảnh -->
             <div>
                 <label class="block text-lg text-gray-600 mb-2">Hình ảnh sân</label>
-                <!-- Preview images -->
                 <div id="previewContainer" class="flex flex-wrap gap-3 mb-3"></div>
-                <!-- Upload box -->
                 <label
-                    class="flex items-center justify-center gap-2 w-full h-32 border-2 border-dashed border-gray-300 rounded-lg 
-                    cursor-pointer text-gray-500 hover:text-green-600 hover:border-green-500 hover:bg-gray-50 transition">
+                    class="flex items-center justify-center gap-2 w-full h-32 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer text-gray-500 hover:text-green-600 hover:border-green-500 hover:bg-gray-50 transition">
                     <div class="flex items-center gap-2 text-sm font-medium">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
                             <path fill="currentColor"
                                 d="M11 16V7.85l-2.6 2.6L7 9l5-5l5 5l-1.4 1.45l-2.6-2.6V16zm-5 4q-.825 0-1.412-.587T4 18v-3h2v3h12v-3h2v3q0 .825-.587 1.413T18 20z" />
                         </svg>
-
                         <span>Nhấn để tải ảnh lên</span>
                     </div>
                     <input type="file" name="images[]" id="imageInput" multiple accept="image/*" class="hidden">

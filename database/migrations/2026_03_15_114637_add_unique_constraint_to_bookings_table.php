@@ -11,15 +11,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('bookings', function (Blueprint $table) {
-            $table->unique(['field_id', 'bookingDate', 'time_id'], 'unique_field_date_time');
-        });
+        //
     }
 
     public function down()
     {
-        Schema::table('bookings', function (Blueprint $table) {
-            $table->dropUnique('unique_field_date_time');
-        });
+        //
     }
 };

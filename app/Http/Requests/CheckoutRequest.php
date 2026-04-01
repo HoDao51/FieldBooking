@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class CheckoutRequest extends FormRequest
 {
@@ -23,14 +22,22 @@ class CheckoutRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'time_id' => 'required|string',
+            'field_id' => 'required',
+            'date' => 'required|date',
+            'time_id' => 'required',
+            'price' => 'required|numeric|min:1',
         ];
     }
 
     public function messages(): array
     {
         return [
+            'field_id.required' => 'Vui lòng chọn sân.',
+            'date.required' => 'Vui lòng chọn ngày đặt sân.',
+            'date.date' => 'Ngày đặt sân không hợp lệ.',
             'time_id.required' => 'Vui lòng chọn thời gian.',
+            'price.required' => 'Không tìm thấy giá của khung giờ đã chọn.',
+            'price.numeric' => 'Giá tiền không hợp lệ.',
         ];
     }
 }

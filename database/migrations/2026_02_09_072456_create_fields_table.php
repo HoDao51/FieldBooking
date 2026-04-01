@@ -17,11 +17,9 @@ return new class extends Migration
             $table->string('address', 255)->notnullable();
             $table->integer('status')->default('0');
             $table->unsignedBigInteger('type_id');
-            $table->unsignedBigInteger('employee_id');
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('type_id')->references('id')->on('field_types');
-            $table->foreign('employee_id')->references('id')->on('employees');
         });
     }
 

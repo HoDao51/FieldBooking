@@ -2,7 +2,6 @@
 
 @section('content')
     <div class="flex items-start max-w-6xl mx-auto mt-5 mb-10 gap-6 ">
-        <!-- Sidebar -->
         <div class="w-64 bg-white rounded-xl shadow p-6 text-center flex flex-col">
             <div
                 class="w-24 h-24 bg-green-500 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto">
@@ -19,7 +18,6 @@
                 {{ auth()->user()->email }}
             </p>
 
-            <!-- Menu -->
             <div class="mt-8 space-y-2 text-left">
                 <a href="{{ route('information.index') }}"
                     class="flex items-center space-x-2 block px-3 py-2 rounded hover:text-green-600 font-semibold
@@ -53,58 +51,57 @@
             </div>
         </div>
 
-
-        <!-- Main Content -->
         <div class="flex-1 bg-white rounded-xl shadow p-5">
-
             <h2 class="text-2xl font-bold mb-6">
                 Lịch sử đặt sân
             </h2>
 
             <div class="overflow-x-auto">
                 <table class="min-w-full text-sm">
-                    <!-- Header -->
                     <thead class="bg-gray-100 text-gray-700 uppercase text-xs">
                         <tr>
                             <th class="px-6 py-3 text-center">Tên sân</th>
                             <th class="px-6 py-3 text-center">Ngày đặt</th>
                             <th class="px-6 py-3 text-center">Khung giờ</th>
-                            <th class="px-6 py-3 text-center">Tổng tiền</th>
+                            <th class="px-6 py-3 text-center">Thanh toán</th>
                             <th class="px-6 py-3 text-center">Trạng thái</th>
                         </tr>
                     </thead>
 
-                    <!-- Body -->
                     <tbody class="divide-y">
                         @forelse($booking as $item)
+                            @php
+                                $firstBill = $item->Bills->first();
+                            @endphp
                             <tr class="hover:bg-gray-50 transition">
-
-                                <!-- Sân -->
                                 <td class="px-6 py-4 text-center font-medium break-words">
-                                    {{ $item->fields->name }}
+                                    {{ $item->Fields->name }}
                                 </td>
 
-                                <!-- ngày đặt -->
                                 <td class="px-6 py-4 text-center whitespace-nowrap">
                                     {{ $item->created_at->format('d-m-Y') }}
                                 </td>
 
-                                <!-- Khung giờ -->
                                 <td class="px-6 py-4 text-center">
                                     <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap">
-                                        {{ \Carbon\Carbon::parse($item->timeSlot->startTime)->format('H:i') }}
+                                        {{ \Carbon\Carbon::parse($item->TimeSlot->startTime)->format('H:i') }}
                                         -
-                                        {{ \Carbon\Carbon::parse($item->timeSlot->endTime)->format('H:i') }}
+                                        {{ \Carbon\Carbon::parse($item->TimeSlot->endTime)->format('H:i') }}
                                     </span>
                                 </td>
 
-                                <!-- Tổng tiền -->
                                 <td class="px-6 py-4 text-center ">
                                     <p class="font-semibold text-green-600">{{ number_format($item->totalPrice) }}đ</p>
-                                    <p class="italic break-words">({{ $item->PaymentMethod->name }})</p>
+                                    @if ($firstBill)
+                                        <p class="italic break-words">{{ $firstBill->PaymentMethod->name }}</p>
+                                        @if ($firstBill->payment_type == 'deposit')
+                                            <p class="text-xs text-gray-500">Đặt cọc: {{ number_format($firstBill->amount) }}đ</p>
+                                        @else
+                                            <p class="text-xs text-gray-500">Thanh toán đủ</p>
+                                        @endif
+                                    @endif
                                 </td>
 
-                                <!-- Trạng thái -->
                                 <td class="px-6 py-4 text-center whitespace-nowrap">
                                     @if ($item->status == 0)
                                         <span
@@ -145,7 +142,6 @@
             </div>
             @if ($booking->hasPages())
                 <div class="flex justify-center items-center gap-2">
-                    {{-- Page Numbers --}}
                     @for ($i = 1; $i <= $booking->lastPage(); $i++)
                         @if ($i == $booking->currentPage())
                             <span class="px-4 py-2 bg-green-600 text-white rounded">

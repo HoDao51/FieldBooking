@@ -16,7 +16,7 @@ class HomeController extends Controller
     {
         $search = $request->get('search');
 
-        $query = Field::with(['images', 'fieldType'])
+        $query = Field::with(['images', 'fieldType', 'conflicts', 'reverseConflicts'])
             ->where('status', 0);
 
         if ($search) {
@@ -40,7 +40,7 @@ class HomeController extends Controller
         $type_id = $request->get('type_id');
         $province = $request->get('province');
 
-        $query = Field::with(['images', 'fieldType'])
+        $query = Field::with(['images', 'fieldType', 'conflicts', 'reverseConflicts'])
             ->where('status', 0);
 
         if ($search) {
@@ -71,7 +71,7 @@ class HomeController extends Controller
 
     public function show(Request $request, $id)
     {
-        $field = Field::with(['FieldPrice.TimeSlot'])->findOrFail($id);
+        $field = Field::with(['FieldPrice.TimeSlot', 'conflicts', 'reverseConflicts'])->findOrFail($id);
 
         if ($request->has('date')) {
             $date = $request->date;
@@ -85,7 +85,9 @@ class HomeController extends Controller
             ->where('day_of_week', $dayOfWeek)
             ->sortBy(fn($p) => $p->TimeSlot->startTime);
 
-        $bookedSlots = Booking::where('field_id', $field->id)
+        $conflictFieldIds = $field->getConflictFieldIds();
+
+        $bookedSlots = Booking::whereIn('field_id', $conflictFieldIds)
             ->where('bookingDate', $date)
             ->whereNotIn('status', [3, 4])
             ->pluck('time_id')

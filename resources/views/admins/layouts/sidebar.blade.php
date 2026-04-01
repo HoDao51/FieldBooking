@@ -1,9 +1,7 @@
 <aside class="bg-white border-r border-gray-200 text-gray-800 p-4 h-full flex flex-col">
     <nav class="flex flex-col space-y-2 flex-1">
-        <!-- Trang tổng quan -->
         <a href="{{ route('admins.index') }}"
-            class="flex items-center space-x-2  px-3 py-2 rounded hover:text-green-800 font-semibold
-        {{ request()->routeIs('admins.index') ? 'bg-green-200 text-green-800 font-semibold' : ' hover:bg-green-200' }}">
+            class="flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold {{ request()->routeIs('admins.index') ? 'bg-green-200 text-green-800 font-semibold' : 'hover:bg-green-200' }}">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 opacity-60" fill="#222C3A" viewBox="0 0 24 24"
                 stroke="currentColor" stroke-width="0">
                 <path fill="currentColor"
@@ -13,10 +11,8 @@
         </a>
 
         @if (auth()->user()->role == 0)
-            <!-- Quản lý nhân viên -->
             <a href="{{ route('nhanVien.index') }}"
-                class="flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold
-            {{ request()->routeIs('nhanVien.*') ? 'bg-green-200 text-green-800 font-semibold' : ' hover:bg-green-200' }}">
+                class="flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold {{ request()->routeIs('nhanVien.*') ? 'bg-green-200 text-green-800 font-semibold' : 'hover:bg-green-200' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 36 36"
                     stroke="currentColor" stroke-width="0">
                     <path fill="currentColor"
@@ -33,10 +29,8 @@
         @endif
 
         @if (auth()->user()->role == 0)
-            <!-- Quản lý khách hàng -->
             <a href="{{ route('khachHang.index') }}"
-                class="flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold
-            {{ request()->routeIs('khachHang.*') ? 'bg-green-200 text-green-800 font-semibold' : ' hover:bg-green-200' }}">
+                class="flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold {{ request()->routeIs('khachHang.*') ? 'bg-green-200 text-green-800 font-semibold' : 'hover:bg-green-200' }}">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 24 24"
                     stroke="currentColor" stroke-width="0">
                     <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -50,10 +44,8 @@
             </a>
         @endif
 
-        <!-- Quản lý sân bóng -->
         <a href="{{ route('sanBong.index') }}"
-            class="flex items-center space-x-2  px-3 py-2 rounded hover:text-green-800 font-semibold
-        {{ request()->routeIs('sanBong.*') ? 'bg-green-200 text-green-800 font-semibold' : ' hover:bg-green-200' }}">
+            class="flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold {{ request()->routeIs('sanBong.*') ? 'bg-green-200 text-green-800 font-semibold' : 'hover:bg-green-200' }}">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 256 256"
                 stroke="currentColor" stroke-width="3">
                 <path fill="currentColor"
@@ -62,10 +54,18 @@
             <span>Quản lý sân bóng</span>
         </a>
 
-        <!-- Cấu hình giá giờ -->
+        <a href="{{ route('sanLienKet.index') }}"
+            class="flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold {{ request()->routeIs('sanLienKet.*') ? 'bg-green-200 text-green-800 font-semibold' : 'hover:bg-green-200' }}">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 24 24"
+                stroke="currentColor" stroke-width="0">
+                <path fill="currentColor"
+                    d="M7 7a3 3 0 1 1 3-3a3 3 0 0 1-3 3m10 13a3 3 0 1 1 3-3a3 3 0 0 1-3 3M7 20a3 3 0 1 1 3-3a3 3 0 0 1-3 3m8.59-11L10.4 6.4l1.2-1.8l5.19 2.59zM10.4 17.6L15.59 15l1 1.81l-5.19 2.59z" />
+            </svg>
+            <span>Thiết lập sân liên kết</span>
+        </a>
+
         <a href="{{ route('cauHinhGiaGio.index') }}"
-            class="flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold
-        {{ request()->routeIs('cauHinhGiaGio.*') ? 'bg-green-200 text-green-800 font-semibold' : 'hover:bg-green-200' }}">
+            class="flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold {{ request()->routeIs('cauHinhGiaGio.*') ? 'bg-green-200 text-green-800 font-semibold' : 'hover:bg-green-200' }}">
             <span class="w-6 h-6 flex items-center justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 scale-125 opacity-80" viewBox="0 0 56 56"
                     fill="currentColor">
@@ -73,14 +73,11 @@
                         d="M29 30v10c3.519-.316 5-2.287 5-4.89c0-2.507-1.152-3.99-5-5.11m-3-5v-9c-3.273.415-5 2.33-5 4.43s1.364 3.647 5 4.57m2.84.737l1.072.277C35.784 27.423 39 29.917 39 34.836c0 5.658-4.466 8.868-10.16 9.284V48h-2.523v-3.88c-5.672-.439-10.16-3.741-10.317-9.284h4.622c.402 2.702 2.1 4.688 5.695 5.08V29.849l-.916-.231c-5.672-1.363-8.731-3.996-8.731-8.684c0-5.173 4.02-8.591 9.647-9.03V8h2.523v3.903c5.582.462 9.624 3.926 9.803 9.169h-4.645c-.29-2.91-2.3-4.596-5.158-4.966z" />
                 </svg>
             </span>
-
             <span>Cấu hình giá giờ</span>
         </a>
 
-        <!-- Quản lý đơn đặt -->
         <a href="{{ route('donDatSan.index') }}"
-            class="flex items-center space-x-2  px-3 py-2 rounded hover:text-green-800 font-semibold
-        {{ request()->routeIs('donDatSan.*') ? 'bg-green-200 text-green-800 font-semibold' : 'hover:bg-green-200' }}">
+            class="flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold {{ request()->routeIs('donDatSan.*') ? 'bg-green-200 text-green-800 font-semibold' : 'hover:bg-green-200' }}">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 16 16"
                 stroke="currentColor" stroke-width="0">
                 <path fill="none" stroke="currentColor" stroke-linejoin="round"
@@ -91,7 +88,6 @@
     </nav>
 
     <div class="pt-4 border-t">
-        <!-- Đăng xuất -->
         <a href="{{ route('logout') }}"
             class="flex items-center space-x-2 px-3 bg-red-600 text-white py-2 rounded hover:bg-red-700 transition font-semibold">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 32 32" fill="currentColor">

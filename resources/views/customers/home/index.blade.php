@@ -155,6 +155,17 @@
                                     </svg>
                                     <span>{{ $field->fieldType->name }}</span>
                                 </div>
+
+                                @if ($field->conflicts->count() > 0 || $field->reverseConflicts->count() > 0)
+                                    <div class="flex items-start gap-2 text-amber-600 text-sm">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 mt-0.5 shrink-0"
+                                            viewBox="0 0 24 24">
+                                            <path fill="currentColor"
+                                                d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2m1 15h-2v-2h2Zm0-4h-2V7h2Z" />
+                                        </svg>
+                                        <span>Thuộc cụm sân liên kết, lịch sẽ khóa theo sân cùng cụm</span>
+                                    </div>
+                                @endif
                             </div>
 
                             <div class="mt-4">

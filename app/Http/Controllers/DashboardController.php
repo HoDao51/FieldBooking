@@ -11,7 +11,7 @@ class DashboardController extends Controller
 {
     public function index()
     {    
-        $query = Booking::with(['Fields', 'TimeSlot', 'PaymentMethod']);
+        $query = Booking::with(['Fields', 'TimeSlot', 'PaymentMethod', 'Bills']);
 
         $customers = Customer::count();
         $fields = Field::count();

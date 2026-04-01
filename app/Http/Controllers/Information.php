@@ -50,8 +50,8 @@ class Information extends Controller
 
     public function history(Request $request)
     {
-        
-        $query = Booking::with(['Fields', 'TimeSlot', 'PaymentMethod'])->where('customer_id', auth()->user()->customers->id);;
+        $query = Booking::with(['Fields', 'TimeSlot', 'PaymentMethod', 'Bills'])
+            ->where('customer_id', auth()->user()->customers->id);
 
         $booking = $query
             ->orderByRaw("FIELD(status, 1, 0, 2, 3, 4)")
@@ -59,6 +59,6 @@ class Information extends Controller
             ->paginate(5)
             ->withQueryString();
 
-        return view('customers.information.history', compact( 'booking'));
+        return view('customers.information.history', compact('booking'));
     }
 }

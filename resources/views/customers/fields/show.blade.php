@@ -42,6 +42,29 @@
                         </span>
                     </div>
 
+                    @php
+                        $linkedFields = $field->conflicts->merge($field->reverseConflicts)->unique('id')->values();
+                    @endphp
+
+                    @if ($linkedFields->count() > 0)
+                        <div class="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3">
+                            <p class="text-sm font-semibold text-amber-700">
+                                Sân này thuộc cụm sân liên kết
+                            </p>
+                            <p class="mt-1 text-sm text-amber-700">
+                                Nếu một sân trong cụm đã được đặt, các sân còn lại cùng khung giờ sẽ tự khóa.
+                            </p>
+                            <div class="mt-3 flex flex-wrap gap-2">
+                                @foreach ($linkedFields as $item)
+                                    <a href="{{ route('san.show', $item->id) }}"
+                                        class="rounded-full border border-amber-300 bg-white px-3 py-1 text-sm text-amber-700 hover:bg-amber-100">
+                                        {{ $item->name }} - {{ $item->fieldType->name }}
+                                    </a>
+                                @endforeach
+                            </div>
+                        </div>
+                    @endif
+
                     <div class="flex gap-6 mt-4 text-gray-600 text-sm">
                         <span class="gap-2 flex bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-green-600" viewBox="0 0 256 256">

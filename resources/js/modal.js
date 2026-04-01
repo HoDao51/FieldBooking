@@ -37,6 +37,26 @@ window.openEditModal = function ({ modalId, formId, actionUrl, data }) {
         }
     });
 
+    const conflictCheckboxes = form.querySelectorAll('.field-conflict-checkbox');
+
+    if (conflictCheckboxes.length > 0) {
+        conflictCheckboxes.forEach(checkbox => {
+            checkbox.checked = false;
+        });
+
+        if (data.conflict_fields) {
+            conflictCheckboxes.forEach(checkbox => {
+                const checkboxValue = parseInt(checkbox.value);
+
+                data.conflict_fields.forEach(conflictId => {
+                    if (checkboxValue === parseInt(conflictId)) {
+                        checkbox.checked = true;
+                    }
+                });
+            });
+        }
+    }
+
     // ====== XỬ LÝ ẨN / HIỆN CHỨC VỤ ======
     const roleWrapper = document.getElementById('editRoleWrapper');
 

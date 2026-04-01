@@ -21,13 +21,14 @@ return new class extends Migration
             $table->string('contactEmail', 100)->notnullable();
             $table->unsignedBigInteger('field_id');
             $table->unsignedBigInteger('time_id');
-            $table->unsignedBigInteger('payment_id');
             $table->unsignedBigInteger('customer_id')->nullable();
+            $table->unsignedBigInteger('employee_id')->nullable();
             $table->timestamps();
             $table->foreign('field_id')->references('id')->on('fields');
             $table->foreign('time_id')->references('id')->on('time_slots');
-            $table->foreign('payment_id')->references('id')->on('payment_methods');
             $table->foreign('customer_id')->references('id')->on('customers');
+            $table->foreign('employee_id')->references('id')->on('employees')->nullOnDelete();
+            $table->index(['field_id', 'bookingDate', 'time_id'], 'bookings_field_date_time_index');
         });
     }
 

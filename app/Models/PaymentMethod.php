@@ -14,7 +14,8 @@ class PaymentMethod extends Model
         'name',
     ];
 
-    public function Booking(){
-        return $this->hasMany(Booking::class);
+    public function Bill()
+    {
+        return $this->hasMany(Bill::class, 'payment_id');
     }
 }

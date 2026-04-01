@@ -17,9 +17,7 @@
         </div>
 
         <div class="flex justify-between items-center mb-2">
-            <!-- Search -->
             <form method="GET" action="{{ route('sanBong.index') }}" class="flex items-center space-x-2 mb-2">
-                <!-- Thanh tìm kiếm -->
                 <div class="relative w-[400px] rounded border border-gray-300 ">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                         class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
@@ -31,23 +29,28 @@
                         placeholder="Tìm kiếm theo tên, địa chỉ,..."
                         class="bg-[#F2F2F2] pl-10 pr-3 py-2 rounded w-full d-lg focus:ring-2 focus:ring-green-400 outline-none">
                 </div>
-                <!-- Nút tìm kiếm -->
-                <button type="submit" class="bg-[#D9D9D9] text-gray-800 px-4 py-2 rounded hover:bg-gray-400 transition whitespace-nowrap">
+                <button type="submit"
+                    class="bg-[#D9D9D9] text-gray-800 px-4 py-2 rounded hover:bg-gray-400 transition whitespace-nowrap">
                     Tìm kiếm
                 </button>
             </form>
 
-            <!-- Add button -->
-            <button onclick="openModal('createModal')"
-                class="flex bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700 transition font-semibold whitespace-nowrap">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-1" fill="#ffffff" viewBox="0 0 32 32">
-                    <path fill="currentColor"
-                        d="M16 3C8.832 3 3 8.832 3 16s5.832 13 13 13s13-5.832 13-13S23.168 3 16 3m0 2c6.087 0 11 4.913 11 11s-4.913 11-11 11S5 22.087 5 16S9.913 5 16 5m-1 5v5h-5v2h5v5h2v-5h5v-2h-5v-5z" />
-                </svg>
-                Thêm sân bóng
-            </button>
+            <div class="flex items-center gap-2">
+                <a href="{{ route('sanLienKet.index') }}"
+                    class="bg-white border border-green-600 text-green-600 px-3 py-2 rounded-lg hover:bg-green-50 transition font-semibold whitespace-nowrap">
+                    Thiết lập liên kết
+                </a>
+                <button onclick="openModal('createModal')"
+                    class="flex bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700 transition font-semibold whitespace-nowrap">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-1" fill="#ffffff" viewBox="0 0 32 32">
+                        <path fill="currentColor"
+                            d="M16 3C8.832 3 3 8.832 3 16s5.832 13 13 13s13-5.832 13-13S23.168 3 16 3m0 2c6.087 0 11 4.913 11 11s-4.913 11-11 11S5 22.087 5 16S9.913 5 16 5m-1 5v5h-5v2h5v5h2v-5h5v-2h-5v-5z" />
+                    </svg>
+                    Thêm sân bóng
+                </button>
+            </div>
         </div>
-        
+
         <div class="bg-white rounded-xl shadow border overflow-hidden">
             <table class="min-w-full text-sm">
                 <thead class="bg-gray-200 text-gray-800 uppercase text-xs">
@@ -61,12 +64,10 @@
                 </thead>
 
                 <tbody class="divide-y">
-
                     @forelse($sanBong as $item)
                         <tr class="hover:bg-gray-50">
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-x-3">
-                                    <!-- ảnh sân -->
                                     <div class="w-12 h-12 rounded overflow-hidden">
                                         @if ($item->images->first())
                                             <img src="{{ asset('storage/' . $item->images->first()->name) }}"
@@ -76,26 +77,27 @@
                                                 class="w-full h-full object-cover">
                                         @endif
                                     </div>
-                                    <!-- Name + Email -->
-                                    <div class="flex flex-col text-2x1">
+                                    <div class="flex flex-col">
                                         <span class="font-semibold text-gray-800">
                                             {{ $item->name }}
                                         </span>
+                                        @if ($item->conflicts->count() > 0)
+                                            <span class="text-xs text-gray-500 mt-1">
+                                                Liên kết với {{ $item->conflicts->count() }} sân khác
+                                            </span>
+                                        @endif
                                     </div>
                                 </div>
                             </td>
 
-                            <!-- SĐT -->
                             <td class="text-center">
                                 {{ $item->address }}
                             </td>
 
-                            <!-- loại sân -->
                             <td class="text-center">
                                 {{ $item->fieldType->name }}
                             </td>
 
-                            <!-- Trạng thái -->
                             <td class="text-center">
                                 @if ($item->status == 0)
                                     <span class="px-3 py-1 font-semibold text-xs rounded-full bg-green-100 text-green-700">
@@ -108,7 +110,6 @@
                                 @endif
                             </td>
 
-                            <!-- Thao tác -->
                             <td class="px-2 py-2 border text-center whitespace-nowrap">
                                 <button
                                     onclick='openEditModal({
@@ -119,6 +120,7 @@
                                             name: "{{ $item->name }}",
                                             address: "{{ $item->address }}",
                                             type_id: "{{ $item->type_id }}",
+                                            status: "{{ $item->status }}",
                                             images: @json($item->images)
                                         }
                                     })'
@@ -126,11 +128,10 @@
                                     Sửa
                                 </button>
 
-                                <!-- Nút xóa -->
                                 <form action="{{ route('sanBong.destroy', $item->id) }}" method="POST" class="inline-block">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" onclick="return confirm('Bạn có chắc muốn xóa khung giờ này không?')"
+                                    <button type="submit" onclick="return confirm('Bạn có chắc muốn xóa sân bóng này không?')"
                                         class="bg-[#DC2626] text-white font-semibold px-2 py-2 rounded hover:bg-red-800 ml-2">
                                         Xóa
                                     </button>
@@ -144,14 +145,12 @@
                             </td>
                         </tr>
                     @endforelse
-
                 </tbody>
             </table>
         </div>
 
         @if ($sanBong->hasPages())
             <div class="flex justify-center items-center gap-2 mt-4">
-                {{-- Page Numbers --}}
                 @for ($i = 1; $i <= $sanBong->lastPage(); $i++)
                     @if ($i == $sanBong->currentPage())
                         <span class="px-4 py-2 bg-green-600 text-white rounded">
