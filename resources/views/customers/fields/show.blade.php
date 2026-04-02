@@ -47,17 +47,20 @@
                     @endphp
 
                     @if ($linkedFields->count() > 0)
-                        <div class="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3">
-                            <p class="text-sm font-semibold text-amber-700">
+                        <div class="mt-4 rounded-xl border border-yellow-200 bg-yellow-50 px-4 py-3">
+                            <p class="flex item-center gap-2 text-sm font-semibold text-yellow-700">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20">
+                                    <path fill="currentColor" d="M2.93 17.07A10 10 0 1 1 17.07 2.93A10 10 0 0 1 2.93 17.07M9 5v6h2V5zm0 8v2h2v-2z"/>
+                                </svg>
                                 Sân này thuộc cụm sân liên kết
                             </p>
-                            <p class="mt-1 text-sm text-amber-700">
+                            <p class="mt-1 text-sm text-yellow-700">
                                 Nếu một sân trong cụm đã được đặt, các sân còn lại cùng khung giờ sẽ tự khóa.
                             </p>
                             <div class="mt-3 flex flex-wrap gap-2">
                                 @foreach ($linkedFields as $item)
                                     <a href="{{ route('san.show', $item->id) }}"
-                                        class="rounded-full border border-amber-300 bg-white px-3 py-1 text-sm text-amber-700 hover:bg-amber-100">
+                                        class="rounded-full border border-yellow-300 bg-white px-3 py-1 text-sm text-yellow-700 hover:bg-amber-100">
                                         {{ $item->name }} - {{ $item->fieldType->name }}
                                     </a>
                                 @endforeach

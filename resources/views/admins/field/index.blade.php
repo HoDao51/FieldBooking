@@ -66,7 +66,7 @@
                 <tbody class="divide-y">
                     @forelse($sanBong as $item)
                         <tr class="hover:bg-gray-50">
-                            <td class="px-6 py-4">
+                            <td class="px-6 py-3">
                                 <div class="flex items-center gap-x-3">
                                     <div class="w-12 h-12 rounded overflow-hidden">
                                         @if ($item->images->first())

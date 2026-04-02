@@ -56,11 +56,9 @@
 
         <a href="{{ route('sanLienKet.index') }}"
             class="flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold {{ request()->routeIs('sanLienKet.*') ? 'bg-green-200 text-green-800 font-semibold' : 'hover:bg-green-200' }}">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 24 24"
-                stroke="currentColor" stroke-width="0">
-                <path fill="currentColor"
-                    d="M7 7a3 3 0 1 1 3-3a3 3 0 0 1-3 3m10 13a3 3 0 1 1 3-3a3 3 0 0 1-3 3M7 20a3 3 0 1 1 3-3a3 3 0 0 1-3 3m8.59-11L10.4 6.4l1.2-1.8l5.19 2.59zM10.4 17.6L15.59 15l1 1.81l-5.19 2.59z" />
-            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 24 24">
+                    <path fill="none" stroke="currentColor" stroke-dasharray="28" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 6l2 -2c1 -1 3 -1 4 0l1 1c1 1 1 3 0 4l-5 5c-1 1 -3 1 -4 0M11 18l-2 2c-1 1 -3 1 -4 0l-1 -1c-1 -1 -1 -3 0 -4l5 -5c1 -1 3 -1 4 0"/>
+                </svg>
             <span>Thiết lập sân liên kết</span>
         </a>
 

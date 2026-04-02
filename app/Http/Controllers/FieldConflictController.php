@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateFieldConflictRequest;
 use App\Models\Field;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -24,7 +25,7 @@ class FieldConflictController extends Controller
             });
         }
 
-        $fields = $query->paginate(8)->withQueryString();
+        $fields = $query->paginate(4)->withQueryString();
 
         $allFields = Field::with('fieldType')
             ->withoutTrashed()
@@ -34,16 +35,8 @@ class FieldConflictController extends Controller
         return view('admins.field_conflict.index', compact('fields', 'allFields', 'search'));
     }
 
-    public function update(Request $request, Field $sanBong)
+    public function update(UpdateFieldConflictRequest $request, Field $sanBong)
     {
-        $request->validate([
-            'conflict_fields' => 'nullable|array',
-            'conflict_fields.*' => 'exists:fields,id',
-        ], [
-            'conflict_fields.array' => 'Dữ liệu sân liên kết không hợp lệ.',
-            'conflict_fields.*.exists' => 'Sân liên kết không tồn tại.',
-        ]);
-
         DB::table('field_conflicts')
             ->where('field_id', $sanBong->id)
             ->orWhere('conflict_field_id', $sanBong->id)
