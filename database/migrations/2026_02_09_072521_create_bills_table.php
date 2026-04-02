@@ -17,9 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger('payment_id');
             $table->integer('amount')->notnullable();
             $table->integer('status')->default('0');
-            $table->string('payment_type', 30)->notnullable();
+            $table->integer('payment_type')->default('0');
             $table->timestamp('paid_at')->nullable();
-            $table->text('note')->nullable();
             $table->timestamps();
 
             $table->foreign('booking_id')->references('id')->on('bookings')->onDelete('cascade');

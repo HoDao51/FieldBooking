@@ -51,7 +51,7 @@ class Information extends Controller
     public function history(Request $request)
     {
         $query = Booking::with(['Fields', 'TimeSlot', 'PaymentMethod', 'Bills'])
-            ->where('customer_id', auth()->user()->customers->id);
+            ->where('customer_id', Auth::user()->customers->id);
 
         $booking = $query
             ->orderByRaw("FIELD(status, 1, 0, 2, 3, 4)")

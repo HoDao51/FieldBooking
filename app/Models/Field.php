@@ -64,4 +64,52 @@ class Field extends Model
 
         return array_values(array_unique($ids));
     }
+
+    public function getLinkedFieldsAttribute()
+    {
+        return $this->conflicts
+            ->merge($this->reverseConflicts)
+            ->unique('id')
+            ->values();
+    }
+
+    public function getPricesByDate($date)
+    {
+        $dayOfWeek = \Carbon\Carbon::parse($date)->dayOfWeekIso;
+
+        return $this->FieldPrice
+            ->where('day_of_week', $dayOfWeek)
+            ->sortBy(fn($p) => $p->TimeSlot->startTime);
+    }
+
+    public function splitTimeSlots($prices)
+    {
+        return [
+            'morning' => $prices->filter(
+                fn($p) =>
+                \Carbon\Carbon::parse($p->TimeSlot->startTime)->hour < 12
+            ),
+
+            'afternoon' => $prices->filter(function ($p) {
+                $hour = \Carbon\Carbon::parse($p->TimeSlot->startTime)->hour;
+                return $hour >= 12 && $hour < 18;
+            }),
+
+            'evening' => $prices->filter(
+                fn($p) =>
+                \Carbon\Carbon::parse($p->TimeSlot->startTime)->hour >= 18
+            ),
+        ];
+    }
+
+    public function getBookedSlots($date)
+    {
+        $conflictFieldIds = $this->getConflictFieldIds();
+
+        return \App\Models\Booking::whereIn('field_id', $conflictFieldIds)
+            ->where('bookingDate', $date)
+            ->whereNotIn('status', [3, 4])
+            ->pluck('time_id')
+            ->toArray();
+    }
 }

@@ -42,11 +42,7 @@
                         </span>
                     </div>
 
-                    @php
-                        $linkedFields = $field->conflicts->merge($field->reverseConflicts)->unique('id')->values();
-                    @endphp
-
-                    @if ($linkedFields->count() > 0)
+                    @if ($field->linked_fields->count() > 0)
                         <div class="mt-4 rounded-xl border border-yellow-200 bg-yellow-50 px-4 py-3">
                             <p class="flex item-center gap-2 text-sm font-semibold text-yellow-700">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20">
@@ -58,7 +54,7 @@
                                 Nếu một sân trong cụm đã được đặt, các sân còn lại cùng khung giờ sẽ tự khóa.
                             </p>
                             <div class="mt-3 flex flex-wrap gap-2">
-                                @foreach ($linkedFields as $item)
+                                @foreach ($field->linked_fields as $item)
                                     <a href="{{ route('san.show', $item->id) }}"
                                         class="rounded-full border border-yellow-300 bg-white px-3 py-1 text-sm text-yellow-700 hover:bg-amber-100">
                                         {{ $item->name }} - {{ $item->fieldType->name }}

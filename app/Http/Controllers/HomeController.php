@@ -50,20 +50,16 @@ class HomeController extends Controller
             });
         }
 
-        // lọc theo địa chỉ
         if ($request->province) {
             $province = str_replace(['Thành phố ', 'Tỉnh '], '', $request->province);
-
             $query->where('address', 'like', "%$province%");
         }
 
-        // lọc theo loại sân
         if ($type_id) {
             $query->where('type_id', $type_id);
         }
 
         $fields = $query->latest()->paginate(6);
-
         $types = FieldType::all();
 
         return view('customers.fields.search', compact('search', 'fields', 'types', 'type_id'));
@@ -71,48 +67,27 @@ class HomeController extends Controller
 
     public function show(Request $request, $id)
     {
-        $field = Field::with(['FieldPrice.TimeSlot', 'conflicts', 'reverseConflicts'])->findOrFail($id);
+        $field = Field::with([
+            'FieldPrice.TimeSlot',
+            'conflicts',
+            'reverseConflicts'
+        ])->findOrFail($id);
 
-        if ($request->has('date')) {
-            $date = $request->date;
-        } else {
-            $date = Carbon::today()->toDateString();
-        }
+        $date = $request->get('date', now()->toDateString());
 
-        $dayOfWeek = Carbon::parse($date)->dayOfWeekIso;
+        $prices = $field->getPricesByDate($date);
 
-        $prices = $field->FieldPrice
-            ->where('day_of_week', $dayOfWeek)
-            ->sortBy(fn($p) => $p->TimeSlot->startTime);
+        $slots = $field->splitTimeSlots($prices);
 
-        $conflictFieldIds = $field->getConflictFieldIds();
+        $bookedSlots = $field->getBookedSlots($date);
 
-        $bookedSlots = Booking::whereIn('field_id', $conflictFieldIds)
-            ->where('bookingDate', $date)
-            ->whereNotIn('status', [3, 4])
-            ->pluck('time_id')
-            ->toArray();
-
-        $morning = $prices->filter(function ($p) {
-            return Carbon::parse($p->TimeSlot->startTime)->hour < 12;
-        });
-
-        $afternoon = $prices->filter(function ($p) {
-            $hour = Carbon::parse($p->TimeSlot->startTime)->hour;
-            return $hour >= 12 && $hour < 18;
-        });
-
-        $evening = $prices->filter(function ($p) {
-            return Carbon::parse($p->TimeSlot->startTime)->hour >= 18;
-        });
-
-        return view('customers.fields.show', compact(
-            'field',
-            'date',
-            'morning',
-            'afternoon',
-            'evening',
-            'bookedSlots'
-        ));
+        return view('customers.fields.show', [
+            'field' => $field,
+            'date' => $date,
+            'morning' => $slots['morning'],
+            'afternoon' => $slots['afternoon'],
+            'evening' => $slots['evening'],
+            'bookedSlots' => $bookedSlots,
+        ]);
     }
 }

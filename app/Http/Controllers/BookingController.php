@@ -57,64 +57,64 @@ class BookingController extends Controller
     public function store(StoreBookingRequest $request)
     {
         $user = Auth::user();
-        $customerId = $user->customers->id;
-        $field = Field::with(['conflicts', 'reverseConflicts'])->findOrFail($request->field_id);
-        $conflictFieldIds = $field->getConflictFieldIds();
 
-        DB::beginTransaction();
+        $field = Field::with(['conflicts', 'reverseConflicts'])
+            ->findOrFail($request->field_id);
 
         try {
-            $exists = Booking::whereIn('field_id', $conflictFieldIds)
-                ->where('bookingDate', $request->date)
-                ->where('time_id', $request->time_id)
-                ->whereNotIn('status', [3, 4])
-                ->lockForUpdate()
-                ->exists();
+            $booking = DB::transaction(function () use ($request, $user, $field) {
 
-            if ($exists) {
-                DB::rollBack();
-                return back()->withInput()->withErrors(['time_id' => 'Khung giờ này đã được đặt!']);
-            }
+                $conflictFieldIds = $field->getConflictFieldIds();
 
-            $billAmount = $request->price;
+                Field::whereIn('id', $conflictFieldIds)
+                    ->lockForUpdate()
+                    ->get();
 
-            if ($request->payment_type == 'deposit') {
-                $billAmount = $request->price / 2;
-            }
+                $exists = Booking::whereIn('field_id', $conflictFieldIds)
+                    ->where('bookingDate', $request->date)
+                    ->where('time_id', $request->time_id)
+                    ->whereNotIn('status', [3, 4])
+                    ->exists();
 
-            $booking = Booking::create([
-                'bookingDate' => $request->date,
-                'totalPrice' => $request->price,
-                'status' => 0,
-                'contactName' => $request->contactName,
-                'contactPhone' => $request->contactPhone,
-                'contactEmail' => $request->contactEmail,
-                'field_id' => $request->field_id,
-                'time_id' => $request->time_id,
-                'customer_id' => $customerId,
-                'employee_id' => null,
-            ]);
+                if ($exists) {
+                    throw new \Exception('Khung giờ này đã được đặt!');
+                }
 
-            Bill::create([
-                'booking_id' => $booking->id,
-                'payment_id' => $request->payment_id,
-                'amount' => $billAmount,
-                'status' => 0,
-                'payment_type' => $request->payment_type,
-                'paid_at' => null,
-                'note' => null,
-            ]);
+                $billAmount = $request->price;
 
-            DB::commit();
-            return redirect()->route('booking.success', $booking->id)->with('success', 'Đặt sân bóng thành công!');
-        } catch (QueryException $e) {
-            DB::rollBack();
+                if ($request->payment_type === 'deposit') {
+                    $billAmount = $request->price / 2;
+                }
 
-            if ($e->getCode() == 23000) {
-                return back()->withErrors(['time_id' => 'Khung giờ này đã được đặt.']);
-            }
+                $booking = Booking::create([
+                    'bookingDate' => $request->date,
+                    'totalPrice' => $request->price,
+                    'status' => 0,
+                    'contactName' => $request->contactName,
+                    'contactPhone' => $request->contactPhone,
+                    'contactEmail' => $request->contactEmail,
+                    'field_id' => $request->field_id,
+                    'time_id' => $request->time_id,
+                    'customer_id' => $user->customers->id,
+                ]);
 
-            throw $e;
+                $booking->Bills()->create([
+                    'payment_id' => $request->payment_id,
+                    'amount' => $billAmount,
+                    'status' => 0,
+                    'payment_type' => $request->payment_type,
+                ]);
+
+                return $booking;
+            });
+
+            return redirect()
+                ->route('booking.success', $booking->id)
+                ->with('success', 'Đặt sân bóng thành công!');
+        } catch (\Exception $e) {
+            return back()
+                ->withInput()
+                ->withErrors(['time_id' => $e->getMessage()]);
         }
     }
 
