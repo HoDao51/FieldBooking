@@ -1,23 +1,70 @@
-document.querySelectorAll('.time-slot').forEach(slot => {
-    slot.addEventListener('click', function (e) {
+function formatPrice(price) {
+    return new Intl.NumberFormat('vi-VN').format(price) + ' \u0111'
+}
+
+const timeSlots = document.querySelectorAll('.time-slot')
+
+timeSlots.forEach(function(slot) {
+    slot.addEventListener('click', function(e) {
         e.preventDefault()
 
-        document.querySelectorAll('.time-slot').forEach(s => {
-            s.classList.remove('ring-2', 'ring-green-500')
+        timeSlots.forEach(function(item) {
+            item.classList.remove('ring-2', 'ring-green-500')
         })
 
-        this.classList.add('ring-2', 'ring-green-500')
+        slot.classList.add('ring-2', 'ring-green-500')
 
-        let time = this.dataset.time
-        let price = this.dataset.price
-        let timeId = this.dataset.timeId
+        const selectedTime = document.getElementById('selectedTime')
+        const totalPrice = document.getElementById('totalPrice')
+        const hiddenPrice = document.getElementById('hiddenPrice')
+        const hiddenTimeId = document.getElementById('hiddenTimeId')
 
-        document.getElementById('selectedTime').value = time
+        if (selectedTime) {
+            selectedTime.value = slot.dataset.time
+        }
 
-        document.getElementById('totalPrice').innerText =
-            new Intl.NumberFormat('vi-VN').format(price) + 'đ'
+        if (totalPrice) {
+            totalPrice.innerText = formatPrice(slot.dataset.price)
+        }
 
-        document.getElementById('hiddenPrice').value = price
-        document.getElementById('hiddenTimeId').value = timeId
+        if (hiddenPrice) {
+            hiddenPrice.value = slot.dataset.price
+        }
+
+        if (hiddenTimeId) {
+            hiddenTimeId.value = slot.dataset.timeId
+        }
     })
 })
+
+const checkoutPage = document.querySelector('[data-checkout-page]')
+
+if (checkoutPage) {
+    const paymentTypeInputs = document.querySelectorAll('.payment-type')
+    const payNowAmount = document.getElementById('payNowAmount')
+    const paymentTypeLabel = document.getElementById('paymentTypeLabel')
+    const fullPrice = checkoutPage.dataset.fullPrice
+    const depositPrice = checkoutPage.dataset.depositPrice
+
+    paymentTypeInputs.forEach(function(item) {
+        item.addEventListener('change', function() {
+            if (item.value == 1) {
+                if (paymentTypeLabel) {
+                    paymentTypeLabel.innerText = '\u0110\u1eb7t c\u1ecdc 50%'
+                }
+
+                if (payNowAmount) {
+                    payNowAmount.innerText = formatPrice(depositPrice)
+                }
+            } else {
+                if (paymentTypeLabel) {
+                    paymentTypeLabel.innerText = 'Thanh to\u00e1n to\u00e0n b\u1ed9'
+                }
+
+                if (payNowAmount) {
+                    payNowAmount.innerText = formatPrice(fullPrice)
+                }
+            }
+        })
+    })
+}

@@ -17,6 +17,13 @@ class DashboardController extends Controller
         $fields = Field::count();
         $bookings = Booking::count();
         $revenue = Booking::where('status', 2)->sum('totalPrice');
+        $formattedRevenue = number_format($revenue) . 'đ';
+
+        if ($revenue >= 1000000000) {
+            $formattedRevenue = number_format($revenue / 1000000000, 2, ',', '.') . ' tỷ';
+        } elseif ($revenue >= 1000000) {
+            $formattedRevenue = number_format($revenue / 1000000, 2, ',', '.') . ' triệu';
+        }
 
         $booking = $query
             ->orderByRaw("FIELD(status, 1, 0, 2, 3, 4)")
@@ -24,6 +31,6 @@ class DashboardController extends Controller
             ->paginate(3)
             ->withQueryString();
 
-        return view('admins.dashboard.index', compact('booking', 'customers', 'fields', 'bookings', 'revenue'));
+        return view('admins.dashboard.index', compact('booking', 'customers', 'fields', 'bookings', 'revenue', 'formattedRevenue'));
     }
 }

@@ -1,4 +1,5 @@
 @extends('admins.layouts.app')
+
 @section('content')
     <div class="pl-2">
         <div class="mb-6">
@@ -10,14 +11,16 @@
                 </svg>
                 <span>Thống kê</span>
             </h1>
+
             <p class="text-gray-500 mt-1">
                 Thống kê doanh thu và hiển thị tổng quan hệ thống
             </p>
         </div>
+
         <div class="flex-1 flex flex-col">
             <main class="overflow-auto">
-                <div class="grid grid-cols-4 gap-6 mb-6">
-                    <div class="bg-white p-5 rounded-xl shadow flex items-center gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-6">
+                    <div class="bg-white p-5 rounded-xl shadow flex items-center gap-4 min-w-0">
                         <div class="bg-blue-100 p-3 rounded-lg text-blue-700">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 36 36"
                                 stroke="currentColor" stroke-width="0">
@@ -40,7 +43,8 @@
                             </p>
                         </div>
                     </div>
-                    <div class="bg-white p-5 rounded-xl shadow flex items-center gap-4">
+
+                    <div class="bg-white p-5 rounded-xl shadow flex items-center gap-4 min-w-0">
                         <div class="bg-purple-100 p-3 text-purple-600 rounded-lg">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 256 256"
                                 stroke="currentColor" stroke-width="3">
@@ -57,7 +61,8 @@
                             </p>
                         </div>
                     </div>
-                    <div class="bg-white p-5 rounded-xl shadow flex items-center gap-4">
+
+                    <div class="bg-white p-5 rounded-xl shadow flex items-center gap-4 min-w-0">
                         <div class="bg-yellow-100 p-3 rounded-lg text-yellow-700">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 16 16"
                                 stroke="currentColor" stroke-width="0">
@@ -75,7 +80,8 @@
                             </p>
                         </div>
                     </div>
-                    <div class="bg-white p-5 rounded-xl shadow flex items-center gap-4">
+
+                    <div class="bg-white p-5 rounded-xl shadow flex items-center gap-4 min-w-0">
                         <div class="bg-green-100 p-3 rounded-lg text-green-700">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 scale-125 opacity-80" viewBox="0 0 56 56"
                                 fill="currentColor">
@@ -83,12 +89,13 @@
                                     d="M29 30v10c3.519-.316 5-2.287 5-4.89c0-2.507-1.152-3.99-5-5.11m-3-5v-9c-3.273.415-5 2.33-5 4.43s1.364 3.647 5 4.57m2.84.737l1.072.277C35.784 27.423 39 29.917 39 34.836c0 5.658-4.466 8.868-10.16 9.284V48h-2.523v-3.88c-5.672-.439-10.16-3.741-10.317-9.284h4.622c.402 2.702 2.1 4.688 5.695 5.08V29.849l-.916-.231c-5.672-1.363-8.731-3.996-8.731-8.684c0-5.173 4.02-8.591 9.647-9.03V8h2.523v3.903c5.582.462 9.624 3.926 9.803 9.169h-4.645c-.29-2.91-2.3-4.596-5.158-4.966z" />
                             </svg>
                         </div>
-                        <div>
-                            <h2 class="text-2xl font-bold text-green-600 leading-none whitespace-nowrap">
-                                {{ number_format($revenue) }}đ
+                        <div class="min-w-0 flex-1">
+                            <h2 class="text-lg xl:text-2xl font-bold text-green-600 leading-tight break-all"
+                                title="{{ number_format($revenue) }}&#273;">
+                                {{ $formattedRevenue }}
                             </h2>
                             <p class="text-gray-500 text-sm mt-1">
-                                Doanh thu hôm nay
+                                Doanh thu
                             </p>
                         </div>
                     </div>
@@ -102,6 +109,7 @@
                     </svg>
                     <span>Danh sách các đơn đặt sân mới</span>
                 </h2>
+
                 <div class="bg-white rounded-xl shadow border overflow-hidden">
                     <table class="min-w-full text-sm">
                         <thead class="bg-gray-200 text-gray-800 uppercase text-xs">
@@ -118,12 +126,9 @@
 
                         <tbody class="divide-y">
                             @forelse($booking as $item)
-                                @php
-                                    $firstBill = $item->Bills->first();
-                                @endphp
                                 <tr class="hover:bg-gray-50">
                                     <td class="px-6 py-4">
-                                        <div class="flex flex-col text-2x1">
+                                        <div class="flex flex-col">
                                             <span class="font-semibold text-gray-800">
                                                 {{ $item->contactName }}
                                             </span>
@@ -141,7 +146,7 @@
                                         {{ $item->created_at->format('d-m-Y') }}
                                     </td>
 
-                                    <td class="text-center ">
+                                    <td class="text-center">
                                         <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm whitespace-nowrap">
                                             {{ \Carbon\Carbon::parse($item->TimeSlot->startTime)->format('H:i') }}
                                             -
@@ -149,12 +154,12 @@
                                         </span>
                                     </td>
 
-                                    <td class="text-center ">
+                                    <td class="text-center">
                                         <p class="font-semibold text-green-600">{{ number_format($item->totalPrice) }}đ</p>
-                                        @if ($firstBill)
-                                            <p class="italic">{{ $firstBill->PaymentMethod->name }}</p>
-                                            @if ($firstBill->payment_type == 1)
-                                                <p class="text-xs text-gray-500">Đặt cọc: {{ number_format($firstBill->amount) }}đ</p>
+                                        @if ($item->Bills->first())
+                                            <p class="italic">{{ $item->Bills->first()->PaymentMethod->name }}</p>
+                                            @if ($item->Bills->first()->payment_type == 1)
+                                                <p class="text-xs text-gray-500">Đặt cọc: {{ number_format($item->Bills->first()->amount) }}đ</p>
                                             @else
                                                 <p class="text-xs text-gray-500">Thanh toán đủ</p>
                                             @endif
@@ -253,7 +258,6 @@
                                     </td>
                                 </tr>
                             @endforelse
-
                         </tbody>
                     </table>
                 </div>
@@ -276,6 +280,6 @@
                 @endif
             </main>
         </div>
-
     </div>
 @endsection
+

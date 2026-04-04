@@ -61,7 +61,7 @@ class BookingController extends Controller
                 'fieldType',
                 'images',
                 'conflicts',
-                'reverseConflicts'
+                'reverseConflicts',
             ])->findOrFail($request->field_id);
 
             $prices = $selectedField->getPricesByDate($date);
@@ -106,7 +106,7 @@ class BookingController extends Controller
 
         $billAmount = $request->price;
 
-        if ((int) $request->payment_type == 1) {
+        if ($request->payment_type == 1) {
             $billAmount = $request->price / 2;
         }
 
@@ -126,7 +126,7 @@ class BookingController extends Controller
             'payment_id' => $request->payment_id,
             'amount' => $billAmount,
             'status' => 0,
-            'payment_type' => (int) $request->payment_type,
+            'payment_type' => $request->payment_type,
         ]);
 
         return redirect()

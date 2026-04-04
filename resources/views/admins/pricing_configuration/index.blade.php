@@ -67,7 +67,9 @@
                         <div class="mt-1 flex items-center gap-2 text-xs">
                             <!-- Loại sân -->
                             <span class="px-2 py-0.5 text-xs rounded-full bg-gray-100 text-gray-600">
-                                {{ $item->fieldType->name ?? '' }}
+                                @if ($item->fieldType)
+                                    {{ $item->fieldType->name }}
+                                @endif
                             </span>
                         </div>
 

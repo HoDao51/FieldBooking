@@ -1,6 +1,9 @@
 import './bootstrap';
 import './modal';
+import './session_modal';
 import './image';
 import './field_conflict';
 import './direct_booking';
 import './checkout';
+import './toast';
+import './profile_dropdown';

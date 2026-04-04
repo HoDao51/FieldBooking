@@ -127,19 +127,15 @@
 
                         <div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
                             @foreach ($morning as $price)
-                                @php
-                                    $isBooked = in_array($price->time_id, $bookedSlots);
-                                    $timeLabel =
-                                        \Carbon\Carbon::parse($price->TimeSlot->startTime)->format('H:i') .
-                                        ' - ' .
-                                        \Carbon\Carbon::parse($price->TimeSlot->endTime)->format('H:i');
-                                @endphp
-
-                                @if ($isBooked)
+                                @if (in_array($price->time_id, $bookedSlots))
                                     <div
                                         class="rounded-xl border border-gray-200 bg-gray-200 px-4 py-3 text-sm shadow-sm cursor-not-allowed">
                                         <div class="flex items-center justify-between gap-4">
-                                            <span class="font-medium text-gray-500">{{ $timeLabel }}</span>
+                                            <span class="font-medium text-gray-500">
+                                                {{ \Carbon\Carbon::parse($price->TimeSlot->startTime)->format('H:i') }}
+                                                -
+                                                {{ \Carbon\Carbon::parse($price->TimeSlot->endTime)->format('H:i') }}
+                                            </span>
                                             <span class="whitespace-nowrap font-semibold text-gray-400">
                                                 {{ number_format($price->price, 0, ',', '.') }}đ
                                             </span>
@@ -155,11 +151,16 @@
                                     <a href="#"
                                         class="time-slot block rounded-xl border border-green-200 text-green-600
                                         bg-green-50 px-4 py-3 text-sm transition hover:text-white hover:bg-green-600"
-                                        data-time-id="{{ $price->time_id }}" data-time="{{ $timeLabel }}"
+                                        data-time-id="{{ $price->time_id }}"
+                                        data-time="{{ \Carbon\Carbon::parse($price->TimeSlot->startTime)->format('H:i') }} - {{ \Carbon\Carbon::parse($price->TimeSlot->endTime)->format('H:i') }}"
                                         data-price="{{ $price->price }}">
 
                                         <div class="flex items-center justify-between gap-4">
-                                            <span class="font-medium">{{ $timeLabel }}</span>
+                                            <span class="font-medium">
+                                                {{ \Carbon\Carbon::parse($price->TimeSlot->startTime)->format('H:i') }}
+                                                -
+                                                {{ \Carbon\Carbon::parse($price->TimeSlot->endTime)->format('H:i') }}
+                                            </span>
                                             <span class="whitespace-nowrap font-semibold">
                                                 {{ number_format($price->price, 0, ',', '.') }}đ
                                             </span>
@@ -189,19 +190,15 @@
 
                         <div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
                             @foreach ($afternoon as $price)
-                                @php
-                                    $isBooked = in_array($price->time_id, $bookedSlots);
-                                    $timeLabel =
-                                        \Carbon\Carbon::parse($price->TimeSlot->startTime)->format('H:i') .
-                                        ' - ' .
-                                        \Carbon\Carbon::parse($price->TimeSlot->endTime)->format('H:i');
-                                @endphp
-
-                                @if ($isBooked)
+                                @if (in_array($price->time_id, $bookedSlots))
                                     <div
                                         class="rounded-xl border border-gray-200 bg-gray-200 px-4 py-3 text-sm shadow-sm cursor-not-allowed">
                                         <div class="flex items-center justify-between gap-4">
-                                            <span class="font-medium text-gray-500">{{ $timeLabel }}</span>
+                                            <span class="font-medium text-gray-500">
+                                                {{ \Carbon\Carbon::parse($price->TimeSlot->startTime)->format('H:i') }}
+                                                -
+                                                {{ \Carbon\Carbon::parse($price->TimeSlot->endTime)->format('H:i') }}
+                                            </span>
                                             <span class="whitespace-nowrap font-semibold text-gray-400">
                                                 {{ number_format($price->price, 0, ',', '.') }}đ
                                             </span>
@@ -217,11 +214,16 @@
                                     <a href="#"
                                         class="time-slot block rounded-xl border border-green-200 text-green-600
                                         bg-green-50 px-4 py-3 text-sm transition hover:text-white hover:bg-green-600"
-                                        data-time-id="{{ $price->time_id }}" data-time="{{ $timeLabel }}"
+                                        data-time-id="{{ $price->time_id }}"
+                                        data-time="{{ \Carbon\Carbon::parse($price->TimeSlot->startTime)->format('H:i') }} - {{ \Carbon\Carbon::parse($price->TimeSlot->endTime)->format('H:i') }}"
                                         data-price="{{ $price->price }}">
 
                                         <div class="flex items-center justify-between gap-4">
-                                            <span class="font-medium">{{ $timeLabel }}</span>
+                                            <span class="font-medium">
+                                                {{ \Carbon\Carbon::parse($price->TimeSlot->startTime)->format('H:i') }}
+                                                -
+                                                {{ \Carbon\Carbon::parse($price->TimeSlot->endTime)->format('H:i') }}
+                                            </span>
                                             <span class="whitespace-nowrap font-semibold">
                                                 {{ number_format($price->price, 0, ',', '.') }}đ
                                             </span>
@@ -252,19 +254,15 @@
 
                         <div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
                             @foreach ($evening as $price)
-                                @php
-                                    $isBooked = in_array($price->time_id, $bookedSlots);
-                                    $timeLabel =
-                                        \Carbon\Carbon::parse($price->TimeSlot->startTime)->format('H:i') .
-                                        ' - ' .
-                                        \Carbon\Carbon::parse($price->TimeSlot->endTime)->format('H:i');
-                                @endphp
-
-                                @if ($isBooked)
+                                @if (in_array($price->time_id, $bookedSlots))
                                     <div
                                         class="rounded-xl border border-gray-200 bg-gray-200 px-4 py-3 text-sm shadow-sm cursor-not-allowed">
                                         <div class="flex items-center justify-between gap-4">
-                                            <span class="font-medium text-gray-500">{{ $timeLabel }}</span>
+                                            <span class="font-medium text-gray-500">
+                                                {{ \Carbon\Carbon::parse($price->TimeSlot->startTime)->format('H:i') }}
+                                                -
+                                                {{ \Carbon\Carbon::parse($price->TimeSlot->endTime)->format('H:i') }}
+                                            </span>
                                             <span class="whitespace-nowrap font-semibold text-gray-400">
                                                 {{ number_format($price->price, 0, ',', '.') }}đ
                                             </span>
@@ -280,11 +278,16 @@
                                     <a href="#"
                                         class="time-slot block rounded-xl border border-green-200 text-green-600
                                         bg-green-50 px-4 py-3 text-sm transition hover:text-white hover:bg-green-600"
-                                        data-time-id="{{ $price->time_id }}" data-time="{{ $timeLabel }}"
+                                        data-time-id="{{ $price->time_id }}"
+                                        data-time="{{ \Carbon\Carbon::parse($price->TimeSlot->startTime)->format('H:i') }} - {{ \Carbon\Carbon::parse($price->TimeSlot->endTime)->format('H:i') }}"
                                         data-price="{{ $price->price }}">
 
                                         <div class="flex items-center justify-between gap-4">
-                                            <span class="font-medium">{{ $timeLabel }}</span>
+                                            <span class="font-medium">
+                                                {{ \Carbon\Carbon::parse($price->TimeSlot->startTime)->format('H:i') }}
+                                                -
+                                                {{ \Carbon\Carbon::parse($price->TimeSlot->endTime)->format('H:i') }}
+                                            </span>
                                             <span class="whitespace-nowrap font-semibold">
                                                 {{ number_format($price->price, 0, ',', '.') }}đ
                                             </span>

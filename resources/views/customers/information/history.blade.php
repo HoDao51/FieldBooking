@@ -1,7 +1,7 @@
 @extends('customers.layouts.app')
 
 @section('content')
-    <div class="flex items-start max-w-6xl mx-auto mt-5 mb-10 gap-6 ">
+    <div class="flex items-start max-w-6xl mx-auto mt-5 mb-10 gap-6">
         <div class="w-64 bg-white rounded-xl shadow p-6 text-center flex flex-col">
             <div
                 class="w-24 h-24 bg-green-500 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto">
@@ -21,7 +21,7 @@
             <div class="mt-8 space-y-2 text-left">
                 <a href="{{ route('information.index') }}"
                     class="flex items-center space-x-2 block px-3 py-2 rounded hover:text-green-600 font-semibold
-                    {{ request()->routeIs('information.index') ? 'bg-green-100 text-green-600 font-semibold' : ' hover:bg-green-100' }}">
+                    {{ request()->routeIs('information.index') ? 'bg-green-100 text-green-600 font-semibold' : 'hover:bg-green-100' }}">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 24 24">
                         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                             stroke-width="2"
@@ -32,7 +32,7 @@
 
                 <a href="{{ route('information.history') }}"
                     class="flex items-center space-x-2 block px-3 py-2 rounded hover:text-green-600 font-semibold
-                    {{ request()->routeIs('information.history') ? 'bg-green-100 text-green-600 font-semibold' : ' hover:bg-green-100' }}">
+                    {{ request()->routeIs('information.history') ? 'bg-green-100 text-green-600 font-semibold' : 'hover:bg-green-100' }}">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 24 24">
                         <path fill="currentColor" stroke="none"
                             d="M19 4h-2V3a1 1 0 0 0-2 0v1H9V3a1 1 0 0 0-2 0v1H5a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3m1 15a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-7h16Zm0-9H4V7a1 1 0 0 1 1-1h2v1a1 1 0 0 0 2 0V6h6v1a1 1 0 0 0 2 0V6h2a1 1 0 0 1 1 1Z" />
@@ -70,9 +70,6 @@
 
                     <tbody class="divide-y">
                         @forelse($booking as $item)
-                            @php
-                                $firstBill = $item->Bills->first();
-                            @endphp
                             <tr class="hover:bg-gray-50 transition">
                                 <td class="px-6 py-4 text-center font-medium break-words">
                                     {{ $item->Fields->name }}
@@ -83,19 +80,20 @@
                                 </td>
 
                                 <td class="px-6 py-4 text-center">
-                                    <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap">
+                                    <span
+                                        class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap">
                                         {{ \Carbon\Carbon::parse($item->TimeSlot->startTime)->format('H:i') }}
                                         -
                                         {{ \Carbon\Carbon::parse($item->TimeSlot->endTime)->format('H:i') }}
                                     </span>
                                 </td>
 
-                                <td class="px-6 py-4 text-center ">
+                                <td class="px-6 py-4 text-center">
                                     <p class="font-semibold text-green-600">{{ number_format($item->totalPrice) }}đ</p>
-                                    @if ($firstBill)
-                                        <p class="italic break-words">{{ $firstBill->PaymentMethod->name }}</p>
-                                        @if ($firstBill->payment_type == 1)
-                                            <p class="text-xs text-gray-500">Đặt cọc: {{ number_format($firstBill->amount) }}đ</p>
+                                    @if ($item->Bills->first())
+                                        <p class="italic break-words">{{ $item->Bills->first()->PaymentMethod->name }}</p>
+                                        @if ($item->Bills->first()->payment_type == 1)
+                                            <p class="text-xs text-gray-500">Đặt cọc: {{ number_format($item->Bills->first()->amount) }}đ</p>
                                         @else
                                             <p class="text-xs text-gray-500">Thanh toán đủ</p>
                                         @endif
@@ -124,7 +122,8 @@
                                             Đã hủy
                                         </span>
                                     @elseif ($item->status == 4)
-                                        <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-semibold">
+                                        <span
+                                            class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-semibold">
                                             Từ chối
                                         </span>
                                     @endif
@@ -140,6 +139,7 @@
                     </tbody>
                 </table>
             </div>
+
             @if ($booking->hasPages())
                 <div class="flex justify-center items-center gap-2">
                     @for ($i = 1; $i <= $booking->lastPage(); $i++)

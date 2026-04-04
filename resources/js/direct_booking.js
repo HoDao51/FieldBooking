@@ -1,6 +1,6 @@
-const page = document.querySelector('[data-direct-booking-page]')
+const directBookingPage = document.querySelector('[data-direct-booking-page]')
 
-if (page) {
+if (directBookingPage) {
     const customerSelect = document.getElementById('customerSelect')
     const customerTypes = document.querySelectorAll('.customer-type')
     const existingSection = document.getElementById('existingCustomerSection')
@@ -16,34 +16,30 @@ if (page) {
     const hiddenPrice = document.getElementById('hiddenPrice')
     const timeSlots = document.querySelectorAll('.time-slot')
 
+    function formatPrice(price) {
+        return new Intl.NumberFormat('vi-VN').format(price) + ' \u0111'
+    }
+
     function isGuest() {
         const selectedType = document.querySelector('input[name="customer_type"]:checked')
 
-        if (selectedType) {
-            return selectedType.value === 'guest'
+        if (selectedType && selectedType.value === 'guest') {
+            return true
         }
 
         return false
     }
 
-    function formatPrice(price) {
-        return new Intl.NumberFormat('vi-VN').format(price) + 'đ'
-    }
-
-    function updateCustomer() {
+    function fillCustomerInfo() {
         if (isGuest()) {
             return
         }
 
-        if (!customerSelect) {
+        if (!customerSelect || customerSelect.value === '') {
             return
         }
 
         const selectedOption = customerSelect.options[customerSelect.selectedIndex]
-
-        if (!selectedOption || !selectedOption.value) {
-            return
-        }
 
         if (nameInput.value.trim() === '') {
             nameInput.value = selectedOption.dataset.name
@@ -59,17 +55,11 @@ if (page) {
     }
 
     function toggleCustomerType() {
-        const guest = isGuest()
-
-        if (existingSection) {
-            if (guest) {
+        if (isGuest()) {
+            if (existingSection) {
                 existingSection.classList.add('hidden')
-            } else {
-                existingSection.classList.remove('hidden')
             }
-        }
 
-        if (guest) {
             nameInput.readOnly = false
             phoneInput.readOnly = false
             emailInput.readOnly = false
@@ -82,6 +72,10 @@ if (page) {
             phoneInput.value = ''
             emailInput.value = ''
         } else {
+            if (existingSection) {
+                existingSection.classList.remove('hidden')
+            }
+
             nameInput.readOnly = true
             phoneInput.readOnly = true
             emailInput.readOnly = true
@@ -89,13 +83,13 @@ if (page) {
             nameInput.classList.add('bg-gray-100', 'text-gray-500', 'cursor-not-allowed')
             phoneInput.classList.add('bg-gray-100', 'text-gray-500', 'cursor-not-allowed')
             emailInput.classList.add('bg-gray-100', 'text-gray-500', 'cursor-not-allowed')
-        }
 
-        updateCustomer()
+            fillCustomerInfo()
+        }
     }
 
     function selectSlot(slot) {
-        const formattedPrice = formatPrice(slot.dataset.price)
+        const price = formatPrice(slot.dataset.price)
 
         timeSlots.forEach(function(item) {
             item.classList.remove('ring-2', 'ring-green-500')
@@ -106,10 +100,10 @@ if (page) {
         hiddenTime.value = slot.dataset.timeId
         hiddenPrice.value = slot.dataset.price
         summaryTime.innerText = slot.dataset.time
-        summaryPriceTop.innerText = formattedPrice
-        summaryPrice.innerText = formattedPrice
-        summaryPayNow.innerText = formattedPrice
-        summaryTotal.innerText = formattedPrice
+        summaryPriceTop.innerText = price
+        summaryPrice.innerText = price
+        summaryPayNow.innerText = price
+        summaryTotal.innerText = price
     }
 
     if (customerSelect) {
@@ -117,18 +111,12 @@ if (page) {
             nameInput.value = ''
             phoneInput.value = ''
             emailInput.value = ''
-            updateCustomer()
+            fillCustomerInfo()
         })
     }
 
     customerTypes.forEach(function(item) {
         item.addEventListener('change', function() {
-            if (isGuest()) {
-                nameInput.value = ''
-                phoneInput.value = ''
-                emailInput.value = ''
-            }
-
             toggleCustomerType()
         })
     })

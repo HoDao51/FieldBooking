@@ -44,7 +44,7 @@ class FieldConflictController extends Controller
 
         if ($request->has('conflict_fields')) {
             foreach ($request->conflict_fields as $conflictFieldId) {
-                if ((int) $conflictFieldId === (int) $sanBong->id) {
+                if ($conflictFieldId == $sanBong->id) {
                     continue;
                 }
 

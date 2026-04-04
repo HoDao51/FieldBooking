@@ -2,7 +2,9 @@
 
 @section('content')
     @if (auth()->user()->role == 0)
-        <div class="pl-2">
+        <div class="pl-2"
+            @if (session('modal') === 'create') data-auto-open-modal="createModal" @endif
+            @if (session('modal') === 'edit') data-auto-open-modal="editModal" @endif>
             <div class="mb-6">
                 <h1 class="flex items-center gap-3 text-2xl font-bold text-gray-800">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-green-600" viewBox="0 0 24 24"
@@ -214,21 +216,6 @@
         </div>
         @include('admins.customer._create_modal')
         @include('admins.customer._edit_modal')
-        @if (session('modal') === 'create')
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    openModal('createModal');
-                });
-            </script>
-        @endif
-
-        @if (session('modal') === 'edit')
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    openModal('editModal');
-                });
-            </script>
-        @endif
     @else
         <div class="col-span-3 text-center text-xl text-gray-500 py-32">
             Bạn không có quyền truy cập vào khu vực này

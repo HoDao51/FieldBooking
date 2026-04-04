@@ -2,10 +2,6 @@
 
 @section('content')
     <div class="max-w-3xl mx-auto pb-12 pt-4">
-        @php
-            $firstBill = $booking->Bills->first();
-        @endphp
-
         <div class="text-center mb-2">
             <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-green-600" viewBox="0 0 16 16">
@@ -35,10 +31,12 @@
                     <img src="{{ asset('images/banner-client-placeholder.jpg') }}"
                         class="w-20 h-16 rounded-lg object-cover">
                 @endif
+
                 <div>
                     <h1 class="font-bold text-lg">
                         {{ $booking->Fields->name }}
                     </h1>
+
                     <div class="flex items-start gap-1 text-gray-500 text-sm my-1">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-600 mt-0.5 shrink-0"
                             viewBox="0 0 256 256" stroke="currentColor" stroke-width="3">
@@ -47,6 +45,7 @@
                         </svg>
                         <span>{{ $booking->Fields->address }}</span>
                     </div>
+
                     <span class="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm mt-2">
                         {{ $booking->Fields->FieldType->name }}
                     </span>
@@ -63,11 +62,8 @@
                         </svg>
                         Ngày đặt
                     </span>
-                    @php
-                        \Carbon\Carbon::setLocale('vi');
-                    @endphp
                     <span class="font-semibold">
-                        {{ \Carbon\Carbon::parse($booking->bookingDate)->translatedFormat('l, d/m/Y') }}
+                        {{ \Carbon\Carbon::parse($booking->bookingDate)->locale('vi')->translatedFormat('l, d/m/Y') }}
                     </span>
                 </div>
 
@@ -87,12 +83,13 @@
                             {{ \Carbon\Carbon::parse($booking->TimeSlot->endTime)->format('H:i') }}
                         </span>
                     </div>
+
                     <span class="text-sm font-semibold">
                         {{ number_format($booking->totalPrice) }}đ
                     </span>
                 </div>
 
-                @if ($firstBill)
+                @if ($booking->Bills->first())
                     <div class="flex justify-between">
                         <span class="flex items-center gap-2 text-sm">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
@@ -102,17 +99,17 @@
                                     <path d="M2 10h20" />
                                 </g>
                             </svg>
-                            Thanh toán
+                            Phương thức thanh toán
                         </span>
                         <span class="font-semibold">
-                            {{ $firstBill->PaymentMethod->name }}
+                            {{ $booking->Bills->first()->PaymentMethod->name }}
                         </span>
                     </div>
 
                     <div class="flex justify-between">
                         <span class="text-sm">Hình thức</span>
                         <span class="font-semibold">
-                            @if ($firstBill->payment_type == 1)
+                            @if ($booking->Bills->first()->payment_type == 1)
                                 Đặt cọc 50%
                             @else
                                 Thanh toán toàn bộ
@@ -123,14 +120,14 @@
                     <div class="flex justify-between">
                         <span class="text-sm">Đã thanh toán</span>
                         <span class="font-semibold text-green-600">
-                            {{ number_format($firstBill->amount) }}đ
+                            {{ number_format($booking->Bills->first()->amount) }}đ
                         </span>
                     </div>
                 @endif
             </div>
 
             <div class="border-t mt-6 pt-4 flex justify-between font-semibold">
-                <span class="text-lg">Tổng tiền: </span>
+                <span class="text-lg">Tổng tiền</span>
                 <span class="text-green-600 text-2xl font-bold">
                     {{ number_format($booking->totalPrice) }}đ
                 </span>
@@ -142,6 +139,7 @@
                 class="bg-gray-600 font-medium text-white px-6 py-3 rounded-lg hover:bg-gray-700">
                 Quay về trang chủ
             </a>
+
             <a href="{{ route('information.history') }}"
                 class="bg-green-600 font-medium text-white px-6 py-3 rounded-lg hover:bg-green-700">
                 Xem lịch sử đặt sân

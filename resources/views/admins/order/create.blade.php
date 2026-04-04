@@ -1,27 +1,17 @@
 @extends('admins.layouts.app')
 
 @section('content')
-    @php
-        $selectedFieldValue = '';
-
-        if ($selectedField) {
-            $selectedFieldValue = $selectedField->id;
-        }
-    @endphp
-
     <div class="pl-2" data-direct-booking-page>
         <div class="mb-6 flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <a href="{{ route('donDatSan.index') }}" class="text-gray-600 hover:text-green-600 transition">
+                <a href="{{ route('donDatSan.index') }}" class="text-gray-600 transition hover:text-green-600">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24">
                         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                             stroke-width="2" d="m12 19l-7-7l7-7m7 7H5" />
                     </svg>
                 </a>
                 <div>
-                    <h1 class="flex items-center gap-3 text-2xl font-bold text-gray-800">
-                        <span>Thêm đơn đặt sân</span>
-                    </h1>
+                    <h1 class="text-2xl font-bold text-gray-800">Thêm đơn đặt sân</h1>
                     <p class="mt-1 text-gray-500">
                         Nhân viên hoặc quản trị viên tạo đơn trực tiếp cho khách hàng tại sân
                     </p>
@@ -29,7 +19,7 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-12 gap-6">
+        <div class="mb-10 grid grid-cols-12 gap-6">
             <div class="col-span-12 space-y-6 lg:col-span-7">
                 <div class="rounded-xl bg-white p-6 shadow">
                     <h2 class="mb-4 text-lg font-semibold">Chọn sân và ngày</h2>
@@ -40,7 +30,7 @@
                             <label class="mb-2 block text-sm font-medium text-gray-600">Sân bóng</label>
                             <div class="relative">
                                 <select name="field_id" onchange="this.form.submit()"
-                                    class="appearance-none w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400">
+                                    class="w-full appearance-none rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400">
                                     <option value="">-- Chọn sân --</option>
                                     @foreach ($fields as $field)
                                         <option value="{{ $field->id }}"
@@ -49,9 +39,8 @@
                                         </option>
                                     @endforeach
                                 </select>
-                                <!-- icon mũi tên -->
                                 <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-[#4B5563]"
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#4B5563]"
                                         viewBox="0 0 16 16">
                                         <path fill="currentColor"
                                             d="M13.069 5.157L8.384 9.768a.546.546 0 0 1-.768 0L2.93 5.158a.55.55 0 0 0-.771 0a.53.53 0 0 0 0 .759l4.684 4.61a1.65 1.65 0 0 0 2.312 0l4.684-4.61a.53.53 0 0 0 0-.76a.55.55 0 0 0-.771 0" />
@@ -71,14 +60,14 @@
 
                 <form action="{{ route('donDatSan.storeAtField') }}" method="POST" class="space-y-6">
                     @csrf
-                    <input type="hidden" name="field_id" value="{{ old('field_id', $selectedFieldValue) }}">
+                    <input type="hidden" name="field_id"
+                        value="@if (old('field_id')){{ old('field_id') }}@elseif ($selectedField){{ $selectedField->id }}@endif">
                     <input type="hidden" name="date" value="{{ old('date', $date) }}">
                     <input type="hidden" name="time_id" id="hiddenTimeId" value="{{ old('time_id') }}">
                     <input type="hidden" name="price" id="hiddenPrice" value="{{ old('price') }}">
 
-                    <div class="bg-white rounded-xl border border-gray-100 shadow p-6">
-                        <h1
-                            class="mb-5 flex flex-wrap items-center justify-between gap-3 text-xl font-semibold text-gray-800">
+                    <div class="rounded-xl border border-gray-100 bg-white p-6 shadow">
+                        <h1 class="mb-5 flex flex-wrap items-center justify-between gap-3 text-xl font-semibold text-gray-800">
                             Bảng giá - Chọn lịch đặt sân
 
                             <span class="rounded-full bg-green-50 px-3 py-1 text-sm font-medium text-green-600">
@@ -98,8 +87,7 @@
                             @endif
 
                             @if ($morning->count())
-                                <span
-                                    class="mt-5 mb-3 flex items-center gap-2 font-semibold uppercase tracking-wide text-gray-700">
+                                <span class="mt-5 mb-3 flex items-center gap-2 font-semibold uppercase tracking-wide text-gray-700">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500"
                                         viewBox="0 0 48 48">
                                         <path fill="currentColor" stroke="currentColor" stroke-width="4"
@@ -110,44 +98,38 @@
 
                                 <div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
                                     @foreach ($morning as $price)
-                                        @php
-                                            $isBooked = in_array($price->time_id, $bookedSlots);
-                                            $timeLabel =
-                                                \Carbon\Carbon::parse($price->TimeSlot->startTime)->format('H:i') .
-                                                ' - ' .
-                                                \Carbon\Carbon::parse($price->TimeSlot->endTime)->format('H:i');
-                                        @endphp
-
-                                        @if ($isBooked)
-                                            <div
-                                                class="rounded-xl border border-gray-200 bg-gray-200 px-4 py-3 text-sm shadow-sm cursor-not-allowed">
+                                        @if (in_array($price->time_id, $bookedSlots))
+                                            <div class="cursor-not-allowed rounded-xl border border-gray-200 bg-gray-200 px-4 py-3 text-sm shadow-sm">
                                                 <div class="flex items-center justify-between gap-4">
-                                                    <span class="font-medium text-gray-500">{{ $timeLabel }}</span>
-                                                    <span class="whitespace-nowrap font-semibold text-gray-400">
-                                                        {{ number_format($price->price, 0, ',', '.') }}đ
+                                                    <span class="font-medium text-gray-500">
+                                                        {{ \Carbon\Carbon::parse($price->TimeSlot->startTime)->format('H:i') }}
+                                                        -
+                                                        {{ \Carbon\Carbon::parse($price->TimeSlot->endTime)->format('H:i') }}
                                                     </span>
+                                                    <span class="font-semibold text-gray-400">{{ number_format($price->price, 0, ',', '.') }}đ</span>
                                                 </div>
                                                 <div class="mt-2">
-                                                    <span
-                                                        class="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-500">
+                                                    <span class="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-500">
                                                         Đã đặt
                                                     </span>
                                                 </div>
                                             </div>
                                         @else
                                             <a href="#"
-                                                class="time-slot block rounded-xl border border-green-200 text-green-600 bg-green-50 px-4 py-3 text-sm transition hover:text-white hover:bg-green-600"
-                                                data-time-id="{{ $price->time_id }}" data-time="{{ $timeLabel }}"
+                                                class="time-slot block rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-600 transition hover:bg-green-600 hover:text-white"
+                                                data-time-id="{{ $price->time_id }}"
+                                                data-time="{{ \Carbon\Carbon::parse($price->TimeSlot->startTime)->format('H:i') }} - {{ \Carbon\Carbon::parse($price->TimeSlot->endTime)->format('H:i') }}"
                                                 data-price="{{ $price->price }}">
                                                 <div class="flex items-center justify-between gap-4">
-                                                    <span class="font-medium">{{ $timeLabel }}</span>
-                                                    <span class="whitespace-nowrap font-semibold">
-                                                        {{ number_format($price->price, 0, ',', '.') }}đ
+                                                    <span class="font-medium">
+                                                        {{ \Carbon\Carbon::parse($price->TimeSlot->startTime)->format('H:i') }}
+                                                        -
+                                                        {{ \Carbon\Carbon::parse($price->TimeSlot->endTime)->format('H:i') }}
                                                     </span>
+                                                    <span class="font-semibold">{{ number_format($price->price, 0, ',', '.') }}đ</span>
                                                 </div>
                                                 <div class="mt-2">
-                                                    <span
-                                                        class="rounded-full bg-green-200 px-3 py-1 text-xs font-semibold text-green-700">
+                                                    <span class="rounded-full bg-green-200 px-3 py-1 text-xs font-semibold text-green-700">
                                                         Còn trống
                                                     </span>
                                                 </div>
@@ -158,8 +140,7 @@
                             @endif
 
                             @if ($afternoon->count())
-                                <span
-                                    class="mt-6 mb-3 flex items-center gap-2 font-semibold uppercase tracking-wide text-gray-700">
+                                <span class="mt-6 mb-3 flex items-center gap-2 font-semibold uppercase tracking-wide text-gray-700">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-orange-500"
                                         viewBox="0 0 48 48">
                                         <path fill="currentColor" stroke="currentColor" stroke-width="4"
@@ -170,44 +151,38 @@
 
                                 <div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
                                     @foreach ($afternoon as $price)
-                                        @php
-                                            $isBooked = in_array($price->time_id, $bookedSlots);
-                                            $timeLabel =
-                                                \Carbon\Carbon::parse($price->TimeSlot->startTime)->format('H:i') .
-                                                ' - ' .
-                                                \Carbon\Carbon::parse($price->TimeSlot->endTime)->format('H:i');
-                                        @endphp
-
-                                        @if ($isBooked)
-                                            <div
-                                                class="rounded-xl border border-gray-200 bg-gray-200 px-4 py-3 text-sm shadow-sm cursor-not-allowed">
+                                        @if (in_array($price->time_id, $bookedSlots))
+                                            <div class="cursor-not-allowed rounded-xl border border-gray-200 bg-gray-200 px-4 py-3 text-sm shadow-sm">
                                                 <div class="flex items-center justify-between gap-4">
-                                                    <span class="font-medium text-gray-500">{{ $timeLabel }}</span>
-                                                    <span class="whitespace-nowrap font-semibold text-gray-400">
-                                                        {{ number_format($price->price, 0, ',', '.') }}đ
+                                                    <span class="font-medium text-gray-500">
+                                                        {{ \Carbon\Carbon::parse($price->TimeSlot->startTime)->format('H:i') }}
+                                                        -
+                                                        {{ \Carbon\Carbon::parse($price->TimeSlot->endTime)->format('H:i') }}
                                                     </span>
+                                                    <span class="font-semibold text-gray-400">{{ number_format($price->price, 0, ',', '.') }}đ</span>
                                                 </div>
                                                 <div class="mt-2">
-                                                    <span
-                                                        class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-gray-500">
+                                                    <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-gray-500">
                                                         Đã đặt
                                                     </span>
                                                 </div>
                                             </div>
                                         @else
                                             <a href="#"
-                                                class="time-slot block rounded-xl border border-green-200 text-green-600 bg-green-50 px-4 py-3 text-sm transition hover:text-white hover:bg-green-600"
-                                                data-time-id="{{ $price->time_id }}" data-time="{{ $timeLabel }}"
+                                                class="time-slot block rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-600 transition hover:bg-green-600 hover:text-white"
+                                                data-time-id="{{ $price->time_id }}"
+                                                data-time="{{ \Carbon\Carbon::parse($price->TimeSlot->startTime)->format('H:i') }} - {{ \Carbon\Carbon::parse($price->TimeSlot->endTime)->format('H:i') }}"
                                                 data-price="{{ $price->price }}">
                                                 <div class="flex items-center justify-between gap-4">
-                                                    <span class="font-medium">{{ $timeLabel }}</span>
-                                                    <span class="whitespace-nowrap font-semibold">
-                                                        {{ number_format($price->price, 0, ',', '.') }}đ
+                                                    <span class="font-medium">
+                                                        {{ \Carbon\Carbon::parse($price->TimeSlot->startTime)->format('H:i') }}
+                                                        -
+                                                        {{ \Carbon\Carbon::parse($price->TimeSlot->endTime)->format('H:i') }}
                                                     </span>
+                                                    <span class="font-semibold">{{ number_format($price->price, 0, ',', '.') }}đ</span>
                                                 </div>
                                                 <div class="mt-2">
-                                                    <span
-                                                        class="rounded-full bg-green-200 px-3 py-1 text-xs font-semibold text-green-700">
+                                                    <span class="rounded-full bg-green-200 px-3 py-1 text-xs font-semibold text-green-700">
                                                         Còn trống
                                                     </span>
                                                 </div>
@@ -218,8 +193,7 @@
                             @endif
 
                             @if ($evening->count())
-                                <span
-                                    class="mt-6 mb-3 flex items-center gap-2 font-semibold uppercase tracking-wide text-gray-700">
+                                <span class="mt-6 mb-3 flex items-center gap-2 font-semibold uppercase tracking-wide text-gray-700">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500"
                                         viewBox="0 0 48 48">
                                         <path fill="currentColor" stroke="currentColor" stroke-width="4"
@@ -230,44 +204,38 @@
 
                                 <div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
                                     @foreach ($evening as $price)
-                                        @php
-                                            $isBooked = in_array($price->time_id, $bookedSlots);
-                                            $timeLabel =
-                                                \Carbon\Carbon::parse($price->TimeSlot->startTime)->format('H:i') .
-                                                ' - ' .
-                                                \Carbon\Carbon::parse($price->TimeSlot->endTime)->format('H:i');
-                                        @endphp
-
-                                        @if ($isBooked)
-                                            <div
-                                                class="rounded-xl border border-gray-200 bg-gray-200 px-4 py-3 text-sm shadow-sm cursor-not-allowed">
+                                        @if (in_array($price->time_id, $bookedSlots))
+                                            <div class="cursor-not-allowed rounded-xl border border-gray-200 bg-gray-200 px-4 py-3 text-sm shadow-sm">
                                                 <div class="flex items-center justify-between gap-4">
-                                                    <span class="font-medium text-gray-500">{{ $timeLabel }}</span>
-                                                    <span class="whitespace-nowrap font-semibold text-gray-400">
-                                                        {{ number_format($price->price, 0, ',', '.') }}đ
+                                                    <span class="font-medium text-gray-500">
+                                                        {{ \Carbon\Carbon::parse($price->TimeSlot->startTime)->format('H:i') }}
+                                                        -
+                                                        {{ \Carbon\Carbon::parse($price->TimeSlot->endTime)->format('H:i') }}
                                                     </span>
+                                                    <span class="font-semibold text-gray-400">{{ number_format($price->price, 0, ',', '.') }}đ</span>
                                                 </div>
                                                 <div class="mt-2">
-                                                    <span
-                                                        class="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-500">
+                                                    <span class="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-500">
                                                         Đã đặt
                                                     </span>
                                                 </div>
                                             </div>
                                         @else
                                             <a href="#"
-                                                class="time-slot block rounded-xl border border-green-200 text-green-600 bg-green-50 px-4 py-3 text-sm transition hover:text-white hover:bg-green-600"
-                                                data-time-id="{{ $price->time_id }}" data-time="{{ $timeLabel }}"
+                                                class="time-slot block rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-600 transition hover:bg-green-600 hover:text-white"
+                                                data-time-id="{{ $price->time_id }}"
+                                                data-time="{{ \Carbon\Carbon::parse($price->TimeSlot->startTime)->format('H:i') }} - {{ \Carbon\Carbon::parse($price->TimeSlot->endTime)->format('H:i') }}"
                                                 data-price="{{ $price->price }}">
                                                 <div class="flex items-center justify-between gap-4">
-                                                    <span class="font-medium">{{ $timeLabel }}</span>
-                                                    <span class="whitespace-nowrap font-semibold">
-                                                        {{ number_format($price->price, 0, ',', '.') }}đ
+                                                    <span class="font-medium">
+                                                        {{ \Carbon\Carbon::parse($price->TimeSlot->startTime)->format('H:i') }}
+                                                        -
+                                                        {{ \Carbon\Carbon::parse($price->TimeSlot->endTime)->format('H:i') }}
                                                     </span>
+                                                    <span class="font-semibold">{{ number_format($price->price, 0, ',', '.') }}đ</span>
                                                 </div>
                                                 <div class="mt-2">
-                                                    <span
-                                                        class="rounded-full bg-green-200 px-2.5 py-1 text-xs font-semibold text-green-700">
+                                                    <span class="rounded-full bg-green-200 px-2.5 py-1 text-xs font-semibold text-green-700">
                                                         Còn trống
                                                     </span>
                                                 </div>
@@ -290,25 +258,19 @@
                             <div>
                                 <label class="mb-2 block text-sm font-medium text-gray-600">Loại khách hàng</label>
                                 <div class="grid grid-cols-1 gap-3 md:grid-cols-2">
-                                    <label
-                                        class="flex cursor-pointer items-start gap-3 rounded-lg border border-gray-200 p-4">
+                                    <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-gray-200 p-4 text-sm">
                                         <input type="radio" name="customer_type" value="existing"
                                             @if (old('customer_type', 'existing') == 'existing') checked @endif class="customer-type mt-1">
                                         <div>
                                             <p class="font-semibold">Khách hàng đã có tài khoản</p>
-                                            <p class="text-sm text-gray-500">Chọn khách từ danh sách có sẵn trong hệ thống.
-                                            </p>
                                         </div>
                                     </label>
 
-                                    <label
-                                        class="flex cursor-pointer items-start gap-3 rounded-lg border border-gray-200 p-4">
+                                    <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-gray-200 p-4 text-sm">
                                         <input type="radio" name="customer_type" value="guest"
                                             @if (old('customer_type') == 'guest') checked @endif class="customer-type mt-1">
                                         <div>
                                             <p class="font-semibold">Khách hàng chưa có tài khoản</p>
-                                            <p class="text-sm text-gray-500">Nhập trực tiếp thông tin liên hệ của khách tại
-                                                sân.</p>
                                         </div>
                                     </label>
                                 </div>
@@ -321,7 +283,7 @@
                                 <label class="mb-2 block text-sm font-medium text-gray-600">Chọn khách hàng</label>
                                 <div class="relative">
                                     <select name="customer_id" id="customerSelect"
-                                        class="appearance-none w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400">
+                                        class="w-full appearance-none rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400">
                                         <option value="">-- Chọn khách hàng --</option>
                                         @foreach ($customers as $customer)
                                             <option value="{{ $customer->id }}" data-name="{{ $customer->name }}"
@@ -333,7 +295,7 @@
                                         @endforeach
                                     </select>
                                     <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-[#4B5563]"
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#4B5563]"
                                             viewBox="0 0 16 16">
                                             <path fill="currentColor"
                                                 d="M13.069 5.157L8.384 9.768a.546.546 0 0 1-.768 0L2.93 5.158a.55.55 0 0 0-.771 0a.53.53 0 0 0 0 .759l4.684 4.61a1.65 1.65 0 0 0 2.312 0l4.684-4.61a.53.53 0 0 0 0-.76a.55.55 0 0 0-.771 0" />
@@ -446,22 +408,22 @@
 
                     <div class="space-y-3 py-4 text-sm">
                         <div class="flex items-center justify-between gap-3">
-                            <span class="text-gray-500">Tạm tính</span>
-                            <span class="font-medium text-gray-800" id="summaryPrice">0đ</span>
+                            <span>Tạm tính</span>
+                            <span id="summaryPrice">0đ</span>
+                        </div>
+
+                        <div class="flex justify-between gap-3 text-green-600">
+                            <span>Phí dịch vụ</span>
+                            <span>Miễn phí</span>
                         </div>
 
                         <div class="flex items-center justify-between gap-3">
-                            <span class="text-green-600">Phí dịch vụ</span>
-                            <span class="font-medium text-green-600">Miễn phí</span>
+                            <span>Hình thức</span>
+                            <span>Thanh toán toàn bộ</span>
                         </div>
 
                         <div class="flex items-center justify-between gap-3">
-                            <span class="text-gray-500">Hình thức</span>
-                            <span class="font-medium text-gray-800">Thanh toán toàn bộ</span>
-                        </div>
-
-                        <div class="flex items-center justify-between gap-3">
-                            <span class="font-semibold text-gray-700">Cần thanh toán ngay</span>
+                            <span class="font-semibold text-gray-800">Cần thanh toán ngay</span>
                             <span class="font-semibold text-gray-800" id="summaryPayNow">0đ</span>
                         </div>
                     </div>
@@ -474,7 +436,7 @@
                     </div>
 
                     <button type="submit"
-                        class="w-full font-medium bg-green-600 text-white py-3 rounded-lg mt-4 hover:bg-green-700 transition">
+                        class="mt-4 w-full rounded-lg bg-green-600 py-3 font-medium text-white transition hover:bg-green-700">
                         Xác nhận thông tin
                     </button>
                 </div>

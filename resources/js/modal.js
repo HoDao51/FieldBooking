@@ -1,95 +1,94 @@
-// ===== OPEN MODAL CREATE =====
-window.openModal = function (modalId) {
-    const modal = document.getElementById(modalId);
+window.openModal = function(modalId) {
+    const modal = document.getElementById(modalId)
+
     if (modal) {
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
+        modal.classList.remove('hidden')
+        modal.classList.add('flex')
     }
-};
+}
 
-// ===== CLOSE MODAL =====
-window.closeModal = function (modalId) {
-    const modal = document.getElementById(modalId);
+window.closeModal = function(modalId) {
+    const modal = document.getElementById(modalId)
+
     if (modal) {
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
+        modal.classList.add('hidden')
+        modal.classList.remove('flex')
     }
-};
+}
 
-window.openEditModal = function ({ modalId, formId, actionUrl, data }) {
-
+window.openEditModal = function(data) {
     if (typeof resetEditPreview === 'function') {
-        resetEditPreview();
+        resetEditPreview()
     }
 
-    const form = document.getElementById(formId);
-    if (!form) return;
+    const form = document.getElementById(data.formId)
 
-    form.action = actionUrl;
+    if (!form) {
+        return
+    }
 
-    Object.keys(data).forEach(key => {
+    form.action = data.actionUrl
 
-        if (key === 'avatar' || key === 'images') return;
-
-        const input = form.querySelector(`[name="${key}"]`);
-        if (input) {
-            input.value = data[key] ?? '';
+    Object.keys(data.data).forEach(function(key) {
+        if (key === 'avatar' || key === 'images') {
+            return
         }
-    });
 
-    const conflictCheckboxes = form.querySelectorAll('.field-conflict-checkbox');
+        const input = form.querySelector('[name="' + key + '"]')
+
+        if (input) {
+            if (data.data[key]) {
+                input.value = data.data[key]
+            } else {
+                input.value = ''
+            }
+        }
+    })
+
+    const conflictCheckboxes = form.querySelectorAll('.field-conflict-checkbox')
 
     if (conflictCheckboxes.length > 0) {
-        conflictCheckboxes.forEach(checkbox => {
-            checkbox.checked = false;
-        });
+        conflictCheckboxes.forEach(function(checkbox) {
+            checkbox.checked = false
+        })
 
-        if (data.conflict_fields) {
-            conflictCheckboxes.forEach(checkbox => {
-                const checkboxValue = parseInt(checkbox.value);
-
-                data.conflict_fields.forEach(conflictId => {
-                    if (checkboxValue === parseInt(conflictId)) {
-                        checkbox.checked = true;
+        if (data.data.conflict_fields) {
+            conflictCheckboxes.forEach(function(checkbox) {
+                data.data.conflict_fields.forEach(function(conflictId) {
+                    if (checkbox.value == conflictId) {
+                        checkbox.checked = true
                     }
-                });
-            });
+                })
+            })
         }
     }
 
-    // ====== XỬ LÝ ẨN / HIỆN CHỨC VỤ ======
-    const roleWrapper = document.getElementById('editRoleWrapper');
+    const roleWrapper = document.getElementById('editRoleWrapper')
 
     if (roleWrapper) {
-        const currentUserId = window.currentUserId;
-
-        // nếu đang sửa chính mình thì ẩn chức vụ
-        if (data.user_id == currentUserId) {
-            roleWrapper.style.display = 'none';
+        if (data.data.user_id == document.body.dataset.authId) {
+            roleWrapper.style.display = 'none'
         } else {
-            roleWrapper.style.display = 'block';
+            roleWrapper.style.display = 'block'
         }
     }
 
-    // ===== XỬ LÝ ẢNH =====
-    const currentImages = document.getElementById('currentImages');
+    const currentImages = document.getElementById('currentImages')
 
-    if (currentImages && data.images) {
+    if (currentImages && data.data.images) {
+        currentImages.innerHTML = ''
 
-        currentImages.innerHTML = '';
+        data.data.images.forEach(function(image) {
+            const wrapper = document.createElement('div')
+            wrapper.classList.add('relative', 'w-16', 'h-16')
 
-        data.images.forEach(image => {
+            const img = document.createElement('img')
+            img.src = '/storage/' + image.name
+            img.classList.add('w-full', 'h-full', 'object-cover', 'rounded-lg', 'border')
 
-            const wrapper = document.createElement('div');
-            wrapper.classList.add('relative', 'w-16', 'h-16');
-
-            const img = document.createElement('img');
-            img.src = '/storage/' + image.name;
-            img.classList.add('w-full', 'h-full', 'object-cover', 'rounded-lg', 'border');
-
-            const removeBtn = document.createElement('button');
-            removeBtn.type = 'button';
-            removeBtn.innerHTML = '✕';
+            const removeBtn = document.createElement('button')
+            removeBtn.type = 'button'
+            removeBtn.innerHTML = '×'
             removeBtn.classList.add(
                 'absolute',
                 '-top-2',
@@ -100,28 +99,23 @@ window.openEditModal = function ({ modalId, formId, actionUrl, data }) {
                 'h-5',
                 'rounded-full',
                 'text-xs'
-            );
+            )
 
-            removeBtn.onclick = function () {
+            removeBtn.onclick = function() {
+                const inputDelete = document.createElement('input')
+                inputDelete.type = 'hidden'
+                inputDelete.name = 'delete_images[]'
+                inputDelete.value = image.id
 
-                const inputDelete = document.createElement('input');
-                inputDelete.type = 'hidden';
-                inputDelete.name = 'delete_images[]';
-                inputDelete.value = image.id;
+                form.appendChild(inputDelete)
+                wrapper.remove()
+            }
 
-                form.appendChild(inputDelete);
-                wrapper.remove();
-            };
-
-            wrapper.appendChild(img);
-            wrapper.appendChild(removeBtn);
-            currentImages.appendChild(wrapper);
-        });
+            wrapper.appendChild(img)
+            wrapper.appendChild(removeBtn)
+            currentImages.appendChild(wrapper)
+        })
     }
 
-    const modal = document.getElementById(modalId);
-    if (modal) {
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-    }
-};
+    openModal(data.modalId)
+}

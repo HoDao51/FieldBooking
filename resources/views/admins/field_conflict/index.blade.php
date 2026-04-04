@@ -1,7 +1,7 @@
 @extends('admins.layouts.app')
 
 @section('content')
-    <div class="pl-2">
+    <div class="pl-2" @if (session('modal') === 'edit') data-auto-open-modal="conflictModal" @endif>
         <div class="mb-6">
             <h1 class="flex items-center gap-3 text-2xl font-bold text-gray-800">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-green-600" viewBox="0 0 24 24">
@@ -9,10 +9,10 @@
                         stroke-linejoin="round" stroke-width="2"
                         d="M13 6l2 -2c1 -1 3 -1 4 0l1 1c1 1 1 3 0 4l-5 5c-1 1 -3 1 -4 0M11 18l-2 2c-1 1 -3 1 -4 0l-1 -1c-1 -1 -1 -3 0 -4l5 -5c1 -1 3 -1 4 0" />
                 </svg>
-                <span>Thiết lập sân liên kết</span>
+                <span>Thi&#7871;t l&#7853;p s&acirc;n li&ecirc;n k&#7871;t</span>
             </h1>
             <p class="text-gray-500 mt-1">
-                Cấu hình các sân thành 1 cụm sân sẽ khóa cùng khung giờ với nhau
+                C&#7845;u h&igrave;nh c&aacute;c s&acirc;n th&agrave;nh 1 c&#7909;m s&acirc;n s&#7869; kh&oacute;a c&ugrave;ng khung gi&#7901; v&#7899;i nhau
             </p>
         </div>
 
@@ -26,12 +26,12 @@
                             clip-rule="evenodd" />
                     </svg>
                     <input type="text" name="search" value="{{ $search }}"
-                        placeholder="Tìm theo tên sân hoặc địa chỉ"
+                        placeholder="T&igrave;m theo t&ecirc;n s&acirc;n ho&#7863;c &#273;&#7883;a ch&#7881;"
                         class="bg-[#F2F2F2] pl-10 pr-3 py-2 rounded w-full focus:ring-2 focus:ring-green-400 outline-none">
                 </div>
                 <button type="submit"
                     class="bg-[#D9D9D9] text-gray-800 px-4 py-2 rounded hover:bg-gray-400 transition whitespace-nowrap">
-                    Tìm kiếm
+                    T&igrave;m ki&#7871;m
                 </button>
             </form>
         </div>
@@ -40,10 +40,10 @@
             <table class="min-w-full text-sm">
                 <thead class="bg-gray-200 text-gray-800 uppercase text-xs">
                     <tr>
-                        <th class="px-6 py-3 text-left">Sân bóng</th>
-                        <th class="px-6 py-3 text-center">Loại sân</th>
-                        <th class="px-6 py-3 text-center">Sân đang liên kết</th>
-                        <th class="px-6 py-3 text-center">Thao tác</th>
+                        <th class="px-6 py-3 text-left">S&acirc;n b&oacute;ng</th>
+                        <th class="px-6 py-3 text-center">Lo&#7841;i s&acirc;n</th>
+                        <th class="px-6 py-3 text-center">S&acirc;n &#273;ang li&ecirc;n k&#7871;t</th>
+                        <th class="px-6 py-3 text-center">Thao t&aacute;c</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y">
@@ -66,7 +66,7 @@
                                         @endforeach
                                     </div>
                                 @else
-                                    <span class="text-gray-400 italic">Chưa có sân liên kết</span>
+                                    <span class="text-gray-400 italic">Ch&#432;a c&oacute; s&acirc;n li&ecirc;n k&#7871;t</span>
                                 @endif
                             </td>
                             <td class="px-6 py-4 text-center">
@@ -78,14 +78,14 @@
                                         {{ $item->id }},
                                         @json($item->conflicts->pluck('id')->values())
                                     )">
-                                    Thiết lập
+                                    Thi&#7871;t l&#7853;p
                                 </button>
                             </td>
                         </tr>
                     @empty
                         <tr>
                             <td colspan="4" class="text-center py-8 text-gray-500">
-                                Không có dữ liệu
+                                Kh&ocirc;ng c&oacute; d&#7919; li&#7879;u
                             </td>
                         </tr>
                     @endforelse
@@ -111,12 +111,4 @@
         @endif
     </div>
     @include('admins.field_conflict._conflict_modal')
-
-    @if (session('modal') === 'edit')
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                openModal('conflictModal');
-            });
-        </script>
-    @endif
 @endsection

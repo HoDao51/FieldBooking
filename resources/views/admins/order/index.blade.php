@@ -9,8 +9,9 @@
                     <path fill="none" stroke="currentColor" stroke-linejoin="round"
                         d="M5 11.5h4M5 9h6M5 6.5h6m-5.5-4h-2v12h9v-12h-2m-5-1h5l-.625 2h-3.75z" stroke-width="1" />
                 </svg>
-                <span>Quản lý đơn hàng</span>
+                <span>Quản lý đơn đặt sân</span>
             </h1>
+
             <p class="text-gray-500 mt-1">
                 Quản lý và theo dõi các đơn đặt sân
             </p>
@@ -18,7 +19,7 @@
 
         <div class="flex justify-between items-center mb-4">
             <form method="GET" action="{{ route('donDatSan.index') }}" class="flex items-center space-x-2 mb-2">
-                <div class="relative w-[400px] rounded border border-gray-300 ">
+                <div class="relative w-[400px] rounded border border-gray-300">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                         class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
                         <path fill="currentColor" fill-rule="evenodd"
@@ -26,9 +27,10 @@
                             clip-rule="evenodd" />
                     </svg>
                     <input type="text" name="search" value="{{ $search }}"
-                        placeholder="Tìm kiếm theo tên khách hàng, SĐT, email,..."
-                        class="bg-[#F2F2F2] pl-10 pr-3 py-2 rounded w-full d-lg focus:ring-2 focus:ring-green-400 outline-none">
+                        placeholder="Tìm kiếm theo tên khách hàng, SĐT, email..."
+                        class="bg-[#F2F2F2] pl-10 pr-3 py-2 rounded w-full focus:ring-2 focus:ring-green-400 outline-none">
                 </div>
+
                 <button type="submit"
                     class="bg-[#D9D9D9] text-gray-800 px-4 py-2 rounded hover:bg-gray-400 transition whitespace-nowrap">
                     Tìm kiếm
@@ -57,12 +59,9 @@
 
                 <tbody class="divide-y">
                     @forelse($booking as $item)
-                        @php
-                            $firstBill = $item->Bills->first();
-                        @endphp
                         <tr class="hover:bg-gray-50">
                             <td class="px-6 py-4">
-                                <div class="flex flex-col text-2x1">
+                                <div class="flex flex-col">
                                     <span class="font-semibold text-gray-800">
                                         {{ $item->contactName }}
                                     </span>
@@ -92,10 +91,10 @@
 
                             <td class="text-center">
                                 <p class="font-semibold text-green-600">{{ number_format($item->totalPrice) }}đ</p>
-                                @if ($firstBill)
-                                    <p class="italic">{{ $firstBill->PaymentMethod->name }}</p>
-                                    @if ($firstBill->payment_type == 1)
-                                        <p class="text-xs text-gray-500">Đặt cọc: {{ number_format($firstBill->amount) }}đ</p>
+                                @if ($item->Bills->first())
+                                    <p class="italic">{{ $item->Bills->first()->PaymentMethod->name }}</p>
+                                    @if ($item->Bills->first()->payment_type == 1)
+                                        <p class="text-xs text-gray-500">Đặt cọc: {{ number_format($item->Bills->first()->amount) }}đ</p>
                                     @else
                                         <p class="text-xs text-gray-500">Thanh toán đủ</p>
                                     @endif
@@ -113,7 +112,8 @@
                                         Chờ thanh toán
                                     </span>
                                 @elseif ($item->status == 2)
-                                    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
+                                    <span
+                                        class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
                                         Hoàn thành
                                     </span>
                                 @elseif ($item->status == 3)

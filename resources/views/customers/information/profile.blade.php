@@ -98,7 +98,7 @@
                         </label>
 
                         <input type="text" name="phoneNumber"
-                            value="{{ old('phoneNumber', auth()->user()->customers->phoneNumber ?? '') }}"
+                            value="{{ auth()->user()->customers->phoneNumber }}"
                             placeholder="Nhập số điện thoại"
                             class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400">
 

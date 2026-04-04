@@ -23,4 +23,5 @@
         @include('customers.layouts.footer')
     </div>
 </body>
+@vite(['resources/js/app.js'])
 </html>

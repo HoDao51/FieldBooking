@@ -1,19 +1,21 @@
+const profileBtn = document.getElementById('profileBtn')
+const profileDropdown = document.getElementById('profileDropdown')
 
-    const btn = document.getElementById('profileBtn');
-    const dropdown = document.getElementById('profileDropdown');
-    btn.addEventListener('click', () => {
-      const isHidden = dropdown.classList.contains('hidden');
-      if (isHidden) {
-        dropdown.classList.remove('hidden');
-        btn.setAttribute('aria-expanded', 'true');
-      } else {
-        dropdown.classList.add('hidden');
-        btn.setAttribute('aria-expanded', 'false');
-      }
-    });
-    window.addEventListener('click', e => {
-      if (!btn.contains(e.target) && !dropdown.contains(e.target)) {
-        dropdown.classList.add('hidden');
-        btn.setAttribute('aria-expanded', 'false');
-      }
-    });
+if (profileBtn && profileDropdown) {
+    profileBtn.addEventListener('click', function() {
+        if (profileDropdown.classList.contains('hidden')) {
+            profileDropdown.classList.remove('hidden')
+            profileBtn.setAttribute('aria-expanded', 'true')
+        } else {
+            profileDropdown.classList.add('hidden')
+            profileBtn.setAttribute('aria-expanded', 'false')
+        }
+    })
+
+    window.addEventListener('click', function(e) {
+        if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
+            profileDropdown.classList.add('hidden')
+            profileBtn.setAttribute('aria-expanded', 'false')
+        }
+    })
+}
