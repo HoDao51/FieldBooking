@@ -22,7 +22,7 @@
         <div class="mb-10 grid grid-cols-12 gap-6">
             <div class="col-span-12 space-y-6 lg:col-span-7">
                 <div class="rounded-xl bg-white p-6 shadow">
-                    <h2 class="mb-4 text-lg font-semibold">Chọn sân và ngày</h2>
+                    <h2 class="mb-4 text-lg font-semibold text-gray-800">Chọn sân và ngày</h2>
 
                     <form method="GET" action="{{ route('donDatSan.create') }}"
                         class="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -77,7 +77,7 @@
 
                         @if (!$selectedField)
                             <p class="rounded-lg bg-gray-50 px-4 py-3 font-semibold italic text-gray-500">
-                                Chọn sân và ngày ở phía trên để xem khung giờ khả dụng.
+                                Cần chọn sân và ngày để xem khung giờ khả dụng.
                             </p>
                         @else
                             @if ($morning->isEmpty() && $afternoon->isEmpty() && $evening->isEmpty())
@@ -252,7 +252,7 @@
                     </div>
 
                     <div class="rounded-xl bg-white p-6 shadow">
-                        <h2 class="mb-4 text-lg font-semibold">Thông tin khách hàng</h2>
+                        <h2 class="mb-4 text-lg font-semibold text-gray-800">Thông tin khách hàng</h2>
 
                         <div class="space-y-4">
                             <div>
@@ -344,8 +344,6 @@
                     </div>
 
                     <div class="rounded-xl bg-white p-6 shadow">
-                        <h2 class="mb-4 text-lg font-semibold">Thanh toán</h2>
-
                         <div class="space-y-4">
                             <div class="rounded-xl border border-green-200 bg-green-50 px-4 py-3">
                                 <p class="font-semibold text-green-700">Hình thức thanh toán: Thanh toán toàn bộ</p>
@@ -353,13 +351,30 @@
                             </div>
 
                             <div>
-                                <label class="mb-2 block text-lg font-medium text-gray-600">Phương thức thanh toán</label>
+                                <label class="mb-2 block text-lg font-medium text-gray-800">Phương thức thanh toán</label>
                                 @foreach ($payments as $payment)
                                     <div class="mt-2 flex items-center">
-                                        <input type="radio" id="payment{{ $payment->id }}" name="payment_id"
-                                            value="{{ $payment->id }}" @if (old('payment_id') == $payment->id) checked @endif
-                                            required class="mr-2">
-                                        <label for="payment{{ $payment->id }}">{{ $payment->name }}</label>
+                                        <label class="payment-item flex items-center gap-4 p-4 border rounded-xl border-gray-200 w-full cursor-pointer transition">
+                                            <input type="radio" name="payment_id" value="{{ $payment->id }}"
+                                                class="accent-green-600" @if (old('payment_id') == $payment->id) checked @endif
+                                                required>
+
+                                            <div class="font-semibold">
+                                                {{ $payment->name }}
+                                            </div>
+
+                                            <!-- Icon -->
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="icon w-5 h-5 ml-auto text-green-600 opacity-0 transition"
+                                                viewBox="0 0 16 16">
+                                                <g fill="none" stroke="currentColor" stroke-linecap="round"
+                                                    stroke-linejoin="round" stroke-width="1.5">
+                                                    <path
+                                                        d="m14.25 8.75c-.5 2.5-2.3849 4.85363-5.03069 5.37991-2.64578.5263-5.33066-.7044-6.65903-3.0523-1.32837-2.34784-1.00043-5.28307.81336-7.27989 1.81379-1.99683 4.87636-2.54771 7.37636-1.54771" />
+                                                    <polyline points="5.75 7.75 8.25 10.25 14.25 3.75" />
+                                                </g>
+                                            </svg>
+                                        </label>
                                     </div>
                                 @endforeach
                                 @error('payment_id')
@@ -444,4 +459,5 @@
             </form>
         </div>
     </div>
+@vite(['resources/css/app.css', 'resources/js/app.js'])
 @endsection

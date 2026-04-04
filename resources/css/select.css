@@ -1,0 +1,17 @@
+.payment-item:has(input:checked) {
+    border-color: #4ade80;   /* green-700 */
+    background: #f0fdf4;     /* green-50 */
+}
+
+.payment-item:has(input:checked) .icon {
+    opacity: 1;
+}
+
+.payment-item:hover {
+    border-color: #4ade80; /* green-400 */
+}
+
+.payment-item:has(input:focus) {
+    border-color: #4ade80;
+    background: #f0fdf4;
+}

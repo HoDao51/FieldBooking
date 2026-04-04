@@ -7,8 +7,8 @@
             <a href="{{ route('san.show', $field->id) }}"
                 class="flex items-center gap-2 text-gray-500 transition hover:text-green-600">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="m12 19l-7-7l7-7m7 7H5" />
+                    <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="2" d="m12 19l-7-7l7-7m7 7H5" />
                 </svg>
                 <p class="text-gray-500 hover:text-green-600">Quay lại</p>
             </a>
@@ -86,7 +86,7 @@
                                 </label>
                                 <input type="text" name="contactName" placeholder="Nhập họ và tên"
                                     value="{{ auth()->user()->name }}"
-                                    class="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400">
+                                    class="w-full mt-1 rounded-md border border-gray-300 px-3 py-2.5 focus:outline-none focus:ring-1 focus:ring-green-400">
                                 @error('contactName')
                                     <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                 @enderror
@@ -104,7 +104,7 @@
                                 </label>
                                 <input type="text" name="contactPhone" placeholder="Nhập số điện thoại"
                                     value="{{ auth()->user()->customers->phoneNumber }}"
-                                    class="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400">
+                                    class="w-full mt-1 rounded-md border border-gray-300 px-3 py-2.5 focus:outline-none focus:ring-1 focus:ring-green-400">
                                 @error('contactPhone')
                                     <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                 @enderror
@@ -121,7 +121,7 @@
                                 </label>
                                 <input type="email" name="contactEmail" placeholder="Nhập email"
                                     value="{{ auth()->user()->email }}"
-                                    class="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400">
+                                    class="w-full mt-1 rounded-md border border-gray-300 px-3 py-2.5 focus:outline-none focus:ring-1 focus:ring-green-400">
                                 @error('contactEmail')
                                     <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                 @enderror
@@ -131,20 +131,20 @@
 
                     <div class="rounded-xl bg-white p-6 shadow">
                         <h2 class="mb-4 text-xl font-bold">Hình thức thanh toán</h2>
-
                         <div class="space-y-3">
-                            <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-gray-200 p-4">
-                                <input type="radio" name="payment_type" value="0"
-                                    @if (old('payment_type', '0') == '0') checked @endif class="payment-type mt-1">
+                            <label class="payment-item flex items-center gap-3 rounded-lg border border-gray-200 p-4 cursor-pointer transition">
+                                <input type="radio" name="payment_type" value="0" class="accent-green-600"
+                                    @if (old('payment_type')) checked @endif required>
                                 <div>
                                     <p class="font-semibold">Thanh toán toàn bộ</p>
-                                    <p class="text-sm text-gray-500">Chuyển khoản toàn bộ giá trị đơn đặt sân.</p>
+                                    <p class="text-sm text-gray-500">
+                                        Chuyển khoản toàn bộ giá trị đơn đặt sân.
+                                    </p>
                                 </div>
                             </label>
-
-                            <label class="flex cursor-pointer items-start gap-3 rounded-lg border border-gray-200 p-4">
-                                <input type="radio" name="payment_type" value="1"
-                                    @if (old('payment_type') == '1') checked @endif class="payment-type mt-1">
+                            <label class="payment-item flex items-center gap-3 rounded-lg border border-gray-200 p-4 cursor-pointer transition">
+                                <input type="radio" name="payment_type" value="1" class="accent-green-600"
+                                    @if (old('payment_type')) checked @endif required>
                                 <div>
                                     <p class="font-semibold">Đặt cọc 50%</p>
                                     <p class="text-sm text-gray-500">
@@ -163,10 +163,27 @@
 
                             @foreach ($payments as $payment)
                                 <div class="mt-2 flex items-center">
-                                    <input type="radio" id="payment{{ $payment->id }}" name="payment_id"
-                                        value="{{ $payment->id }}" @if (old('payment_id') == $payment->id) checked @endif
-                                        required class="mr-2">
-                                    <label for="payment{{ $payment->id }}">{{ $payment->name }}</label>
+                                    <label class="payment-item flex items-center gap-4 p-4 border rounded-xl border-gray-200 w-full cursor-pointer transition">
+                                        <input type="radio" name="payment_id" value="{{ $payment->id }}"
+                                            class="accent-green-600" @if (old('payment_id') == $payment->id) checked @endif
+                                            required>
+
+                                        <div class="font-semibold">
+                                            {{ $payment->name }}
+                                        </div>
+
+                                        <!-- Icon -->
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="icon w-5 h-5 ml-auto text-green-600 opacity-0 transition"
+                                            viewBox="0 0 16 16">
+                                            <g fill="none" stroke="currentColor" stroke-linecap="round"
+                                                stroke-linejoin="round" stroke-width="1.5">
+                                                <path
+                                                    d="m14.25 8.75c-.5 2.5-2.3849 4.85363-5.03069 5.37991-2.64578.5263-5.33066-.7044-6.65903-3.0523-1.32837-2.34784-1.00043-5.28307.81336-7.27989 1.81379-1.99683 4.87636-2.54771 7.37636-1.54771" />
+                                                <polyline points="5.75 7.75 8.25 10.25 14.25 3.75" />
+                                            </g>
+                                        </svg>
+                                    </label>
                                 </div>
                             @endforeach
 
@@ -242,4 +259,5 @@
             </div>
         </div>
     </div>
+@vite(['resources/css/app.css', 'resources/js/app.js'])
 @endsection
