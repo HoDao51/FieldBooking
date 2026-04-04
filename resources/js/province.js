@@ -12,7 +12,6 @@ document.addEventListener("DOMContentLoaded", function() {
                     option.value = province.name;
                     option.textContent = province.name;
 
-                    // giữ lại giá trị đã chọn
                     if (selectedProvince === province.name) {
                         option.selected = true;
                     }

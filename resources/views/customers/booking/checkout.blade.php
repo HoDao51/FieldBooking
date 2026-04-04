@@ -142,8 +142,8 @@
                         </h2>
                         <div class="space-y-3">
                             <label class="flex items-start gap-3 border border-gray-200 rounded-lg p-4 cursor-pointer">
-                                <input type="radio" name="payment_type" value="full"
-                                    @if (old('payment_type', 'full') == 'full') checked @endif
+                                <input type="radio" name="payment_type" value="0"
+                                    @if (old('payment_type', '0') == '0') checked @endif
                                     class="mt-1 payment-type">
                                 <div>
                                     <p class="font-semibold">Thanh toán toàn bộ</p>
@@ -153,8 +153,8 @@
                                 </div>
                             </label>
                             <label class="flex items-start gap-3 border border-gray-200 rounded-lg p-4 cursor-pointer">
-                                <input type="radio" name="payment_type" value="deposit"
-                                    @if (old('payment_type') == 'deposit') checked @endif
+                                <input type="radio" name="payment_type" value="1"
+                                    @if (old('payment_type') == '1') checked @endif
                                     class="mt-1 payment-type">
                                 <div>
                                     <p class="font-semibold">Đặt cọc 50%</p>
@@ -267,7 +267,7 @@
 
         paymentTypeInputs.forEach(item => {
             item.addEventListener('change', function() {
-                if (this.value === 'deposit') {
+                if (this.value === '1') {
                     paymentTypeLabel.innerText = 'Đặt cọc 50%'
                     payNowAmount.innerText = new Intl.NumberFormat('vi-VN').format(depositPrice) + 'đ'
                 } else {

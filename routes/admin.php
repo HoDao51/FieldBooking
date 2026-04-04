@@ -27,6 +27,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('admins/cauHinhGiaGio', FieldPriceController::class);
     
     Route::resource('admins/donDatSan', BookingController::class);
+    Route::post('admins/donDatSan/store-at-field', [BookingController::class, 'storeAtField'])->name('donDatSan.storeAtField');
     Route::put('/don-dat-san/{id}/confirm', [BookingController::class, 'confirm'])->name('donDatSan.confirm');
     Route::put('/don-dat-san/{id}/reject', [BookingController::class, 'reject'])->name('donDatSan.reject');
     Route::put('/don-dat-san/{id}/complete', [BookingController::class, 'complete'])->name('donDatSan.complete');

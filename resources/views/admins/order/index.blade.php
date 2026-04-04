@@ -4,8 +4,8 @@
     <div class="pl-2">
         <div class="mb-6">
             <h1 class="flex items-center gap-3 text-2xl font-bold text-gray-800">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-green-600" viewBox="0 0 16 16" stroke="currentColor"
-                    stroke-width="0">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-green-600" viewBox="0 0 16 16"
+                    stroke="currentColor" stroke-width="0">
                     <path fill="none" stroke="currentColor" stroke-linejoin="round"
                         d="M5 11.5h4M5 9h6M5 6.5h6m-5.5-4h-2v12h9v-12h-2m-5-1h5l-.625 2h-3.75z" stroke-width="1" />
                 </svg>
@@ -34,6 +34,11 @@
                     Tìm kiếm
                 </button>
             </form>
+
+            <a href="{{ route('donDatSan.create') }}"
+                class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition font-semibold whitespace-nowrap">
+                Thêm đơn đặt sân
+            </a>
         </div>
 
         <div class="bg-white rounded-xl shadow border overflow-hidden">
@@ -89,7 +94,7 @@
                                 <p class="font-semibold text-green-600">{{ number_format($item->totalPrice) }}đ</p>
                                 @if ($firstBill)
                                     <p class="italic">{{ $firstBill->PaymentMethod->name }}</p>
-                                    @if ($firstBill->payment_type == 'deposit')
+                                    @if ($firstBill->payment_type == 1)
                                         <p class="text-xs text-gray-500">Đặt cọc: {{ number_format($firstBill->amount) }}đ</p>
                                     @else
                                         <p class="text-xs text-gray-500">Thanh toán đủ</p>

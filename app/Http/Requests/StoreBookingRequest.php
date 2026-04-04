@@ -30,7 +30,7 @@ class StoreBookingRequest extends FormRequest
             'time_id' => 'required',
             'price' => 'required|numeric|min:1',
             'payment_id' => 'required',
-            'payment_type' => 'required|in:full,deposit',
+            'payment_type' => 'required|in:0,1',
         ];
     }
 

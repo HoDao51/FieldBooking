@@ -20,6 +20,11 @@ class Bill extends Model
         'note',
     ];
 
+    protected $casts = [
+        'payment_type' => 'integer',
+        'status' => 'integer',
+    ];
+
     public function Booking()
     {
         return $this->belongsTo(Booking::class, 'booking_id');

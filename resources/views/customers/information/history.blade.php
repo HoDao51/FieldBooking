@@ -94,7 +94,7 @@
                                     <p class="font-semibold text-green-600">{{ number_format($item->totalPrice) }}đ</p>
                                     @if ($firstBill)
                                         <p class="italic break-words">{{ $firstBill->PaymentMethod->name }}</p>
-                                        @if ($firstBill->payment_type == 'deposit')
+                                        @if ($firstBill->payment_type == 1)
                                             <p class="text-xs text-gray-500">Đặt cọc: {{ number_format($firstBill->amount) }}đ</p>
                                         @else
                                             <p class="text-xs text-gray-500">Thanh toán đủ</p>

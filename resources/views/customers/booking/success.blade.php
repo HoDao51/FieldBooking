@@ -112,7 +112,7 @@
                     <div class="flex justify-between">
                         <span class="text-sm">Hình thức</span>
                         <span class="font-semibold">
-                            @if ($firstBill->payment_type == 'deposit')
+                            @if ($firstBill->payment_type == 1)
                                 Đặt cọc 50%
                             @else
                                 Thanh toán toàn bộ
