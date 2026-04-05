@@ -147,7 +147,8 @@
                                     </td>
 
                                     <td class="text-center">
-                                        <span class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm whitespace-nowrap">
+                                        <span
+                                            class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm whitespace-nowrap">
                                             {{ \Carbon\Carbon::parse($item->TimeSlot->startTime)->format('H:i') }}
                                             -
                                             {{ \Carbon\Carbon::parse($item->TimeSlot->endTime)->format('H:i') }}
@@ -159,7 +160,8 @@
                                         @if ($item->Bills->first())
                                             <p class="italic">{{ $item->Bills->first()->PaymentMethod->name }}</p>
                                             @if ($item->Bills->first()->payment_type == 1)
-                                                <p class="text-xs text-gray-500">Đặt cọc: {{ number_format($item->Bills->first()->amount) }}đ</p>
+                                                <p class="text-xs text-gray-500">Đặt cọc:
+                                                    {{ number_format($item->Bills->first()->amount) }}đ</p>
                                             @else
                                                 <p class="text-xs text-gray-500">Thanh toán đủ</p>
                                             @endif
@@ -169,54 +171,24 @@
                                     <td class="text-center whitespace-nowrap">
                                         @if ($item->status == 0)
                                             <span
-                                                class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-semibold">
-                                                Chờ xác nhận
-                                            </span>
-                                        @elseif ($item->status == 1)
-                                            <span
                                                 class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
                                                 Chờ thanh toán
                                             </span>
-                                        @elseif ($item->status == 2)
+                                        @elseif ($item->status == 1)
                                             <span
                                                 class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
                                                 Hoàn thành
                                             </span>
-                                        @elseif ($item->status == 3)
+                                        @elseif ($item->status == 2)
                                             <span
                                                 class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-xs font-semibold">
                                                 Đã hủy
-                                            </span>
-                                        @elseif ($item->status == 4)
-                                            <span
-                                                class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-semibold">
-                                                Từ chối
                                             </span>
                                         @endif
                                     </td>
 
                                     <td class="border text-center px-2 whitespace-nowrap">
                                         @if ($item->status == 0)
-                                            <form action="{{ route('donDatSan.confirm', $item->id) }}" method="POST"
-                                                class="inline-block">
-                                                @csrf
-                                                @method('PUT')
-                                                <button
-                                                    class="bg-green-600 font-semibold text-white px-2 py-2 rounded hover:bg-green-700">
-                                                    Xác nhận
-                                                </button>
-                                            </form>
-
-                                            <form action="{{ route('donDatSan.reject', $item->id) }}" method="POST"
-                                                class="inline-block ml-2">
-                                                @csrf
-                                                @method('PUT')
-                                                <button
-                                                    class="bg-[#DC2626] font-semibold text-white px-2 py-2 rounded hover:bg-red-800">
-                                                    Từ chối
-                                                </button>
-                                            </form>
-                                        @elseif ($item->status == 1)
                                             <form action="{{ route('donDatSan.complete', $item->id) }}" method="POST"
                                                 class="inline-block">
                                                 @csrf
@@ -236,17 +208,13 @@
                                                     Hủy
                                                 </button>
                                             </form>
-                                        @elseif ($item->status == 2)
+                                        @elseif ($item->status == 1)
                                             <span class="text-green-600 font-semibold">
                                                 Đã hoàn thành
                                             </span>
-                                        @elseif ($item->status == 3)
+                                        @elseif ($item->status == 2)
                                             <span class="text-gray-500 font-semibold">
                                                 Đã hủy
-                                            </span>
-                                        @elseif ($item->status == 4)
-                                            <span class="text-red-600 font-semibold">
-                                                Đã từ chối
                                             </span>
                                         @endif
                                     </td>
@@ -282,4 +250,3 @@
         </div>
     </div>
 @endsection
-

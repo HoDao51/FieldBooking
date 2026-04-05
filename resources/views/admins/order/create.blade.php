@@ -130,7 +130,7 @@
                                                 </div>
                                                 <div class="mt-2">
                                                     <span class="rounded-full bg-green-200 px-3 py-1 text-xs font-semibold text-green-700">
-                                                        Còn trống
+                                                        Chưa đặt
                                                     </span>
                                                 </div>
                                             </a>
@@ -183,7 +183,7 @@
                                                 </div>
                                                 <div class="mt-2">
                                                     <span class="rounded-full bg-green-200 px-3 py-1 text-xs font-semibold text-green-700">
-                                                        Còn trống
+                                                        Chưa đặt
                                                     </span>
                                                 </div>
                                             </a>
@@ -236,7 +236,7 @@
                                                 </div>
                                                 <div class="mt-2">
                                                     <span class="rounded-full bg-green-200 px-2.5 py-1 text-xs font-semibold text-green-700">
-                                                        Còn trống
+                                                        Chưa đặt
                                                     </span>
                                                 </div>
                                             </a>

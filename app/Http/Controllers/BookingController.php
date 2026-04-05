@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CheckoutRequest;
 use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\StoreDirectBookingRequest;
-use App\Http\Requests\UpdateBookingRequest;
 use App\Models\Booking;
 use App\Models\Customer;
 use App\Models\Field;
@@ -31,7 +30,7 @@ class BookingController extends Controller
         }
 
         $booking = $query
-            ->orderByRaw("FIELD(status, 1, 0, 2, 3, 4)")
+            ->orderBy('status', 'asc')
             ->orderBy('id', 'desc')
             ->paginate(4)
             ->withQueryString();
@@ -95,7 +94,6 @@ class BookingController extends Controller
         $exists = Booking::whereIn('field_id', $conflictFieldIds)
             ->where('bookingDate', $request->date)
             ->where('time_id', $request->time_id)
-            ->whereNotIn('status', [3, 4])
             ->exists();
 
         if ($exists) {
@@ -105,15 +103,19 @@ class BookingController extends Controller
         }
 
         $billAmount = $request->price;
-
         if ($request->payment_type == 1) {
             $billAmount = $request->price / 2;
+        }
+
+        $status = 0; 
+        if ($request->payment_type == 0) {
+            $status = 1; 
         }
 
         $booking = Booking::create([
             'bookingDate' => $request->date,
             'totalPrice' => $request->price,
-            'status' => 0,
+            'status' => $status,
             'contactName' => $request->contactName,
             'contactPhone' => $request->contactPhone,
             'contactEmail' => $request->contactEmail,
@@ -122,36 +124,21 @@ class BookingController extends Controller
             'customer_id' => $user->customers->id,
         ]);
 
+        $billStatus = 0;
+        if ($status == 1) {
+            $billStatus = 1;
+        }
+
         $booking->Bills()->create([
             'payment_id' => $request->payment_id,
             'amount' => $billAmount,
-            'status' => 0,
+            'status' => $billStatus,
             'payment_type' => $request->payment_type,
         ]);
 
         return redirect()
             ->route('booking.success', $booking->id)
             ->with('success', 'Đặt sân bóng thành công!');
-    }
-
-    public function show(Booking $booking)
-    {
-        //
-    }
-
-    public function edit(Booking $booking)
-    {
-        //
-    }
-
-    public function update(UpdateBookingRequest $request, Booking $booking)
-    {
-        //
-    }
-
-    public function destroy(Booking $booking)
-    {
-        //
     }
 
     public function storeAtField(StoreDirectBookingRequest $request)
@@ -187,7 +174,7 @@ class BookingController extends Controller
         $booking = Booking::create([
             'bookingDate' => $request->date,
             'totalPrice' => $request->price,
-            'status' => 2,
+            'status' => 1,
             'contactName' => $request->contactName,
             'contactPhone' => $request->contactPhone,
             'contactEmail' => $request->contactEmail,
@@ -220,7 +207,8 @@ class BookingController extends Controller
         $payments = PaymentMethod::all();
         $depositPrice = $price / 2;
 
-        $time = date('H:i', strtotime($timeSlot->startTime)) . ' - ' . date('H:i', strtotime($timeSlot->endTime));
+        $time = date('H:i', strtotime($timeSlot->startTime)) . ' - ' .
+            date('H:i', strtotime($timeSlot->endTime));
 
         return view('customers.booking.checkout', compact(
             'field',
@@ -235,32 +223,15 @@ class BookingController extends Controller
 
     public function success(Request $request, $id)
     {
-        $booking = Booking::with(['Fields', 'TimeSlot', 'PaymentMethod', 'Bills'])->findOrFail($id);
+        $booking = Booking::with(['Fields', 'TimeSlot', 'PaymentMethod', 'Bills'])
+            ->findOrFail($id);
 
         return view('customers.booking.success', compact('booking'));
     }
 
-    public function confirm($id)
-    {
-        Booking::findOrFail($id)->update(['status' => 1]);
-        return back();
-    }
-
-    public function reject($id)
-    {
-        Booking::findOrFail($id)->update(['status' => 4]);
-        return back();
-    }
-
-    public function complete($id)
-    {
-        Booking::findOrFail($id)->update(['status' => 2]);
-        return back();
-    }
-
     public function cancel($id)
     {
-        Booking::findOrFail($id)->update(['status' => 3]);
+        Booking::findOrFail($id)->update(['status' => 2]);
         return back();
     }
 }

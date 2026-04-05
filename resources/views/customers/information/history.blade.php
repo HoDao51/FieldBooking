@@ -93,7 +93,8 @@
                                     @if ($item->Bills->first())
                                         <p class="italic break-words">{{ $item->Bills->first()->PaymentMethod->name }}</p>
                                         @if ($item->Bills->first()->payment_type == 1)
-                                            <p class="text-xs text-gray-500">Đặt cọc: {{ number_format($item->Bills->first()->amount) }}đ</p>
+                                            <p class="text-xs text-gray-500">Đặt cọc:
+                                                {{ number_format($item->Bills->first()->amount) }}đ</p>
                                         @else
                                             <p class="text-xs text-gray-500">Thanh toán đủ</p>
                                         @endif
@@ -103,27 +104,21 @@
                                 <td class="px-6 py-4 text-center whitespace-nowrap">
                                     @if ($item->status == 0)
                                         <span
-                                            class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-semibold">
-                                            Chờ xác nhận
-                                        </span>
-                                    @elseif ($item->status == 1)
-                                        <span
                                             class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
                                             Chờ thanh toán
                                         </span>
-                                    @elseif ($item->status == 2)
+                                    @elseif ($item->status == 1)
                                         <span
                                             class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
                                             Hoàn thành
                                         </span>
-                                    @elseif ($item->status == 3)
+                                    @elseif ($item->status == 2)
                                         <span
                                             class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-xs font-semibold">
                                             Đã hủy
                                         </span>
-                                    @elseif ($item->status == 4)
-                                        <span
-                                            class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-semibold">
+                                    @elseif ($item->status == 3)
+                                        <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-semibold">
                                             Từ chối
                                         </span>
                                     @endif
