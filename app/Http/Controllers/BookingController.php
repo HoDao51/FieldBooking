@@ -45,7 +45,7 @@ class BookingController extends Controller
             ->where('status', 0)
             ->orderBy('name')
             ->get();
-        $payments = PaymentMethod::orderBy('name')->get();
+        $payments = PaymentMethod::all();
 
         $selectedField = null;
         $date = $request->get('date', now()->toDateString());
@@ -204,7 +204,7 @@ class BookingController extends Controller
         $date = $request->date;
         $price = $request->price;
         $time_id = $request->time_id;
-        $payments = PaymentMethod::all();
+        $payments = PaymentMethod::where('id', '!=', 1)->get();
         $depositPrice = $price / 2;
 
         $time = date('H:i', strtotime($timeSlot->startTime)) . ' - ' .

@@ -54,7 +54,7 @@ if (directBookingPage) {
         }
     }
 
-    function toggleCustomerType() {
+    function toggleCustomerType(clear = false) {
         if (isGuest()) {
             if (existingSection) {
                 existingSection.classList.add('hidden')
@@ -68,9 +68,12 @@ if (directBookingPage) {
             phoneInput.classList.remove('bg-gray-100', 'text-gray-500', 'cursor-not-allowed')
             emailInput.classList.remove('bg-gray-100', 'text-gray-500', 'cursor-not-allowed')
 
-            nameInput.value = ''
-            phoneInput.value = ''
-            emailInput.value = ''
+            if (clear) {
+                nameInput.value = ''
+                phoneInput.value = ''
+                emailInput.value = ''
+            }
+
         } else {
             if (existingSection) {
                 existingSection.classList.remove('hidden')
@@ -91,7 +94,7 @@ if (directBookingPage) {
     function selectSlot(slot) {
         const price = formatPrice(slot.dataset.price)
 
-        timeSlots.forEach(function(item) {
+        timeSlots.forEach(function (item) {
             item.classList.remove('ring-2', 'ring-green-500')
         })
 
@@ -107,7 +110,7 @@ if (directBookingPage) {
     }
 
     if (customerSelect) {
-        customerSelect.addEventListener('change', function() {
+        customerSelect.addEventListener('change', function () {
             nameInput.value = ''
             phoneInput.value = ''
             emailInput.value = ''
@@ -115,14 +118,14 @@ if (directBookingPage) {
         })
     }
 
-    customerTypes.forEach(function(item) {
-        item.addEventListener('change', function() {
+    customerTypes.forEach(function (item) {
+        item.addEventListener('change', function () {
             toggleCustomerType()
         })
     })
 
-    timeSlots.forEach(function(slot) {
-        slot.addEventListener('click', function(e) {
+    timeSlots.forEach(function (slot) {
+        slot.addEventListener('click', function (e) {
             e.preventDefault()
             selectSlot(slot)
         })
@@ -131,7 +134,7 @@ if (directBookingPage) {
     toggleCustomerType()
 
     if (hiddenTime.value !== '') {
-        timeSlots.forEach(function(slot) {
+        timeSlots.forEach(function (slot) {
             if (slot.dataset.timeId === hiddenTime.value) {
                 selectSlot(slot)
             }

@@ -311,7 +311,7 @@
                                 <div>
                                     <label class="mb-2 block text-sm font-medium text-gray-600">Họ và tên</label>
                                     <input type="text" name="contactName" id="contactName"
-                                        value="{{ old('contactName') }}"
+                                        value="{{ old('contactName', '') }}"
                                         class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400">
                                     @error('contactName')
                                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
@@ -322,7 +322,7 @@
                                     <div>
                                         <label class="mb-2 block text-sm font-medium text-gray-600">Số điện thoại</label>
                                         <input type="text" name="contactPhone" id="contactPhone"
-                                            value="{{ old('contactPhone') }}"
+                                            value="{{ old('contactPhone', '') }}"
                                             class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400">
                                         @error('contactPhone')
                                             <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
@@ -332,7 +332,7 @@
                                     <div>
                                         <label class="mb-2 block text-sm font-medium text-gray-600">Email</label>
                                         <input type="email" name="contactEmail" id="contactEmail"
-                                            value="{{ old('contactEmail') }}"
+                                            value="{{ old('contactEmail', '') }}"
                                             class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400">
                                         @error('contactEmail')
                                             <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
