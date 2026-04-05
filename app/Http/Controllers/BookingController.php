@@ -94,12 +94,13 @@ class BookingController extends Controller
         $exists = Booking::whereIn('field_id', $conflictFieldIds)
             ->where('bookingDate', $request->date)
             ->where('time_id', $request->time_id)
+            ->whereNotIn('status', [2])
             ->exists();
 
         if ($exists) {
             return back()
                 ->withInput()
-                ->withErrors(['time_id' => 'Khung giờ này đã được đặt!']);
+                ->withErrors(['time_id' => 'Khung giờ này đã được đặt.']);
         }
 
         $billAmount = $request->price;
@@ -150,7 +151,7 @@ class BookingController extends Controller
         $exists = Booking::whereIn('field_id', $conflictFieldIds)
             ->where('bookingDate', $request->date)
             ->where('time_id', $request->time_id)
-            ->whereNotIn('status', [3, 4])
+            ->whereNotIn('status', [2])
             ->exists();
 
         if ($exists) {

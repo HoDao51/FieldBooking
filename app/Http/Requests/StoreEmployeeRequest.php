@@ -39,7 +39,7 @@ class StoreEmployeeRequest extends FormRequest
             'name' => 'required|string',
             'role' => 'required|string',
             'phoneNumber' => 'required|regex:/^[0-9]{10}$/',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email|unique:employees,email',
         ];
     }
 

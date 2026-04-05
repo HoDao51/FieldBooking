@@ -40,7 +40,7 @@ timeSlots.forEach(function(slot) {
 const checkoutPage = document.querySelector('[data-checkout-page]')
 
 if (checkoutPage) {
-    const paymentTypeInputs = document.querySelectorAll('.payment-type')
+    const paymentTypeInputs = document.querySelectorAll('input[name="payment_type"]')
     const payNowAmount = document.getElementById('payNowAmount')
     const paymentTypeLabel = document.getElementById('paymentTypeLabel')
     const fullPrice = checkoutPage.dataset.fullPrice

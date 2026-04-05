@@ -38,7 +38,7 @@ class StoreCustomerRequest extends FormRequest
         return [
             'name' => 'required|string',
             'phoneNumber' => 'required|regex:/^[0-9]{10}$/',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'required|email|unique:customers,email',
         ];
     }
 

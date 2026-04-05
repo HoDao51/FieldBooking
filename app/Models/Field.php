@@ -108,7 +108,7 @@ class Field extends Model
 
         return \App\Models\Booking::whereIn('field_id', $conflictFieldIds)
             ->where('bookingDate', $date)
-            ->whereNotIn('status', [3, 4])
+            ->whereNotIn('status', [2])
             ->pluck('time_id')
             ->toArray();
     }

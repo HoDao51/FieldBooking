@@ -16,7 +16,7 @@ class DashboardController extends Controller
         $customers = Customer::count();
         $fields = Field::count();
         $bookings = Booking::count();
-        $revenue = Booking::where('status', 2)->sum('totalPrice');
+        $revenue = Booking::where('status', 1)->sum('totalPrice');
         $formattedRevenue = number_format($revenue) . 'đ';
 
         if ($revenue >= 1000000000) {
@@ -26,7 +26,7 @@ class DashboardController extends Controller
         }
 
         $booking = $query
-            ->orderByRaw("FIELD(status, 1, 0, 2, 3, 4)")
+            ->orderBy('status','asc')
             ->orderBy('id', 'desc')
             ->paginate(3)
             ->withQueryString();
