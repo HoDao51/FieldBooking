@@ -74,7 +74,5 @@ function setupImagePreview(inputId, previewId) {
     };
 }
 
-/* ===== INIT ===== */
-
 const resetCreatePreview = setupImagePreview('imageInput', 'previewContainer');
 const resetEditPreview = setupImagePreview('editImageInput', 'editPreviewContainer');

@@ -75,7 +75,7 @@
                     class="bg-gray-100 cursor-not-allowed w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400">
             </div>
 
-            <div class="flex justify-end space-x-3 pt-4 border-t">
+            <div class="flex justify-end space-x-3 pt-4 border-t border-gray-200">
                 <button type="button" onclick="closeModal('editModal')"
                     class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400">
                     Hủy

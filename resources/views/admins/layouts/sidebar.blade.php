@@ -85,7 +85,7 @@
         </a>
     </nav>
 
-    <div class="pt-4 border-t">
+    <div class="pt-4 border-t border-gray-200">
         <a href="{{ route('logout') }}"
             class="flex items-center space-x-2 px-3 bg-red-600 text-white py-2 rounded hover:bg-red-700 transition font-semibold">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 32 32" fill="currentColor">

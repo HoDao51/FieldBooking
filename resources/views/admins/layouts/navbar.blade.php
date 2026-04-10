@@ -1,4 +1,4 @@
-<header class="flex items-center justify-between border-b border-[E5E6E6] px-6 py-1 bg-white">
+<header class="flex items-center justify-between border-b border-gray-200 px-6 py-1 bg-white">
     <a href="">
         <div class="flex items-center">
             <div class="text-green-600 pr-2 ">
@@ -15,10 +15,10 @@
 
             <div class="leading-tight">
                 <div class="text-[20px] font-semibold text-green-600 leading-5">
-                    S&acirc;nB&oacute;ng<span class="text-gray-800 font-bold">Pro</span>
+                    Sân bóng<span class="text-gray-800 font-bold">Pro</span>
                 </div>
                 <div class="text-[11px] text-gray-500 leading-3">
-                    Trang qu&#7843;n tr&#7883;
+                    Trang quản trị
                 </div>
             </div>
         </div>
@@ -58,9 +58,9 @@
                 <p class="font-semibold text-gray-800">{{ auth()->user()->name }}</p>
                 <p class="text-sm text-gray-500">
                     @if (auth()->user()->role == 0)
-                        Qu&#7843;n tr&#7883; vi&ecirc;n
+                        Quản trị viên
                     @elseif (auth()->user()->role == 1)
-                        Nh&acirc;n vi&ecirc;n
+                        Nhân viên
                     @endif
                 </p>
             </div>
@@ -80,16 +80,16 @@
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
                 </svg>
-                <span class="whitespace-nowrap">Th&ocirc;ng tin c&aacute; nh&acirc;n</span>
+                <span class="whitespace-nowrap">Thông tin cá nhân</span>
             </a>
-            <hr class="my-2">
+            <hr class="my-2 border-gray-200">
             <a href="{{ route('logout') }}"
-                class="flex items-center gap-2 font-semibold block px-4 py-2 text-gray-600 hover:bg-red-600 hover:text-white rounded-md">
+                class="flex items-center gap-2 font-semibold block px-4 py-2 text-red-600 hover:bg-red-600 hover:text-white rounded-md">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 32 32">
                     <path fill="currentColor" stroke="none"
                         d="M26 4h2v24h-2zM11.414 20.586L7.828 17H22v-2H7.828l3.586-3.586L10 10l-6 6l6 6z" />
                 </svg>
-                &#272;&#259;ng xu&#7845;t
+                Đăng xuất
             </a>
         </div>
     </div>

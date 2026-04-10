@@ -42,7 +42,7 @@
 
             @forelse($fields as $item)
                 <a href="{{ route('cauHinhGiaGio.show', $item->id) }}"
-                    class="bg-white rounded-xl border shadow-sm hover:shadow-md hover:border-green-400 transition p-4 flex gap-4">
+                    class="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md hover:border-green-400 transition p-4 flex gap-4">
                     <!-- ẢNH -->
                     <div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
                         @if ($item->images->first())

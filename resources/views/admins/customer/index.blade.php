@@ -57,7 +57,7 @@
             </div>
 
             <!-- ===== TABLE ===== -->
-            <div class="bg-white rounded-xl shadow border overflow-hidden">
+            <div class="bg-white rounded-xl shadow border border-gray-200 overflow-hidden">
                 <table class="min-w-full text-sm">
                     <thead class="bg-gray-200 text-gray-800 uppercase text-xs">
                         <tr>
@@ -72,7 +72,7 @@
                     <tbody class="divide-y">
 
                         @forelse($khachHang as $item)
-                            <tr class="hover:bg-gray-50">
+                            <tr class="hover:bg-gray-50 border-gray-200">
                                 <td class="px-6 py-4">
                                     <div class="flex items-center gap-x-3">
 
@@ -124,7 +124,7 @@
                                 </td>
 
                                 <!-- Thao tác -->
-                                <td class="px-2 py-2 border text-center whitespace-nowrap">
+                                <td class="px-2 py-2 border border-gray-200 text-center whitespace-nowrap">
                                     @if ($item->status == 0)
                                         <button type="button"
                                             onclick='openEditModal({

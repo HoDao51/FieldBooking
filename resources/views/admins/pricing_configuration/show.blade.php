@@ -34,14 +34,14 @@
         </div>
 
         @foreach ([1 => 'Thứ 2', 2 => 'Thứ 3', 3 => 'Thứ 4', 4 => 'Thứ 5', 5 => 'Thứ 6', 6 => 'Thứ 7', 0 => 'Chủ nhật'] as $key => $label)
-            <div class="bg-white rounded-xl shadow border mb-6 overflow-hidden">
+            <div class="bg-white rounded-xl shadow border border-gray-200 mb-6 overflow-hidden">
                 <div class="bg-green-600 text-white px-4 py-3 font-semibold">
                     {{ $label }}
                 </div>
 
                 @if (isset($prices[$key]))
                     @foreach ($prices[$key] as $price)
-                        <div class="flex justify-between items-center text-base px-4 py-3 border-t hover:bg-gray-50">
+                        <div class="flex justify-between items-center text-base px-4 py-3 border-t border-gray-200 hover:bg-gray-50">
                             <div class="flex items-center gap-6">
                                 <div class="flex items-center gap-2 text-gray-600">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"

@@ -36,7 +36,7 @@
             </form>
         </div>
 
-        <div class="bg-white rounded-xl shadow border overflow-hidden">
+        <div class="bg-white rounded-xl shadow border border-gray-200 overflow-hidden">
             <table class="min-w-full text-sm">
                 <thead class="bg-gray-200 text-gray-800 uppercase text-xs">
                     <tr>
@@ -48,7 +48,7 @@
                 </thead>
                 <tbody class="divide-y">
                     @forelse ($fields as $item)
-                        <tr class="hover:bg-gray-50">
+                        <tr class="hover:bg-gray-50 border-gray-200">
                             <td class="px-6 py-4">
                                 <div class="font-semibold text-gray-800">{{ $item->name }}</div>
                                 <div class="text-sm text-gray-500 mt-1">{{ $item->address }}</div>

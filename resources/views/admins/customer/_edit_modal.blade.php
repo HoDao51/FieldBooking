@@ -57,7 +57,7 @@
                 <img id="editAvatarPreview" src="" class="mt-2 w-24 h-24 object-cover rounded hidden">
             </div>
 
-            <div class="flex justify-end space-x-3 pt-4 border-t">
+            <div class="flex justify-end space-x-3 pt-4 border-t border-gray-200">
                 <button type="button" onclick="closeModal('editModal')"
                     class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400">
                     Hủy

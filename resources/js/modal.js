@@ -84,7 +84,7 @@ window.openEditModal = function(data) {
 
             const img = document.createElement('img')
             img.src = '/storage/' + image.name
-            img.classList.add('w-full', 'h-full', 'object-cover', 'rounded-lg', 'border')
+            img.classList.add('w-full', 'h-full', 'object-cover', 'rounded-lg', 'border', 'border-gray-200')
 
             const removeBtn = document.createElement('button')
             removeBtn.type = 'button'

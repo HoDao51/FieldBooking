@@ -365,15 +365,15 @@
 
                     <div class="rounded-xl bg-white p-6 shadow">
                         <div class="space-y-4">
-                            <div class="rounded-xl border border-green-200 bg-green-50 px-4 py-3">
-                                <p class="font-semibold text-green-700">Hình thức thanh toán: Thanh toán toàn bộ</p>
-                                <p class="mt-1 text-sm text-green-700">Đơn đặt trực tiếp tại sân không áp dụng đặt cọc.</p>
+                            <div class="rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-green-700">
+                                <p class="font-semibold">Hình thức thanh toán: Thanh toán toàn bộ</p>
+                                <p class="mt-1 text-sm">Đơn đặt trực tiếp tại sân không áp dụng đặt cọc.</p>
                             </div>
 
                             <div>
                                 <label class="mb-2 block text-lg font-medium text-gray-800">Phương thức thanh toán</label>
                                 @foreach ($payments as $payment)
-                                    <div class="mt-2 flex items-center">
+                                    <div class="mt-2 flex items-center text-gray-800">
                                         <label
                                             class="payment-item flex items-center gap-4 p-4 border rounded-xl border-gray-200 w-full cursor-pointer transition">
                                             <input type="radio" name="payment_id" value="{{ $payment->id }}"
