@@ -15,7 +15,7 @@
 
             <div class="leading-tight">
                 <div class="text-[20px] font-semibold text-green-600 leading-5">
-                    S&acirc;nB&oacute;ng<span class="text-gray-800 font-bold">Pro</span>
+                    SânBóng<span class="text-gray-800 font-bold">Pro</span>
                 </div>
             </div>
         </div>
@@ -29,7 +29,7 @@
                     d="M18.319 14.433A8.001 8.001 0 0 0 6.343 3.868a8 8 0 0 0 10.564 11.976l.043.045l4.242 4.243a1 1 0 1 0 1.415-1.415l-4.243-4.242zm-2.076-9.15a6 6 0 1 1-8.485 8.485a6 6 0 0 1 8.485-8.485"
                     clip-rule="evenodd" />
             </svg>
-            <input type="text" name="search" value="" placeholder="T&igrave;m ki&#7871;m s&acirc;n theo t&ecirc;n, &#273;&#7883;a ch&#7881;,..."
+            <input type="text" name="search" value="" placeholder="Tìm kiếm sân theo tên, địa chỉ,..."
                 class="pl-10 pr-3 py-2 rounded-lg w-full d-lg focus:ring-1 focus:ring-green-400 outline-none">
         </div>
     </form>
@@ -57,12 +57,12 @@
     @guest
         <div class="flex items-center gap-4">
             <a href="{{ route('customer.login') }}" class="text-gray-600 hover:text-green-600">
-                &#272;&#259;ng nh&#7853;p
+                Đăng nhập
             </a>
 
             <a href="{{ route('customer.register') }}"
                 class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
-                &#272;&#259;ng k&yacute;
+                Đăng ký
             </a>
         </div>
     @endguest
@@ -101,7 +101,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
                     </svg>
-                    Th&ocirc;ng tin c&aacute; nh&acirc;n
+                    Thông tin cá nhân
                 </a>
 
                 <a href="{{ route('information.history', auth()->user()->id) }}"
@@ -111,7 +111,7 @@
                         <path fill="currentColor"
                             d="M19 4h-2V3a1 1 0 0 0-2 0v1H9V3a1 1 0 0 0-2 0v1H5a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3m1 15a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-7h16Zm0-9H4V7a1 1 0 0 1 1-1h2v1a1 1 0 0 0 2 0V6h6v1a1 1 0 0 0 2 0V6h2a1 1 0 0 1 1 1Z" />
                     </svg>
-                    L&#7883;ch s&#7917; &#273;&#7863;t s&acirc;n
+                    Lịch sử đặt sân
                 </a>
 
                 <hr class="my-2">
@@ -122,7 +122,7 @@
                         <path fill="currentColor" stroke="none"
                             d="M26 4h2v24h-2zM11.414 20.586L7.828 17H22v-2H7.828l3.586-3.586L10 10l-6 6l6 6z" />
                     </svg>
-                    &#272;&#259;ng xu&#7845;t
+                    Đăng xuất
                 </a>
             </div>
         </div>

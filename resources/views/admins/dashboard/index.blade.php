@@ -91,7 +91,7 @@
                         </div>
                         <div class="min-w-0 flex-1">
                             <h2 class="text-lg xl:text-2xl font-bold text-green-600 leading-tight break-all"
-                                title="{{ number_format($revenue) }}&#273;">
+                                title="{{ number_format($revenue) }}đ">
                                 {{ $formattedRevenue }}
                             </h2>
                             <p class="text-gray-500 text-sm mt-1">
@@ -124,7 +124,7 @@
                             </tr>
                         </thead>
 
-                        <tbody class="divide-y">
+                <tbody class="divide-y divide-gray-200">
                             @forelse($booking as $item)
                                 <tr class="hover:bg-gray-50 border-gray-200">
                                     <td class="px-6 py-4">

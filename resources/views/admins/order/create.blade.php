@@ -437,7 +437,7 @@
                         </div>
                     </div>
 
-                    <div class="mt-5 flex items-center justify-between gap-3 border-b pb-4">
+                    <div class="mt-5 flex items-center justify-between gap-3 border-b border-gray-300 pb-4">
                         <span class="font-medium text-gray-700" id="summaryTime">Chưa chọn khung giờ</span>
                         <span class="font-medium text-gray-800" id="summaryPriceTop">0đ</span>
                     </div>
@@ -464,7 +464,7 @@
                         </div>
                     </div>
 
-                    <div class="border-t pt-4">
+                    <div class="border-t border-gray-300 pt-4">
                         <div class="flex items-center justify-between">
                             <span class="text-lg font-semibold text-gray-800">Tổng cộng</span>
                             <span class="text-2xl font-bold text-green-600" id="summaryTotal">0đ</span>

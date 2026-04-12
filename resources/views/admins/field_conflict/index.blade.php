@@ -9,10 +9,10 @@
                         stroke-linejoin="round" stroke-width="2"
                         d="M13 6l2 -2c1 -1 3 -1 4 0l1 1c1 1 1 3 0 4l-5 5c-1 1 -3 1 -4 0M11 18l-2 2c-1 1 -3 1 -4 0l-1 -1c-1 -1 -1 -3 0 -4l5 -5c1 -1 3 -1 4 0" />
                 </svg>
-                <span>Thi&#7871;t l&#7853;p s&acirc;n li&ecirc;n k&#7871;t</span>
+                <span>Thiết lập sân liên kết</span>
             </h1>
             <p class="text-gray-500 mt-1">
-                C&#7845;u h&igrave;nh c&aacute;c s&acirc;n th&agrave;nh 1 c&#7909;m s&acirc;n s&#7869; kh&oacute;a c&ugrave;ng khung gi&#7901; v&#7899;i nhau
+                Cấu hình các sân thành 1 cụm sân sẽ khóa cùng khung giờ với nhau
             </p>
         </div>
 
@@ -26,12 +26,12 @@
                             clip-rule="evenodd" />
                     </svg>
                     <input type="text" name="search" value="{{ $search }}"
-                        placeholder="T&igrave;m theo t&ecirc;n s&acirc;n ho&#7863;c &#273;&#7883;a ch&#7881;"
+                        placeholder="Tìm theo tên sân hoặc địa chỉ"
                         class="bg-[#F2F2F2] pl-10 pr-3 py-2 rounded w-full focus:ring-2 focus:ring-green-400 outline-none">
                 </div>
                 <button type="submit"
                     class="bg-[#D9D9D9] text-gray-800 px-4 py-2 rounded hover:bg-gray-400 transition whitespace-nowrap">
-                    T&igrave;m ki&#7871;m
+                    Tìm kiếm
                 </button>
             </form>
         </div>
@@ -40,10 +40,10 @@
             <table class="min-w-full text-sm">
                 <thead class="bg-gray-200 text-gray-800 uppercase text-xs">
                     <tr>
-                        <th class="px-6 py-3 text-left">S&acirc;n b&oacute;ng</th>
-                        <th class="px-6 py-3 text-center">Lo&#7841;i s&acirc;n</th>
-                        <th class="px-6 py-3 text-center">S&acirc;n &#273;ang li&ecirc;n k&#7871;t</th>
-                        <th class="px-6 py-3 text-center">Thao t&aacute;c</th>
+                        <th class="px-6 py-3 text-left">Sân bóng</th>
+                        <th class="px-6 py-3 text-center">Loại sân</th>
+                        <th class="px-6 py-3 text-center">Sân đang liên kết</th>
+                        <th class="px-6 py-3 text-center">Thao tác</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y">
@@ -66,7 +66,7 @@
                                         @endforeach
                                     </div>
                                 @else
-                                    <span class="text-gray-400 italic">Ch&#432;a c&oacute; s&acirc;n li&ecirc;n k&#7871;t</span>
+                                    <span class="text-gray-400 italic">Chưa có sân liên kết</span>
                                 @endif
                             </td>
                             <td class="px-6 py-4 text-center">
@@ -78,14 +78,14 @@
                                         {{ $item->id }},
                                         @json($item->conflicts->pluck('id')->values())
                                     )">
-                                    Thi&#7871;t l&#7853;p
+                                    Thiết lập
                                 </button>
                             </td>
                         </tr>
                     @empty
                         <tr>
                             <td colspan="4" class="text-center py-8 text-gray-500">
-                                Kh&ocirc;ng c&oacute; d&#7919; li&#7879;u
+                                Không có dữ liệu
                             </td>
                         </tr>
                     @endforelse

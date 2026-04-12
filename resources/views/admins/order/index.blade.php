@@ -43,7 +43,7 @@
             </a>
         </div>
 
-        <div class="bg-white rounded-xl shadow border overflow-hidden">
+        <div class="bg-white rounded-xl shadow border border-gray-200 overflow-hidden">
             <table class="min-w-full text-sm">
                 <thead class="bg-gray-200 text-gray-800 uppercase text-xs">
                     <tr>
@@ -57,7 +57,7 @@
                     </tr>
                 </thead>
 
-                <tbody class="divide-y">
+                <tbody class="divide-y divide-gray-200">
                     @forelse($booking as $item)
                         <tr class="hover:bg-gray-50">
                             <td class="px-6 py-4">
@@ -118,7 +118,7 @@
                                 @endif
                             </td>
 
-                            <td class="border text-center px-2 whitespace-nowrap">
+                            <td class="border border-gray-200 text-center px-2 whitespace-nowrap">
                                 @if ($item->status == 0)
                                     <form action="{{ route('donDatSan.complete', $item->id) }}" method="POST"
                                         class="inline-block">

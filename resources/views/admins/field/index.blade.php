@@ -65,7 +65,7 @@
                     </tr>
                 </thead>
 
-                <tbody class="divide-y">
+                <tbody class="divide-y divide-gray-200">
                     @forelse($sanBong as $item)
                         <tr class="hover:bg-gray-50 border-gray-200">
                             <td class="px-6 py-3">

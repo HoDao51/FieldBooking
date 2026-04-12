@@ -72,7 +72,7 @@
                         </tr>
                     </thead>
 
-                    <tbody class="divide-y">
+                <tbody class="divide-y divide-gray-200">
                         @forelse($nhanVien as $item)
                             <tr class="hover:bg-gray-50 border-gray-200">
                                 <!-- Tên -->
