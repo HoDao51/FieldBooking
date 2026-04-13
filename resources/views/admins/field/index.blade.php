@@ -1,9 +1,7 @@
 @extends('admins.layouts.app')
 
 @section('content')
-    <div class="pl-2"
-        @if (session('modal') === 'create') data-auto-open-modal="createModal" @endif
-        @if (session('modal') === 'edit') data-auto-open-modal="editModal" @endif>
+    <div class="pl-2">
         <div class="mb-6">
             <h1 class="flex items-center gap-3 text-2xl font-bold text-gray-800">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-green-600" viewBox="0 0 256 256"
@@ -130,10 +128,12 @@
                                     Sửa
                                 </button>
 
-                                <form action="{{ route('sanBong.destroy', $item->id) }}" method="POST" class="inline-block">
+                                <form action="{{ route('sanBong.destroy', $item->id) }}" method="POST"
+                                    class="inline-block">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" onclick="return confirm('Bạn có chắc muốn xóa sân bóng này không?')"
+                                    <button type="submit"
+                                        onclick="return confirm('Bạn có chắc muốn xóa sân bóng này không?')"
                                         class="bg-[#DC2626] text-white font-semibold px-2 py-2 rounded hover:bg-red-800 ml-2">
                                         Xóa
                                     </button>
@@ -170,4 +170,19 @@
     </div>
     @include('admins.field._create_modal')
     @include('admins.field._edit_modal')
+    @if (session('modal') === 'create')
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                openModal('createModal');
+            });
+        </script>
+    @endif
+
+    @if (session('modal') === 'edit')
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                openModal('editModal');
+            });
+        </script>
+    @endif
 @endsection

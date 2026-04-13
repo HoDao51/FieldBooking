@@ -1,9 +1,7 @@
 @extends('admins.layouts.app')
 
 @section('content')
-    <div class="pl-2"
-        @if (session('modal') === 'create') data-auto-open-modal="createModal" @endif
-        @if (session('modal') === 'edit') data-auto-open-modal="editModal" @endif>
+    <div class="pl-2">
         <div class="flex justify-between items-center mb-6">
             <div class="flex items-center gap-3">
                 <a href="{{ route('cauHinhGiaGio.index') }}" class="text-gray-600 hover:text-green-600 transition">
@@ -41,7 +39,8 @@
 
                 @if (isset($prices[$key]))
                     @foreach ($prices[$key] as $price)
-                        <div class="flex justify-between items-center text-base px-4 py-3 border-t border-gray-200 hover:bg-gray-50">
+                        <div
+                            class="flex justify-between items-center text-base px-4 py-3 border-t border-gray-200 hover:bg-gray-50">
                             <div class="flex items-center gap-6">
                                 <div class="flex items-center gap-2 text-gray-600">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -100,5 +99,19 @@
 
     @include('admins.pricing_configuration._create_modal')
     @include('admins.pricing_configuration._edit_modal')
+    @if (session('modal') === 'create')
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                openModal('createModal');
+            });
+        </script>
+    @endif
 
+    @if (session('modal') === 'edit')
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                openModal('editModal');
+            });
+        </script>
+    @endif
 @endsection

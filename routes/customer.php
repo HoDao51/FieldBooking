@@ -28,5 +28,6 @@ Route::prefix('customer')->group(function () {
 
     Route::get('/search', [HomeController::class, 'search'])->name('home.search');
 
-    Route::get('/vnpay-payment', [CheckoutController::class, 'vnpay_payment'])->name('vnpay.payment');
+    Route::get('/vnpayPayment', [CheckoutController::class, 'vnpayPayment'])->name('vnpay.payment');
+    Route::get('/vnpayReturn', [CheckoutController::class, 'vnpayReturn'])->name('vnpay.return');
 });

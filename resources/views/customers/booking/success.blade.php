@@ -127,9 +127,9 @@
             </div>
 
             <div class="border-t mt-6 pt-4 flex justify-between font-semibold">
-                <span class="text-lg">Tổng tiền</span>
+                <span class="text-lg">Tổng tiền đã thanh toán</span>
                 <span class="text-green-600 text-2xl font-bold">
-                    {{ number_format($booking->totalPrice) }}đ
+                    {{ number_format($booking->Bills->first()->amount) }}đ
                 </span>
             </div>
         </div>

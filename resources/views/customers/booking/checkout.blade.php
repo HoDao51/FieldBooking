@@ -239,13 +239,13 @@
                         </div>
                         <div class="flex justify-between font-semibold">
                             <span>Cần thanh toán ngay</span>
-                            <span id="payNowAmount">{{ number_format($price, 0, ',', '.') }}đ</span>
+                            <span class="payNowAmount">{{ number_format($price, 0, ',', '.') }}đ</span>
                         </div>
                     </div>
 
                     <div class="mt-4 flex justify-between border-t pt-4 font-semibold">
                         <span class="text-lg">Tổng cộng</span>
-                        <span class="text-2xl font-bold text-green-600">
+                        <span class="payNowAmount text-2xl font-bold text-green-600">
                             {{ number_format($price, 0, ',', '.') }}đ
                         </span>
                     </div>

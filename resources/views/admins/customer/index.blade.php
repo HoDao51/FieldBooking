@@ -2,9 +2,7 @@
 
 @section('content')
     @if (auth()->user()->role == 0)
-        <div class="pl-2"
-            @if (session('modal') === 'create') data-auto-open-modal="createModal" @endif
-            @if (session('modal') === 'edit') data-auto-open-modal="editModal" @endif>
+        <div class="pl-2">
             <div class="mb-6">
                 <h1 class="flex items-center gap-3 text-2xl font-bold text-gray-800">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-green-600" viewBox="0 0 24 24"
@@ -69,11 +67,10 @@
                         </tr>
                     </thead>
 
-                <tbody class="divide-y divide-gray-200">
-
+                    <tbody class="divide-y divide-gray-200">
                         @forelse($khachHang as $item)
                             <tr class="hover:bg-gray-50 border-gray-200">
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-3">
                                     <div class="flex items-center gap-x-3">
 
                                         <!-- Avatar -->
@@ -100,12 +97,12 @@
                                 </td>
 
                                 <!-- SĐT -->
-                                <td class="px-6 py-4 text-center">
+                                <td class="px-6 py-3 text-center">
                                     {{ $item->phoneNumber }}
                                 </td>
 
                                 <!-- Trạng thái -->
-                                <td class="px-6 py-4 text-center whitespace-nowrap">
+                                <td class="px-6 py-3 text-center whitespace-nowrap">
                                     @if ($item->status == 0)
                                         <span
                                             class="px-3 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-700">
@@ -119,7 +116,7 @@
                                 </td>
 
                                 <!-- ngày tạo -->
-                                <td class="px-6 py-4 text-center whitespace-nowrap">
+                                <td class="px-6 py-3 text-center whitespace-nowrap">
                                     {{ $item->created_at->format('d-m-Y') }}
                                 </td>
 
@@ -198,7 +195,7 @@
             </div>
 
             @if ($khachHang->hasPages())
-                <div class="flex justify-center items-center gap-2 mt-4">
+                <div class="flex justify-center items-center gap-2 mt-4 mb-3">
                     @for ($i = 1; $i <= $khachHang->lastPage(); $i++)
                         @if ($i == $khachHang->currentPage())
                             <span class="px-4 py-2 bg-green-600 text-white rounded">
@@ -216,6 +213,21 @@
         </div>
         @include('admins.customer._create_modal')
         @include('admins.customer._edit_modal')
+        @if (session('modal') === 'create')
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    openModal('createModal');
+                });
+            </script>
+        @endif
+
+        @if (session('modal') === 'edit')
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    openModal('editModal');
+                });
+            </script>
+        @endif
     @else
         <div class="col-span-3 text-center text-xl text-gray-500 py-32">
             Bạn không có quyền truy cập vào khu vực này

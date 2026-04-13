@@ -2,9 +2,7 @@
 
 @section('content')
     @if (auth()->user()->role == 0)
-        <div class="pl-2"
-            @if (session('modal') === 'create') data-auto-open-modal="createModal" @endif
-            @if (session('modal') === 'edit') data-auto-open-modal="editModal" @endif>
+        <div class="pl-2">
             <div class="mb-6">
                 <h1 class="flex items-center gap-3 text-2xl font-bold text-gray-800">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-green-600" viewBox="0 0 36 36"
@@ -72,11 +70,11 @@
                         </tr>
                     </thead>
 
-                <tbody class="divide-y divide-gray-200">
+                    <tbody class="divide-y divide-gray-200">
                         @forelse($nhanVien as $item)
                             <tr class="hover:bg-gray-50 border-gray-200">
                                 <!-- Tên -->
-                                <td class="px-6 py-4">
+                                <td class="px-6 py-2">
                                     <div class="flex flex-col text-2x1">
                                         <span class="font-semibold text-gray-800">
                                             {{ $item->name }}
@@ -88,12 +86,12 @@
                                 </td>
 
                                 <!-- SĐT -->
-                                <td class="px-6 py-4 text-center">
-                                    {{ $item->phoneNumber}}
+                                <td class="px-6 py-2 text-center">
+                                    {{ $item->phoneNumber }}
                                 </td>
 
                                 <!-- Vai trò -->
-                                <td class="px-6 py-4 text-center whitespace-nowrap">
+                                <td class="px-6 py-2 text-center whitespace-nowrap">
                                     @if ($item->role == 0)
                                         <span
                                             class="px-3 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-700">
@@ -108,7 +106,7 @@
                                 </td>
 
                                 <!-- Trạng thái -->
-                                <td class="px-6 py-4 text-center whitespace-nowrap">
+                                <td class="px-6 py-2 text-center whitespace-nowrap">
                                     @if ($item->status == 0)
                                         <span
                                             class="px-3 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-700">
@@ -122,7 +120,7 @@
                                 </td>
 
                                 <!-- ngày tạo -->
-                                <td class="px-6 py-4 text-center whitespace-nowrap">
+                                <td class="px-6 py-2 text-center whitespace-nowrap">
                                     {{ $item->created_at->format('d-m-Y') }}
                                 </td>
 
@@ -221,6 +219,21 @@
         </div>
         @include('admins.employee._create_modal')
         @include('admins.employee._edit_modal')
+        @if (session('modal') === 'create')
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    openModal('createModal');
+                });
+            </script>
+        @endif
+
+        @if (session('modal') === 'edit')
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    openModal('editModal');
+                });
+            </script>
+        @endif
     @else
         <div class="col-span-3 text-center text-xl text-gray-500 py-32">
             Bạn không có quyền truy cập vào khu vực này

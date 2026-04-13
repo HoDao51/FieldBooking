@@ -4,11 +4,11 @@ function formatPrice(price) {
 
 const timeSlots = document.querySelectorAll('.time-slot')
 
-timeSlots.forEach(function(slot) {
-    slot.addEventListener('click', function(e) {
+timeSlots.forEach(function (slot) {
+    slot.addEventListener('click', function (e) {
         e.preventDefault()
 
-        timeSlots.forEach(function(item) {
+        timeSlots.forEach(function (item) {
             item.classList.remove('ring-2', 'ring-green-500')
         })
 
@@ -41,30 +41,28 @@ const checkoutPage = document.querySelector('[data-checkout-page]')
 
 if (checkoutPage) {
     const paymentTypeInputs = document.querySelectorAll('input[name="payment_type"]')
-    const payNowAmount = document.getElementById('payNowAmount')
+    const payNowAmounts = document.querySelectorAll('.payNowAmount')
     const paymentTypeLabel = document.getElementById('paymentTypeLabel')
-    const fullPrice = checkoutPage.dataset.fullPrice
-    const depositPrice = checkoutPage.dataset.depositPrice
+    const fullPrice = Number(checkoutPage.dataset.fullPrice)
 
-    paymentTypeInputs.forEach(function(item) {
-        item.addEventListener('change', function() {
-            if (item.value == 1) {
+    const depositPrice = Number(checkoutPage.dataset.depositPrice)
+    paymentTypeInputs.forEach(function (item) {
+        item.addEventListener('change', function () {
+            let amount
+            if (this.value == 1) {
+                amount = depositPrice
                 if (paymentTypeLabel) {
-                    paymentTypeLabel.innerText = '\u0110\u1eb7t c\u1ecdc 50%'
-                }
-
-                if (payNowAmount) {
-                    payNowAmount.innerText = formatPrice(depositPrice)
+                    paymentTypeLabel.innerText = 'Đặt cọc 50%'
                 }
             } else {
+                amount = fullPrice
                 if (paymentTypeLabel) {
-                    paymentTypeLabel.innerText = 'Thanh to\u00e1n to\u00e0n b\u1ed9'
-                }
-
-                if (payNowAmount) {
-                    payNowAmount.innerText = formatPrice(fullPrice)
+                    paymentTypeLabel.innerText = 'Thanh toán toàn bộ'
                 }
             }
+            payNowAmounts.forEach(function (el) {
+                el.innerText = formatPrice(amount)
+            })
         })
     })
 }
