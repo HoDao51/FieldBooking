@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CustomerAuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Information;
@@ -26,4 +27,6 @@ Route::prefix('customer')->group(function () {
     Route::get('/information/history', [Information::class, 'history'])->name('information.history');
 
     Route::get('/search', [HomeController::class, 'search'])->name('home.search');
+
+    Route::get('/vnpay-payment', [CheckoutController::class, 'vnpay_payment'])->name('vnpay.payment');
 });

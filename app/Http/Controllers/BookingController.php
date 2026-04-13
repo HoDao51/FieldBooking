@@ -108,9 +108,9 @@ class BookingController extends Controller
             $billAmount = $request->price / 2;
         }
 
-        $status = 0; 
+        $status = 0;
         if ($request->payment_type == 0) {
-            $status = 1; 
+            $status = 1;
         }
 
         $booking = Booking::create([
@@ -136,6 +136,13 @@ class BookingController extends Controller
             'status' => $billStatus,
             'payment_type' => $request->payment_type,
         ]);
+
+        if ($request->payment_id == 4) {
+            return redirect()->route('vnpay.payment', [
+                'total_vnpay' => $billAmount,
+                'booking_id' => $booking->id
+            ]);
+        }
 
         return redirect()
             ->route('booking.success', $booking->id)
