@@ -1,4 +1,4 @@
-<aside class="bg-white border-r border-gray-200 text-gray-800 p-4 h-full flex flex-col">
+<aside class="w-72 bg-white border-r border-gray-200 text-gray-800 p-4 h-full flex flex-col">
     <nav class="flex flex-col space-y-2 flex-1">
         <a href="{{ route('admins.index') }}"
             class="flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold {{ request()->routeIs('admins.index') ? 'bg-green-200 text-green-800 font-semibold' : 'hover:bg-green-200' }}">
@@ -44,6 +44,14 @@
             </a>
         @endif
 
+        <a href="{{ route('loaiSan.index') }}"
+            class="flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold {{ request()->routeIs('loaiSan.*') ? 'bg-green-200 text-green-800 font-semibold' : 'hover:bg-green-200' }}">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 opacity-70" fill="#222C3A" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M20 18H4V8h16m0-2h-8l-2-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2"/>
+            </svg>
+            <span>Quản lý loại sân</span>
+        </a>
+
         <a href="{{ route('sanBong.index') }}"
             class="flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold {{ request()->routeIs('sanBong.*') ? 'bg-green-200 text-green-800 font-semibold' : 'hover:bg-green-200' }}">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 256 256"
@@ -52,24 +60,6 @@
                     d="M128 66a38 38 0 1 0 38 38a38 38 0 0 0-38-38m0 64a26 26 0 1 1 26-26a26 26 0 0 1-26 26m0-112a86.1 86.1 0 0 0-86 86c0 30.91 14.34 63.74 41.47 94.94a252.3 252.3 0 0 0 41.09 38a6 6 0 0 0 6.88 0a252.3 252.3 0 0 0 41.09-38c27.13-31.2 41.47-64 41.47-94.94a86.1 86.1 0 0 0-86-86m0 206.51C113 212.93 54 163.62 54 104a74 74 0 0 1 148 0c0 59.62-59 108.93-74 120.51" />
             </svg>
             <span>Quản lý sân bóng</span>
-        </a>
-
-        <a href="{{ route('loaiSan.index') }}"
-            class="flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold {{ request()->routeIs('loaiSan.*') ? 'bg-green-200 text-green-800 font-semibold' : 'hover:bg-green-200' }}">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 24 24">
-                <path fill="currentColor"
-                    d="M4 5a2 2 0 0 1 2-2h3.5a2 2 0 0 1 1.664.89l.836 1.254A2 2 0 0 0 13.664 6H18a2 2 0 0 1 2 2v2H4zm0 5h16v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z" />
-            </svg>
-            <span>Quản lý loại sân</span>
-        </a>
-
-        <a href="{{ route('phuongThucThanhToan.index') }}"
-            class="flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold {{ request()->routeIs('phuongThucThanhToan.*') ? 'bg-green-200 text-green-800 font-semibold' : 'hover:bg-green-200' }}">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 24 24">
-                <path fill="currentColor"
-                    d="M3 6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v1H3zm0 4h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm4 3a1 1 0 0 0 0 2h4a1 1 0 1 0 0-2z" />
-            </svg>
-            <span>Phương thức thanh toán</span>
         </a>
 
         <a href="{{ route('cauHinhGiaGio.index') }}"
@@ -92,6 +82,15 @@
                     d="M5 11.5h4M5 9h6M5 6.5h6m-5.5-4h-2v12h9v-12h-2m-5-1h5l-.625 2h-3.75z" stroke-width="1" />
             </svg>
             <span>Quản lý đơn đặt</span>
+        </a>
+
+        <a href="{{ route('phuongThucThanhToan.index') }}"
+            class="flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold {{ request()->routeIs('phuongThucThanhToan.*') ? 'bg-green-200 text-green-800 font-semibold' : 'hover:bg-green-200' }}">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 512 512">
+                <rect width="416" height="320" x="48" y="96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" rx="56" ry="56"/>
+                <path fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="60" d="M48 192h416M128 300h48v20h-48z"/>
+            </svg>
+            <span>Phương thức thanh toán</span>
         </a>
     </nav>
 

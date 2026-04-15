@@ -24,7 +24,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('admins/loaiSan', FieldTypeController::class);
     Route::resource('admins/phuongThucThanhToan', PaymentMethodController::class);
     Route::resource('admins/cauHinhGiaGio', FieldPriceController::class);
-    Route::patch('admins/khungGio/{khungGio}/toggle-status', [TimeSlotController::class, 'toggleStatus'])->name('khungGio.toggleStatus');
+    Route::patch('admins/khungGio/{khungGio}/lock', [TimeSlotController::class, 'lock'])->name('khungGio.lock');
+    Route::patch('admins/khungGio/{khungGio}/unlock', [TimeSlotController::class, 'unlock'])->name('khungGio.unlock');
     
     Route::resource('admins/donDatSan', BookingController::class);
     Route::post('admins/donDatSan/store-at-field', [BookingController::class, 'storeAtField'])->name('donDatSan.storeAtField');

@@ -3,7 +3,15 @@
 @section('content')
     <div class="pl-2">
         <div class="mb-6">
-            <h1 class="text-2xl font-bold text-gray-800">Quản lý phương thức thanh toán</h1>
+            <h1 class="flex items-center gap-3 text-2xl font-bold text-gray-800">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-green-600" viewBox="0 0 512 512">
+                    <rect width="416" height="320" x="48" y="96" fill="none" stroke="currentColor"
+                        stroke-linecap="round" stroke-linejoin="round" stroke-width="32" rx="56" ry="56" />
+                    <path fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="60"
+                        d="M48 192h416M128 300h48v20h-48z" />
+                </svg>
+                <span>Quản lý phương thức thanh toán</span>
+            </h1>
             <p class="mt-1 text-gray-500">Quản lý các phương thức thanh toán áp dụng cho đơn đặt sân</p>
         </div>
 
@@ -113,4 +121,3 @@
         </script>
     @endif
 @endsection
-

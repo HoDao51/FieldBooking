@@ -64,11 +64,20 @@ class TimeSlotController extends Controller
         //
     }
 
-    public function toggleStatus(TimeSlot $khungGio)
+    public function lock(TimeSlot $khungGio)
     {
-        $khungGio->update([
-            'status' => $khungGio->status == 1 ? 0 : 1,
-        ]);
+        $khungGio = TimeSlot::findOrFail($khungGio->id);
+        $khungGio->status = 0;
+        $khungGio->save();
+
+        return back()->with('success', 'Cập nhật trạng thái khung giờ thành công.');
+    }
+
+    public function unlock(TimeSlot $khungGio)
+    {
+        $khungGio = TimeSlot::findOrFail($khungGio->id);
+        $khungGio->status = 1;
+        $khungGio->save();
 
         return back()->with('success', 'Cập nhật trạng thái khung giờ thành công.');
     }

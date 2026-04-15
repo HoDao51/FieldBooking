@@ -3,8 +3,15 @@
 @section('content')
     <div class="pl-2">
         <div class="mb-6">
-            <h1 class="text-2xl font-bold text-gray-800">Quản lý loại sân</h1>
-            <p class="mt-1 text-gray-500">Thêm, cập nhật và xóa các loại sân trong hệ thống</p>
+            <h1 class="flex items-center gap-3 text-2xl font-bold text-gray-800">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 opacity-70 text-green-600" fill="#222C3A"
+                    viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                        d="M20 18H4V8h16m0-2h-8l-2-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2" />
+                </svg>
+                <span>Quản lý loại sân</span>
+            </h1>
+            <p class="mt-1 text-gray-500">Quản lý các loại sân trong hệ thống</p>
         </div>
 
         <div class="mb-2 flex items-center justify-between">
@@ -113,4 +120,3 @@
         </script>
     @endif
 @endsection
-

@@ -25,7 +25,7 @@
             @include('admins.layouts.sidebar')
         </div>
         <!-- content -->
-        <main class="flex-1 h-[calc(100vh-5rem)] p-6 pb-0 overflow-auto md:ml-60">
+        <main class="flex-1 md:ml-72 p-6 pb-0 h-[calc(100vh-5rem)] overflow-auto">
             @yield('content')
         </main>
     </div>
