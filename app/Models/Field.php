@@ -78,12 +78,79 @@ class Field extends Model
 
     public function getBookedSlots($date)
     {
-        $clusterFieldIds = $this->getClusterFieldIds();
+        // Khởi tạo danh sách id sân - bắt đầu bằng chính sân này
+        $fieldIds = [];
+        $fieldIds[] = $this->id;
 
-        return \App\Models\Booking::whereIn('field_id', $clusterFieldIds)
-            ->where('bookingDate', $date)
-            ->whereNotIn('status', [2])
-            ->pluck('time_id')
-            ->toArray();
+        $fieldType = $this->FieldType;
+
+        if ($fieldType) {
+            if ($fieldType->name == 'Sân 11 người') {
+                // Nếu là sân 11, lấy tất cả sân cùng địa chỉ
+                $allFields = Field::where('address', $this->address)->get();
+                $fieldIds = [];
+                foreach ($allFields as $field) {
+                    $fieldIds[] = $field->id;
+                }
+            } elseif ($fieldType->name == 'Sân 5 người') {
+                // Nếu là sân 5, thêm các sân 11 cùng địa chỉ
+                $sân11Fields = Field::where('address', $this->address)
+                    ->with('FieldType')
+                    ->get();
+
+                foreach ($sân11Fields as $field) {
+                    if ($field->FieldType && $field->FieldType->name == 'Sân 11 người') {
+                        $fieldIds[] = $field->id;
+                    }
+                }
+            }
+        }
+
+        // Danh sách khung giờ bị khóa
+        $blockedTimeIds = [];
+
+        $bookings = \App\Models\Booking::whereDate('bookingDate', $date)->get();
+
+        foreach ($bookings as $booking) {
+            if (in_array($booking->field_id, $fieldIds)) {
+                if ($booking->status != 2) {
+                    $blockedTimeIds[] = $booking->time_id;
+                }
+            }
+        }
+
+        return $blockedTimeIds;
+    }
+
+    public function getBlockedSlots($date)
+    {
+        // Khung giờ đã được đặt
+        $bookedSlots = $this->getBookedSlots($date);
+
+        // Khung giờ bị khóa (status = 0)
+        $lockedSlots = [];
+        $timeSlots = TimeSlot::where('status', 0)->get();
+        foreach ($timeSlots as $slot) {
+            $lockedSlots[] = $slot->id;
+        }
+
+        // Gộp danh sách
+        $allBlockedSlots = [];
+        foreach ($bookedSlots as $timeId) {
+            $allBlockedSlots[] = $timeId;
+        }
+        foreach ($lockedSlots as $timeId) {
+            $allBlockedSlots[] = $timeId;
+        }
+
+        // Xóa phần tử trùng
+        $blockedSlots = [];
+        foreach ($allBlockedSlots as $timeId) {
+            if (in_array($timeId, $blockedSlots) == false) {
+                $blockedSlots[] = $timeId;
+            }
+        }
+
+        return $blockedSlots;
     }
 }

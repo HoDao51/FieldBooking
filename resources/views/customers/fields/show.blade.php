@@ -143,7 +143,7 @@
 
                         <div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
                             @foreach ($morning as $price)
-                                @if (in_array($price->time_id, $bookedSlots))
+                                @if (in_array($price->time_id, $blockedSlots))
                                     <div
                                         class="rounded-xl border border-gray-200 bg-gray-200 px-4 py-3 text-sm shadow-sm cursor-not-allowed">
                                         <div class="flex items-center justify-between gap-4">
@@ -206,7 +206,7 @@
 
                         <div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
                             @foreach ($afternoon as $price)
-                                @if (in_array($price->time_id, $bookedSlots))
+                                @if (in_array($price->time_id, $blockedSlots))
                                     <div
                                         class="rounded-xl border border-gray-200 bg-gray-200 px-4 py-3 text-sm shadow-sm cursor-not-allowed">
                                         <div class="flex items-center justify-between gap-4">
@@ -270,7 +270,7 @@
 
                         <div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
                             @foreach ($evening as $price)
-                                @if (in_array($price->time_id, $bookedSlots))
+                                @if (in_array($price->time_id, $blockedSlots))
                                     <div
                                         class="rounded-xl border border-gray-200 bg-gray-200 px-4 py-3 text-sm shadow-sm cursor-not-allowed">
                                         <div class="flex items-center justify-between gap-4">

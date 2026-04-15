@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Field;
 use App\Models\FieldType;
-use App\Models\TimeSlot;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -129,9 +128,7 @@ class HomeController extends Controller
 
         $slots = $field->splitTimeSlots($prices);
 
-        $bookedSlots = $field->getBookedSlots($date);
-        $lockedSlots = TimeSlot::query()->where('status', 0)->pluck('id')->toArray();
-        $blockedSlots = array_values(array_unique(array_merge($bookedSlots, $lockedSlots)));
+        $blockedSlots = $field->getBlockedSlots($date);
 
         return view('customers.fields.show', [
             'field' => $field,
@@ -140,8 +137,7 @@ class HomeController extends Controller
             'morning' => $slots['morning'],
             'afternoon' => $slots['afternoon'],
             'evening' => $slots['evening'],
-            'bookedSlots' => $blockedSlots,
-            'lockedSlots' => $lockedSlots,
+            'blockedSlots' => $blockedSlots
         ]);
     }
 }
