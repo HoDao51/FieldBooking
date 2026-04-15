@@ -224,7 +224,7 @@
                         </div>
                     @enderror
 
-                    <div class="space-y-2 border-t pt-4 text-sm">
+                    <div class="space-y-2 border-t border-gray-300 pt-4 text-sm">
                         <div class="flex justify-between">
                             <span>Tạm tính</span>
                             <span>{{ number_format($price, 0, ',', '.') }}đ</span>
@@ -243,7 +243,7 @@
                         </div>
                     </div>
 
-                    <div class="mt-4 flex justify-between border-t pt-4 font-semibold">
+                    <div class="mt-4 flex justify-between border-t border-gray-300 pt-4 font-semibold">
                         <span class="text-lg">Tổng cộng</span>
                         <span class="payNowAmount text-2xl font-bold text-green-600">
                             {{ number_format($price, 0, ',', '.') }}đ

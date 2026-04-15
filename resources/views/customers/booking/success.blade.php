@@ -52,7 +52,7 @@
                 </div>
             </div>
 
-            <div class="border-t pt-4 space-y-3 text-base">
+            <div class="border-t border-gray-300 pt-4 space-y-3 text-base">
                 <div class="flex justify-between">
                     <span class="flex items-center gap-2 text-base">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
@@ -126,7 +126,7 @@
                 @endif
             </div>
 
-            <div class="border-t mt-6 pt-4 flex justify-between font-semibold">
+            <div class="border-t border-gray-300 mt-6 pt-4 flex justify-between font-semibold">
                 <span class="text-lg">Tổng tiền đã thanh toán</span>
                 <span class="text-green-600 text-2xl font-bold">
                     {{ number_format($booking->Bills->first()->amount) }}đ

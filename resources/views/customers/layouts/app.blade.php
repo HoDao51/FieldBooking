@@ -6,7 +6,7 @@
     <title>SânBóngPro - Đặt sân nhanh chóng</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
-    <script src="https://cdn.tailwindcss.com"></script>
+    @vite(['resources/css/app.css'])
 </head>
 
 <body class="bg-gray-50 text-gray-800">

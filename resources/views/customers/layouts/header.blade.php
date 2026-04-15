@@ -114,7 +114,7 @@
                     Lịch sử đặt sân
                 </a>
 
-                <hr class="my-2">
+                <hr class="my-2 border-gray-300">
 
                 <a href="{{ route('customer.logout') }}"
                     class="flex items-center gap-2 font-semibold block px-4 py-2 text-red-600 hover:bg-red-600 hover:text-white rounded-md">

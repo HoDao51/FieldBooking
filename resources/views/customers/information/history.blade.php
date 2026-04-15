@@ -68,9 +68,9 @@
                         </tr>
                     </thead>
 
-                    <tbody class="divide-y">
+                    <tbody class="divide-y divide-gray-300">
                         @forelse($booking as $item)
-                            <tr class="hover:bg-gray-50 transition">
+                            <tr class="hover:bg-gray-50 transition ">
                                 <td class="px-6 py-4 text-center font-medium break-words">
                                     {{ $item->Fields->name }}
                                 </td>

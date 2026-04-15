@@ -8,6 +8,7 @@ use App\Models\TimeSlot;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreFieldPriceRequest;
 use App\Http\Requests\UpdateFieldPriceRequest;
+use Illuminate\Support\Facades\Redirect;
 
 class FieldPriceController extends Controller
 {
@@ -78,13 +79,13 @@ class FieldPriceController extends Controller
         $timeSlots = TimeSlot::orderBy('startTime')->get();
 
         $prices = FieldPrice::with('timeSlot')
-        ->where('field_id', $id)
-        ->join('time_slots', 'field_prices.time_id', '=', 'time_slots.id')
-        ->orderBy('day_of_week')
-        ->orderBy('time_slots.startTime')
-        ->select('field_prices.*')
-        ->get()
-        ->groupBy('day_of_week');
+            ->where('field_id', $id)
+            ->join('time_slots', 'field_prices.time_id', '=', 'time_slots.id')
+            ->orderBy('day_of_week')
+            ->orderBy('time_slots.startTime')
+            ->select('field_prices.*')
+            ->get()
+            ->groupBy('day_of_week');
 
         return view('admins.pricing_configuration.show', compact('field', 'prices', 'timeSlots'));
     }
@@ -102,6 +103,14 @@ class FieldPriceController extends Controller
      */
     public function update(UpdateFieldPriceRequest $request, FieldPrice $cauHinhGiaGio)
     {
+        $cauHinhGiaGio = FieldPrice::findOrFail($cauHinhGiaGio->id);
+
+        // Kiểm tra status
+        if ($cauHinhGiaGio->status == 0) {
+            return Redirect::route('cauHinhGiaGio.show', $cauHinhGiaGio->field_id)
+                ->with('error', 'Khung giờ đang bị khóa, không thể sửa');
+        }
+
         $cauHinhGiaGio->update($request->all());
 
         return back()->with('success', 'Cập nhật thành công');
@@ -112,6 +121,12 @@ class FieldPriceController extends Controller
      */
     public function destroy(FieldPrice $cauHinhGiaGio)
     {
+        // Kiểm tra status
+        if ($cauHinhGiaGio->status == 0) {
+            return Redirect::route('cauHinhGiaGio.show', $cauHinhGiaGio->field_id)
+                ->with('error', 'Khung giờ đang bị khóa, không thể xóa');
+        }
+
         $cauHinhGiaGio->delete();
         return back()->with('success', 'Xoá thành công');
     }

@@ -46,10 +46,14 @@
                         <div class="mt-5 rounded-xl border border-gray-200 bg-gray-50 p-4">
                             <div class="flex flex-wrap items-center justify-between gap-3">
                                 <div>
-                                    <p class="text-sm font-semibold text-gray-800">Chọn sân</p>
-                                    <p class="mt-0.5 text-sm text-gray-600">
-                                        Đặt 1 sân sẽ tự khóa cùng khung giờ cho các sân khác trong cùng cơ sở.
-                                    </p>
+                                    <h2 class="flex items-center gap-2 font-semibold text-gray-800 text-lg">
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="w-4 h-4 text-green-600" viewBox="0 0 24 24">
+                                            <path fill="currentColor"
+                                                d="M10 13H3a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1v-7a1 1 0 0 0-1-1m-1 7H4v-5h5ZM21 2h-7a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1m-1 7h-5V4h5Zm1 4h-7a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1v-7a1 1 0 0 0-1-1m-1 7h-5v-5h5ZM10 2H3a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1M9 9H4V4h5Z" />
+                                        </svg>
+                                        <span>Chọn sân</span>
+                                    </h2>
                                 </div>
                             </div>
 
@@ -64,7 +68,8 @@
                                                 <p class="mt-0.5 text-sm text-gray-600">{{ $item->name }}</p>
                                             </div>
                                             @if ($item->id === $field->id)
-                                                <span class="rounded-full bg-green-200 px-2.5 py-1 text-xs font-semibold text-green-700">
+                                                <span
+                                                    class="rounded-full bg-green-200 px-2.5 py-1 text-xs font-semibold text-green-700">
                                                     Đang chọn
                                                 </span>
                                             @endif
@@ -363,7 +368,7 @@
                             @enderror
                         </div>
                     </div>
-                    <div class="border-t mt-6 pt-4">
+                    <div class="border-t border-gray-300 mt-6 pt-4">
                         <div class="flex justify-between">
                             <span class="text-gray-500 text-lg">Tổng cộng</span>
                             <span id="totalPrice" class="font-bold text-2xl">0đ</span>
@@ -385,5 +390,5 @@
             </div>
         </div>
     </div>
-@vite('resources/js/checkout.js')
+    @vite('resources/js/checkout.js')
 @endsection
