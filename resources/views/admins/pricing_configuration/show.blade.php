@@ -64,6 +64,21 @@
                             </div>
 
                             <div class="flex items-center gap-4 text-gray-500">
+                                <form action="{{ route('khungGio.toggleStatus', $price->timeSlot->id) }}" method="POST" class="inline-block">
+                                    @csrf
+                                    @method('PATCH')
+                                    <button type="submit"
+                                        class="{{ $price->timeSlot->status == 1 ? 'bg-amber-500 hover:bg-amber-600' : 'bg-sky-600 hover:bg-sky-700' }} text-white font-semibold px-3 py-2 rounded">
+                                        {{ $price->timeSlot->status == 1 ? 'Khóa giờ' : 'Mở khóa' }}
+                                    </button>
+                                </form>
+
+                                @if ($price->timeSlot->status == 0)
+                                    <span class="rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-700">
+                                        Đang khóa
+                                    </span>
+                                @endif
+
                                 <button type="button"
                                     onclick='openEditModal({
                                       modalId: "editModal",

@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StoreFieldTypeRequest extends FormRequest
 {
@@ -14,6 +16,17 @@ class StoreFieldTypeRequest extends FormRequest
         return true;
     }
 
+    protected function failedValidation(Validator $validator)
+    {
+        $response = redirect()
+            ->back()
+            ->withErrors($validator, 'create')
+            ->withInput()
+            ->with('modal', 'create');
+
+        throw new HttpResponseException($response);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -22,7 +35,16 @@ class StoreFieldTypeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string|max:20|unique:field_types,name',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'Vui lòng nhập tên loại sân.',
+            'name.max' => 'Tên loại sân không được vượt quá 20 ký tự.',
+            'name.unique' => 'Tên loại sân đã tồn tại.',
         ];
     }
 }

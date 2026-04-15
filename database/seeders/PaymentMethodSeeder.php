@@ -20,11 +20,6 @@ class PaymentMethodSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'name' => 'Chuyển khoản ngân hàng',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
                 'name' => 'Ví điện tử MoMo',
                 'created_at' => now(),
                 'updated_at' => now(),

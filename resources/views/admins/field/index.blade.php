@@ -36,10 +36,6 @@
             </form>
 
             <div class="flex items-center gap-2">
-                <a href="{{ route('sanLienKet.index') }}"
-                    class="bg-white border border-green-600 text-green-600 px-3 py-2 rounded-lg hover:bg-green-50 transition font-semibold whitespace-nowrap">
-                    Thiết lập liên kết
-                </a>
                 <button onclick="openModal('createModal')"
                     class="flex bg-green-600 text-white px-3 py-2 rounded-lg hover:bg-green-700 transition font-semibold whitespace-nowrap">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-1" fill="#ffffff" viewBox="0 0 32 32">
@@ -81,11 +77,6 @@
                                         <span class="font-semibold text-gray-800">
                                             {{ $item->name }}
                                         </span>
-                                        @if ($item->conflicts->count() > 0)
-                                            <span class="text-xs text-gray-500 mt-1">
-                                                Liên kết với {{ $item->conflicts->count() }} sân khác
-                                            </span>
-                                        @endif
                                     </div>
                                 </div>
                             </td>

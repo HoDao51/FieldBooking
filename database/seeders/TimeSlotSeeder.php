@@ -17,34 +17,42 @@ class TimeSlotSeeder extends Seeder
             [
                 'startTime' => '06:00:00',
                 'endTime' => '08:00:00',
+                'status' => 1,
             ],
             [
                 'startTime' => '08:00:00',
                 'endTime' => '10:00:00',
+                'status' => 1,
             ],
             [
                 'startTime' => '10:00:00',
                 'endTime' => '12:00:00',
+                'status' => 1,
             ],
             [
                 'startTime' => '14:00:00',
                 'endTime' => '16:00:00',
+                'status' => 1,
             ],
             [
                 'startTime' => '16:00:00',
                 'endTime' => '18:00:00',
+                'status' => 1,
             ],
             [
                 'startTime' => '18:00:00',
                 'endTime' => '19:30:00',
+                'status' => 1,
             ],
             [
                 'startTime' => '19:30:00',
                 'endTime' => '21:00:00',
+                'status' => 1,
             ],
             [
                 'startTime' => '21:00:00',
                 'endTime' => '22:30:00',
+                'status' => 1,
             ],
         ]);
     }

@@ -54,12 +54,22 @@
             <span>Quản lý sân bóng</span>
         </a>
 
-        <a href="{{ route('sanLienKet.index') }}"
-            class="flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold {{ request()->routeIs('sanLienKet.*') ? 'bg-green-200 text-green-800 font-semibold' : 'hover:bg-green-200' }}">
+        <a href="{{ route('loaiSan.index') }}"
+            class="flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold {{ request()->routeIs('loaiSan.*') ? 'bg-green-200 text-green-800 font-semibold' : 'hover:bg-green-200' }}">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 24 24">
-                    <path fill="none" stroke="currentColor" stroke-dasharray="28" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 6l2 -2c1 -1 3 -1 4 0l1 1c1 1 1 3 0 4l-5 5c-1 1 -3 1 -4 0M11 18l-2 2c-1 1 -3 1 -4 0l-1 -1c-1 -1 -1 -3 0 -4l5 -5c1 -1 3 -1 4 0"/>
-                </svg>
-            <span>Thiết lập sân liên kết</span>
+                <path fill="currentColor"
+                    d="M4 5a2 2 0 0 1 2-2h3.5a2 2 0 0 1 1.664.89l.836 1.254A2 2 0 0 0 13.664 6H18a2 2 0 0 1 2 2v2H4zm0 5h16v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z" />
+            </svg>
+            <span>Quản lý loại sân</span>
+        </a>
+
+        <a href="{{ route('phuongThucThanhToan.index') }}"
+            class="flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold {{ request()->routeIs('phuongThucThanhToan.*') ? 'bg-green-200 text-green-800 font-semibold' : 'hover:bg-green-200' }}">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 24 24">
+                <path fill="currentColor"
+                    d="M3 6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v1H3zm0 4h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm4 3a1 1 0 0 0 0 2h4a1 1 0 1 0 0-2z" />
+            </svg>
+            <span>Phương thức thanh toán</span>
         </a>
 
         <a href="{{ route('cauHinhGiaGio.index') }}"

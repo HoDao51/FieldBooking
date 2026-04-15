@@ -38,39 +38,13 @@ class Field extends Model
         return $this->belongsTo(FieldType::class, 'type_id');
     }
 
-    public function conflicts()
+    public function getClusterFieldIds(): array
     {
-        return $this->belongsToMany(Field::class, 'field_conflicts', 'field_id', 'conflict_field_id');
-    }
-
-    public function reverseConflicts()
-    {
-        return $this->belongsToMany(Field::class, 'field_conflicts', 'conflict_field_id', 'field_id');
-    }
-
-    public function getConflictFieldIds()
-    {
-        $ids = [];
-
-        $ids[] = $this->id;
-
-        foreach ($this->conflicts as $item) {
-            $ids[] = $item->id;
-        }
-
-        foreach ($this->reverseConflicts as $item) {
-            $ids[] = $item->id;
-        }
-
-        return array_values(array_unique($ids));
-    }
-
-    public function getLinkedFieldsAttribute()
-    {
-        return $this->conflicts
-            ->merge($this->reverseConflicts)
-            ->unique('id')
-            ->values();
+        return self::query()
+            ->withoutTrashed()
+            ->where('address', $this->address)
+            ->pluck('id')
+            ->toArray();
     }
 
     public function getPricesByDate($date)
@@ -104,9 +78,9 @@ class Field extends Model
 
     public function getBookedSlots($date)
     {
-        $conflictFieldIds = $this->getConflictFieldIds();
+        $clusterFieldIds = $this->getClusterFieldIds();
 
-        return \App\Models\Booking::whereIn('field_id', $conflictFieldIds)
+        return \App\Models\Booking::whereIn('field_id', $clusterFieldIds)
             ->where('bookingDate', $date)
             ->whereNotIn('status', [2])
             ->pluck('time_id')

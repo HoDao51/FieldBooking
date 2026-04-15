@@ -63,4 +63,13 @@ class TimeSlotController extends Controller
     {
         //
     }
+
+    public function toggleStatus(TimeSlot $khungGio)
+    {
+        $khungGio->update([
+            'status' => $khungGio->status == 1 ? 0 : 1,
+        ]);
+
+        return back()->with('success', 'Cập nhật trạng thái khung giờ thành công.');
+    }
 }

@@ -114,7 +114,7 @@
                                                 <div class="mt-2">
                                                     <span
                                                         class="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-500">
-                                                        Đã đặt
+                                                        Không khả dụng
                                                     </span>
                                                 </div>
                                             </div>
@@ -173,7 +173,7 @@
                                                 <div class="mt-2">
                                                     <span
                                                         class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-gray-500">
-                                                        Đã đặt
+                                                        Không khả dụng
                                                     </span>
                                                 </div>
                                             </div>
@@ -232,7 +232,7 @@
                                                 <div class="mt-2">
                                                     <span
                                                         class="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-500">
-                                                        Đã đặt
+                                                        Không khả dụng
                                                     </span>
                                                 </div>
                                             </div>

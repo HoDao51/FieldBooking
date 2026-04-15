@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Booking;
 use App\Models\Field;
-use App\Models\FieldPrice;
 use App\Models\FieldType;
 use App\Models\TimeSlot;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -16,21 +13,39 @@ class HomeController extends Controller
     {
         $search = $request->get('search');
 
-        $query = Field::with(['images', 'fieldType', 'conflicts', 'reverseConflicts'])
-            ->where('status', 0);
+        $fields = Field::query()
+            ->where('status', 0)
+            ->when($search, function ($q) use ($search) {
+                $q->where(function ($sub) use ($search) {
+                    $sub->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('address', 'like', '%' . $search . '%');
+                });
+            })
+            ->orderByDesc('id')
+            ->get(['id', 'address']);
 
-        if ($search) {
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', '%' . $search . '%')
-                    ->orWhere('address', 'like', '%' . $search . '%');
-            });
-        }
+        $facilities = $fields
+            ->groupBy('address')
+            ->map(function ($group, $address) {
+                $representative = $group->first();
 
-        $fields = $query->orderBy('id', 'desc')->paginate(6)->withQueryString();
+                return (object) [
+                    'address' => $address,
+                    'representative_field_id' => $representative->id,
+                    'fields_count' => $group->count(),
+                ];
+            })
+            ->values();
+
+        $representativeIds = $facilities->pluck('representative_field_id');
+        $representativeFields = Field::with(['images'])
+            ->whereIn('id', $representativeIds)
+            ->get()
+            ->keyBy('id');
 
         $types = FieldType::all();
 
-        return view('customers.home.index', compact('search', 'fields', 'types'));
+        return view('customers.home.index', compact('search', 'facilities', 'representativeFields', 'types'));
     }
 
     public function search(Request $request)
@@ -40,54 +55,93 @@ class HomeController extends Controller
         $type_id = $request->get('type_id');
         $province = $request->get('province');
 
-        $query = Field::with(['images', 'fieldType', 'conflicts', 'reverseConflicts'])
-            ->where('status', 0);
-
-        if ($search) {
-            $query->where(function ($q) use ($search) {
-                $q->where('name', 'like', '%' . $search . '%')
-                    ->orWhere('address', 'like', '%' . $search . '%');
+        $fields = Field::query()
+            ->where('status', 0)
+            ->when($search, function ($q) use ($search) {
+                $q->where(function ($sub) use ($search) {
+                    $sub->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('address', 'like', '%' . $search . '%');
+                });
             });
-        }
 
-        if ($request->province) {
+        if ($province) {
             $province = str_replace(['Thành phố ', 'Tỉnh '], '', $request->province);
-            $query->where('address', 'like', "%$province%");
+            $fields->where('address', 'like', "%$province%");
         }
 
         if ($type_id) {
-            $query->where('type_id', $type_id);
+            $fields->where('type_id', $type_id);
         }
 
-        $fields = $query->latest()->paginate(6);
+        $fields = $fields
+            ->orderByDesc('id')
+            ->get(['id', 'address']);
+
+        $facilities = $fields
+            ->groupBy('address')
+            ->map(function ($group, $address) {
+                $representative = $group->first();
+
+                return (object) [
+                    'address' => $address,
+                    'representative_field_id' => $representative->id,
+                    'fields_count' => $group->count(),
+                ];
+            })
+            ->values();
+
+        $representativeIds = $facilities->pluck('representative_field_id');
+        $representativeFields = Field::with(['images', 'fieldType'])
+            ->whereIn('id', $representativeIds)
+            ->get()
+            ->keyBy('id');
+
         $types = FieldType::all();
 
-        return view('customers.fields.search', compact('search', 'fields', 'types', 'type_id'));
+        return view('customers.fields.search', compact(
+            'search',
+            'facilities',
+            'representativeFields',
+            'types',
+            'type_id'
+        ));
     }
 
     public function show(Request $request, $id)
     {
         $field = Field::with([
             'FieldPrice.TimeSlot',
-            'conflicts',
-            'reverseConflicts'
+            'fieldType',
+            'images',
         ])->findOrFail($id);
 
         $date = $request->get('date', now()->toDateString());
+
+        $facilityFields = Field::with(['fieldType', 'images'])
+            ->withoutTrashed()
+            ->where('status', 0)
+            ->where('address', $field->address)
+            ->orderBy('type_id')
+            ->orderBy('name')
+            ->get();
 
         $prices = $field->getPricesByDate($date);
 
         $slots = $field->splitTimeSlots($prices);
 
         $bookedSlots = $field->getBookedSlots($date);
+        $lockedSlots = TimeSlot::query()->where('status', 0)->pluck('id')->toArray();
+        $blockedSlots = array_values(array_unique(array_merge($bookedSlots, $lockedSlots)));
 
         return view('customers.fields.show', [
             'field' => $field,
+            'facilityFields' => $facilityFields,
             'date' => $date,
             'morning' => $slots['morning'],
             'afternoon' => $slots['afternoon'],
             'evening' => $slots['evening'],
-            'bookedSlots' => $bookedSlots,
+            'bookedSlots' => $blockedSlots,
+            'lockedSlots' => $lockedSlots,
         ]);
     }
 }

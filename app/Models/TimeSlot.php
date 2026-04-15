@@ -14,7 +14,13 @@ class TimeSlot extends Model
     protected $fillable = [
         'startTime',
         'endTime',
+        'status',
     ];
+
+    public function scopeAvailable($query)
+    {
+        return $query->where('status', 1);
+    }
 
     public function Booking(){
         return $this->hasMany(Booking::class);

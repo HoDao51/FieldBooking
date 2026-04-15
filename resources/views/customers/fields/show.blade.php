@@ -42,22 +42,33 @@
                         </span>
                     </div>
 
-                    @if ($field->linked_fields->count() > 0)
-                        <div class="mt-4 rounded-xl border border-yellow-200 bg-yellow-50 px-4 py-3">
-                            <p class="flex item-center gap-2 text-sm font-semibold text-yellow-700">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 20 20">
-                                    <path fill="currentColor" d="M2.93 17.07A10 10 0 1 1 17.07 2.93A10 10 0 0 1 2.93 17.07M9 5v6h2V5zm0 8v2h2v-2z"/>
-                                </svg>
-                                Sân này thuộc cụm sân liên kết
-                            </p>
-                            <p class="mt-1 text-sm text-yellow-700">
-                                Nếu một sân trong cụm đã được đặt, các sân còn lại cùng khung giờ sẽ tự khóa.
-                            </p>
-                            <div class="mt-3 flex flex-wrap gap-2">
-                                @foreach ($field->linked_fields as $item)
-                                    <a href="{{ route('san.show', $item->id) }}"
-                                        class="rounded-full border border-yellow-300 bg-white px-3 py-1 text-sm text-yellow-700 hover:bg-amber-100">
-                                        {{ $item->name }} - {{ $item->fieldType->name }}
+                    @if (isset($facilityFields) && $facilityFields->count() > 1)
+                        <div class="mt-5 rounded-xl border border-gray-200 bg-gray-50 p-4">
+                            <div class="flex flex-wrap items-center justify-between gap-3">
+                                <div>
+                                    <p class="text-sm font-semibold text-gray-800">Chọn sân</p>
+                                    <p class="mt-0.5 text-sm text-gray-600">
+                                        Đặt 1 sân sẽ tự khóa cùng khung giờ cho các sân khác trong cùng cơ sở.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+                                @foreach ($facilityFields as $item)
+                                    <a href="{{ route('san.show', $item->id) }}?date={{ $date }}"
+                                        class="rounded-xl border px-4 py-3 shadow-sm transition
+                                        {{ $item->id === $field->id ? 'border-green-600 bg-green-50 text-green-700' : 'border-gray-200 bg-white hover:border-green-300 hover:bg-green-50' }}">
+                                        <div class="flex items-start justify-between gap-3">
+                                            <div>
+                                                <p class="font-semibold">{{ $item->fieldType->name }}</p>
+                                                <p class="mt-0.5 text-sm text-gray-600">{{ $item->name }}</p>
+                                            </div>
+                                            @if ($item->id === $field->id)
+                                                <span class="rounded-full bg-green-200 px-2.5 py-1 text-xs font-semibold text-green-700">
+                                                    Đang chọn
+                                                </span>
+                                            @endif
+                                        </div>
                                     </a>
                                 @endforeach
                             </div>
@@ -143,7 +154,7 @@
                                         <div class="mt-2">
                                             <span
                                                 class="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-500">
-                                                Đã đặt
+                                                Không khả dụng
                                             </span>
                                         </div>
                                     </div>
@@ -206,7 +217,7 @@
                                         <div class="mt-2">
                                             <span
                                                 class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-gray-500">
-                                                Đã đặt
+                                                Không khả dụng
                                             </span>
                                         </div>
                                     </div>
@@ -270,7 +281,7 @@
                                         <div class="mt-2">
                                             <span
                                                 class="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-500">
-                                                Đã đặt
+                                                Không khả dụng
                                             </span>
                                         </div>
                                     </div>

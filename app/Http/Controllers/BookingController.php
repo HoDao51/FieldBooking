@@ -59,13 +59,13 @@ class BookingController extends Controller
                 'FieldPrice.TimeSlot',
                 'fieldType',
                 'images',
-                'conflicts',
-                'reverseConflicts',
             ])->findOrFail($request->field_id);
 
             $prices = $selectedField->getPricesByDate($date);
             $slots = $selectedField->splitTimeSlots($prices);
             $bookedSlots = $selectedField->getBookedSlots($date);
+            $lockedSlots = TimeSlot::query()->where('status', 0)->pluck('id')->toArray();
+            $bookedSlots = array_values(array_unique(array_merge($bookedSlots, $lockedSlots)));
 
             $morning = $slots['morning'];
             $afternoon = $slots['afternoon'];
@@ -88,10 +88,20 @@ class BookingController extends Controller
     public function store(StoreBookingRequest $request)
     {
         $user = Auth::user();
-        $field = Field::with(['conflicts', 'reverseConflicts'])->findOrFail($request->field_id);
-        $conflictFieldIds = $field->getConflictFieldIds();
+        $field = Field::findOrFail($request->field_id);
+        $clusterFieldIds = $field->getClusterFieldIds();
+        $isTimeSlotAvailable = TimeSlot::query()
+            ->where('id', $request->time_id)
+            ->where('status', 1)
+            ->exists();
 
-        $exists = Booking::whereIn('field_id', $conflictFieldIds)
+        if (!$isTimeSlotAvailable) {
+            return back()
+                ->withInput()
+                ->withErrors(['time_id' => 'Khung giờ này đang tạm khóa để bảo trì.']);
+        }
+
+        $exists = Booking::whereIn('field_id', $clusterFieldIds)
             ->where('bookingDate', $request->date)
             ->where('time_id', $request->time_id)
             ->whereNotIn('status', [2])
@@ -137,7 +147,7 @@ class BookingController extends Controller
             'payment_type' => $request->payment_type,
         ]);
 
-        if ($request->payment_id == 4) {
+        if ($request->payment_id == "VNPay") {
             return redirect()->route('vnpay.payment', [
                 'total_vnpay' => $billAmount,
                 'booking_id' => $booking->id
@@ -152,10 +162,20 @@ class BookingController extends Controller
     public function storeAtField(StoreDirectBookingRequest $request)
     {
         $user = Auth::user();
-        $field = Field::with(['conflicts', 'reverseConflicts'])->findOrFail($request->field_id);
-        $conflictFieldIds = $field->getConflictFieldIds();
+        $field = Field::findOrFail($request->field_id);
+        $clusterFieldIds = $field->getClusterFieldIds();
+        $isTimeSlotAvailable = TimeSlot::query()
+            ->where('id', $request->time_id)
+            ->where('status', 1)
+            ->exists();
 
-        $exists = Booking::whereIn('field_id', $conflictFieldIds)
+        if (!$isTimeSlotAvailable) {
+            return back()
+                ->withInput()
+                ->withErrors(['time_id' => 'Khung giờ này đang tạm khóa để bảo trì.']);
+        }
+
+        $exists = Booking::whereIn('field_id', $clusterFieldIds)
             ->where('bookingDate', $request->date)
             ->where('time_id', $request->time_id)
             ->whereNotIn('status', [2])
@@ -208,6 +228,9 @@ class BookingController extends Controller
     {
         $field = Field::findOrFail($request->field_id);
         $timeSlot = TimeSlot::findOrFail($request->time_id);
+        if ($timeSlot->status != 1) {
+            return back()->withErrors(['time_id' => 'Khung giờ này đang tạm khóa để bảo trì.']);
+        }
 
         $date = $request->date;
         $price = $request->price;

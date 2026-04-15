@@ -5,7 +5,6 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\FieldController;
-use App\Http\Controllers\FieldConflictController;
 use App\Http\Controllers\FieldPriceController;
 use App\Http\Controllers\FieldTypeController;
 use App\Http\Controllers\ImageController;
@@ -22,9 +21,10 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('admins/khachHang', CustomerController::class);
     Route::post('admins/khachHang/{khachHang}/restore', [CustomerController::class, 'restoreCus'])->name('khachHang.restore');
     Route::resource('admins/sanBong', FieldController::class);
-    Route::get('admins/sanLienKet', [FieldConflictController::class, 'index'])->name('sanLienKet.index');
-    Route::put('admins/sanLienKet/{sanBong}', [FieldConflictController::class, 'update'])->name('sanLienKet.update');
+    Route::resource('admins/loaiSan', FieldTypeController::class);
+    Route::resource('admins/phuongThucThanhToan', PaymentMethodController::class);
     Route::resource('admins/cauHinhGiaGio', FieldPriceController::class);
+    Route::patch('admins/khungGio/{khungGio}/toggle-status', [TimeSlotController::class, 'toggleStatus'])->name('khungGio.toggleStatus');
     
     Route::resource('admins/donDatSan', BookingController::class);
     Route::post('admins/donDatSan/store-at-field', [BookingController::class, 'storeAtField'])->name('donDatSan.storeAtField');

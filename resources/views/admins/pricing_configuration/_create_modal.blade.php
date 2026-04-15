@@ -63,8 +63,9 @@
                         <option value="">-- Chọn khung giờ --</option>
                         @foreach($timeSlots as $slot)
                             <option value="{{ $slot->id }}"
+                                @if ($slot->status == 0) disabled @endif
                                 {{ old('time_id') == $slot->id ? 'selected' : '' }}>
-                                {{ $slot->startTime }} - {{ $slot->endTime }}
+                                {{ $slot->startTime }} - {{ $slot->endTime }} {{ $slot->status == 0 ? '(Đang khóa)' : '' }}
                             </option>
                         @endforeach
                     </select>

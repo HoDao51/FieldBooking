@@ -21,7 +21,7 @@ class FieldController extends Controller
     {
         $search = $request->get('search');
 
-        $query = Field::with(['images', 'fieldType', 'conflicts.fieldType'])->withoutTrashed();
+        $query = Field::with(['images', 'fieldType'])->withoutTrashed();
 
         if ($search) {
             $query->where(function ($q) use ($search) {
@@ -138,11 +138,6 @@ class FieldController extends Controller
      */
     public function destroy(Field $sanBong)
     {
-        DB::table('field_conflicts')
-            ->where('field_id', $sanBong->id)
-            ->orWhere('conflict_field_id', $sanBong->id)
-            ->delete();
-
         $sanBong->delete();
 
         return redirect()->route('sanBong.index')->with('success', 'Xóa sân bóng thành công');
