@@ -32,6 +32,7 @@ class UpdateFieldRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
+            'cluster_name' => 'nullable|string|max:255',
             'type_id' => 'required|exists:field_types,id',
             'status' => 'required|in:0,1',
             'conflict_fields' => 'nullable|array',

@@ -110,6 +110,7 @@
                                         data: {
                                             name: "{{ $item->name }}",
                                             address: "{{ $item->address }}",
+                                            cluster_name: "{{ $item->facility?->name ?? '' }}",
                                             type_id: "{{ $item->type_id }}",
                                             status: "{{ $item->status }}",
                                             images: @json($item->images)

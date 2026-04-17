@@ -32,6 +32,7 @@ class StoreFieldRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
+            'cluster_name' => 'nullable|string|max:255',
             'type_id' => 'required|exists:field_types,id',
             'conflict_fields' => 'nullable|array',
             'conflict_fields.*' => 'exists:fields,id',

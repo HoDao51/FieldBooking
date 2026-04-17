@@ -16,6 +16,7 @@ class Field extends Model
         'address',
         'status',
         'type_id',
+        'facility_id',
     ];
 
     public function images()
@@ -36,6 +37,11 @@ class Field extends Model
     public function FieldType()
     {
         return $this->belongsTo(FieldType::class, 'type_id');
+    }
+
+    public function facility()
+    {
+        return $this->belongsTo(Facility::class);
     }
 
     public function getClusterFieldIds(): array

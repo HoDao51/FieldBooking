@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreFieldRequest;
 use App\Http\Requests\UpdateFieldRequest;
+use App\Models\Facility;
 use App\Models\Field;
 use App\Models\FieldType;
 use App\Models\Image;
@@ -21,7 +22,7 @@ class FieldController extends Controller
     {
         $search = $request->get('search');
 
-        $query = Field::with(['images', 'fieldType'])->withoutTrashed();
+        $query = Field::with(['images', 'fieldType', 'facility'])->withoutTrashed();
 
         if ($search) {
             $query->where(function ($q) use ($search) {
@@ -34,8 +35,24 @@ class FieldController extends Controller
 
         $fieldTypes = FieldType::all();
         $images = Image::all();
+        $facilities = Facility::all();
 
-        return view('admins.field.index', compact('sanBong', 'search', 'fieldTypes', 'images'));
+        return view('admins.field.index', compact('sanBong', 'search', 'fieldTypes', 'images', 'facilities'));
+    }
+
+    /**
+     * Get facility by address (API endpoint for autocomplete)
+     */
+    public function getFacilityByAddress(Request $request)
+    {
+        $address = $request->get('address');
+        $facility = Facility::where('address', $address)->first();
+
+        if ($facility) {
+            return response()->json(['cluster_name' => $facility->name]);
+        }
+
+        return response()->json(['cluster_name' => null]);
     }
 
     /**
@@ -53,12 +70,38 @@ class FieldController extends Controller
     {
         $name = $request->name;
         $address = $request->address;
+        $cluster_name = $request->cluster_name;
         $type_id = $request->type_id;
+
+        // Tìm Facility có cùng address
+        $existingFacility = Facility::where('address', $address)->first();
+
+        // Nếu không có cluster_name từ form, lấy từ Facility hiện có (nếu tồn tại)
+        if (!$cluster_name && $existingFacility) {
+            $cluster_name = $existingFacility->name;
+        }
+
+        // Nếu vẫn không có cluster_name, tạo từ address
+        if (!$cluster_name) {
+            $cluster_name = $address;
+        }
+
+        // Tìm hoặc tạo Facility
+        $facility = Facility::firstOrCreate(
+            ['address' => $address],
+            ['name' => $cluster_name]
+        );
+
+        // Cập nhật tên cụm sân nếu có thay đổi
+        if ($facility->name !== $cluster_name) {
+            $facility->update(['name' => $cluster_name]);
+        }
 
         $field = Field::create([
             'name' => $name,
             'address' => $address,
             'type_id' => $type_id,
+            'facility_id' => $facility->id,
         ]);
 
         if ($request->hasFile('images')) {
@@ -98,11 +141,48 @@ class FieldController extends Controller
      */
     public function update(UpdateFieldRequest $request, Field $sanBong)
     {
+        $address = $request->address;
+        $cluster_name = $request->cluster_name;
+
+        // Tìm Facility có cùng address
+        $existingFacility = Facility::where('address', $address)->first();
+
+        // Nếu không có cluster_name từ form, lấy từ Facility hiện có (nếu tồn tại)
+        if (!$cluster_name && $existingFacility) {
+            $cluster_name = $existingFacility->name;
+        }
+
+        // Nếu vẫn không có cluster_name, tạo từ address
+        if (!$cluster_name) {
+            $cluster_name = $address;
+        }
+
+        // Nếu địa chỉ không thay đổi, cập nhật facility hiện tại
+        if ($sanBong->address === $address) {
+            if ($sanBong->facility) {
+                $sanBong->facility->update(['name' => $cluster_name]);
+            }
+        } else {
+            // Nếu địa chỉ thay đổi, tìm hoặc tạo facility mới
+            $facility = Facility::firstOrCreate(
+                ['address' => $address],
+                ['name' => $cluster_name]
+            );
+
+            // Cập nhật tên cụm sân nếu có thay đổi
+            if ($facility->name !== $cluster_name) {
+                $facility->update(['name' => $cluster_name]);
+            }
+
+            $sanBong->facility_id = $facility->id;
+        }
+
         $sanBong->update([
             'name' => $request->name,
-            'address' => $request->address,
+            'address' => $address,
             'type_id' => $request->type_id,
             'status' => $request->status,
+            'facility_id' => $sanBong->facility_id,
         ]);
 
         if ($request->has('delete_images')) {

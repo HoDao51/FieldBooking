@@ -36,6 +36,16 @@
                 @enderror
             </div>
 
+            <div>
+                <label class="block text-lg text-gray-600">Tên cụm sân</label>
+                <input type="text" name="cluster_name" id="editClusterName" value="{{ old('cluster_name') }}"
+                    class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400"
+                    placeholder="Tự động điền nếu địa chỉ đã tồn tại">
+                @error('cluster_name', 'edit')
+                    <p class="text-red-500 text-lg mt-1">{{ $message }}</p>
+                @enderror
+            </div>
+
             <div class="grid grid-cols-2 gap-4">
                 <div>
                     <label class="block text-lg text-gray-600">Loại sân</label>
@@ -110,3 +120,37 @@
         </form>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const addressInput = document.getElementById('editAddress');
+    const clusterNameInput = document.getElementById('editClusterName');
+
+    if (addressInput && clusterNameInput) {
+        addressInput.addEventListener('blur', function() {
+            const address = addressInput.value.trim();
+
+            if (address && !clusterNameInput.value.trim()) {
+                fetch('{{ route('api.facilityByAddress') }}?address=' + encodeURIComponent(address))
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.cluster_name) {
+                            clusterNameInput.value = data.cluster_name;
+                            clusterNameInput.readOnly = true;
+                            clusterNameInput.classList.add('bg-gray-100', 'cursor-not-allowed');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+        });
+
+        addressInput.addEventListener('input', function() {
+            if (clusterNameInput.readOnly) {
+                clusterNameInput.readOnly = false;
+                clusterNameInput.value = '';
+                clusterNameInput.classList.remove('bg-gray-100', 'cursor-not-allowed');
+            }
+        });
+    }
+});
+</script>

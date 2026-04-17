@@ -18,17 +18,19 @@
 
             <div class="mb-10 grid grid-cols-1 md:grid-cols-3 gap-8">
                 @forelse ($facilities as $facility)
-                    @php
-                        $rep = $representativeFields[$facility->representative_field_id] ?? null;
-                    @endphp
                     <div class="bg-white rounded-xl shadow hover:shadow-xl hover:-translate-y-1 
                                 transition duration-300 ease-in-out group">
                         <!-- Ảnh -->
                         <div class="overflow-hidden rounded-t-xl">
                             <a href="{{ route('san.show', $facility->representative_field_id) }}">
-                                @if ($rep && $rep->images->first())
-                                    <img src="{{ asset('storage/' . $rep->images->first()->name) }}"
-                                        class="h-48 w-full object-cover transition duration-500 group-hover:scale-110">
+                                @if(isset($representativeFields[$facility->representative_field_id]))
+                                    @if($representativeFields[$facility->representative_field_id]->images->first())
+                                        <img src="{{ asset('storage/' . $representativeFields[$facility->representative_field_id]->images->first()->name) }}"
+                                            class="h-48 w-full object-cover transition duration-500 group-hover:scale-110">
+                                    @else
+                                        <img src="{{ asset('images/banner-client-placeholder.jpg') }}"
+                                            class="h-full w-full object-cover transition duration-500 group-hover:scale-110">
+                                    @endif
                                 @else
                                     <img src="{{ asset('images/banner-client-placeholder.jpg') }}"
                                         class="h-full w-full object-cover transition duration-500 group-hover:scale-110">
@@ -40,7 +42,7 @@
                             <!-- Tên cơ sở -->
                             <h3 class="font-semibold text-lg transition duration-300 group-hover:text-green-600">
                                 <a href="{{ route('san.show', $facility->representative_field_id) }}">
-                                    {{ $rep ? $rep->name : 'Cơ sở sân bóng' }}
+                                    {{ $facility->name }}
                                 </a>
                             </h3>
 

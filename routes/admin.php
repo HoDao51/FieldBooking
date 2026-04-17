@@ -21,6 +21,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('admins/khachHang', CustomerController::class);
     Route::post('admins/khachHang/{khachHang}/restore', [CustomerController::class, 'restoreCus'])->name('khachHang.restore');
     Route::resource('admins/sanBong', FieldController::class);
+    Route::get('admins/api/facility-by-address', [FieldController::class, 'getFacilityByAddress'])->name('api.facilityByAddress');
     Route::resource('admins/loaiSan', FieldTypeController::class);
     Route::resource('admins/phuongThucThanhToan', PaymentMethodController::class);
     Route::resource('admins/cauHinhGiaGio', FieldPriceController::class);

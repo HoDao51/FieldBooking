@@ -43,7 +43,7 @@
                             class="appearance-none text-[#4B5563] w-full border border-gray-300 rounded-md px-3 py-3 bg-white focus:outline-none focus:ring-1 focus:ring-green-400">
                             <option value="">Tất cả loại sân</option>
                             @foreach ($types as $type)
-                                <option value="{{ $type->id }}" {{ request('type_id') == $type->id ? 'selected' : '' }}>
+                            <option value="{{ $type->id }}" @selected(request('type_id') == $type->id)>
                                     {{ $type->name }}
                                 </option>
                             @endforeach
@@ -110,17 +110,19 @@
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 @foreach ($facilities as $facility)
-                    @php
-                        $rep = $representativeFields[$facility->representative_field_id] ?? null;
-                    @endphp
                     <div class="bg-white rounded-xl shadow hover:shadow-xl hover:-translate-y-1 
                                 transition duration-300 ease-in-out group">
                         <!-- Ảnh -->
                         <div class="overflow-hidden rounded-t-xl">
                             <a href="{{ route('san.show', $facility->representative_field_id) }}">
-                                @if ($rep && $rep->images->first())
-                                    <img src="{{ asset('storage/' . $rep->images->first()->name) }}"
-                                        class="h-48 w-full object-cover transition duration-500 group-hover:scale-110">
+                                @if(isset($representativeFields[$facility->representative_field_id]))
+                                    @if($representativeFields[$facility->representative_field_id]->images->first())
+                                        <img src="{{ asset('storage/' . $representativeFields[$facility->representative_field_id]->images->first()->name) }}"
+                                            class="h-48 w-full object-cover transition duration-500 group-hover:scale-110">
+                                    @else
+                                        <img src="{{ asset('images/banner-client-placeholder.jpg') }}"
+                                            class="w-full h-full object-cover">
+                                    @endif
                                 @else
                                     <img src="{{ asset('images/banner-client-placeholder.jpg') }}"
                                         class="w-full h-full object-cover">
@@ -132,7 +134,7 @@
                             <!-- Tên cơ sở -->
                             <h3 class="font-semibold text-lg transition duration-300 group-hover:text-green-600">
                                 <a href="{{ route('san.show', $facility->representative_field_id) }}">
-                                    {{ $rep ? $rep->name : 'Cơ sở sân bóng' }}
+                                    {{ $facility->name }}
                                 </a>
                             </h3>
 
