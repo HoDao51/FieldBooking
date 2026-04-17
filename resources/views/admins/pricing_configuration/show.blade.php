@@ -69,7 +69,6 @@
                             </div>
 
                             <div class="flex items-center gap-4 text-gray-500">
-
                                 @if ($price->timeSlot->status == 1)
                                     <form action="{{ route('khungGio.lock', $price->timeSlot->id) }}" method="POST"
                                         class="inline-block">
@@ -92,10 +91,6 @@
                                     </form>
                                 @endif
 
-
-
-
-
                                 <button type="button"
                                     onclick='openEditModal({
                                       modalId: "editModal",
@@ -103,7 +98,7 @@
                                       actionUrl: "{{ route('cauHinhGiaGio.update', $price->id) }}",
                                       data: @json($price)
                                   })'
-                                    class="bg-[#10B981] text-white font-semibold px-3 py-2 rounded hover:bg-[#1D8F6A]">
+                                    class="bg-[#10B981] text-white font-semibold ml-2 px-3 py-2 rounded hover:bg-[#1D8F6A]">
                                     Sửa
                                 </button>
 

@@ -97,7 +97,7 @@
                                         <p class="text-xs text-gray-500">Đặt cọc:
                                             {{ number_format($item->Bills->first()->amount) }}đ</p>
                                     @else
-                                        <p class="text-xs text-gray-500">Thanh toán đủ</p>
+                                        <p class="text-xs text-gray-500">Đã thanh toán đủ</p>
                                     @endif
                                 @endif
                             </td>
