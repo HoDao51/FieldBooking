@@ -90,6 +90,7 @@ class BookingController extends Controller
         $user = Auth::user();
         $field = Field::findOrFail($request->field_id);
         $clusterFieldIds = $field->getClusterFieldIds();
+
         $isTimeSlotAvailable = TimeSlot::query()
             ->where('id', $request->time_id)
             ->where('status', 1)
@@ -118,45 +119,49 @@ class BookingController extends Controller
             $billAmount = $request->price / 2;
         }
 
-        $status = 0;
-        if ($request->payment_type == 0) {
-            $status = 1;
-        }
+        $payment = PaymentMethod::find($request->payment_id);
 
-        $booking = Booking::create([
-            'bookingDate' => $request->date,
-            'totalPrice' => $request->price,
-            'status' => $status,
-            'contactName' => $request->contactName,
-            'contactPhone' => $request->contactPhone,
-            'contactEmail' => $request->contactEmail,
-            'field_id' => $request->field_id,
-            'time_id' => $request->time_id,
-            'customer_id' => $user->customers->id,
-        ]);
+        if ($payment && $payment->name == 'VNPay') {
 
-        $billStatus = 0;
-        if ($status == 1) {
-            $billStatus = 1;
-        }
+            session([
+                'booking_data' => [
+                    'date' => $request->date,
+                    'price' => $request->price,
+                    'field_id' => $request->field_id,
+                    'time_id' => $request->time_id,
+                    'contactName' => $request->contactName,
+                    'contactPhone' => $request->contactPhone,
+                    'contactEmail' => $request->contactEmail,
+                    'payment_type' => $request->payment_type,
+                    'user_id' => $user->customers->id,
+                ]
+            ]);
 
-        $booking->Bills()->create([
-            'payment_id' => $request->payment_id,
-            'amount' => $billAmount,
-            'status' => $billStatus,
-            'payment_type' => $request->payment_type,
-        ]);
-
-        if ($request->payment_id == "VNPay") {
             return redirect()->route('vnpay.payment', [
-                'total_vnpay' => $billAmount,
-                'booking_id' => $booking->id
+                'total_vnpay' => $billAmount
             ]);
         }
 
-        return redirect()
-            ->route('booking.success', $booking->id)
-            ->with('success', 'Đặt sân bóng thành công!');
+        if ($payment && $payment->name == 'Ví điện tử MoMo') {
+
+            session([
+                'booking_data' => [
+                    'date' => $request->date,
+                    'price' => $request->price,
+                    'field_id' => $request->field_id,
+                    'time_id' => $request->time_id,
+                    'contactName' => $request->contactName,
+                    'contactPhone' => $request->contactPhone,
+                    'contactEmail' => $request->contactEmail,
+                    'payment_type' => $request->payment_type,
+                    'user_id' => $user->customers->id,
+                ]
+            ]);
+
+            return redirect()->route('momo.payment', [
+                'total_momo' => $billAmount
+            ]);
+        }
     }
 
     public function storeAtField(StoreDirectBookingRequest $request)
@@ -235,7 +240,7 @@ class BookingController extends Controller
         $date = $request->date;
         $price = $request->price;
         $time_id = $request->time_id;
-        $payments = PaymentMethod::where('id', '!=', 1)->get();
+        $payments = PaymentMethod::where('name', 'NOT LIKE', '%thanh toán tiền mặt%')->get();
         $depositPrice = $price / 2;
 
         $time = date('H:i', strtotime($timeSlot->startTime)) . ' - ' .

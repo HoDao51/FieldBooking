@@ -52,6 +52,24 @@
                 {{ session('success') }}
             </span>
         </div>
+    @elseif (session('error'))
+        <div id="toast-success"
+            class="fixed top-6 left-1/2 -translate-x-1/2 
+                bg-white shadow-lg rounded-xl px-6 py-3 
+                flex items-center gap-3 border border-red-200 
+                animate-fadeIn z-50">
+
+            <div class="bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                        d="m8.4 17l3.6-3.6l3.6 3.6l1.4-1.4l-3.6-3.6L17 8.4L15.6 7L12 10.6L8.4 7L7 8.4l3.6 3.6L7 15.6zm3.6 5q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22" />
+                </svg>
+            </div>
+
+            <span class="text-gray-800 font-medium">
+                {{ session('error') }}
+            </span>
+        </div>
     @endif
 
     @guest
@@ -106,8 +124,8 @@
 
                 <a href="{{ route('information.history', auth()->user()->id) }}"
                     class="flex items-center gap-2 font-semibold block px-4 py-2 text-green-600 hover:bg-green-100 rounded-md">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24"
-                        stroke="currentColor" stroke-width="0">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" stroke="currentColor"
+                        stroke-width="0">
                         <path fill="currentColor"
                             d="M19 4h-2V3a1 1 0 0 0-2 0v1H9V3a1 1 0 0 0-2 0v1H5a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3m1 15a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-7h16Zm0-9H4V7a1 1 0 0 1 1-1h2v1a1 1 0 0 0 2 0V6h6v1a1 1 0 0 0 2 0V6h2a1 1 0 0 1 1 1Z" />
                     </svg>

@@ -30,4 +30,6 @@ Route::prefix('customer')->group(function () {
 
     Route::get('/vnpayPayment', [CheckoutController::class, 'vnpayPayment'])->name('vnpay.payment');
     Route::get('/vnpayReturn', [CheckoutController::class, 'vnpayReturn'])->name('vnpay.return');
+    Route::get('/momoPayment', [CheckoutController::class, 'momoPayment'])->name('momo.payment');
+    Route::get('/momoReturn', [CheckoutController::class, 'momoReturn'])->name('momo.return');
 });
