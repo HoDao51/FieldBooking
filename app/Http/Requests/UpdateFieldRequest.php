@@ -32,7 +32,7 @@ class UpdateFieldRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
-            'cluster_name' => 'nullable|string|max:255',
+            'cluster_name' => 'required|string|max:255',
             'type_id' => 'required|exists:field_types,id',
             'status' => 'required|in:0,1',
             'conflict_fields' => 'nullable|array',
@@ -52,6 +52,7 @@ class UpdateFieldRequest extends FormRequest
             'address.required' => 'Địa chỉ không được để trống.',
             'address.string' => 'Địa chỉ phải là chuỗi ký tự.',
             'address.max' => 'Địa chỉ không được vượt quá 255 ký tự.',
+            'cluster_name' => 'Vui lòng nhập tên cụm sân',
             'type_id.required' => 'Vui lòng chọn loại sân.',
             'type_id.exists' => 'Loại sân không tồn tại trong hệ thống.',
             'status.required' => 'Vui lòng chọn trạng thái sân.',

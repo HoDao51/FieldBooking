@@ -32,7 +32,7 @@ class StoreFieldRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
-            'cluster_name' => 'nullable|string|max:255',
+            'cluster_name' => 'required|string|max:255',
             'type_id' => 'required|exists:field_types,id',
             'conflict_fields' => 'nullable|array',
             'conflict_fields.*' => 'exists:fields,id',
@@ -48,6 +48,7 @@ class StoreFieldRequest extends FormRequest
             'name.max' => 'Tên sân không được vượt quá 255 ký tự.',
             'address.required' => 'Vui lòng nhập địa chỉ.',
             'address.max' => 'Địa chỉ không được vượt quá 255 ký tự.',
+            'cluster_name' => 'Vui lòng nhập tên cụm sân',
             'type_id.required' => 'Vui lòng chọn loại sân.',
             'type_id.exists' => 'Loại sân không hợp lệ.',
             'conflict_fields.array' => 'Dữ liệu sân liên kết không hợp lệ.',

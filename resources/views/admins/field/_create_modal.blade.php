@@ -41,7 +41,7 @@
                 <label class="block text-lg text-gray-600">Tên cụm sân</label>
                 <input type="text" name="cluster_name" id="createClusterName" value="{{ old('cluster_name') }}"
                     class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400"
-                    placeholder="Tự động điền nếu địa chỉ đã tồn tại">
+                    placeholder="Tên cụm sân sẽ tự động điền nếu địa chỉ được nhập đã có cụm sân">
                 @error('cluster_name', 'create')
                     <p class="text-red-500">{{ $message }}</p>
                 @enderror
