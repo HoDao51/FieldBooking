@@ -64,82 +64,63 @@
 
         <div class="flex-1 bg-white rounded-xl shadow p-5">
             <h2 class="text-2xl font-bold mb-6">
-                Lịch sử đặt sân
+                Lịch sử giao dịch
             </h2>
 
             <div class="overflow-x-auto">
                 <table class="min-w-full text-sm">
                     <thead class="bg-gray-100 text-gray-700 uppercase text-xs">
                         <tr>
-                            <th class="px-6 py-3 text-center">Tên sân</th>
-                            <th class="px-6 py-3 text-center">Ngày đặt</th>
+                            <th class="px-6 py-3 text-center">Sân</th>
                             <th class="px-6 py-3 text-center">Khung giờ</th>
-                            <th class="px-6 py-3 text-center">Thanh toán</th>
-                            <th class="px-6 py-3 text-center">Trạng thái</th>
+                            <th class="px-6 py-3 text-center">Phương thức</th>
+                            <th class="px-6 py-3 text-center">Hình thức</th>
+                            <th class="px-6 py-3 text-center">Số tiền</th>
+                            <th class="px-6 py-3 text-center">Thời gian</th>
                         </tr>
                     </thead>
 
                     <tbody class="divide-y divide-gray-300">
-                        @forelse($booking as $item)
+                        @forelse($bills as $bill)
                             <tr class="hover:bg-gray-50 transition">
                                 <td class="px-6 py-4 text-center font-medium break-words">
-                                    {{ $item->Fields->name }}
+                                    {{ $bill->Booking->Fields->name }}
                                 </td>
 
                                 <td class="px-6 py-4 text-center whitespace-nowrap">
-                                    {{ $item->created_at->format('d-m-Y') }}
+                                    {{ \Carbon\Carbon::parse($bill->Booking->TimeSlot->startTime)->format('H:i') }}
+                                    -
+                                    {{ \Carbon\Carbon::parse($bill->Booking->TimeSlot->endTime)->format('H:i') }}
                                 </td>
 
                                 <td class="px-6 py-4 text-center">
-                                    <span
-                                        class="bg-green-100 text-green-600 px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap">
-                                        {{ \Carbon\Carbon::parse($item->TimeSlot->startTime)->format('H:i') }}
-                                        -
-                                        {{ \Carbon\Carbon::parse($item->TimeSlot->endTime)->format('H:i') }}
-                                    </span>
+                                    {{ $bill->PaymentMethod->name }}
                                 </td>
 
                                 <td class="px-6 py-4 text-center">
-                                    <p class="font-semibold text-green-600">{{ number_format($item->totalPrice) }}đ</p>
-                                    @if ($item->Bills->first())
-                                        <p class="italic break-words">{{ $item->Bills->first()->PaymentMethod->name }}</p>
-                                        @if ($item->Bills->first()->payment_type == 1)
-                                            <p class="text-xs text-gray-500">
-                                                Đặt cọc: {{ number_format($item->Bills->first()->amount) }}đ
-                                            </p>
-                                        @else
-                                            <p class="text-xs text-gray-500">Thanh toán đủ</p>
-                                        @endif
+                                    @if ($bill->payment_type == 1)
+                                        Đặt cọc 50%
+                                    @else
+                                        Thanh toán toàn bộ
                                     @endif
                                 </td>
 
+                                <td class="px-6 py-4 text-center font-semibold text-green-600">
+                                    {{ number_format($bill->amount) }}đ
+                                </td>
+
                                 <td class="px-6 py-4 text-center whitespace-nowrap">
-                                    @if ($item->status == 0)
-                                        <span
-                                            class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
-                                            Chờ thanh toán
-                                        </span>
-                                    @elseif ($item->status == 1)
-                                        <span
-                                            class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
-                                            Hoàn thành
-                                        </span>
-                                    @elseif ($item->status == 2)
-                                        <span
-                                            class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-xs font-semibold">
-                                            Đã hủy
-                                        </span>
-                                    @elseif ($item->status == 3)
-                                        <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-semibold">
-                                            Từ chối
-                                        </span>
+                                    @if ($bill->paid_at)
+                                        {{ \Carbon\Carbon::parse($bill->paid_at)->format('d/m/Y' ) }}
+                                    @else
+                                        {{ $bill->created_at->format('d/m/Y') }}
                                     @endif
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="text-center py-8 text-gray-400">
-                                    Chưa đặt sân nào
+                                <td colspan="7" class="text-center py-8 text-gray-400">
+                                    Chưa có giao dịch nào
                                 </td>
                             </tr>
                         @endforelse
@@ -147,15 +128,15 @@
                 </table>
             </div>
 
-            @if ($booking->hasPages())
+            @if ($bills->hasPages())
                 <div class="flex justify-center items-center gap-2 mt-4">
-                    @for ($i = 1; $i <= $booking->lastPage(); $i++)
-                        @if ($i == $booking->currentPage())
+                    @for ($i = 1; $i <= $bills->lastPage(); $i++)
+                        @if ($i == $bills->currentPage())
                             <span class="px-4 py-2 bg-green-600 text-white rounded">
                                 {{ $i }}
                             </span>
                         @else
-                            <a href="{{ $booking->url($i) }}"
+                            <a href="{{ $bills->url($i) }}"
                                 class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-green-500 hover:text-white transition">
                                 {{ $i }}
                             </a>

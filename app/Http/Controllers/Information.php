@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\UpdateProfileRequest;
+use App\Models\Bill;
 use App\Models\Booking;
 use App\Models\Customer;
 use App\Models\Field;
@@ -56,9 +57,22 @@ class Information extends Controller
         $booking = $query
             ->orderByRaw("FIELD(status, 1, 0, 2, 3, 4)")
             ->orderBy('id', 'desc')
-            ->paginate(5)
+            ->paginate(5, ['*'], 'booking_page')
             ->withQueryString();
 
         return view('customers.information.history', compact('booking'));
+    }
+
+    public function transactionHistory(Request $request)
+    {
+        $bills = Bill::with(['Booking.Fields', 'Booking.TimeSlot', 'PaymentMethod'])
+            ->whereHas('Booking', function ($query) {
+                $query->where('customer_id', Auth::user()->customers->id);
+            })
+            ->orderBy('id', 'desc')
+            ->paginate(5)
+            ->withQueryString();
+
+        return view('customers.information.transaction_history', compact('bills'));
     }
 }
