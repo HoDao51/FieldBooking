@@ -121,7 +121,7 @@ class HomeController extends Controller
         $facilityFields = Field::with(['fieldType', 'images'])
             ->withoutTrashed()
             ->where('status', 0)
-            ->where('address', $field->address)
+            ->where('facility_id', $field->facility_id)
             ->orderBy('type_id')
             ->orderBy('name')
             ->get();

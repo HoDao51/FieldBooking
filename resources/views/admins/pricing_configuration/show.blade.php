@@ -4,7 +4,7 @@
     <div class="pl-2">
         <div class="flex justify-between items-center mb-6">
             <div class="flex items-center gap-3">
-                <a href="{{ route('cauHinhGiaGio.index') }}" class="text-gray-600 hover:text-green-600 transition">
+                <a href="{{ route('cauHinhGiaGio.facility.show', $field->facility_id) }}" class="text-gray-600 hover:text-green-600 transition">
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24">
                         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                             stroke-width="2" d="m12 19l-7-7l7-7m7 7H5" />

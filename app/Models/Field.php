@@ -48,7 +48,7 @@ class Field extends Model
     {
         return self::query()
             ->withoutTrashed()
-            ->where('address', $this->address)
+            ->where('facility_id', $this->facility_id)
             ->pluck('id')
             ->toArray();
     }
@@ -92,15 +92,13 @@ class Field extends Model
 
         if ($fieldType) {
             if ($fieldType->name == 'Sân 11 người') {
-                // Nếu là sân 11, lấy tất cả sân cùng địa chỉ
-                $allFields = Field::where('address', $this->address)->get();
+                $allFields = Field::where('facility_id', $this->facility_id)->get();
                 $fieldIds = [];
                 foreach ($allFields as $field) {
                     $fieldIds[] = $field->id;
                 }
             } elseif ($fieldType->name == 'Sân 5 người') {
-                // Nếu là sân 5, thêm các sân 11 cùng địa chỉ
-                $sân11Fields = Field::where('address', $this->address)
+                $sân11Fields = Field::where('facility_id', $this->facility_id)
                     ->with('FieldType')
                     ->get();
 
@@ -115,7 +113,7 @@ class Field extends Model
         // Danh sách khung giờ bị khóa
         $blockedTimeIds = [];
 
-        $bookings = \App\Models\Booking::whereDate('bookingDate', $date)->get();
+        $bookings = Booking::whereDate('bookingDate', $date)->get();
 
         foreach ($bookings as $booking) {
             if (in_array($booking->field_id, $fieldIds)) {

@@ -12,7 +12,7 @@
                 <span>Cấu hình giá giờ</span>
             </h1>
             <p class="text-gray-500 mt-1">
-                Chọn sân bóng để cấu hình bảng giá theo khung giờ
+                Chọn cụm sân để cấu hình bảng giá theo khung giờ
             </p>
         </div>
 
@@ -28,7 +28,7 @@
                             d="M18.319 14.433A8.001 8.001 0 0 0 6.343 3.868a8 8 0 0 0 10.564 11.976l.043.045l4.242 4.243a1 1 0 1 0 1.415-1.415l-4.243-4.242zm-2.076-9.15a6 6 0 1 1-8.485 8.485a6 6 0 0 1 8.485-8.485"
                             clip-rule="evenodd" />
                     </svg>
-                    <input type="text" name="search" value="{{ $search }}" placeholder="Tìm kiếm sân..."
+                    <input type="text" name="search" value="{{ $search }}" placeholder="Tìm kiếm cụm sân..."
                         class="bg-[#F2F2F2] pl-10 pr-3 py-2 rounded w-full d-lg focus:ring-2 focus:ring-green-400 outline-none">
                 </div>
                 <!-- Nút tìm kiếm -->
@@ -40,17 +40,12 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
-            @forelse($fields as $item)
-                <a href="{{ route('cauHinhGiaGio.show', $item->id) }}"
+            @forelse($facilities as $item)
+                <a href="{{ route('cauHinhGiaGio.facility.show', $item->id) }}"
                     class="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md hover:border-green-400 transition p-4 flex gap-4">
                     <!-- ẢNH -->
                     <div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
-                        @if ($item->images->first())
-                            <img src="{{ asset('storage/' . $item->images->first()->name) }}"
-                                class="w-full h-full object-cover">
-                        @else
-                            <img src="{{ asset('images/banner-client-placeholder.jpg') }}" class="w-full h-full object-cover">
-                        @endif
+                        <img src="{{ asset('images/banner-client-placeholder.jpg') }}" class="w-full h-full object-cover">
                     </div>
 
                     <!-- THÔNG TIN -->
@@ -65,11 +60,9 @@
                         </p>
 
                         <div class="mt-1 flex items-center gap-2 text-xs">
-                            <!-- Loại sân -->
+                            <!-- Số sân -->
                             <span class="px-2 py-0.5 text-xs rounded-full bg-gray-100 text-gray-600">
-                                @if ($item->fieldType)
-                                    {{ $item->fieldType->name }}
-                                @endif
+                                {{ $item->fields->count() }} sân
                             </span>
                         </div>
 
@@ -78,20 +71,20 @@
 
             @empty
                 <div class="col-span-3 text-center py-10 text-gray-500">
-                    Không có sân nào
+                    Không có cụm sân nào
                 </div>
             @endforelse
         </div>
 
-        @if ($fields->hasPages())
+        @if ($facilities->hasPages())
             <div class="flex justify-center items-center gap-2 mt-6">
-                @for ($i = 1; $i <= $fields->lastPage(); $i++)
-                    @if ($i == $fields->currentPage())
+                @for ($i = 1; $i <= $facilities->lastPage(); $i++)
+                    @if ($i == $facilities->currentPage())
                         <span class="px-4 py-2 bg-green-600 text-white rounded">
                             {{ $i }}
                         </span>
                     @else
-                        <a href="{{ $fields->url($i) }}"
+                        <a href="{{ $facilities->url($i) }}"
                             class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-green-500 hover:text-white transition">
                             {{ $i }}
                         </a>

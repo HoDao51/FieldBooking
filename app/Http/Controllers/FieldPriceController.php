@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\FieldPrice;
 use App\Models\Field;
+use App\Models\Facility;
 use App\Models\TimeSlot;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreFieldPriceRequest;
@@ -21,7 +22,9 @@ class FieldPriceController extends Controller
         $search = $request->get('search');
 
         // Query cơ bản
-        $query = Field::with('images', 'fieldType')->where('status', 0);
+        $query = Facility::with('fields')->whereHas('fields', function ($q) {
+            $q->where('status', 0);
+        });
 
         // Nếu có tìm kiếm
         if ($search) {
@@ -35,12 +38,12 @@ class FieldPriceController extends Controller
         $query->orderBy('id', 'desc');
 
         // Phân trang
-        $fields = $query->paginate(6)->appends([
+        $facilities = $query->paginate(6)->appends([
             'search' => $search
         ]);
 
         return view('admins.pricing_configuration.index', compact(
-            'fields',
+            'facilities',
             'search',
         ));
     }
@@ -88,6 +91,22 @@ class FieldPriceController extends Controller
             ->groupBy('day_of_week');
 
         return view('admins.pricing_configuration.show', compact('field', 'prices', 'timeSlots'));
+    }
+
+    /**
+     * Show fields of a facility for pricing configuration.
+     */
+    public function showFacility($facilityId)
+    {
+        $facility = Facility::findOrFail($facilityId);
+
+        $fields = Field::with('images', 'fieldType')
+            ->where('facility_id', $facilityId)
+            ->where('status', 0)
+            ->orderBy('id')
+            ->get();
+
+        return view('admins.pricing_configuration.facility', compact('facility', 'fields'));
     }
 
     /**

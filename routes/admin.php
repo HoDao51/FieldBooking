@@ -25,6 +25,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('admins/loaiSan', FieldTypeController::class);
     Route::resource('admins/phuongThucThanhToan', PaymentMethodController::class);
     Route::resource('admins/cauHinhGiaGio', FieldPriceController::class);
+    Route::get('admins/cauHinhGiaGio/facility/{facilityId}', [FieldPriceController::class, 'showFacility'])->name('cauHinhGiaGio.facility.show');
     Route::patch('admins/khungGio/{khungGio}/lock', [TimeSlotController::class, 'lock'])->name('khungGio.lock');
     Route::patch('admins/khungGio/{khungGio}/unlock', [TimeSlotController::class, 'unlock'])->name('khungGio.unlock');
     

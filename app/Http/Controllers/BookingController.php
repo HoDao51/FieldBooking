@@ -89,7 +89,6 @@ class BookingController extends Controller
     {
         $user = Auth::user();
         $field = Field::findOrFail($request->field_id);
-        $clusterFieldIds = $field->getClusterFieldIds();
 
         $isTimeSlotAvailable = TimeSlot::query()
             ->where('id', $request->time_id)
@@ -102,13 +101,8 @@ class BookingController extends Controller
                 ->withErrors(['time_id' => 'Khung giờ này đang tạm khóa để bảo trì.']);
         }
 
-        $exists = Booking::whereIn('field_id', $clusterFieldIds)
-            ->where('bookingDate', $request->date)
-            ->where('time_id', $request->time_id)
-            ->whereNotIn('status', [2])
-            ->exists();
-
-        if ($exists) {
+        $blockedSlots = $field->getBlockedSlots($request->date);
+        if (in_array($request->time_id, $blockedSlots)) {
             return back()
                 ->withInput()
                 ->withErrors(['time_id' => 'Khung giờ này đã được đặt.']);
@@ -168,7 +162,6 @@ class BookingController extends Controller
     {
         $user = Auth::user();
         $field = Field::findOrFail($request->field_id);
-        $clusterFieldIds = $field->getClusterFieldIds();
         $isTimeSlotAvailable = TimeSlot::query()
             ->where('id', $request->time_id)
             ->where('status', 1)
@@ -180,13 +173,8 @@ class BookingController extends Controller
                 ->withErrors(['time_id' => 'Khung giờ này đang tạm khóa để bảo trì.']);
         }
 
-        $exists = Booking::whereIn('field_id', $clusterFieldIds)
-            ->where('bookingDate', $request->date)
-            ->where('time_id', $request->time_id)
-            ->whereNotIn('status', [2])
-            ->exists();
-
-        if ($exists) {
+        $blockedSlots = $field->getBlockedSlots($request->date);
+        if (in_array($request->time_id, $blockedSlots)) {
             return back()
                 ->withInput()
                 ->withErrors(['time_id' => 'Khung giờ này đã được đặt.']);

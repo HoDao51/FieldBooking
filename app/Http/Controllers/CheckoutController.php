@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Booking;
+use App\Models\Field;
 use App\Models\PaymentMethod;
+use App\Models\TimeSlot;
 
 class CheckoutController extends Controller
 {
@@ -62,6 +64,21 @@ class CheckoutController extends Controller
         $data = session('booking_data');
 
         if ($vnp_ResponseCode == '00' && $data) {
+            $field = Field::find($data['field_id']);
+            $blockedSlots = [];
+
+            if ($field) {
+                $blockedSlots = $field->getBlockedSlots($data['date']);
+            }
+
+            if (!$field || TimeSlot::where('id', $data['time_id'])->where('status', 1)->doesntExist() || in_array($data['time_id'], $blockedSlots)) {
+                return redirect()->route('booking.checkout', [
+                    'field_id' => $data['field_id'],
+                    'time_id' => $data['time_id'],
+                    'date' => $data['date'],
+                    'price' => $data['price'],
+                ])->with('error', 'Khung giờ này đã được đặt hoặc không còn khả dụng.');
+            }
 
             $status = 0;
             if ($data['payment_type'] == 0) {
@@ -85,8 +102,10 @@ class CheckoutController extends Controller
                 $billAmount = $data['price'] / 2;
             }
 
+            $payment = PaymentMethod::where('name', 'VNPay')->first();
+
             $booking->Bills()->create([
-                'payment_id' => 'VNPay',
+                'payment_id' => $payment->id,
                 'amount' => $billAmount,
                 'status' => 1,
                 'payment_type' => $data['payment_type'],
@@ -186,6 +205,21 @@ class CheckoutController extends Controller
         $data = session('booking_data');
 
         if ($resultCode == 0 && $data) {
+            $field = Field::find($data['field_id']);
+            $blockedSlots = [];
+
+            if ($field) {
+                $blockedSlots = $field->getBlockedSlots($data['date']);
+            }
+
+            if (!$field || TimeSlot::where('id', $data['time_id'])->where('status', 1)->doesntExist() || in_array($data['time_id'], $blockedSlots)) {
+                return redirect()->route('booking.checkout', [
+                    'field_id' => $data['field_id'],
+                    'time_id' => $data['time_id'],
+                    'date' => $data['date'],
+                    'price' => $data['price'],
+                ])->with('error', 'Khung giờ này đã được đặt hoặc không còn khả dụng.');
+            }
 
             $status = 0;
             if ($data['payment_type'] == 0) {
