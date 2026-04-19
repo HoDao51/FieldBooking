@@ -17,19 +17,16 @@
                 Trải nghiệm đặt sân thông minh cùng SânBóngPro.
             </p>
 
-            <!-- Search Box -->
             <form method="GET" action="{{ route('home.search') }}"
                 class="bg-white text-gray-600 rounded-xl shadow-xl p-6 max-w-4xl">
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                     <div class="relative">
-                        <!-- Tỉnh -->
                         <select name="province" id="province"
                             class="appearance-none text-[#4B5563] w-full border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-green-600">
                             <option value="">Chọn tỉnh thành</option>
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
-                            <!-- SVG GIỮ NGUYÊN -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-[#4B5563]" viewBox="0 0 16 16">
                                 <path fill="currentColor"
                                     d="M13.069 5.157L8.384 9.768a.546.546 0 0 1-.768 0L2.93 5.158a.55.55 0 0 0-.771 0a.53.53 0 0 0 0 .759l4.684 4.61a1.65 1.65 0 0 0 2.312 0l4.684-4.61a.53.53 0 0 0 0-.76a.55.55 0 0 0-.771 0" />
@@ -37,20 +34,18 @@
                         </div>
                     </div>
 
-                    <!-- Loại sân -->
                     <div class="relative">
                         <select name="type_id"
                             class="appearance-none text-[#4B5563] w-full border border-gray-300 rounded-md px-3 py-3 bg-white focus:outline-none focus:ring-1 focus:ring-green-400">
                             <option value="">Tất cả loại sân</option>
                             @foreach ($types as $type)
-                            <option value="{{ $type->id }}" @selected(request('type_id') == $type->id)>
+                                <option value="{{ $type->id }}" @selected(request('type_id') == $type->id)>
                                     {{ $type->name }}
                                 </option>
                             @endforeach
                         </select>
 
                         <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
-                            <!-- SVG GIỮ NGUYÊN -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-[#4B5563]" viewBox="0 0 16 16">
                                 <path fill="currentColor"
                                     d="M13.069 5.157L8.384 9.768a.546.546 0 0 1-.768 0L2.93 5.158a.55.55 0 0 0-.771 0a.53.53 0 0 0 0 .759l4.684 4.61a1.65 1.65 0 0 0 2.312 0l4.684-4.61a.53.53 0 0 0 0-.76a.55.55 0 0 0-.771 0" />
@@ -58,10 +53,8 @@
                         </div>
                     </div>
 
-                    <!-- Button -->
                     <button type="submit"
                         class="flex items-center justify-center gap-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-semibold py-3">
-                        <!-- SVG GIỮ NGUYÊN -->
                         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24"
                             class="text-white">
                             <path fill="currentColor" fill-rule="evenodd"
@@ -69,14 +62,11 @@
                                 clip-rule="evenodd" />
                         </svg>
 
-                        <span class="text-base">
-                            Tìm sân ngay
-                        </span>
+                        <span class="text-base">Tìm sân ngay</span>
                     </button>
                 </div>
             </form>
 
-            <!-- Stats -->
             <div class="flex gap-10 mt-12 text-white">
                 <div class="pr-5 border-r border-white">
                     <h2 class="text-3xl font-bold">500+</h2>
@@ -91,11 +81,9 @@
                     <p class="text-gray-300">Tỉnh thành</p>
                 </div>
             </div>
-
         </div>
     </section>
 
-    <!-- sân nối bật -->
     <section class="py-8">
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex justify-between items-center mb-8">
@@ -110,19 +98,12 @@
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 @foreach ($facilities as $facility)
-                    <div class="bg-white rounded-xl shadow hover:shadow-xl hover:-translate-y-1 
-                                transition duration-300 ease-in-out group">
-                        <!-- Ảnh -->
+                    <div class="bg-white rounded-xl shadow hover:shadow-xl hover:-translate-y-1 transition duration-300 ease-in-out group">
                         <div class="overflow-hidden rounded-t-xl">
-                            <a href="{{ route('san.show', $facility->representative_field_id) }}">
-                                @if(isset($representativeFields[$facility->representative_field_id]))
-                                    @if($representativeFields[$facility->representative_field_id]->images->first())
-                                        <img src="{{ asset('storage/' . $representativeFields[$facility->representative_field_id]->images->first()->name) }}"
-                                            class="h-48 w-full object-cover transition duration-500 group-hover:scale-110">
-                                    @else
-                                        <img src="{{ asset('images/banner-client-placeholder.jpg') }}"
-                                            class="w-full h-full object-cover">
-                                    @endif
+                            <a href="{{ route('san.show', $facility->representativeField->id) }}">
+                                @if ($facility->representativeField->images->first())
+                                    <img src="{{ asset('storage/' . $facility->representativeField->images->first()->name) }}"
+                                        class="h-48 w-full object-cover transition duration-500 group-hover:scale-110">
                                 @else
                                     <img src="{{ asset('images/banner-client-placeholder.jpg') }}"
                                         class="w-full h-full object-cover">
@@ -131,9 +112,8 @@
                         </div>
 
                         <div class="p-5">
-                            <!-- Tên cơ sở -->
                             <h3 class="font-semibold text-lg transition duration-300 group-hover:text-green-600">
-                                <a href="{{ route('san.show', $facility->representative_field_id) }}">
+                                <a href="{{ route('san.show', $facility->representativeField->id) }}">
                                     {{ $facility->name }}
                                 </a>
                             </h3>
@@ -152,12 +132,12 @@
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-green-600 mt-0.5 shrink-0" viewBox="0 0 24 24">
                                         <path fill="currentColor" d="M10 13H3a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1v-7a1 1 0 0 0-1-1m-1 7H4v-5h5ZM21 2h-7a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1m-1 7h-5V4h5Zm1 4h-7a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1v-7a1 1 0 0 0-1-1m-1 7h-5v-5h5ZM10 2H3a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1M9 9H4V4h5Z"/>
                                     </svg>
-                                    <span>{{ $facility->fields_count }} sân</span>
+                                    <span>{{ $facility->fields->count() }} sân</span>
                                 </div>
                             </div>
 
                             <div class="mt-4">
-                                <a href="{{ route('san.show', $facility->representative_field_id) }}"
+                                <a href="{{ route('san.show', $facility->representativeField->id) }}"
                                     class="text-center font-medium block w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
                                     Chọn sân & đặt lịch
                                 </a>

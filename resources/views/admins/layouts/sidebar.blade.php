@@ -92,6 +92,14 @@
             </svg>
             <span>Phương thức thanh toán</span>
         </a>
+        <a href="{{ route('lichSuGiaoDich.index') }}"
+            class="flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold {{ request()->routeIs('lichSuGiaoDich.*') ? 'bg-green-200 text-green-800 font-semibold' : 'hover:bg-green-200' }}">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v5l3 2" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M22 12a10 10 0 1 1-3.2-7.3" />
+            </svg>
+            <span>Lịch sử giao dịch</span>
+        </a>
     </nav>
 
     <div class="pt-4 border-t border-gray-200">

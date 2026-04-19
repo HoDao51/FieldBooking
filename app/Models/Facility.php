@@ -20,4 +20,9 @@ class Facility extends Model
     {
         return $this->hasMany(Field::class);
     }
+
+    public function getRepresentativeFieldAttribute()
+    {
+        return $this->fields->first();
+    }
 }

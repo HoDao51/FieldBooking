@@ -13,39 +13,28 @@ class HomeController extends Controller
     {
         $search = $request->get('search');
 
-        $facilities = Facility::query()
-            ->with(['fields' => function ($q) {
-                $q->where('status', 0)->orderBy('id');
-            }])
-            ->when($search, function ($q) use ($search) {
-                $q->where(function ($sub) use ($search) {
-                    $sub->where('name', 'like', '%' . $search . '%')
-                        ->orWhere('address', 'like', '%' . $search . '%');
-                });
-            })
-            ->get();
+        $query = Facility::with([
+            'fields' => function ($q) {
+                $q->where('status', 0)
+                    ->orderBy('id')
+                    ->with(['images', 'fieldType']);
+            }
+        ]);
 
-        $facilities = $facilities->map(function ($facility) {
-            $representativeField = $facility->fields->first();
-            
-            return (object) [
-                'id' => $facility->id,
-                'name' => $facility->name,
-                'address' => $facility->address,
-                'representative_field_id' => $representativeField?->id,
-                'fields_count' => $facility->fields->count(),
-            ];
-        })->filter(fn($f) => $f->representative_field_id !== null);
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('address', 'like', '%' . $search . '%');
+            });
+        }
 
-        $representativeIds = $facilities->pluck('representative_field_id');
-        $representativeFields = Field::with(['images'])
-            ->whereIn('id', $representativeIds)
-            ->get()
-            ->keyBy('id');
+        $facilities = $query->get()->filter(function ($facility) {
+            return $facility->representativeField != null;
+        });
 
         $types = FieldType::all();
 
-        return view('customers.home.index', compact('search', 'facilities', 'representativeFields', 'types'));
+        return view('customers.home.index', compact('search', 'facilities', 'types'));
     }
 
     public function search(Request $request)
@@ -54,58 +43,37 @@ class HomeController extends Controller
         $type_id = $request->get('type_id');
         $province = $request->get('province');
 
-        $facilitiesQuery = Facility::query();
+        $query = Facility::with([
+            'fields' => function ($q) use ($type_id) {
+                $q->where('status', 0)
+                    ->orderBy('id')
+                    ->with(['images', 'fieldType']);
 
-        // Search in facility name or address
+                if ($type_id) {
+                    $q->where('type_id', $type_id);
+                }
+            }
+        ]);
+
         if ($search) {
-            $facilitiesQuery->where(function ($q) use ($search) {
+            $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', '%' . $search . '%')
                     ->orWhere('address', 'like', '%' . $search . '%');
             });
         }
 
-        // Filter by province in facility address
         if ($province) {
             $province = str_replace(['Thành phố ', 'Tỉnh '], '', $province);
-            $facilitiesQuery->where('address', 'like', "%$province%");
+            $query->where('address', 'like', '%' . $province . '%');
         }
 
-        $facilitiesQuery->with(['fields' => function ($q) use ($type_id) {
-            $q->where('status', 0)->orderBy('id');
-            if ($type_id) {
-                $q->where('type_id', $type_id);
-            }
-        }]);
-
-        $facilities = $facilitiesQuery->get();
-
-        $facilities = $facilities->map(function ($facility) {
-            $representativeField = $facility->fields->first();
-            
-            return (object) [
-                'id' => $facility->id,
-                'name' => $facility->name,
-                'address' => $facility->address,
-                'representative_field_id' => $representativeField?->id,
-                'fields_count' => $facility->fields->count(),
-            ];
-        })->filter(fn($f) => $f->representative_field_id !== null)->values();
-
-        $representativeIds = $facilities->pluck('representative_field_id');
-        $representativeFields = Field::with(['images', 'fieldType'])
-            ->whereIn('id', $representativeIds)
-            ->get()
-            ->keyBy('id');
+        $facilities = $query->get()->filter(function ($facility) {
+            return $facility->representativeField != null;
+        })->values();
 
         $types = FieldType::all();
 
-        return view('customers.fields.search', compact(
-            'search',
-            'facilities',
-            'representativeFields',
-            'types',
-            'type_id'
-        ));
+        return view('customers.fields.search', compact('search', 'facilities', 'types', 'type_id'));
     }
 
     public function show(Request $request, $id)
@@ -127,9 +95,7 @@ class HomeController extends Controller
             ->get();
 
         $prices = $field->getPricesByDate($date);
-
         $slots = $field->splitTimeSlots($prices);
-
         $blockedSlots = $field->getBlockedSlots($date);
 
         return view('customers.fields.show', [

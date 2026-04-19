@@ -41,7 +41,7 @@ class BookingController extends Controller
     public function create(Request $request)
     {
         $customers = Customer::orderBy('name')->get();
-        $fields = Field::with(['fieldType'])
+        $fields = Field::with('fieldType')
             ->where('status', 0)
             ->orderBy('name')
             ->get();
@@ -63,13 +63,11 @@ class BookingController extends Controller
 
             $prices = $selectedField->getPricesByDate($date);
             $slots = $selectedField->splitTimeSlots($prices);
-            $bookedSlots = $selectedField->getBookedSlots($date);
-            $lockedSlots = TimeSlot::query()->where('status', 0)->pluck('id')->toArray();
-            $bookedSlots = array_values(array_unique(array_merge($bookedSlots, $lockedSlots)));
 
             $morning = $slots['morning'];
             $afternoon = $slots['afternoon'];
             $evening = $slots['evening'];
+            $bookedSlots = $selectedField->getBlockedSlots($date);
         }
 
         return view('admins.order.create', compact(
@@ -90,22 +88,11 @@ class BookingController extends Controller
         $user = Auth::user();
         $field = Field::findOrFail($request->field_id);
 
-        $isTimeSlotAvailable = TimeSlot::query()
-            ->where('id', $request->time_id)
-            ->where('status', 1)
-            ->exists();
-
-        if (!$isTimeSlotAvailable) {
+        $error = $this->checkTimeSlot($field, $request->date, $request->time_id);
+        if ($error) {
             return back()
                 ->withInput()
-                ->withErrors(['time_id' => 'Khung giờ này đang tạm khóa để bảo trì.']);
-        }
-
-        $blockedSlots = $field->getBlockedSlots($request->date);
-        if (in_array($request->time_id, $blockedSlots)) {
-            return back()
-                ->withInput()
-                ->withErrors(['time_id' => 'Khung giờ này đã được đặt.']);
+                ->withErrors(['time_id' => $error]);
         }
 
         $billAmount = $request->price;
@@ -116,19 +103,8 @@ class BookingController extends Controller
         $payment = PaymentMethod::find($request->payment_id);
 
         if ($payment && $payment->name == 'VNPay') {
-
             session([
-                'booking_data' => [
-                    'date' => $request->date,
-                    'price' => $request->price,
-                    'field_id' => $request->field_id,
-                    'time_id' => $request->time_id,
-                    'contactName' => $request->contactName,
-                    'contactPhone' => $request->contactPhone,
-                    'contactEmail' => $request->contactEmail,
-                    'payment_type' => $request->payment_type,
-                    'user_id' => $user->customers->id,
-                ]
+                'booking_data' => $this->getBookingSessionData($request, $user->customers->id)
             ]);
 
             return redirect()->route('vnpay.payment', [
@@ -137,58 +113,68 @@ class BookingController extends Controller
         }
 
         if ($payment && $payment->name == 'Ví điện tử MoMo') {
-
             session([
-                'booking_data' => [
-                    'date' => $request->date,
-                    'price' => $request->price,
-                    'field_id' => $request->field_id,
-                    'time_id' => $request->time_id,
-                    'contactName' => $request->contactName,
-                    'contactPhone' => $request->contactPhone,
-                    'contactEmail' => $request->contactEmail,
-                    'payment_type' => $request->payment_type,
-                    'user_id' => $user->customers->id,
-                ]
+                'booking_data' => $this->getBookingSessionData($request, $user->customers->id)
             ]);
 
             return redirect()->route('momo.payment', [
                 'total_momo' => $billAmount
             ]);
         }
+
+        $status = 0;
+        if ($request->payment_type == 0) {
+            $status = 1;
+        }
+
+        $booking = Booking::create([
+            'bookingDate' => $request->date,
+            'totalPrice' => $request->price,
+            'status' => $status,
+            'contactName' => $request->contactName,
+            'contactPhone' => $request->contactPhone,
+            'contactEmail' => $request->contactEmail,
+            'field_id' => $request->field_id,
+            'time_id' => $request->time_id,
+            'customer_id' => $user->customers->id,
+        ]);
+
+        $billStatus = 0;
+        if ($status == 1) {
+            $billStatus = 1;
+        }
+
+        $booking->Bills()->create([
+            'payment_id' => $request->payment_id,
+            'amount' => $billAmount,
+            'status' => $billStatus,
+            'payment_type' => $request->payment_type,
+        ]);
+
+        return redirect()
+            ->route('booking.success', $booking->id)
+            ->with('success', 'Đặt sân bóng thành công!');
     }
 
     public function storeAtField(StoreDirectBookingRequest $request)
     {
         $user = Auth::user();
         $field = Field::findOrFail($request->field_id);
-        $isTimeSlotAvailable = TimeSlot::query()
-            ->where('id', $request->time_id)
-            ->where('status', 1)
-            ->exists();
 
-        if (!$isTimeSlotAvailable) {
+        $error = $this->checkTimeSlot($field, $request->date, $request->time_id);
+        if ($error) {
             return back()
                 ->withInput()
-                ->withErrors(['time_id' => 'Khung giờ này đang tạm khóa để bảo trì.']);
-        }
-
-        $blockedSlots = $field->getBlockedSlots($request->date);
-        if (in_array($request->time_id, $blockedSlots)) {
-            return back()
-                ->withInput()
-                ->withErrors(['time_id' => 'Khung giờ này đã được đặt.']);
+                ->withErrors(['time_id' => $error]);
         }
 
         $employeeId = null;
-
         if ($user->employees) {
             $employeeId = $user->employees->id;
         }
 
         $customerId = null;
-
-        if ($request->customer_type === 'existing') {
+        if ($request->customer_type == 'existing') {
             $customerId = $request->customer_id;
         }
 
@@ -221,6 +207,7 @@ class BookingController extends Controller
     {
         $field = Field::findOrFail($request->field_id);
         $timeSlot = TimeSlot::findOrFail($request->time_id);
+
         if ($timeSlot->status != 1) {
             return back()->withErrors(['time_id' => 'Khung giờ này đang tạm khóa để bảo trì.']);
         }
@@ -253,9 +240,87 @@ class BookingController extends Controller
         return view('customers.booking.success', compact('booking'));
     }
 
+    public function completePage($id)
+    {
+        $booking = Booking::with(['Fields', 'TimeSlot', 'Bills.PaymentMethod'])->findOrFail($id);
+
+        $paidAmount = $booking->Bills->sum('amount');
+        $remainingAmount = $booking->totalPrice - $paidAmount;
+
+        if ($remainingAmount < 0) {
+            $remainingAmount = 0;
+        }
+
+        return view('admins.order.complete', compact('booking', 'paidAmount', 'remainingAmount'));
+    }
+
+    public function complete($id)
+    {
+        $booking = Booking::with('Bills')->findOrFail($id);
+
+        $paidAmount = $booking->Bills->sum('amount');
+        $remainingAmount = $booking->totalPrice - $paidAmount;
+
+        $cashPayment = PaymentMethod::where('name', 'like', '%tiền mặt%')->first();
+
+        if (!$cashPayment) {
+            return back()->with('error', 'Chưa có phương thức thanh toán tiền mặt.');
+        }
+
+        $booking->Bills()->create([
+            'payment_id' => $cashPayment->id,
+            'amount' => $remainingAmount,
+            'status' => 1,
+            'payment_type' => 0,
+            'paid_at' => now(),
+        ]);
+
+        $booking->update([
+            'status' => 1,
+        ]);
+
+        return redirect()
+            ->route('donDatSan.index')
+            ->with('success', 'Xác nhận thanh toán thành công!');
+    }
+
     public function cancel($id)
     {
         Booking::findOrFail($id)->update(['status' => 2]);
         return back();
+    }
+
+    private function checkTimeSlot($field, $date, $timeId)
+    {
+        $isTimeSlotAvailable = TimeSlot::where('id', $timeId)
+            ->where('status', 1)
+            ->exists();
+
+        if (!$isTimeSlotAvailable) {
+            return 'Khung giờ này đang tạm khóa để bảo trì.';
+        }
+
+        $blockedSlots = $field->getBlockedSlots($date);
+
+        if (in_array($timeId, $blockedSlots)) {
+            return 'Khung giờ này đã được đặt.';
+        }
+
+        return null;
+    }
+
+    private function getBookingSessionData($request, $customerId)
+    {
+        return [
+            'date' => $request->date,
+            'price' => $request->price,
+            'field_id' => $request->field_id,
+            'time_id' => $request->time_id,
+            'contactName' => $request->contactName,
+            'contactPhone' => $request->contactPhone,
+            'contactEmail' => $request->contactEmail,
+            'payment_type' => $request->payment_type,
+            'user_id' => $customerId,
+        ];
     }
 }

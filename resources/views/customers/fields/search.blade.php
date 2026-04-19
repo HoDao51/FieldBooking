@@ -1,7 +1,6 @@
 @extends('customers.layouts.app')
 
 @section('content')
-    <!-- sân nối bật -->
     <section class="py-5">
         <div class="max-w-7xl mx-auto px-6">
             <div class="flex justify-between items-center mb-8">
@@ -18,19 +17,12 @@
 
             <div class="mb-10 grid grid-cols-1 md:grid-cols-3 gap-8">
                 @forelse ($facilities as $facility)
-                    <div class="bg-white rounded-xl shadow hover:shadow-xl hover:-translate-y-1 
-                                transition duration-300 ease-in-out group">
-                        <!-- Ảnh -->
+                    <div class="bg-white rounded-xl shadow hover:shadow-xl hover:-translate-y-1 transition duration-300 ease-in-out group">
                         <div class="overflow-hidden rounded-t-xl">
-                            <a href="{{ route('san.show', $facility->representative_field_id) }}">
-                                @if(isset($representativeFields[$facility->representative_field_id]))
-                                    @if($representativeFields[$facility->representative_field_id]->images->first())
-                                        <img src="{{ asset('storage/' . $representativeFields[$facility->representative_field_id]->images->first()->name) }}"
-                                            class="h-48 w-full object-cover transition duration-500 group-hover:scale-110">
-                                    @else
-                                        <img src="{{ asset('images/banner-client-placeholder.jpg') }}"
-                                            class="h-full w-full object-cover transition duration-500 group-hover:scale-110">
-                                    @endif
+                            <a href="{{ route('san.show', $facility->representativeField->id) }}">
+                                @if ($facility->representativeField->images->first())
+                                    <img src="{{ asset('storage/' . $facility->representativeField->images->first()->name) }}"
+                                        class="h-48 w-full object-cover transition duration-500 group-hover:scale-110">
                                 @else
                                     <img src="{{ asset('images/banner-client-placeholder.jpg') }}"
                                         class="h-full w-full object-cover transition duration-500 group-hover:scale-110">
@@ -39,9 +31,8 @@
                         </div>
 
                         <div class="p-5">
-                            <!-- Tên cơ sở -->
                             <h3 class="font-semibold text-lg transition duration-300 group-hover:text-green-600">
-                                <a href="{{ route('san.show', $facility->representative_field_id) }}">
+                                <a href="{{ route('san.show', $facility->representativeField->id) }}">
                                     {{ $facility->name }}
                                 </a>
                             </h3>
@@ -60,12 +51,12 @@
                                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-green-600 mt-0.5 shrink-0" viewBox="0 0 24 24">
                                         <path fill="currentColor" d="M10 13H3a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1v-7a1 1 0 0 0-1-1m-1 7H4v-5h5ZM21 2h-7a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1m-1 7h-5V4h5Zm1 4h-7a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1v-7a1 1 0 0 0-1-1m-1 7h-5v-5h5ZM10 2H3a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1M9 9H4V4h5Z"/>
                                     </svg>
-                                    <span>{{ $facility->fields_count }} sân</span>
+                                    <span>{{ $facility->fields->count() }} sân</span>
                                 </div>
                             </div>
 
                             <div class="mt-4">
-                                <a href="{{ route('san.show', $facility->representative_field_id) }}"
+                                <a href="{{ route('san.show', $facility->representativeField->id) }}"
                                     class="text-center font-medium block w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
                                     Chọn sân & đặt lịch
                                 </a>

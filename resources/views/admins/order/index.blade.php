@@ -94,8 +94,9 @@
                                 @if ($item->Bills->first())
                                     <p class="italic">{{ $item->Bills->first()->PaymentMethod->name }}</p>
                                     @if ($item->Bills->first()->payment_type == 1)
-                                        <p class="text-xs text-gray-500">Đặt cọc:
-                                            {{ number_format($item->Bills->first()->amount) }}đ</p>
+                                        <p class="text-xs text-gray-500">
+                                            Đặt cọc: {{ number_format($item->Bills->first()->amount) }}đ
+                                        </p>
                                     @else
                                         <p class="text-xs text-gray-500">Đã thanh toán đủ</p>
                                     @endif
@@ -120,15 +121,10 @@
 
                             <td class="border border-gray-200 text-center px-2 whitespace-nowrap">
                                 @if ($item->status == 0)
-                                    <form action="{{ route('donDatSan.complete', $item->id) }}" method="POST"
-                                        class="inline-block">
-                                        @csrf
-                                        @method('PUT')
-                                        <button
-                                            class="bg-blue-600 font-semibold text-white px-2 py-2 rounded hover:bg-blue-700">
-                                            Hoàn thành
-                                        </button>
-                                    </form>
+                                    <a href="{{ route('donDatSan.completePage', $item->id) }}"
+                                        class="inline-block bg-blue-600 font-semibold text-white px-2 py-2 rounded hover:bg-blue-700">
+                                        Hoàn thành
+                                    </a>
 
                                     <form action="{{ route('donDatSan.cancel', $item->id) }}" method="POST"
                                         class="inline-block ml-2">
