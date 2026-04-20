@@ -6,6 +6,7 @@ import './direct_booking';
 import './checkout';
 import './toast';
 import './profile_dropdown';
+import './field_cluster';
 import TomSelect from "tom-select";
 import "tom-select/dist/css/tom-select.css";
 import './search';

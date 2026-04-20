@@ -25,4 +25,22 @@ class Facility extends Model
     {
         return $this->fields->first();
     }
+
+    public function getRepresentativeFieldIdAttribute()
+    {
+        if ($this->representativeField) {
+            return $this->representativeField->id;
+        }
+
+        return null;
+    }
+
+    public function getRepresentativeImageAttribute()
+    {
+        if ($this->representativeField) {
+            return $this->representativeField->firstImage;
+        }
+
+        return null;
+    }
 }

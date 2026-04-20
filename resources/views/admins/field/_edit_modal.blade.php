@@ -30,6 +30,7 @@
             <div>
                 <label class="block text-lg text-gray-600">Địa chỉ</label>
                 <input type="text" name="address" id="editAddress" value="{{ old('address') }}"
+                    data-facility-url="{{ route('api.facilityByAddress') }}"
                     class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400">
                 @error('address', 'edit')
                     <p class="text-red-500 text-lg mt-1">{{ $message }}</p>
@@ -120,37 +121,3 @@
         </form>
     </div>
 </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const addressInput = document.getElementById('editAddress');
-    const clusterNameInput = document.getElementById('editClusterName');
-
-    if (addressInput && clusterNameInput) {
-        addressInput.addEventListener('blur', function() {
-            const address = addressInput.value.trim();
-
-            if (address && !clusterNameInput.value.trim()) {
-                fetch('{{ route('api.facilityByAddress') }}?address=' + encodeURIComponent(address))
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.cluster_name) {
-                            clusterNameInput.value = data.cluster_name;
-                            clusterNameInput.readOnly = true;
-                            clusterNameInput.classList.add('bg-gray-100', 'cursor-not-allowed');
-                        }
-                    })
-                    .catch(error => console.error('Error:', error));
-            }
-        });
-
-        addressInput.addEventListener('input', function() {
-            if (clusterNameInput.readOnly) {
-                clusterNameInput.readOnly = false;
-                clusterNameInput.value = '';
-                clusterNameInput.classList.remove('bg-gray-100', 'cursor-not-allowed');
-            }
-        });
-    }
-});
-</script>

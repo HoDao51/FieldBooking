@@ -19,9 +19,9 @@
                 @forelse ($facilities as $facility)
                     <div class="bg-white rounded-xl shadow hover:shadow-xl hover:-translate-y-1 transition duration-300 ease-in-out group">
                         <div class="overflow-hidden rounded-t-xl">
-                            <a href="{{ route('san.show', $facility->representativeField->id) }}">
-                                @if ($facility->representativeField->images->first())
-                                    <img src="{{ asset('storage/' . $facility->representativeField->images->first()->name) }}"
+                            <a href="{{ route('san.show', $facility->representativeFieldId) }}">
+                                @if ($facility->representativeImage)
+                                    <img src="{{ asset('storage/' . $facility->representativeImage->name) }}"
                                         class="h-48 w-full object-cover transition duration-500 group-hover:scale-110">
                                 @else
                                     <img src="{{ asset('images/banner-client-placeholder.jpg') }}"
@@ -32,7 +32,7 @@
 
                         <div class="p-5">
                             <h3 class="font-semibold text-lg transition duration-300 group-hover:text-green-600">
-                                <a href="{{ route('san.show', $facility->representativeField->id) }}">
+                                <a href="{{ route('san.show', $facility->representativeFieldId) }}">
                                     {{ $facility->name }}
                                 </a>
                             </h3>
@@ -56,7 +56,7 @@
                             </div>
 
                             <div class="mt-4">
-                                <a href="{{ route('san.show', $facility->representativeField->id) }}"
+                                <a href="{{ route('san.show', $facility->representativeFieldId) }}"
                                     class="text-center font-medium block w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
                                     Chọn sân & đặt lịch
                                 </a>

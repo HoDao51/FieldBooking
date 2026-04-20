@@ -8,9 +8,6 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 
 class UpdateFieldRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
@@ -52,7 +49,8 @@ class UpdateFieldRequest extends FormRequest
             'address.required' => 'Địa chỉ không được để trống.',
             'address.string' => 'Địa chỉ phải là chuỗi ký tự.',
             'address.max' => 'Địa chỉ không được vượt quá 255 ký tự.',
-            'cluster_name' => 'Vui lòng nhập tên cụm sân',
+            'cluster_name.max' => 'Tên cụm sân không được vượt quá 255 ký tự.',
+            'cluster_name.required' => 'Vui lòng nhập tên cụm sân.',
             'type_id.required' => 'Vui lòng chọn loại sân.',
             'type_id.exists' => 'Loại sân không tồn tại trong hệ thống.',
             'status.required' => 'Vui lòng chọn trạng thái sân.',
@@ -64,7 +62,7 @@ class UpdateFieldRequest extends FormRequest
             'images.*.image' => 'File tải lên phải là hình ảnh.',
             'images.*.mimes' => 'Ảnh phải có định dạng jpg, jpeg, png hoặc webp.',
             'images.*.max' => 'Mỗi ảnh không được vượt quá 2MB.',
-            'delete_images.array' => 'Dữ liệu xoá ảnh không hợp lệ.',
+            'delete_images.array' => 'Dữ liệu xóa ảnh không hợp lệ.',
         ];
     }
 }

@@ -44,6 +44,11 @@ class Field extends Model
         return $this->belongsTo(Facility::class);
     }
 
+    public function getFirstImageAttribute()
+    {
+        return $this->images->first();
+    }
+
     public function getClusterFieldIds(): array
     {
         return self::query()

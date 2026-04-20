@@ -8,9 +8,6 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StoreFieldRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
@@ -48,7 +45,8 @@ class StoreFieldRequest extends FormRequest
             'name.max' => 'Tên sân không được vượt quá 255 ký tự.',
             'address.required' => 'Vui lòng nhập địa chỉ.',
             'address.max' => 'Địa chỉ không được vượt quá 255 ký tự.',
-            'cluster_name' => 'Vui lòng nhập tên cụm sân',
+            'cluster_name.max' => 'Tên cụm sân không được vượt quá 255 ký tự.',
+            'cluster_name.required' => 'Vui lòng nhập tên cụm sân.',
             'type_id.required' => 'Vui lòng chọn loại sân.',
             'type_id.exists' => 'Loại sân không hợp lệ.',
             'conflict_fields.array' => 'Dữ liệu sân liên kết không hợp lệ.',
