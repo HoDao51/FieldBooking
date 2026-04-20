@@ -26,7 +26,7 @@
                     <div class="flex justify-between items-center">
                         <div>
                             <h1 class="text-2xl font-bold">
-                                {{ $field->name }}
+                                {{ $field->facility->name }}
                             </h1>
                             <div class="flex items-center gap-2 text-gray-500">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-green-600 shrink-0"
