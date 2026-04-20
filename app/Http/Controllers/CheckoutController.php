@@ -157,7 +157,6 @@ class CheckoutController extends Controller
 
     public function momoPayment(Request $request)
     {
-
         $endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
 
         $partnerCode = 'MOMOBKUN20180529';
@@ -195,7 +194,7 @@ class CheckoutController extends Controller
         $jsonResult = json_decode($result, true);  // decode json
 
         //Just a example, please check more in there
-        return redirect()->to($jsonResult['payUrl']);
+        
     }
 
 
