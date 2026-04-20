@@ -1,26 +1,27 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener('DOMContentLoaded', function () {
+    const select = document.getElementById('province')
 
-        const select = document.getElementById("province");
-        const selectedProvince = "{{ request('province') }}";
+    if (!select) {
+        return
+    }
 
-        fetch("https://provinces.open-api.vn/api/p/")
-            .then(response => response.json())
-            .then(data => {
-                data.forEach(province => {
+    const selectedProvince = select.dataset.selected
 
-                    const option = document.createElement("option");
-                    option.value = province.name;
-                    option.textContent = province.name;
+    fetch('/data/data.json')
+        .then(function (response) {
+            return response.json()
+        })
+        .then(function (data) {
+            data.forEach(function (province) {
+                const option = document.createElement('option')
+                option.value = province.Name
+                option.textContent = province.Name
 
-                    if (selectedProvince === province.name) {
-                        option.selected = true;
-                    }
+                if (selectedProvince && selectedProvince == province.Name) {
+                    option.selected = true
+                }
 
-                    select.appendChild(option);
-                });
+                select.appendChild(option)
             })
-            .catch(error => {
-                console.error("Lỗi load tỉnh:", error);
-            });
-
-    });
+        })
+})

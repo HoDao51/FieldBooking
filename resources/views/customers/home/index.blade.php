@@ -22,7 +22,7 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                     <div class="relative">
-                        <select name="province" id="province"
+                        <select name="province" id="province" data-selected="{{ request('province') }}"
                             class="appearance-none text-[#4B5563] w-full border border-gray-300 rounded-md p-3 focus:ring-2 focus:ring-green-600">
                             <option value="">Chọn tỉnh thành</option>
                         </select>
