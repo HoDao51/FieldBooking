@@ -173,12 +173,25 @@ class BookingController extends Controller
     {
         $user = Auth::user();
         $field = Field::findOrFail($request->field_id);
+        $date = $request->date;
+        $timeId = $request->time_id;
 
-        $error = $this->checkTimeSlot($field, $request->date, $request->time_id);
-        if ($error) {
-            return back()
-                ->withInput()
-                ->withErrors(['time_id' => $error]);
+        $timeSlot = TimeSlot::where('id', $timeId)
+            ->where('status', 1)
+            ->first();
+
+        if (!$timeSlot) {
+            return redirect()->route('san.show', ['san' => $field->id, 'date' => $date])
+                ->withErrors(['time_id' => 'Khung giờ này đang tạm khóa để bảo trì.'])
+                ->withInput();
+        }
+
+        $blockedSlots = $field->getBlockedSlots($date);
+
+        if (in_array($timeId, $blockedSlots)) {
+            return redirect()->route('san.show', ['san' => $field->id, 'date' => $date])
+                ->withErrors(['time_id' => 'Khung giờ này đã được đặt.'])
+                ->withInput();
         }
 
         $employeeId = null;
@@ -303,25 +316,6 @@ class BookingController extends Controller
     {
         Booking::findOrFail($id)->update(['status' => 2]);
         return back();
-    }
-
-    private function checkTimeSlot($field, $date, $timeId)
-    {
-        $isTimeSlotAvailable = TimeSlot::where('id', $timeId)
-            ->where('status', 1)
-            ->exists();
-
-        if (!$isTimeSlotAvailable) {
-            return 'Khung giờ này đang tạm khóa để bảo trì.';
-        }
-
-        $blockedSlots = $field->getBlockedSlots($date);
-
-        if (in_array($timeId, $blockedSlots)) {
-            return 'Khung giờ này đã được đặt.';
-        }
-
-        return null;
     }
 
     private function getBookingSessionData($request, $customerId)
