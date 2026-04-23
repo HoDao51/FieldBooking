@@ -77,6 +77,9 @@
                                         <span class="font-semibold text-gray-800">
                                             {{ $item->name }}
                                         </span>
+                                        <span class="text-[12px] text-gray-800">
+                                            {{ $item->facility->name }}
+                                        </span>
                                     </div>
                                 </div>
                             </td>

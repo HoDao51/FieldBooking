@@ -12,7 +12,7 @@
 
 <body>
     @include('customers.layouts.header')
-    <div class="min-h-[calc(100vh-5rem)] grid grid-cols-2">
+    <div class="min-h-[calc(100vh-3.6rem)] grid grid-cols-2">
         <!-- LEFT -->
         <div class="text-white flex flex-col justify-center px-20 relative bg-cover bg-center "
             style="background-image: url('{{ asset('images/hinh-nen-san-bong-4k-4.jpg') }}');">
