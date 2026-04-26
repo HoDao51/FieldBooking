@@ -24,7 +24,8 @@
                     Ngày trong tuần
                 </label>
                 <div class="relative">
-                    <select name="day_of_week"
+                    <select name="day_of_week" id="createDayOfWeek"
+                        data-configured-time-slots='@json($configuredTimeSlots)'
                         class="appearance-none text-[#4B5563] w-full border border-gray-300 rounded-md px-3 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-green-400">
                         <option value="">-- Chọn ngày --</option>
                         <option value="0" {{ old('day_of_week') === 0 ? 'selected' : '' }}>Chủ nhật</option>
@@ -57,7 +58,8 @@
                     Khung giờ
                 </label>
                 <div class="relative">
-                    <select name="time_id"
+                    <select name="time_id" id="createTimeId"
+                        data-selected-time-id="{{ old('time_id') }}"
                         class="appearance-none text-[#4B5563] w-full border border-gray-300 rounded-md px-3 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-green-400">
 
                         <option value="">-- Chọn khung giờ --</option>

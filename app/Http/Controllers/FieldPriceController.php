@@ -80,6 +80,13 @@ class FieldPriceController extends Controller
         $field = Field::findOrFail($id);
 
         $timeSlots = TimeSlot::orderBy('startTime')->get();
+        $configuredTimeSlots = FieldPrice::where('field_id', $id)
+            ->get()
+            ->groupBy('day_of_week')
+            ->map(function ($items) {
+                return $items->pluck('time_id')->toArray();
+            })
+            ->toArray();
 
         $prices = FieldPrice::with('timeSlot')
             ->where('field_id', $id)
@@ -90,7 +97,7 @@ class FieldPriceController extends Controller
             ->get()
             ->groupBy('day_of_week');
 
-        return view('admins.pricing_configuration.show', compact('field', 'prices', 'timeSlots'));
+        return view('admins.pricing_configuration.show', compact('field', 'prices', 'timeSlots', 'configuredTimeSlots'));
     }
 
     /**

@@ -117,14 +117,28 @@ class Field extends Model
             ->toArray();
     }
 
+    public function getPastSlots($date)
+    {
+        if ($date != now()->toDateString()) {
+            return [];
+        }
+
+        $currentTime = now()->format('H:i:s');
+
+        return TimeSlot::where('startTime', '<=', $currentTime)
+            ->pluck('id')
+            ->toArray();
+    }
+
     public function getBlockedSlots($date)
     {
         $bookedSlots = $this->getBookedSlots($date);
+        $pastSlots = $this->getPastSlots($date);
 
         $lockedSlots = TimeSlot::where('status', 0)
             ->pluck('id')
             ->toArray();
 
-        return array_values(array_unique(array_merge($bookedSlots, $lockedSlots)));
+        return array_values(array_unique(array_merge($bookedSlots, $lockedSlots, $pastSlots)));
     }
 }
