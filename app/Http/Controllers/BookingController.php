@@ -7,6 +7,7 @@ use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\StoreDirectBookingRequest;
 use App\Models\Booking;
 use App\Models\Customer;
+use App\Models\Facility;
 use App\Models\Field;
 use App\Models\PaymentMethod;
 use App\Models\TimeSlot;
@@ -41,26 +42,50 @@ class BookingController extends Controller
     public function create(Request $request)
     {
         $customers = Customer::orderBy('name')->get();
-        $fields = Field::with('fieldType')
-            ->where('status', 0)
+        $facilities = Facility::with(['fields' => function ($query) {
+            $query->where('status', 0)
+                ->with('fieldType')
+                ->orderBy('type_id')
+                ->orderBy('name');
+        }])
+            ->whereHas('fields', function ($query) {
+                $query->where('status', 0);
+            })
             ->orderBy('name')
             ->get();
         $payments = PaymentMethod::all();
 
+        $selectedFacility = null;
         $selectedField = null;
+        $facilityFields = collect();
         $date = $request->get('date', now()->toDateString());
         $morning = collect();
         $afternoon = collect();
         $evening = collect();
         $bookedSlots = [];
 
+        if ($request->facility_id) {
+            $selectedFacility = $facilities->firstWhere('id', $request->facility_id);
+        }
+
         if ($request->field_id) {
             $selectedField = Field::with([
                 'FieldPrice.TimeSlot',
                 'fieldType',
                 'images',
+                'facility',
             ])->findOrFail($request->field_id);
 
+            if (!$selectedFacility) {
+                $selectedFacility = $facilities->firstWhere('id', $selectedField->facility_id);
+            }
+        }
+
+        if ($selectedFacility) {
+            $facilityFields = $selectedFacility->fields;
+        }
+
+        if ($selectedField) {
             $prices = $selectedField->getPricesByDate($date);
             $slots = $selectedField->splitTimeSlots($prices);
 
@@ -72,7 +97,9 @@ class BookingController extends Controller
 
         return view('admins.order.create', compact(
             'customers',
-            'fields',
+            'facilities',
+            'selectedFacility',
+            'facilityFields',
             'payments',
             'selectedField',
             'date',
@@ -104,7 +131,7 @@ class BookingController extends Controller
 
         if (in_array($timeId, $blockedSlots)) {
             return redirect()->route('san.show', ['san' => $field->id, 'date' => $date])
-                ->withErrors(['time_id' => 'Khung giờ này đã được đặt.'])
+                ->withErrors(['time_id' => 'Khung giờ này không còn khả dụng.'])
                 ->withInput();
         }
 
@@ -190,7 +217,7 @@ class BookingController extends Controller
 
         if (in_array($timeId, $blockedSlots)) {
             return redirect()->route('san.show', ['san' => $field->id, 'date' => $date])
-                ->withErrors(['time_id' => 'Khung giờ này đã được đặt.'])
+                ->withErrors(['time_id' => 'Khung giờ này không còn khả dụng.'])
                 ->withInput();
         }
 
