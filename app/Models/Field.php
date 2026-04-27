@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -119,15 +120,25 @@ class Field extends Model
 
     public function getPastSlots($date)
     {
-        if ($date != now()->toDateString()) {
+        $selectedDate = Carbon::parse($date)->toDateString();
+
+        if ($selectedDate != now()->toDateString()) {
             return [];
         }
 
-        $currentTime = now()->format('H:i:s');
+        $currentDateTime = now();
+        $pastSlots = [];
+        $timeSlots = TimeSlot::all();
 
-        return TimeSlot::where('startTime', '<=', $currentTime)
-            ->pluck('id')
-            ->toArray();
+        foreach ($timeSlots as $timeSlot) {
+            $endDateTime = Carbon::parse($selectedDate . ' ' . $timeSlot->endTime);
+
+            if ($currentDateTime->greaterThanOrEqualTo($endDateTime)) {
+                $pastSlots[] = $timeSlot->id;
+            }
+        }
+
+        return $pastSlots;
     }
 
     public function getBlockedSlots($date)
