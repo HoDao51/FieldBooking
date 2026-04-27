@@ -11,12 +11,14 @@ class DashboardController extends Controller
 {
     public function index()
     {    
+        Booking::updateCompletedBookings();
+
         $query = Booking::with(['Fields', 'TimeSlot', 'PaymentMethod', 'Bills']);
 
         $customers = Customer::count();
         $fields = Field::count();
         $bookings = Booking::count();
-        $revenue = Booking::where('status', 1)->sum('totalPrice');
+        $revenue = Booking::whereIn('status', [Booking::STATUS_PAID, Booking::STATUS_COMPLETED])->sum('totalPrice');
         $formattedRevenue = number_format($revenue) . 'đ';
 
         if ($revenue >= 1000000000) {

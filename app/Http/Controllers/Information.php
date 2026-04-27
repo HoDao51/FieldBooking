@@ -51,11 +51,13 @@ class Information extends Controller
 
     public function history(Request $request)
     {
+        Booking::updateCompletedBookings();
+
         $query = Booking::with(['Fields', 'TimeSlot', 'PaymentMethod', 'Bills'])
             ->where('customer_id', Auth::user()->customers->id);
 
         $booking = $query
-            ->orderByRaw("FIELD(status, 1, 0, 2, 3, 4)")
+            ->orderByRaw("FIELD(status, 0, 1, 3, 2, 4)")
             ->orderBy('id', 'desc')
             ->paginate(5, ['*'], 'booking_page')
             ->withQueryString();
@@ -65,6 +67,8 @@ class Information extends Controller
 
     public function transactionHistory(Request $request)
     {
+        Booking::updateCompletedBookings();
+
         $bills = Bill::with(['Booking.Fields', 'Booking.TimeSlot', 'PaymentMethod'])
             ->whereHas('Booking', function ($query) {
                 $query->where('customer_id', Auth::user()->customers->id);

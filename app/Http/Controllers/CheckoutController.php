@@ -80,9 +80,9 @@ class CheckoutController extends Controller
                 ])->with('error', 'Khung giờ này đã được đặt hoặc không còn khả dụng.');
             }
 
-            $status = 0;
+            $status = Booking::STATUS_PENDING;
             if ($data['payment_type'] == 0) {
-                $status = 1;
+                $status = Booking::STATUS_PAID;
             }
 
             $booking = Booking::create([
@@ -220,9 +220,9 @@ class CheckoutController extends Controller
                 ])->with('error', 'Khung giờ này đã được đặt hoặc không còn khả dụng.');
             }
 
-            $status = 0;
+            $status = Booking::STATUS_PENDING;
             if ($data['payment_type'] == 0) {
-                $status = 1;
+                $status = Booking::STATUS_PAID;
             }
 
             $booking = Booking::create([

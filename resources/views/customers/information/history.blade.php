@@ -117,21 +117,22 @@
                                     @if ($item->status == 0)
                                         <span
                                             class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
-                                            Ch·ªù thanh to√°n
+                                            Ch? thanh to·n
                                         </span>
                                     @elseif ($item->status == 1)
                                         <span
-                                            class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
-                                            Ho√†n th√†nh
+                                            class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-semibold">
+                                            –„ thanh to·n
                                         </span>
                                     @elseif ($item->status == 2)
                                         <span
                                             class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-xs font-semibold">
-                                            ƒê√£ h·ªßy
+                                            –„ h?y
                                         </span>
                                     @elseif ($item->status == 3)
-                                        <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-semibold">
-                                            T·ª´ ch·ªëi
+                                        <span
+                                            class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
+                                            Ho‡n th‡nh
                                         </span>
                                     @endif
                                 </td>

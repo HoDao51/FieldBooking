@@ -18,6 +18,8 @@ class BookingController extends Controller
 {
     public function index(Request $request)
     {
+        Booking::updateCompletedBookings();
+
         $search = $request->get('search');
 
         $query = Booking::with(['Fields', 'TimeSlot', 'PaymentMethod', 'Bills', 'Employee']);
@@ -162,9 +164,9 @@ class BookingController extends Controller
             ]);
         }
 
-        $status = 0;
+        $status = Booking::STATUS_PENDING;
         if ($request->payment_type == 0) {
-            $status = 1;
+            $status = Booking::STATUS_PAID;
         }
 
         $booking = Booking::create([
@@ -234,7 +236,7 @@ class BookingController extends Controller
         $booking = Booking::create([
             'bookingDate' => $request->date,
             'totalPrice' => $request->price,
-            'status' => 1,
+            'status' => Booking::STATUS_PAID,
             'contactName' => $request->contactName,
             'contactPhone' => $request->contactPhone,
             'contactEmail' => $request->contactEmail,
@@ -304,6 +306,8 @@ class BookingController extends Controller
 
     public function completePage($id)
     {
+        Booking::updateCompletedBookings();
+
         $booking = Booking::with(['Fields', 'TimeSlot', 'Bills.PaymentMethod'])->findOrFail($id);
 
         $paidAmount = $booking->Bills->sum('amount');
@@ -338,7 +342,7 @@ class BookingController extends Controller
         ]);
 
         $booking->update([
-            'status' => 1,
+            'status' => Booking::STATUS_PAID,
         ]);
 
         return redirect()
@@ -348,7 +352,7 @@ class BookingController extends Controller
 
     public function cancel($id)
     {
-        Booking::findOrFail($id)->update(['status' => 2]);
+        Booking::findOrFail($id)->update(['status' => Booking::STATUS_CANCELED]);
         return back();
     }
 
