@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Đăng nhập quản trị - SBP</title>
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
-    <script src="https://cdn.tailwindcss.com"></script>
+    @vite(['resources/css/app.css'])
 </head>
 <body class="min-h-screen bg-gradient-to-br from-green-800 to-green-600 flex items-center justify-center">
     <div class="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8">

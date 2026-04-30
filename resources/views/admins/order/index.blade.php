@@ -106,19 +106,19 @@
                             <td class="text-center whitespace-nowrap">
                                 @if ($item->status == 0)
                                     <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
-                                        Ch? thanh to·n
+                                        Ch·ªù thanh to√°n
                                     </span>
                                 @elseif ($item->status == 1)
                                     <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-semibold">
-                                        –„ thanh to·n
+                                        ƒê√£ thanh to√°n
                                     </span>
                                 @elseif ($item->status == 2)
                                     <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-xs font-semibold">
-                                        –„ h?y
+                                        ƒê√£ h·ªßy
                                     </span>
                                 @elseif ($item->status == 3)
                                     <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
-                                        Ho‡n th‡nh
+                                        Ho√†n tho√†nh
                                     </span>
                                 @endif
                             </td>
@@ -127,7 +127,7 @@
                                 @if ($item->status == 0)
                                     <a href="{{ route('donDatSan.completePage', $item->id) }}"
                                         class="inline-block bg-blue-600 font-semibold text-white px-2 py-2 rounded hover:bg-blue-700">
-                                        Ho‡n th‡nh
+                                        Ho√†n th√†nh
                                     </a>
 
                                     <form action="{{ route('donDatSan.cancel', $item->id) }}" method="POST"
@@ -136,30 +136,20 @@
                                         @method('PUT')
                                         <button
                                             class="bg-gray-600 font-semibold text-white px-2 py-2 rounded hover:bg-gray-700">
-                                            H?y
+                                            H·ªßy
                                         </button>
                                     </form>
                                 @elseif ($item->status == 1)
                                     <span class="text-yellow-600 font-semibold">
-                                        –„ thanh to·n
+                                        ƒê√£ thanh to√°n
                                     </span>
-                                @elseif ($item->status == 2)
-                                    <span class="text-gray-500 font-semibold">
-                                        –„ h?y
-                                    </span>
-                                @elseif ($item->status == 3)
-                                    <span class="text-green-600 font-semibold">
-                                        –„ ho‡n th‡nh
-                                    </span>
-                                @endif
-                            </td>
-                                    <span class="text-green-600 font-semibold">
-                                        –„ ho‡n th‡nh
-                                    </span>
-                                @endif
                                 @elseif ($item->status == 2)
                                     <span class="text-gray-500 font-semibold">
                                         ƒê√£ h·ªßy
+                                    </span>
+                                @elseif ($item->status == 3)
+                                    <span class="text-green-600 font-semibold">
+                                        Ho√†n th√†nh
                                     </span>
                                 @endif
                             </td>
