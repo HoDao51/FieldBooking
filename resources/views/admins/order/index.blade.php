@@ -1,4 +1,4 @@
-@extends('admins.layouts.app')
+﻿@extends('admins.layouts.app')
 
 @section('content')
     <div class="pl-2">
@@ -118,7 +118,7 @@
                                     </span>
                                 @elseif ($item->status == 3)
                                     <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
-                                        Hoàn thoành
+                                        Hoàn thành
                                     </span>
                                 @endif
                             </td>
@@ -149,7 +149,7 @@
                                     </span>
                                 @elseif ($item->status == 3)
                                     <span class="text-green-600 font-semibold">
-                                        Hoàn thành
+                                        Đã hoàn thành
                                     </span>
                                 @endif
                             </td>

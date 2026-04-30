@@ -1,4 +1,4 @@
-@extends('customers.layouts.app')
+Ôªø@extends('customers.layouts.app')
 
 @section('content')
     <div class="flex items-start max-w-6xl mx-auto mt-5 mb-10 gap-6">
@@ -117,22 +117,22 @@
                                     @if ($item->status == 0)
                                         <span
                                             class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
-                                            Ch? thanh to·n
+                                            Ch·ªù thanh to√°n
                                         </span>
                                     @elseif ($item->status == 1)
                                         <span
                                             class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-semibold">
-                                            –„ thanh to·n
+                                            ƒê√£ thanh to√°n
                                         </span>
                                     @elseif ($item->status == 2)
                                         <span
                                             class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-xs font-semibold">
-                                            –„ h?y
+                                            ƒê√£ h·ªßy
                                         </span>
                                     @elseif ($item->status == 3)
                                         <span
                                             class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
-                                            Ho‡n th‡nh
+                                            Ho√†n th√†nh
                                         </span>
                                     @endif
                                 </td>
