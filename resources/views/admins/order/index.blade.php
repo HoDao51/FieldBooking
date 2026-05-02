@@ -109,7 +109,8 @@
                                         Chờ thanh toán
                                     </span>
                                 @elseif ($item->status == 1)
-                                    <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-semibold">
+                                    <span
+                                        class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-semibold">
                                         Đã thanh toán
                                     </span>
                                 @elseif ($item->status == 2)
@@ -140,9 +141,15 @@
                                         </button>
                                     </form>
                                 @elseif ($item->status == 1)
-                                    <span class="text-yellow-600 font-semibold">
-                                        Đã thanh toán
-                                    </span>
+                                    <form action="{{ route('donDatSan.cancel', $item->id) }}" method="POST"
+                                        class="inline-block ml-2">
+                                        @csrf
+                                        @method('PUT')
+                                        <button
+                                            class="bg-gray-600 font-semibold text-white px-2 py-2 rounded hover:bg-gray-700">
+                                            Hủy
+                                        </button>
+                                    </form>
                                 @elseif ($item->status == 2)
                                     <span class="text-gray-500 font-semibold">
                                         Đã hủy

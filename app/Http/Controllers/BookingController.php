@@ -164,9 +164,9 @@ class BookingController extends Controller
             ]);
         }
 
-        $status = Booking::STATUS_PENDING;
+        $status = 0;
         if ($request->payment_type == 0) {
-            $status = Booking::STATUS_PAID;
+            $status = 1;
         }
 
         $booking = Booking::create([
@@ -236,7 +236,7 @@ class BookingController extends Controller
         $booking = Booking::create([
             'bookingDate' => $request->date,
             'totalPrice' => $request->price,
-            'status' => Booking::STATUS_PAID,
+            'status' => 1,
             'contactName' => $request->contactName,
             'contactPhone' => $request->contactPhone,
             'contactEmail' => $request->contactEmail,
@@ -342,7 +342,7 @@ class BookingController extends Controller
         ]);
 
         $booking->update([
-            'status' => Booking::STATUS_PAID,
+            'status' => 1,
         ]);
 
         return redirect()
@@ -352,7 +352,7 @@ class BookingController extends Controller
 
     public function cancel($id)
     {
-        Booking::findOrFail($id)->update(['status' => Booking::STATUS_CANCELED]);
+        Booking::findOrFail($id)->update(['status' => 2]);
         return back();
     }
 

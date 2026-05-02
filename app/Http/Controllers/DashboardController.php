@@ -18,7 +18,7 @@ class DashboardController extends Controller
         $customers = Customer::count();
         $fields = Field::count();
         $bookings = Booking::count();
-        $revenue = Booking::whereIn('status', [Booking::STATUS_PAID, Booking::STATUS_COMPLETED])->sum('totalPrice');
+        $revenue = Booking::whereIn('status', [1, 3])->sum('totalPrice');
         $formattedRevenue = number_format($revenue) . 'đ';
 
         if ($revenue >= 1000000000) {

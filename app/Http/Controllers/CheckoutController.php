@@ -80,9 +80,9 @@ class CheckoutController extends Controller
                 ])->with('error', 'Khung giờ này đã được đặt hoặc không còn khả dụng.');
             }
 
-            $status = Booking::STATUS_PENDING;
+            $status = 0;
             if ($data['payment_type'] == 0) {
-                $status = Booking::STATUS_PAID;
+                $status = 1;
             }
 
             $booking = Booking::create([
@@ -130,19 +130,19 @@ class CheckoutController extends Controller
         $ch = curl_init($url);
 
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-
-        $dataString = json_encode($data);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
-
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
             'Content-Type: application/json',
-            'Content-Length: ' . strlen($dataString)
+            'Content-Length: ' . strlen($data)
         ]);
 
         curl_setopt($ch, CURLOPT_TIMEOUT, 30);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
+
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
 
         $result = curl_exec($ch);
 
@@ -157,21 +157,20 @@ class CheckoutController extends Controller
 
     public function momoPayment(Request $request)
     {
-
         $endpoint = "https://test-payment.momo.vn/v2/gateway/api/create";
 
         $partnerCode = 'MOMOBKUN20180529';
         $accessKey = 'klm05TvNBzhg7h7j';
         $secretKey = 'at67qH6mk8w5Y1nAyMoYKMWACiEi2bsa';
-        $orderInfo = "Thanh toan qua ATM MoMo";
-        $amount = (int) $request->total_momo;
-        $orderId = time() . "_" . rand(1000, 9999);
+        $orderInfo = "Thanh toán qua ATM MoMo";
+        $amount = $request->total_momo;
+        $orderId = time() . "";
         $redirectUrl = "http://127.0.0.1:8000/customer/momoReturn";
-        $ipnUrl = "http://127.0.0.1:8000/customer/momoReturn";
+        $ipnUrl = "https://webhook.site/b3088a6a-2d17-4f8d-a383-71389a6c600b";
         $extraData = "";
 
-       $requestId = time() . "_" . rand(1000, 9999);
-        $requestType = "captureWallet";
+        $requestId = time() . "";
+        $requestType = "payWithATM";
         // $extraData = ($_POST["extraData"] ? $_POST["extraData"] : "");
         //before sign HMAC SHA256 signature
         $rawHash = "accessKey=" . $accessKey . "&amount=" . $amount . "&extraData=" . $extraData . "&ipnUrl=" . $ipnUrl . "&orderId=" . $orderId . "&orderInfo=" . $orderInfo . "&partnerCode=" . $partnerCode . "&redirectUrl=" . $redirectUrl . "&requestId=" . $requestId . "&requestType=" . $requestType;
@@ -188,12 +187,12 @@ class CheckoutController extends Controller
             'ipnUrl' => $ipnUrl,
             'lang' => 'vi',
             'extraData' => $extraData,
-            'autoCapture' => true,
             'requestType' => $requestType,
             'signature' => $signature
         );
-        $result = $this->execPostRequest($endpoint, $data);
+        $result = $this->execPostRequest($endpoint, json_encode($data));
         $jsonResult = json_decode($result, true);  // decode json
+
         //Just a example, please check more in there
         return redirect()->to($jsonResult['payUrl']);
     }
@@ -221,9 +220,9 @@ class CheckoutController extends Controller
                 ])->with('error', 'Khung giờ này đã được đặt hoặc không còn khả dụng.');
             }
 
-            $status = Booking::STATUS_PENDING;
+            $status = 0;
             if ($data['payment_type'] == 0) {
-                $status = Booking::STATUS_PAID;
+                $status = 1;
             }
 
             $booking = Booking::create([
