@@ -121,7 +121,7 @@
                     <!-- Form chọn ngày -->
                     <form method="GET" action="{{ route('san.show', $field->id) }}" class="mb-6">
                         <input type="date" name="date" value="{{ $date }}" onchange="this.form.submit()"
-                            class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-gray-700 shadow-sm transition focus:bg-white focus:outline-none focus:ring-2 focus:ring-green-400"
+                            class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-gray-700 shadow-sm transition focus:bg-white focus:outline-none focus:ring-1 focus:ring-green-400"
                             min="{{ date('Y-m-d') }}">
                     </form>
 

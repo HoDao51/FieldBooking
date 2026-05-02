@@ -84,21 +84,15 @@
 
             <div class="bg-white w-[420px] px-8 py-4 my-6 rounded-xl shadow">
 
-                <h2 class="text-2xl font-bold text-center">
+                <h2 class="text-2xl font-bold text-center text-gray-800">
                     Đăng ký
                 </h2>
 
-                <p class="text-center text-gray-500 text-sm mt-1">
-                    Tạo tài khoản để bắt đầu đặt sân
-                </p>
-
-                <form method="POST" action="{{ route('customer.postRegister') }}" class="space-y-4"
-                    enctype="multipart/form-data">
+                <form method="POST" action="{{ route('customer.postRegister') }}" class="space-y-4" enctype="multipart/form-data">
                     @csrf
                     <!-- Tên khách hàng -->
                     <div>
-                        <label class="label label-text font-semibold text-[#1f2937]" for="name">Họ &
-                            tên</label>
+                        <label class="label label-text font-semibold text-[#1f2937]" for="name">Họ & tên</label>
                         <div class="flex-1 relative border border-gray-300 rounded">
                             <input type="text" value="{{ old('name') }}" name="name" id="name"
                                 class="w-full pl-10 pt-2.5 pb-2.5 bg-transparent focus:outline-none rounded focus:ring-1 focus:ring-green-400"
@@ -181,12 +175,11 @@
 
                     <!-- Avatar -->
                     <div>
-                        <label class="label label-text font-semibold text-[#1f2937]" for="avatar">Ảnh đại
-                            diện</label>
+                        <label class="label label-text font-semibold text-[#1f2937]" for="avatar">Ảnh đại diện</label>
 
                         <input type="file" value="{{ old('avatar') }}" name="avatar" id="avatar"
                             accept="image/*"
-                            class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400">
+                            class="w-full border border-gray-300 rounded-md bg-gray-50 px-3 py-2 text-gray-700 focus:outline-none focus:ring-1 focus:ring-green-400">
 
                         @error('avatar')
                             <p class="text-red-500">{{ $message }}</p>

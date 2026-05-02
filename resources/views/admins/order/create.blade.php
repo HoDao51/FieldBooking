@@ -28,7 +28,7 @@
                         <div class="mb-2">
                             <label class="mb-1 block text-sm font-medium text-gray-600">Cụm sân</label>
                             <div class="relative">
-                                <select id="facilitySelect" name="facility_id"
+                                <select id="facilitySelect" name="facility_id" onchange="this.form.submit()"
                                     class="w-full appearance-none rounded-lg border border-gray-300 px-3 py-2 pr-8 font-medium focus:outline-none focus:ring-1 focus:ring-green-400">
                                     <option value="">-- Chọn cụm sân --</option>
                                     @foreach ($facilities as $facility)
@@ -89,14 +89,6 @@
                     @endif
                 </div>
 
-                <form action="{{ route('donDatSan.storeAtField') }}" method="POST" class="space-y-6">
-                    @csrf
-                    <input type="hidden" name="field_id"
-                        value="@if (old('field_id')) {{ old('field_id') }}@elseif ($selectedField){{ $selectedField->id }} @endif">
-                    <input type="hidden" name="date" value="{{ old('date', $date) }}">
-                    <input type="hidden" name="time_id" id="hiddenTimeId" value="{{ old('time_id') }}">
-                    <input type="hidden" name="price" id="hiddenPrice" value="{{ old('price') }}">
-
                     <div class="rounded-xl border border-gray-100 bg-white p-6 shadow">
                         <h1
                             class="mb-5 flex flex-wrap items-center justify-between gap-3 text-xl font-semibold text-gray-800">
@@ -107,14 +99,27 @@
                             </span>
                         </h1>
 
-                        <!-- Form chọn ngày -->
                         <form method="GET" action="{{ route('donDatSan.create') }}" class="mb-6">
+                            @if ($selectedFacility)
+                                <input type="hidden" name="facility_id" value="{{ $selectedFacility->id }}">
+                            @endif
+                            @if ($selectedField)
+                                <input type="hidden" name="field_id" value="{{ $selectedField->id }}">
+                            @endif
                             <input type="date" name="date" value="{{ $date }}" onchange="this.form.submit()"
                                 class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-gray-700 shadow-sm transition focus:bg-white focus:outline-none focus:ring-2 focus:ring-green-400"
                                 min="{{ date('Y-m-d') }}">
                         </form>
-                        
-                        @if (!$selectedField)
+
+                        <form action="{{ route('donDatSan.storeAtField') }}" method="POST" class="space-y-6">
+                            @csrf
+                            <input type="hidden" name="field_id"
+                                value="@if (old('field_id')) {{ old('field_id') }}@elseif ($selectedField){{ $selectedField->id }} @endif">
+                            <input type="hidden" name="date" value="{{ old('date', $date) }}">
+                            <input type="hidden" name="time_id" id="hiddenTimeId" value="{{ old('time_id') }}">
+                            <input type="hidden" name="price" id="hiddenPrice" value="{{ old('price') }}">
+
+                            @if (!$selectedField)
                             <p class="rounded-lg bg-gray-50 px-4 py-3 font-semibold italic text-gray-500">
                                 Cần chọn cụm sân, sân và ngày để xem khung giờ khả dụng.
                             </p>
@@ -404,11 +409,6 @@
 
                     <div class="rounded-xl bg-white p-6 shadow">
                         <div class="space-y-4">
-                            <div class="rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-green-700">
-                                <p class="font-semibold">Hình thức thanh toán: Thanh toán toàn bộ</p>
-                                <p class="mt-1 text-sm">Đơn đặt trực tiếp tại sân không áp dụng đặt cọc.</p>
-                            </div>
-
                             <div>
                                 <label class="mb-2 block text-lg font-medium text-gray-800">Phương thức thanh toán</label>
                                 @foreach ($payments as $payment)

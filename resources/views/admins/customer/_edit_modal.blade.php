@@ -51,7 +51,7 @@
                 <label for="avatar" class="block text-lg text-[#4B5563] mb-1">Ảnh đại diện</label>
 
                 <input type="file" name="avatar" id="avatar"
-                    class="w-full border border-gray-300 rounded-md px-3 py-2">
+                    class="w-full border border-gray-300 rounded-md bg-gray-50 px-3 py-2 text-gray-700 focus:outline-none focus:ring-1 focus:ring-green-400">
 
                 <!-- Avatar preview -->
                 <img id="editAvatarPreview" src="" class="mt-2 w-24 h-24 object-cover rounded hidden">

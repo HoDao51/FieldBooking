@@ -85,7 +85,7 @@
 
             <div class="bg-white w-[420px] p-8 rounded-xl shadow">
 
-                <h2 class="text-2xl font-bold text-center">
+                <h2 class="text-2xl font-bold text-center text-gray-800">
                     Đăng nhập
                 </h2>
 

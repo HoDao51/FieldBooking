@@ -4,7 +4,7 @@
     <section class="relative bg-cover bg-center"
         style="background-image: url('{{ asset('images/hinh-nen-san-bong-4k-4.jpg') }}');">
         <div class="absolute inset-0 bg-gradient-to-r from-green-900/90 to-green-700/70"></div>
-        <div class="relative max-w-7xl mx-auto px-6 py-32 text-white">
+        <div class="relative max-w-7xl mx-auto px-6 py-22 text-white">
             <h1 class="text-4xl md:text-5xl font-extrabold leading-tight mb-4">
                 Đặt sân bóng <br>
                 <span class="text-green-400">nhanh chóng </span>
@@ -92,7 +92,7 @@
                     <p class="text-gray-500">Những sân được đặt nhiều nhất tuần này</p>
                 </div>
                 <a href="{{ route('home.search') }}" class="text-green-600 font-semibold hover:underline">
-                    Xem tất cả →
+                    Xem tất cả ->
                 </a>
             </div>
 
