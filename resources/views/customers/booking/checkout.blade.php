@@ -31,7 +31,17 @@
                         @endif
 
                         <div>
-                            <h3 class="font-semibold">{{ $field->name }}</h3>
+                            <h3 class="font-semibold">
+                                @if ($field->facility)
+                                    {{ $field->facility->name }}
+                                @else
+                                    {{ $field->name }}
+                                @endif
+                            </h3>
+
+                            <p class="text-sm text-gray-500 mb-1">
+                                {{ $field->name }} - {{ $field->fieldType->name }}
+                            </p>
 
                             <div class="mb-2 flex items-center gap-2 text-gray-500">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 shrink-0" viewBox="0 0 256 256"
@@ -208,8 +218,14 @@
                         @endif
 
                         <div>
-                            <p class="text-sm font-semibold">{{ $field->name }}</p>
-                            <p class="text-xs text-gray-500">{{ $field->fieldType->name }}</p>
+                            <p class="text-sm font-semibold">
+                                @if ($field->facility)
+                                    {{ $field->facility->name }}
+                                @else
+                                    {{ $field->name }}
+                                @endif
+                            </p>
+                            <p class="text-xs text-gray-500">{{ $field->name }} - {{ $field->fieldType->name }}</p>
                         </div>
                     </div>
 

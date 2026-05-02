@@ -127,6 +127,8 @@ class CheckoutController extends Controller
 
     function execPostRequest($url, $data)
     {
+        dd(file_exists("D:/Projects/Laragon-installer/8.0-W64/etc/ssl/cacert.pem"));
+
         $ch = curl_init($url);
 
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
@@ -140,9 +142,6 @@ class CheckoutController extends Controller
 
         curl_setopt($ch, CURLOPT_TIMEOUT, 30);
         curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
-
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
 
         $result = curl_exec($ch);
 
@@ -166,7 +165,7 @@ class CheckoutController extends Controller
         $amount = $request->total_momo;
         $orderId = time() . "";
         $redirectUrl = "http://127.0.0.1:8000/customer/momoReturn";
-        $ipnUrl = "https://webhook.site/b3088a6a-2d17-4f8d-a383-71389a6c600b";
+        $ipnUrl = "http://127.0.0.1:8000/customer/momoReturn";
         $extraData = "";
 
         $requestId = time() . "";
@@ -194,7 +193,8 @@ class CheckoutController extends Controller
         $jsonResult = json_decode($result, true);  // decode json
 
         //Just a example, please check more in there
-        
+        // return redirect()->to($jsonResult['payUrl']);
+        dd($jsonResult);
     }
 
 

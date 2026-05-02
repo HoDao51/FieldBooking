@@ -260,7 +260,7 @@ class BookingController extends Controller
 
     public function checkout(CheckoutRequest $request)
     {
-        $field = Field::findOrFail($request->field_id);
+        $field = Field::with(['images', 'fieldType', 'facility'])->findOrFail($request->field_id);
         $timeSlot = TimeSlot::findOrFail($request->time_id);
         $blockedSlots = $field->getBlockedSlots($request->date);
 
