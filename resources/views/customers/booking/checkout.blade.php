@@ -24,10 +24,10 @@
                     <div class="flex gap-4">
                         @if ($field->images->first())
                             <img src="{{ asset('storage/' . $field->images->first()->name) }}"
-                                class="h-20 w-28 rounded-lg object-cover">
+                                class="h-25 w-32 rounded-lg object-cover">
                         @else
                             <img src="{{ asset('images/banner-client-placeholder.jpg') }}"
-                                class="h-20 w-28 rounded-lg object-cover">
+                                class="h-25 w-32 rounded-lg object-cover">
                         @endif
 
                         <div>

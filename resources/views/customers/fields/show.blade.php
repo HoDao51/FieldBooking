@@ -131,7 +131,7 @@
                         </p>
                     @endif
 
-                    <!-- ===== SÁNG ===== -->
+                    <!-- SÁNG -->
                     @if ($morning->count())
                         <span class="mt-5 mb-3 flex items-center gap-2 font-semibold uppercase tracking-wide text-gray-700">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-yellow-500" viewBox="0 0 48 48">
@@ -194,7 +194,7 @@
                         </div>
                     @endif
 
-                    <!-- ===== CHIỀU ===== -->
+                    <!-- CHIỀU -->
                     @if ($afternoon->count())
                         <span class="mt-6 mb-3 flex items-center gap-2 font-semibold uppercase tracking-wide text-gray-700">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-orange-500" viewBox="0 0 48 48">
@@ -257,7 +257,7 @@
                         </div>
                     @endif
 
-                    <!-- ===== TỐI ===== -->
+                    <!-- TỐI -->
                     @if ($evening->count())
                         <span
                             class="mt-6 mb-3 flex items-center gap-2 font-semibold uppercase tracking-wide text-gray-700">

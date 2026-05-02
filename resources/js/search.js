@@ -1,5 +1,4 @@
 import TomSelect from 'tom-select'
-import 'tom-select/dist/css/tom-select.css'
 
 document.addEventListener('DOMContentLoaded', function () {
     const customerSelect = document.getElementById('customerSelect')
@@ -10,7 +9,13 @@ document.addEventListener('DOMContentLoaded', function () {
             create: false,
             placeholder: 'Tìm khách hàng...',
             maxOptions: 100,
+            render: {
+                option(data, escape) {
+                    return `<div style="padding: 1rem 1rem;">${escape(data.text)}</div>`
+                }
+            }
         })
+
     }
 
     if (facilitySelect) {
@@ -23,6 +28,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     this.input.closest('form').submit()
                 }
             },
+            render: {
+                option(data, escape) {
+                    return `<div style="padding: 1rem 1rem;">${escape(data.text)}</div>`
+                }
+            }
         })
     }
 })

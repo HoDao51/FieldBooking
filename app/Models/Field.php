@@ -50,15 +50,6 @@ class Field extends Model
         return $this->images->first();
     }
 
-    public function getClusterFieldIds(): array
-    {
-        return self::query()
-            ->withoutTrashed()
-            ->where('facility_id', $this->facility_id)
-            ->pluck('id')
-            ->toArray();
-    }
-
     public function getPricesByDate($date)
     {
         $dayOfWeek = \Carbon\Carbon::parse($date)->dayOfWeekIso;
@@ -126,30 +117,22 @@ class Field extends Model
             return [];
         }
 
-        $currentDateTime = now();
-        $pastSlots = [];
-        $timeSlots = TimeSlot::all();
-
-        foreach ($timeSlots as $timeSlot) {
-            $endDateTime = Carbon::parse($selectedDate . ' ' . $timeSlot->endTime);
-
-            if ($currentDateTime->greaterThanOrEqualTo($endDateTime)) {
-                $pastSlots[] = $timeSlot->id;
-            }
-        }
-
-        return $pastSlots;
+        return TimeSlot::where('startTime', '<=', now()->format('H:i:s'))
+            ->pluck('id')
+            ->toArray();
     }
 
     public function getBlockedSlots($date)
     {
         $bookedSlots = $this->getBookedSlots($date);
         $pastSlots = $this->getPastSlots($date);
+        $lockedSlots = TimeSlot::where('status', 0)->pluck('id')->toArray();
 
-        $lockedSlots = TimeSlot::where('status', 0)
-            ->pluck('id')
-            ->toArray();
+        // Gộp tất cả khung giờ bị khóa
+        $allBlockedSlots = array_merge($bookedSlots, $lockedSlots, $pastSlots);
 
-        return array_values(array_unique(array_merge($bookedSlots, $lockedSlots, $pastSlots)));
+        $uniqueSlots = array_unique($allBlockedSlots);
+
+        return array_values($uniqueSlots);
     }
 }

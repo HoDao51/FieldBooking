@@ -63,18 +63,14 @@ class Booking extends Model
 
     public static function updateCompletedBookings()
     {
-        $bookings = self::with('TimeSlot')
+        $bookings = Booking::with('TimeSlot')
             ->where('status', 1)
             ->get();
 
         foreach ($bookings as $booking) {
-            if (!$booking->TimeSlot) {
-                continue;
-            }
-
             $endTime = Carbon::parse($booking->bookingDate . ' ' . $booking->TimeSlot->endTime);
 
-            if (now()->greaterThan($endTime)) {
+            if ($endTime < now()) {
                 $booking->update([
                     'status' => 3,
                 ]);
