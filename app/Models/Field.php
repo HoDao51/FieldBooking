@@ -117,22 +117,7 @@ class Field extends Model
             return [];
         }
 
-        return TimeSlot::where('startTime', '<=', now()->format('H:i:s'))
-            ->pluck('id')
-            ->toArray();
-    }
-
-    public function getBlockedSlots($date)
-    {
-        $bookedSlots = $this->getBookedSlots($date);
-        $pastSlots = $this->getPastSlots($date);
-        $lockedSlots = TimeSlot::where('status', 0)->pluck('id')->toArray();
-
-        // Gộp tất cả khung giờ bị khóa
-        $allBlockedSlots = array_merge($bookedSlots, $lockedSlots, $pastSlots);
-
-        $uniqueSlots = array_unique($allBlockedSlots);
-
-        return array_values($uniqueSlots);
+        return TimeSlot::where('startTime', '<=', now())
+            ->pluck('id')->all();
     }
 }

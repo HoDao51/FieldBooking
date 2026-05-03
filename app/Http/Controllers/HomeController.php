@@ -96,7 +96,8 @@ class HomeController extends Controller
 
         $prices = $field->getPricesByDate($date);
         $slots = $field->splitTimeSlots($prices);
-        $blockedSlots = $field->getBlockedSlots($date);
+        $pastSlots = $field->getPastSlots($date);
+        $bookedSlots = $field->getBookedSlots($date);
 
         return view('customers.fields.show', [
             'field' => $field,
@@ -105,7 +106,8 @@ class HomeController extends Controller
             'morning' => $slots['morning'],
             'afternoon' => $slots['afternoon'],
             'evening' => $slots['evening'],
-            'blockedSlots' => $blockedSlots
+            'pastSlots' => $pastSlots,
+            'bookedSlots' => $bookedSlots,
         ]);
     }
 }

@@ -262,17 +262,10 @@ class BookingController extends Controller
     {
         $field = Field::with(['images', 'fieldType', 'facility'])->findOrFail($request->field_id);
         $timeSlot = TimeSlot::findOrFail($request->time_id);
-        $blockedSlots = $field->getBlockedSlots($request->date);
 
         if ($timeSlot->status != 1) {
             return redirect()->route('san.show', $field->id)
                 ->withErrors(['time_id' => 'Khung giờ này đang tạm khóa để bảo trì.'])
-                ->withInput();
-        }
-
-        if (in_array($request->time_id, $blockedSlots)) {
-            return redirect()->route('san.show', ['san' => $field->id, 'date' => $request->date])
-                ->withErrors(['time_id' => 'Khung giờ này không còn khả dụng.'])
                 ->withInput();
         }
 
@@ -282,8 +275,7 @@ class BookingController extends Controller
         $payments = PaymentMethod::where('name', 'NOT LIKE', '%thanh toán tiền mặt%')->get();
         $depositPrice = $price / 2;
 
-        $time = date('H:i', strtotime($timeSlot->startTime)) . ' - ' .
-            date('H:i', strtotime($timeSlot->endTime));
+        $time = date('H:i', strtotime($timeSlot->startTime)) . ' - ' . date('H:i', strtotime($timeSlot->endTime));
 
         return view('customers.booking.checkout', compact(
             'field',
@@ -328,10 +320,6 @@ class BookingController extends Controller
         $remainingAmount = $booking->totalPrice - $paidAmount;
 
         $cashPayment = PaymentMethod::where('name', 'like', '%tiền mặt%')->first();
-
-        if (!$cashPayment) {
-            return back()->with('error', 'Chưa có phương thức thanh toán tiền mặt.');
-        }
 
         $booking->Bills()->create([
             'payment_id' => $cashPayment->id,

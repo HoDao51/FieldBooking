@@ -47,8 +47,8 @@
                             <div class="flex flex-wrap items-center justify-between gap-3">
                                 <div>
                                     <h2 class="flex items-center gap-2 font-semibold text-gray-800 text-lg">
-                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                            class="w-4 h-4 text-green-600" viewBox="0 0 24 24">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-green-600"
+                                            viewBox="0 0 24 24">
                                             <path fill="currentColor"
                                                 d="M10 13H3a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1v-7a1 1 0 0 0-1-1m-1 7H4v-5h5ZM21 2h-7a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1m-1 7h-5V4h5Zm1 4h-7a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1v-7a1 1 0 0 0-1-1m-1 7h-5v-5h5ZM10 2H3a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1M9 9H4V4h5Z" />
                                         </svg>
@@ -143,7 +143,7 @@
 
                         <div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
                             @foreach ($morning as $price)
-                                @if (in_array($price->time_id, $blockedSlots))
+                                @if ($price->TimeSlot->status == 0 || $price->time_id == $pastSlots || $price->time_id == $bookedSlots)
                                     <div
                                         class="rounded-xl border border-gray-200 bg-gray-200 px-4 py-3 text-sm shadow-sm cursor-not-allowed">
                                         <div class="flex items-center justify-between gap-4">
@@ -159,7 +159,13 @@
                                         <div class="mt-2">
                                             <span
                                                 class="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-500">
-                                                Không khả dụng
+                                                @if ($price->TimeSlot->status == 0)
+                                                    Tạm khóa
+                                                @elseif ($price->time_id == $pastSlots)
+                                                    Quá giờ
+                                                @elseif ($price->time_id == $bookedSlots)
+                                                    Đã đặt
+                                                @endif
                                             </span>
                                         </div>
                                     </div>
@@ -206,7 +212,7 @@
 
                         <div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
                             @foreach ($afternoon as $price)
-                                @if (in_array($price->time_id, $blockedSlots))
+                                @if (in_array($price->time_id, $pastSlots) || in_array($price->time_id, $bookedSlots))
                                     <div
                                         class="rounded-xl border border-gray-200 bg-gray-200 px-4 py-3 text-sm shadow-sm cursor-not-allowed">
                                         <div class="flex items-center justify-between gap-4">
@@ -270,7 +276,7 @@
 
                         <div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
                             @foreach ($evening as $price)
-                                @if (in_array($price->time_id, $blockedSlots))
+                                @if (in_array($price->time_id, $pastSlots) || in_array($price->time_id, $bookedSlots))
                                     <div
                                         class="rounded-xl border border-gray-200 bg-gray-200 px-4 py-3 text-sm shadow-sm cursor-not-allowed">
                                         <div class="flex items-center justify-between gap-4">
