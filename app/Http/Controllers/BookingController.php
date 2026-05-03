@@ -94,7 +94,7 @@ class BookingController extends Controller
             $morning = $slots['morning'];
             $afternoon = $slots['afternoon'];
             $evening = $slots['evening'];
-            $bookedSlots = $selectedField->getBlockedSlots($date);
+            $bookedSlots = $selectedField->getBookedSlots($date);
         }
 
         return view('admins.order.create', compact(
@@ -129,7 +129,7 @@ class BookingController extends Controller
                 ->withInput();
         }
 
-        $blockedSlots = $field->getBlockedSlots($date);
+        $blockedSlots = $field->getBookedSlots($date);
 
         if (in_array($timeId, $blockedSlots)) {
             return redirect()->route('san.show', ['san' => $field->id, 'date' => $date])
@@ -215,7 +215,7 @@ class BookingController extends Controller
                 ->withInput();
         }
 
-        $blockedSlots = $field->getBlockedSlots($date);
+        $blockedSlots = $field->getBookedSlots($date);
 
         if (in_array($timeId, $blockedSlots)) {
             return redirect()->route('san.show', ['san' => $field->id, 'date' => $date])

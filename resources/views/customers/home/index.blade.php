@@ -106,7 +106,7 @@
                                         class="h-48 w-full object-cover transition duration-500 group-hover:scale-110">
                                 @else
                                     <img src="{{ asset('images/banner-client-placeholder.jpg') }}"
-                                        class="w-full h-full object-cover">
+                                        class="h-48 w-full object-cover">
                                 @endif
                             </a>
                         </div>

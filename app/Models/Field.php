@@ -87,7 +87,7 @@ class Field extends Model
             if ($this->FieldType->name == 'Sân 11 người') {
                 $fieldIds = Field::where('facility_id', $this->facility_id)
                     ->pluck('id')
-                    ->toArray();
+                    ->all();
             }
 
             if ($this->FieldType->name == 'Sân 5 người') {
@@ -96,7 +96,7 @@ class Field extends Model
                         $query->where('name', 'Sân 11 người');
                     })
                     ->pluck('id')
-                    ->toArray();
+                    ->all();
 
                 $fieldIds[] = $this->id;
             }
@@ -106,7 +106,7 @@ class Field extends Model
             ->whereIn('field_id', $fieldIds)
             ->where('status', '!=', 2)
             ->pluck('time_id')
-            ->toArray();
+            ->all();
     }
 
     public function getPastSlots($date)

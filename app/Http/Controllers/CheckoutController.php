@@ -68,7 +68,7 @@ class CheckoutController extends Controller
             $blockedSlots = [];
 
             if ($field) {
-                $blockedSlots = $field->getBlockedSlots($data['date']);
+                $blockedSlots = $field->getBookedSlots($data['date']);
             }
 
             if (!$field || TimeSlot::where('id', $data['time_id'])->where('status', 1)->doesntExist() || in_array($data['time_id'], $blockedSlots)) {
@@ -208,7 +208,7 @@ class CheckoutController extends Controller
             $blockedSlots = [];
 
             if ($field) {
-                $blockedSlots = $field->getBlockedSlots($data['date']);
+                $blockedSlots = $field->getBookedSlots($data['date']);
             }
 
             if (!$field || TimeSlot::where('id', $data['time_id'])->where('status', 1)->doesntExist() || in_array($data['time_id'], $blockedSlots)) {
