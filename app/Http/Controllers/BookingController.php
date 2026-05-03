@@ -25,8 +25,8 @@ class BookingController extends Controller
         $query = Booking::with(['Fields', 'TimeSlot', 'PaymentMethod', 'Bills', 'Employee']);
 
         if ($search) {
-            $query->where(function ($q) use ($search) {
-                $q->where('contactName', 'like', '%' . $search . '%')
+            $query->where(function ($query) use ($search) {
+                $query->where('contactName', 'like', '%' . $search . '%')
                     ->orWhere('contactPhone', 'like', '%' . $search . '%')
                     ->orWhere('contactEmail', 'like', '%' . $search . '%');
             });
@@ -64,7 +64,8 @@ class BookingController extends Controller
         $morning = collect();
         $afternoon = collect();
         $evening = collect();
-        $bookedSlots = [];
+        $bookedSlots = collect();
+        $pastSlots = collect();
 
         if ($request->facility_id) {
             $selectedFacility = $facilities->firstWhere('id', $request->facility_id);
@@ -95,6 +96,7 @@ class BookingController extends Controller
             $afternoon = $slots['afternoon'];
             $evening = $slots['evening'];
             $bookedSlots = $selectedField->getBookedSlots($date);
+            $pastSlots = $selectedField->getPastSlots($date);
         }
 
         return view('admins.order.create', compact(
@@ -108,7 +110,8 @@ class BookingController extends Controller
             'morning',
             'afternoon',
             'evening',
-            'bookedSlots'
+            'bookedSlots',
+            'pastSlots'
         ));
     }
 

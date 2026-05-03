@@ -282,7 +282,7 @@
 
                         <div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
                             @foreach ($evening as $price)
-                                @if ($price->TimeSlot->status == 0 || in_array($price->time_id, $pastSlots) || in_array($price->time_id, $bookedSlots))
+                                @if (in_array($price->time_id, $pastSlots) || in_array($price->time_id, $bookedSlots))
                                     <div
                                         class="rounded-xl border border-gray-200 bg-gray-200 px-4 py-3 text-sm shadow-sm cursor-not-allowed">
                                         <div class="flex items-center justify-between gap-4">
@@ -329,7 +329,7 @@
 
                                         <div class="mt-2">
                                             <span
-                                                class="rounded-full bg-green-200 px-3 py-1 text-xs font-semibold text-green-700">
+                                                class="rounded-full bg-green-200 px-2.5 py-1 text-xs font-semibold text-green-700">
                                                 Chưa đặt
                                             </span>
                                         </div>

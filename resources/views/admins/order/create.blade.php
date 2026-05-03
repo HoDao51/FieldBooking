@@ -89,37 +89,36 @@
                     @endif
                 </div>
 
-                    <div class="rounded-xl border border-gray-100 bg-white p-6 shadow">
-                        <h1
-                            class="mb-5 flex flex-wrap items-center justify-between gap-3 text-xl font-semibold text-gray-800">
-                            Bảng giá - Chọn lịch đặt sân
+                <div class="rounded-xl border border-gray-100 bg-white p-6 shadow">
+                    <h1 class="mb-5 flex flex-wrap items-center justify-between gap-3 text-xl font-semibold text-gray-800">
+                        Bảng giá - Chọn lịch đặt sân
 
-                            <span class="rounded-full bg-green-50 px-3 py-1 text-sm font-medium text-green-600">
-                                {{ \Carbon\Carbon::parse($date)->locale('vi')->translatedFormat('l') }}
-                            </span>
-                        </h1>
+                        <span class="rounded-full bg-green-50 px-3 py-1 text-sm font-medium text-green-600">
+                            {{ \Carbon\Carbon::parse($date)->locale('vi')->translatedFormat('l') }}
+                        </span>
+                    </h1>
 
-                        <form method="GET" action="{{ route('donDatSan.create') }}" class="mb-6">
-                            @if ($selectedFacility)
-                                <input type="hidden" name="facility_id" value="{{ $selectedFacility->id }}">
-                            @endif
-                            @if ($selectedField)
-                                <input type="hidden" name="field_id" value="{{ $selectedField->id }}">
-                            @endif
-                            <input type="date" name="date" value="{{ $date }}" onchange="this.form.submit()"
-                                class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-gray-700 shadow-sm transition focus:bg-white focus:outline-none focus:ring-2 focus:ring-green-400"
-                                min="{{ date('Y-m-d') }}">
-                        </form>
+                    <form method="GET" action="{{ route('donDatSan.create') }}" class="mb-6">
+                        @if ($selectedFacility)
+                            <input type="hidden" name="facility_id" value="{{ $selectedFacility->id }}">
+                        @endif
+                        @if ($selectedField)
+                            <input type="hidden" name="field_id" value="{{ $selectedField->id }}">
+                        @endif
+                        <input type="date" name="date" value="{{ $date }}" onchange="this.form.submit()"
+                            class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-gray-700 shadow-sm transition focus:bg-white focus:outline-none focus:ring-2 focus:ring-green-400"
+                            min="{{ date('Y-m-d') }}">
+                    </form>
 
-                        <form action="{{ route('donDatSan.storeAtField') }}" method="POST" class="space-y-6">
-                            @csrf
-                            <input type="hidden" name="field_id"
-                                value="@if (old('field_id')) {{ old('field_id') }}@elseif ($selectedField){{ $selectedField->id }} @endif">
-                            <input type="hidden" name="date" value="{{ old('date', $date) }}">
-                            <input type="hidden" name="time_id" id="hiddenTimeId" value="{{ old('time_id') }}">
-                            <input type="hidden" name="price" id="hiddenPrice" value="{{ old('price') }}">
+                    <form action="{{ route('donDatSan.storeAtField') }}" method="POST" class="space-y-6">
+                        @csrf
+                        <input type="hidden" name="field_id"
+                            value="@if (old('field_id')) {{ old('field_id') }}@elseif ($selectedField){{ $selectedField->id }} @endif">
+                        <input type="hidden" name="date" value="{{ old('date', $date) }}">
+                        <input type="hidden" name="time_id" id="hiddenTimeId" value="{{ old('time_id') }}">
+                        <input type="hidden" name="price" id="hiddenPrice" value="{{ old('price') }}">
 
-                            @if (!$selectedField)
+                        @if (!$selectedField)
                             <p class="rounded-lg bg-gray-50 px-4 py-3 font-semibold italic text-gray-500">
                                 Cần chọn cụm sân, sân và ngày để xem khung giờ khả dụng.
                             </p>
@@ -143,7 +142,7 @@
 
                                 <div class="grid grid-cols-1 gap-2 md:grid-cols-2 xl:grid-cols-3">
                                     @foreach ($morning as $price)
-                                        @if (in_array($price->time_id, $bookedSlots))
+                                        @if ($price->TimeSlot->status == 0 || in_array($price->time_id, $pastSlots) || in_array($price->time_id, $bookedSlots))
                                             <div
                                                 class="cursor-not-allowed rounded-xl border border-gray-200 bg-gray-200 px-4 py-3 text-sm shadow-sm">
                                                 <div class="flex items-center justify-between gap-4 whitespace-nowrap">
@@ -158,7 +157,13 @@
                                                 <div class="mt-2">
                                                     <span
                                                         class="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-500">
-                                                        Không khả dụng
+                                                        @if ($price->TimeSlot->status == 0)
+                                                            Tạm khóa
+                                                        @elseif ($pastSlots)
+                                                            Quá giờ
+                                                        @elseif ($bookedSlots)
+                                                            Đã đặt
+                                                        @endif
                                                     </span>
                                                 </div>
                                             </div>
@@ -202,7 +207,7 @@
 
                                 <div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
                                     @foreach ($afternoon as $price)
-                                        @if (in_array($price->time_id, $bookedSlots))
+                                        @if ($price->TimeSlot->status == 0 || in_array($price->time_id, $pastSlots) || in_array($price->time_id, $bookedSlots))
                                             <div
                                                 class="cursor-not-allowed rounded-xl border border-gray-200 bg-gray-200 px-4 py-3 text-sm shadow-sm">
                                                 <div class="flex items-center justify-between gap-4">
@@ -217,7 +222,13 @@
                                                 <div class="mt-2">
                                                     <span
                                                         class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-gray-500">
-                                                        Không khả dụng
+                                                        @if ($price->TimeSlot->status == 0)
+                                                            Tạm khóa
+                                                        @elseif ($pastSlots)
+                                                            Quá giờ
+                                                        @elseif ($bookedSlots)
+                                                            Đã đặt
+                                                        @endif
                                                     </span>
                                                 </div>
                                             </div>
@@ -261,7 +272,7 @@
 
                                 <div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
                                     @foreach ($evening as $price)
-                                        @if (in_array($price->time_id, $bookedSlots))
+                                        @if ($price->TimeSlot->status == 0 || in_array($price->time_id, $pastSlots) || in_array($price->time_id, $bookedSlots))
                                             <div
                                                 class="cursor-not-allowed rounded-xl border border-gray-200 bg-gray-200 px-4 py-3 text-sm shadow-sm">
                                                 <div class="flex items-center justify-between gap-4">
@@ -276,7 +287,13 @@
                                                 <div class="mt-2">
                                                     <span
                                                         class="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-500">
-                                                        Không khả dụng
+                                                        @if ($price->TimeSlot->status == 0)
+                                                            Tạm khóa
+                                                        @elseif ($pastSlots)
+                                                            Quá giờ
+                                                        @elseif ($bookedSlots)
+                                                            Đã đặt
+                                                        @endif
                                                     </span>
                                                 </div>
                                             </div>
@@ -311,137 +328,137 @@
                                 <p class="mt-3 text-sm text-red-500">{{ $message }}</p>
                             @enderror
                         @endif
-                    </div>
+                </div>
 
-                    <div class="rounded-xl bg-white p-6 shadow">
-                        <h2 class="mb-4 text-lg font-semibold text-gray-800">Thông tin khách hàng</h2>
+                <div class="rounded-xl bg-white p-6 shadow">
+                    <h2 class="mb-4 text-lg font-semibold text-gray-800">Thông tin khách hàng</h2>
 
-                        <div class="space-y-4">
-                            <div>
-                                <label class="mb-2 block text-sm font-medium text-gray-600">Loại khách hàng</label>
-                                <div class="grid grid-cols-1 gap-3 md:grid-cols-2">
-                                    <label
-                                        class="flex cursor-pointer items-start gap-3 rounded-lg border border-gray-200 p-4 text-sm">
-                                        <input type="radio" name="customer_type" value="existing"
-                                            @if (old('customer_type', 'existing') == 'existing') checked @endif class="customer-type mt-1">
-                                        <div>
-                                            <p class="font-semibold">Khách hàng đã có tài khoản</p>
-                                        </div>
-                                    </label>
-
-                                    <label
-                                        class="flex cursor-pointer items-start gap-3 rounded-lg border border-gray-200 p-4 text-sm">
-                                        <input type="radio" name="customer_type" value="guest"
-                                            @if (old('customer_type') == 'guest') checked @endif class="customer-type mt-1">
-                                        <div>
-                                            <p class="font-semibold">Khách hàng chưa có tài khoản</p>
-                                        </div>
-                                    </label>
-                                </div>
-                                @error('customer_type')
-                                    <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
-                                @enderror
-                            </div>
-
-                            <div id="existingCustomerSection" class="rounded-xl border border-gray-200 bg-gray-50 p-4">
-                                <label class="mb-2 block text-sm font-medium text-gray-600">Chọn khách hàng</label>
-                                <div class="relative">
-                                    <select name="customer_id" id="customerSelect"
-                                        class="w-full appearance-none rounded-lg border border-gray-300 px-3 py-2 pr-8 font-medium focus:outline-none focus:ring-1 focus:ring-green-400">
-                                        <option value="">-- Chọn khách hàng --</option>
-                                        @foreach ($customers as $customer)
-                                            <option value="{{ $customer->id }}" data-name="{{ $customer->name }}"
-                                                data-phone="{{ $customer->phoneNumber }}"
-                                                data-email="{{ $customer->email }}"
-                                                @if (old('customer_id') == $customer->id) selected @endif>
-                                                {{ $customer->name }} - {{ $customer->phoneNumber }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#4B5563]"
-                                            viewBox="0 0 16 16">
-                                            <path fill="currentColor"
-                                                d="M13.069 5.157L8.384 9.768a.546.546 0 0 1-.768 0L2.93 5.158a.55.55 0 0 0-.771 0a.53.53 0 0 0 0 .759l4.684 4.61a1.65 1.65 0 0 0 2.312 0l4.684-4.61a.53.53 0 0 0 0-.76a.55.55 0 0 0-.771 0" />
-                                        </svg>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="mb-2 block text-sm font-medium text-gray-600">Loại khách hàng</label>
+                            <div class="grid grid-cols-1 gap-3 md:grid-cols-2">
+                                <label
+                                    class="flex cursor-pointer items-start gap-3 rounded-lg border border-gray-200 p-4 text-sm">
+                                    <input type="radio" name="customer_type" value="existing"
+                                        @if (old('customer_type', 'existing') == 'existing') checked @endif class="customer-type mt-1">
+                                    <div>
+                                        <p class="font-semibold">Khách hàng đã có tài khoản</p>
                                     </div>
+                                </label>
+
+                                <label
+                                    class="flex cursor-pointer items-start gap-3 rounded-lg border border-gray-200 p-4 text-sm">
+                                    <input type="radio" name="customer_type" value="guest"
+                                        @if (old('customer_type') == 'guest') checked @endif class="customer-type mt-1">
+                                    <div>
+                                        <p class="font-semibold">Khách hàng chưa có tài khoản</p>
+                                    </div>
+                                </label>
+                            </div>
+                            @error('customer_type')
+                                <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div id="existingCustomerSection" class="rounded-xl border border-gray-200 bg-gray-50 p-4">
+                            <label class="mb-2 block text-sm font-medium text-gray-600">Chọn khách hàng</label>
+                            <div class="relative">
+                                <select name="customer_id" id="customerSelect"
+                                    class="w-full appearance-none rounded-lg border border-gray-300 px-3 py-2 pr-8 font-medium focus:outline-none focus:ring-1 focus:ring-green-400">
+                                    <option value="">-- Chọn khách hàng --</option>
+                                    @foreach ($customers as $customer)
+                                        <option value="{{ $customer->id }}" data-name="{{ $customer->name }}"
+                                            data-phone="{{ $customer->phoneNumber }}"
+                                            data-email="{{ $customer->email }}"
+                                            @if (old('customer_id') == $customer->id) selected @endif>
+                                            {{ $customer->name }} - {{ $customer->phoneNumber }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#4B5563]"
+                                        viewBox="0 0 16 16">
+                                        <path fill="currentColor"
+                                            d="M13.069 5.157L8.384 9.768a.546.546 0 0 1-.768 0L2.93 5.158a.55.55 0 0 0-.771 0a.53.53 0 0 0 0 .759l4.684 4.61a1.65 1.65 0 0 0 2.312 0l4.684-4.61a.53.53 0 0 0 0-.76a.55.55 0 0 0-.771 0" />
+                                    </svg>
                                 </div>
-                                @error('customer_id')
+                            </div>
+                            @error('customer_id')
+                                <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        <div id="guestCustomerSection" class="rounded-xl border border-gray-200 bg-white p-4">
+                            <div>
+                                <label class="mb-2 block text-sm font-medium text-gray-600">Họ và tên</label>
+                                <input type="text" name="contactName" id="contactName"
+                                    value="{{ old('contactName', '') }}"
+                                    class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400">
+                                @error('contactName')
                                     <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                 @enderror
                             </div>
 
-                            <div id="guestCustomerSection" class="rounded-xl border border-gray-200 bg-white p-4">
+                            <div class="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
                                 <div>
-                                    <label class="mb-2 block text-sm font-medium text-gray-600">Họ và tên</label>
-                                    <input type="text" name="contactName" id="contactName"
-                                        value="{{ old('contactName', '') }}"
+                                    <label class="mb-2 block text-sm font-medium text-gray-600">Số điện thoại</label>
+                                    <input type="text" name="contactPhone" id="contactPhone"
+                                        value="{{ old('contactPhone', '') }}"
                                         class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400">
-                                    @error('contactName')
+                                    @error('contactPhone')
                                         <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
                                     @enderror
                                 </div>
 
-                                <div class="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
-                                    <div>
-                                        <label class="mb-2 block text-sm font-medium text-gray-600">Số điện thoại</label>
-                                        <input type="text" name="contactPhone" id="contactPhone"
-                                            value="{{ old('contactPhone', '') }}"
-                                            class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400">
-                                        @error('contactPhone')
-                                            <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
-                                        @enderror
-                                    </div>
-
-                                    <div>
-                                        <label class="mb-2 block text-sm font-medium text-gray-600">Email</label>
-                                        <input type="email" name="contactEmail" id="contactEmail"
-                                            value="{{ old('contactEmail', '') }}"
-                                            class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400">
-                                        @error('contactEmail')
-                                            <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
-                                        @enderror
-                                    </div>
+                                <div>
+                                    <label class="mb-2 block text-sm font-medium text-gray-600">Email</label>
+                                    <input type="email" name="contactEmail" id="contactEmail"
+                                        value="{{ old('contactEmail', '') }}"
+                                        class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:outline-none focus:ring-1 focus:ring-green-400">
+                                    @error('contactEmail')
+                                        <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="rounded-xl bg-white p-6 shadow">
-                        <div class="space-y-4">
-                            <div>
-                                <label class="mb-2 block text-lg font-medium text-gray-800">Phương thức thanh toán</label>
-                                @foreach ($payments as $payment)
-                                    <div class="mt-2 flex items-center text-gray-800">
-                                        <label
-                                            class="payment-item flex w-full cursor-pointer items-center gap-4 rounded-xl border border-gray-200 p-4 transition">
-                                            <input type="radio" name="payment_id" value="{{ $payment->id }}"
-                                                class="accent-green-600" @if (old('payment_id') == $payment->id) checked @endif
-                                                required>
+                <div class="rounded-xl bg-white p-6 shadow">
+                    <div class="space-y-4">
+                        <div>
+                            <label class="mb-2 block text-lg font-medium text-gray-800">Phương thức thanh toán</label>
+                            @foreach ($payments as $payment)
+                                <div class="mt-2 flex items-center text-gray-800">
+                                    <label
+                                        class="payment-item flex w-full cursor-pointer items-center gap-4 rounded-xl border border-gray-200 p-4 transition">
+                                        <input type="radio" name="payment_id" value="{{ $payment->id }}"
+                                            class="accent-green-600" @if (old('payment_id') == $payment->id) checked @endif
+                                            required>
 
-                                            <div class="font-semibold">
-                                                {{ $payment->name }}
-                                            </div>
+                                        <div class="font-semibold">
+                                            {{ $payment->name }}
+                                        </div>
 
-                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                class="icon ml-auto h-5 w-5 text-green-600 opacity-0 transition"
-                                                viewBox="0 0 16 16">
-                                                <g fill="none" stroke="currentColor" stroke-linecap="round"
-                                                    stroke-linejoin="round" stroke-width="1.5">
-                                                    <path
-                                                        d="m14.25 8.75c-.5 2.5-2.3849 4.85363-5.03069 5.37991-2.64578.5263-5.33066-.7044-6.65903-3.0523-1.32837-2.34784-1.00043-5.28307.81336-7.27989 1.81379-1.99683 4.87636-2.54771 7.37636-1.54771" />
-                                                    <polyline points="5.75 7.75 8.25 10.25 14.25 3.75" />
-                                                </g>
-                                            </svg>
-                                        </label>
-                                    </div>
-                                @endforeach
-                                @error('payment_id')
-                                    <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
-                                @enderror
-                            </div>
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="icon ml-auto h-5 w-5 text-green-600 opacity-0 transition"
+                                            viewBox="0 0 16 16">
+                                            <g fill="none" stroke="currentColor" stroke-linecap="round"
+                                                stroke-linejoin="round" stroke-width="1.5">
+                                                <path
+                                                    d="m14.25 8.75c-.5 2.5-2.3849 4.85363-5.03069 5.37991-2.64578.5263-5.33066-.7044-6.65903-3.0523-1.32837-2.34784-1.00043-5.28307.81336-7.27989 1.81379-1.99683 4.87636-2.54771 7.37636-1.54771" />
+                                                <polyline points="5.75 7.75 8.25 10.25 14.25 3.75" />
+                                            </g>
+                                        </svg>
+                                    </label>
+                                </div>
+                            @endforeach
+                            @error('payment_id')
+                                <p class="mt-1 text-sm text-red-500">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
+                </div>
             </div>
 
             <div class="col-span-12 lg:col-span-4">
