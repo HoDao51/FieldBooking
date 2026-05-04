@@ -161,10 +161,10 @@
                                                 class="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-500">
                                                 @if ($price->TimeSlot->status == 0)
                                                     Tạm khóa
-                                                @elseif ($pastSlots)
-                                                    Quá giờ
-                                                @elseif ($bookedSlots)
+                                                @elseif (in_array($price->time_id, $bookedSlots))
                                                     Đã đặt
+                                                @elseif (in_array($price->time_id, $pastSlots))
+                                                    Quá giờ
                                                 @endif
                                             </span>
                                         </div>
@@ -230,10 +230,10 @@
                                                 class="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-500">
                                                 @if ($price->TimeSlot->status == 0)
                                                     Tạm khóa
-                                                @elseif ($pastSlots)
-                                                    Quá giờ
-                                                @elseif ($bookedSlots)
+                                                @elseif (in_array($price->time_id, $bookedSlots))
                                                     Đã đặt
+                                                @elseif (in_array($price->time_id, $pastSlots))
+                                                    Quá giờ
                                                 @endif
                                             </span>
                                         </div>
@@ -282,7 +282,7 @@
 
                         <div class="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
                             @foreach ($evening as $price)
-                                @if (in_array($price->time_id, $pastSlots) || in_array($price->time_id, $bookedSlots))
+                                @if ($price->TimeSlot->status == 0 || in_array($price->time_id, $pastSlots) || in_array($price->time_id, $bookedSlots))
                                     <div
                                         class="rounded-xl border border-gray-200 bg-gray-200 px-4 py-3 text-sm shadow-sm cursor-not-allowed">
                                         <div class="flex items-center justify-between gap-4">
@@ -300,10 +300,10 @@
                                                 class="rounded-full bg-white px-2.5 py-1 text-xs font-semibold text-gray-500">
                                                 @if ($price->TimeSlot->status == 0)
                                                     Tạm khóa
-                                                @elseif ($pastSlots)
-                                                    Quá giờ
-                                                @elseif ($bookedSlots)
+                                                @elseif (in_array($price->time_id, $bookedSlots))
                                                     Đã đặt
+                                                @elseif (in_array($price->time_id, $pastSlots))
+                                                    Quá giờ
                                                 @endif
                                             </span>
                                         </div>

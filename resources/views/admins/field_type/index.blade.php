@@ -24,7 +24,7 @@
                             clip-rule="evenodd" />
                     </svg>
                     <input type="text" name="search" value="{{ $search }}" placeholder="Tìm kiếm loại sân"
-                        class="w-full rounded bg-[#F2F2F2] py-2 pl-10 pr-3 outline-none focus:ring-2 focus:ring-green-400">
+                        class="w-full rounded bg-[#F2F2F2] py-2 pl-10 pr-3 outline-none focus:ring-1 focus:ring-green-400">
                 </div>
                 <button type="submit"
                     class="whitespace-nowrap rounded bg-[#D9D9D9] px-4 py-2 text-gray-800 transition hover:bg-gray-400">

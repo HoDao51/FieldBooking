@@ -28,7 +28,7 @@
                     </svg>
                     <input type="text" name="search" value="{{ $search }}"
                         placeholder="Tìm kiếm theo tên khách hàng, SĐT, email..."
-                        class="bg-[#F2F2F2] pl-10 pr-3 py-2 rounded w-full focus:ring-2 focus:ring-green-400 outline-none">
+                        class="bg-[#F2F2F2] pl-10 pr-3 py-2 rounded w-full focus:ring-1 focus:ring-green-400 outline-none">
                 </div>
 
                 <button type="submit"

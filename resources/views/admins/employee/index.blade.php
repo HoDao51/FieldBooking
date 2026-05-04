@@ -37,7 +37,7 @@
                         </svg>
                         <input type="text" name="search" value="{{ $search }}"
                             placeholder="Tìm kiếm theo tên, email,..."
-                            class="bg-[#F2F2F2] pl-10 pr-3 py-2 rounded w-full d-lg focus:ring-2 focus:ring-green-400 outline-none">
+                            class="bg-[#F2F2F2] pl-10 pr-3 py-2 rounded w-full d-lg focus:ring-1 focus:ring-green-400 outline-none">
                     </div>
                     <!-- Nút tìm kiếm -->
                     <button type="submit"

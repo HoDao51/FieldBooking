@@ -64,22 +64,6 @@ class CheckoutController extends Controller
         $data = session('booking_data');
 
         if ($vnp_ResponseCode == '00' && $data) {
-            $field = Field::find($data['field_id']);
-            $blockedSlots = [];
-
-            if ($field) {
-                $blockedSlots = $field->getBookedSlots($data['date']);
-            }
-
-            if (!$field || TimeSlot::where('id', $data['time_id'])->where('status', 1)->doesntExist() || in_array($data['time_id'], $blockedSlots)) {
-                return redirect()->route('booking.checkout', [
-                    'field_id' => $data['field_id'],
-                    'time_id' => $data['time_id'],
-                    'date' => $data['date'],
-                    'price' => $data['price'],
-                ])->with('error', 'Khung giờ này đã được đặt hoặc không còn khả dụng.');
-            }
-
             $status = 0;
             if ($data['payment_type'] == 0) {
                 $status = 1;
@@ -204,22 +188,6 @@ class CheckoutController extends Controller
         $data = session('booking_data');
 
         if ($resultCode == 0 && $data) {
-            $field = Field::find($data['field_id']);
-            $blockedSlots = [];
-
-            if ($field) {
-                $blockedSlots = $field->getBookedSlots($data['date']);
-            }
-
-            if (!$field || TimeSlot::where('id', $data['time_id'])->where('status', 1)->doesntExist() || in_array($data['time_id'], $blockedSlots)) {
-                return redirect()->route('booking.checkout', [
-                    'field_id' => $data['field_id'],
-                    'time_id' => $data['time_id'],
-                    'date' => $data['date'],
-                    'price' => $data['price'],
-                ])->with('error', 'Khung giờ này đã được đặt hoặc không còn khả dụng.');
-            }
-
             $status = 0;
             if ($data['payment_type'] == 0) {
                 $status = 1;
