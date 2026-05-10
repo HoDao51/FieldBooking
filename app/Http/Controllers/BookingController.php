@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CancelBookingRequest;
 use App\Http\Requests\CheckoutRequest;
 use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\StoreDirectBookingRequest;
@@ -10,6 +11,7 @@ use App\Models\Customer;
 use App\Models\Facility;
 use App\Models\Field;
 use App\Models\PaymentMethod;
+use App\Models\Refund;
 use App\Models\TimeSlot;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -341,10 +343,34 @@ class BookingController extends Controller
             ->with('success', 'Xác nhận thanh toán thành công!');
     }
 
-    public function cancel($id)
+    public function cancelPage($id)
     {
-        Booking::findOrFail($id)->update(['status' => 2]);
-        return back();
+        $booking = Booking::with(['Fields', 'TimeSlot', 'Bills.PaymentMethod'])->findOrFail($id);
+
+        $paidAmount = $booking->Bills->sum('amount');
+
+        return view('admins.order.cancel', compact('booking', 'paidAmount'));
+    }
+
+    public function cancel(CancelBookingRequest $request, $id)
+    {
+        $booking = Booking::with('Bills')->findOrFail($id);
+        $paidAmount = $booking->Bills->sum('amount');
+
+        $booking->update(['status' => 2]);
+        $booking->Bills()->update(['status' => 0]);
+
+        if ($paidAmount > 0) {
+            Refund::create([
+                'booking_id' => $booking->id,
+                'amount' => $paidAmount,
+                'reason' => $request->reason,
+            ]);
+        }
+
+        return redirect()
+            ->route('donDatSan.index')
+            ->with('success', 'Hủy đơn đặt sân thành công!');
     }
 
     private function getBookingSessionData($request, $customerId)

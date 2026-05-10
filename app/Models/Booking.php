@@ -61,6 +61,11 @@ class Booking extends Model
         return $this->belongsTo(Employee::class, 'employee_id');
     }
 
+    public function refund()
+    {
+        return $this->hasOne(Refund::class, 'booking_id', 'id');
+    }
+
     public static function updateCompletedBookings()
     {
         $bookings = Booking::with('TimeSlot')->get();

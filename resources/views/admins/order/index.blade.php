@@ -1,4 +1,4 @@
-﻿@extends('admins.layouts.app')
+@extends('admins.layouts.app')
 
 @section('content')
     <div class="pl-2">
@@ -131,25 +131,15 @@
                                         Hoàn thành
                                     </a>
 
-                                    <form action="{{ route('donDatSan.cancel', $item->id) }}" method="POST"
-                                        class="inline-block ml-2">
-                                        @csrf
-                                        @method('PUT')
-                                        <button
-                                            class="bg-gray-600 font-semibold text-white px-2 py-2 rounded hover:bg-gray-700">
-                                            Hủy
-                                        </button>
-                                    </form>
+                                    <a href="{{ route('donDatSan.cancelPage', $item->id) }}"
+                                        class="inline-block ml-2 bg-gray-600 font-semibold text-white px-2 py-2 rounded hover:bg-gray-700">
+                                        Hủy
+                                    </a>
                                 @elseif ($item->status == 1)
-                                    <form action="{{ route('donDatSan.cancel', $item->id) }}" method="POST"
-                                        class="inline-block ml-2">
-                                        @csrf
-                                        @method('PUT')
-                                        <button
-                                            class="bg-gray-600 font-semibold text-white px-2 py-2 rounded hover:bg-gray-700">
-                                            Hủy
-                                        </button>
-                                    </form>
+                                    <a href="{{ route('donDatSan.cancelPage', $item->id) }}"
+                                        class="inline-block ml-2 bg-gray-600 font-semibold text-white px-2 py-2 rounded hover:bg-gray-700">
+                                        Hủy
+                                    </a>
                                 @elseif ($item->status == 2)
                                     <span class="text-gray-500 font-semibold">
                                         Đã hủy

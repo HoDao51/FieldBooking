@@ -9,6 +9,7 @@ use App\Models\Bill;
 use App\Models\Booking;
 use App\Models\Customer;
 use App\Models\Field;
+use App\Models\Refund;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -74,9 +75,26 @@ class Information extends Controller
                 $query->where('customer_id', Auth::user()->customers->id);
             })
             ->orderBy('id', 'desc')
-            ->paginate(5)
+            ->paginate(5, ['*'], 'bill_page')
             ->withQueryString();
 
-        return view('customers.information.transaction_history', compact('bills'));
+        $refunds = Refund::with(['Booking.Fields', 'Booking.TimeSlot'])
+            ->whereHas('Booking', function ($query) {
+                $query->where('customer_id', Auth::user()->customers->id);
+            })
+            ->orderBy('id', 'desc')
+            ->paginate(5, ['*'], 'refund_page')
+            ->withQueryString();
+
+        return view('customers.information.transaction_history', compact('bills', 'refunds'));
+    }
+
+    public function showTransaction($booking_id)
+    {
+        $booking = Booking::with(['Fields.facility', 'TimeSlot', 'Bills.PaymentMethod', 'refund'])
+            ->where('customer_id', Auth::user()->customers->id)
+            ->findOrFail($booking_id);
+
+        return view('customers.information.transaction_detail', compact('booking'));
     }
 }

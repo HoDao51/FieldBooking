@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bill;
+use App\Models\Booking;
+use App\Models\Refund;
 use Illuminate\Http\Request;
 
 class BillController extends Controller
@@ -22,8 +24,29 @@ class BillController extends Controller
             });
         }
 
-        $bills = $query->paginate(6)->withQueryString();
+        $bills = $query->paginate(6, ['*'], 'bill_page')->withQueryString();
 
-        return view('admins.bill.index', compact('search', 'bills'));
+        $refundQuery = Refund::with(['Booking.Fields', 'Booking.TimeSlot'])
+            ->orderBy('id', 'desc');
+
+        if ($search) {
+            $refundQuery->whereHas('Booking', function ($q) use ($search) {
+                $q->where('contactName', 'like', '%' . $search . '%')
+                    ->orWhere('contactPhone', 'like', '%' . $search . '%')
+                    ->orWhere('contactEmail', 'like', '%' . $search . '%');
+            });
+        }
+
+        $refunds = $refundQuery->paginate(6, ['*'], 'refund_page')->withQueryString();
+
+        return view('admins.bill.index', compact('search', 'bills', 'refunds'));
+    }
+
+    public function show($booking_id)
+    {
+        $booking = Booking::with(['Fields.facility', 'TimeSlot', 'Bills.PaymentMethod', 'refund'])
+            ->findOrFail($booking_id);
+
+        return view('admins.bill.show', compact('booking'));
     }
 }

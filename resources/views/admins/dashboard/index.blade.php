@@ -101,6 +101,59 @@
                     </div>
                 </div>
 
+                <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-6">
+                    <!-- Top Sân -->
+                    <div class="bg-white rounded-xl shadow border border-gray-200 p-5">
+                        <h2 class="flex items-center gap-2 text-xl font-bold text-gray-800 mb-4 border-b pb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                            </svg>
+                            Top 5 Sân được đặt nhiều nhất
+                        </h2>
+                        <ul class="divide-y divide-gray-200">
+                            @forelse($mostBookedFields as $stat)
+                                <li class="py-3 flex justify-between items-center">
+                                    <div>
+                                        <p class="font-semibold text-gray-800">{{ $stat->Fields->name }}</p>
+                                        <p class="text-sm text-gray-500">{{ $stat->Fields->facility->name ?? 'N/A' }}</p>
+                                    </div>
+                                    <span class="bg-blue-100 text-blue-800 text-sm font-semibold px-3 py-1 rounded-full border border-blue-200">{{ $stat->total_bookings }} lượt đặt</span>
+                                </li>
+                            @empty
+                                <li class="py-3 text-gray-500 text-center">Chưa có dữ liệu đặt sân</li>
+                            @endforelse
+                        </ul>
+                    </div>
+
+                    <!-- Top Khung giờ theo cụm -->
+                    <div class="bg-white rounded-xl shadow border border-gray-200 p-5">
+                        <h2 class="flex items-center gap-2 text-xl font-bold text-gray-800 mb-4 border-b pb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-purple-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2" />
+                            </svg>
+                            Khung giờ phổ biến theo Cụm sân
+                        </h2>
+                        <div class="space-y-4 max-h-[300px] overflow-y-auto pr-2">
+                            @forelse($topTimeSlotsByFacility as $facilityName => $slots)
+                                <div>
+                                    <h3 class="font-semibold text-gray-700 bg-gray-100 px-3 py-2 rounded mb-2 border-l-4 border-purple-500">{{ $facilityName }}</h3>
+                                    <div class="flex flex-wrap gap-2">
+                                        @foreach($slots as $slot)
+                                            <div class="bg-green-50 border border-green-200 rounded-lg px-3 py-1.5 text-sm flex items-center gap-2 shadow-sm">
+                                                <span class="font-medium text-green-700">{{ \Carbon\Carbon::parse($slot->TimeSlot->startTime)->format('H:i') }} - {{ \Carbon\Carbon::parse($slot->TimeSlot->endTime)->format('H:i') }}</span>
+                                                <span class="text-xs bg-green-200 text-green-800 px-2 py-0.5 rounded-full font-bold" title="Số lượt đặt">{{ $slot->total_bookings }}</span>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @empty
+                                <div class="text-gray-500 text-center py-4">Chưa có dữ liệu đặt sân</div>
+                            @endforelse
+                        </div>
+                    </div>
+                </div>
+
                 <h2 class="flex items-center gap-3 text-xl font-bold text-gray-800 mb-3">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-green-600" viewBox="0 0 16 16"
                         stroke="currentColor" stroke-width="0">

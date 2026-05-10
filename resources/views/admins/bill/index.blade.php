@@ -38,18 +38,17 @@
             </form>
         </div>
 
+        <h2 class="text-xl font-semibold text-gray-800 mb-3 mt-6 border-b border-gray-200 pb-2">Giao dịch thanh toán</h2>
         <div class="bg-white rounded-xl shadow border border-gray-200 overflow-hidden">
             <table class="min-w-full text-sm">
                 <thead class="bg-gray-200 text-gray-800 uppercase text-xs">
                     <tr>
                         <th class="px-6 py-3 text-left">Khách hàng</th>
                         <th class="px-6 py-3 text-center">Sân</th>
-                        <th class="px-6 py-3 text-center">Khung giờ</th>
-                        <th class="px-6 py-3 text-center">Phương thức</th>
-                        <th class="px-6 py-3 text-center">Hình thức</th>
                         <th class="px-6 py-3 text-center">Số tiền</th>
                         <th class="px-6 py-3 text-center">Trạng thái</th>
                         <th class="px-6 py-3 text-center">Thời gian</th>
+                        <th class="px-6 py-3 text-center">Thao tác</th>
                     </tr>
                 </thead>
 
@@ -57,36 +56,19 @@
                     @forelse ($bills as $bill)
                         <tr class="hover:bg-gray-50">
                             <td class="px-6 py-4">
+                                <p class="font-semibold text-gray-800">{{ $bill->Booking->contactName }}</p>
+                                <p class="text-sm text-gray-600">{{ $bill->Booking->contactPhone }}</p>
+                            </td>
+
+                            <td class="text-center">
                                 <div class="flex flex-col">
                                     <span class="font-semibold text-gray-800">
-                                        {{ $bill->Booking->contactName }}
+                                        {{ $bill->Booking->Fields->facility->name }}
                                     </span>
                                     <span class="text-xs text-gray-500">
-                                        {{ $bill->Booking->contactEmail }}
+                                        {{ $bill->Booking->Fields->name }}
                                     </span>
                                 </div>
-                            </td>
-
-                            <td class="text-center">
-                                {{ $bill->Booking->Fields->name }}
-                            </td>
-
-                            <td class="text-center">
-                                {{ \Carbon\Carbon::parse($bill->Booking->TimeSlot->startTime)->format('H:i') }}
-                                -
-                                {{ \Carbon\Carbon::parse($bill->Booking->TimeSlot->endTime)->format('H:i') }}
-                            </td>
-
-                            <td class="text-center">
-                                {{ $bill->PaymentMethod->name }}
-                            </td>
-
-                            <td class="text-center">
-                                @if ($bill->payment_type == 1)
-                                    Đặt cọc 50%
-                                @else
-                                    Thanh toán toàn bộ
-                                @endif
                             </td>
 
                             <td class="text-center font-semibold text-green-600">
@@ -98,12 +80,13 @@
                                     <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
                                         Đã thanh toán
                                     </span>
-                                @elseif ($bill->status == 2)
+                                @elseif ($bill->status == 0)
                                     <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-semibold">
-                                        Thất bại
+                                        Đã hủy
                                     </span>
                                 @else
-                                    <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-semibold">
+                                    <span
+                                        class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-semibold">
                                         Chờ thanh toán
                                     </span>
                                 @endif
@@ -115,6 +98,13 @@
                                 @else
                                     {{ $bill->created_at->format('d/m/Y H:i') }}
                                 @endif
+                            </td>
+
+                            <td class="text-center">
+                                <a href="{{ route('lichSuGiaoDich.show', ['booking_id' => $bill->Booking->id, 'type' => 'bill']) }}"
+                                    class="inline-block text-blue-600 hover:text-blue-800 font-medium text-sm border border-blue-600 hover:bg-blue-50 px-3 py-1.5 rounded transition">
+                                    Xem chi tiết
+                                </a>
                             </td>
                         </tr>
                     @empty
@@ -144,5 +134,83 @@
                 @endfor
             </div>
         @endif
+
+        <h2 class="text-xl font-semibold text-gray-800 mb-3 mt-10 border-b border-gray-200 pb-2">Giao dịch hoàn tiền (Khách
+            hủy sân)</h2>
+        <div class="bg-white rounded-xl shadow border border-gray-200 overflow-hidden">
+            <table class="min-w-full text-sm">
+                <thead class="bg-gray-200 text-gray-800 uppercase text-xs">
+                    <tr>
+                        <th class="px-6 py-3 text-left">Khách hàng</th>
+                        <th class="px-6 py-3 text-center">Sân</th>
+                        <th class="px-6 py-3 text-center">Số tiền hoàn</th>
+                        <th class="px-6 py-3 text-center">Thời gian</th>
+                        <th class="px-6 py-3 text-center">Thao tác</th>
+                    </tr>
+                </thead>
+
+                <tbody class="divide-y divide-gray-200">
+                    @forelse ($refunds as $refund)
+                        <tr class="hover:bg-gray-50">
+                            <td class="px-6 py-4">
+                                <p class="font-semibold text-gray-800">{{ $bill->Booking->contactName }}</p>
+                                <p class="text-sm text-gray-600">{{ $bill->Booking->contactPhone }}</p>
+                            </td>
+
+                            <td class="text-center">
+                                <div class="flex flex-col">
+                                    <span class="font-semibold text-gray-800">
+                                        {{ $refund->booking->Fields->facility->name }}
+                                    </span>
+                                    <span class="text-xs text-gray-500">
+                                        {{ $refund->booking->Fields->name }}
+                                    </span>
+                                </div>
+                            </td>
+
+                            <td class="text-center font-semibold text-red-600">
+                                {{ number_format($refund->amount) }}đ
+                            </td>
+
+                            <td class="text-center whitespace-nowrap">
+                                {{ $refund->created_at->format('d/m/Y H:i') }}
+                            </td>
+
+                            <td class="text-center">
+                                <a href="{{ route('lichSuGiaoDich.show', ['booking_id' => $refund->booking_id, 'type' => 'refund']) }}"
+                                    class="inline-block text-blue-600 hover:text-blue-800 font-medium text-sm border border-blue-600 hover:bg-blue-50 px-3 py-1.5 rounded transition">
+                                    Xem chi tiết
+                                </a>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="6" class="text-center py-6 text-gray-500">
+                                Không có dữ liệu hoàn tiền
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+
+        @if ($refunds->hasPages())
+            <div class="flex justify-center items-center gap-2 mt-6 mb-8">
+                @for ($i = 1; $i <= $refunds->lastPage(); $i++)
+                    @if ($i == $refunds->currentPage())
+                        <span class="px-4 py-2 bg-green-600 text-white rounded">
+                            {{ $i }}
+                        </span>
+                    @else
+                        <a href="{{ $refunds->url($i) }}"
+                            class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-green-500 hover:text-white transition">
+                            {{ $i }}
+                        </a>
+                    @endif
+                @endfor
+            </div>
+        @endif
     </div>
+
+
 @endsection
