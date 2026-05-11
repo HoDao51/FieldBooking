@@ -5,7 +5,7 @@
         <div class="w-64 bg-white rounded-xl shadow p-6 text-center flex flex-col">
             <div
                 class="w-24 h-24 bg-green-500 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto">
-                @if (auth()->user()->customers->avatar == null)
+                @if (optional(auth()->user()->customers)->avatar === null)
                     <img src="{{ asset('images/sbcf-default-avatar.png') }}"
                         class="w-full h-full object-cover rounded-full border-2 border-gray-300">
                 @else
