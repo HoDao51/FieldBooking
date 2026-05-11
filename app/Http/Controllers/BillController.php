@@ -24,7 +24,7 @@ class BillController extends Controller
             });
         }
 
-        $bills = $query->paginate(6, ['*'], 'bill_page')->withQueryString();
+        $bills = $query->paginate(4, ['*'], 'bill_page')->withQueryString();
 
         $refundQuery = Refund::with(['Booking.Fields', 'Booking.TimeSlot'])
             ->orderBy('id', 'desc');
@@ -37,7 +37,7 @@ class BillController extends Controller
             });
         }
 
-        $refunds = $refundQuery->paginate(6, ['*'], 'refund_page')->withQueryString();
+        $refunds = $refundQuery->paginate(4, ['*'], 'refund_page')->withQueryString();
 
         return view('admins.bill.index', compact('search', 'bills', 'refunds'));
     }

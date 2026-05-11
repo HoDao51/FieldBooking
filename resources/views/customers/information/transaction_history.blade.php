@@ -63,8 +63,13 @@
         </div>
 
         <div class="flex-1 bg-white rounded-xl shadow p-5">
-            <h2 class="text-2xl font-bold mb-4">
-                Lịch sử giao dịch
+            <h2 class="text-2xl font-bold mb-4 flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="1.8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v5l3 2" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M22 12a10 10 0 1 1-3.2-7.3" />
+                </svg>
+                <span>Lịch sử giao dịch</span>
             </h2>
 
             <h3 class="text-lg font-semibold text-gray-700 mb-2 border-b border-gray-200 pb-1">Giao dịch thanh toán</h3>
@@ -75,7 +80,6 @@
                         <tr>
                             <th class="px-6 py-3 text-center">Sân</th>
                             <th class="px-6 py-3 text-center">Số tiền</th>
-                            <th class="px-6 py-3 text-center">Trạng thái</th>
                             <th class="px-6 py-3 text-center">Thời gian</th>
                             <th class="px-6 py-3 text-center">Thao tác</th>
                         </tr>
@@ -97,30 +101,6 @@
 
                                 <td class="px-6 py-4 text-center font-semibold text-green-600">
                                     {{ number_format($bill->amount) }}đ
-                                </td>
-
-                                <td class="px-6 py-4 text-center font-semibold text-red-600">
-                                    @if ($bill->status == 0)
-                                        <span
-                                            class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
-                                            Chờ thanh toán
-                                        </span>
-                                    @elseif ($bill->status == 1)
-                                        <span
-                                            class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-semibold">
-                                            Đã thanh toán
-                                        </span>
-                                    @elseif ($bill->status == 2)
-                                        <span
-                                            class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-xs font-semibold">
-                                            Đã hủy
-                                        </span>
-                                    @elseif ($bill->status == 3)
-                                        <span
-                                            class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
-                                            Hoàn thành
-                                        </span>
-                                    @endif
                                 </td>
 
                                 <td class="px-6 py-4 text-center whitespace-nowrap">
@@ -166,8 +146,7 @@
                 </div>
             @endif
 
-            <h3 class="text-lg font-semibold text-gray-700 mb-2 mt-8 border-b border-gray-200 pb-1">Giao dịch hoàn tiền
-                (Khách hủy sân)</h3>
+            <h3 class="text-lg font-semibold text-gray-700 mb-2 mt-8 border-b border-gray-200 pb-1">Giao dịch hoàn tiền</h3>
             <div class="overflow-x-auto">
                 <table class="min-w-full text-sm">
                     <thead class="bg-gray-100 text-gray-700 uppercase text-xs">

@@ -63,8 +63,12 @@
         </div>
 
         <div class="flex-1 bg-white rounded-xl shadow p-5">
-            <h2 class="text-2xl font-bold mb-6">
-                Lịch sử đặt sân
+            <h2 class="text-2xl font-bold mb-6 flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 24 24">
+                        <path fill="currentColor" stroke="none"
+                            d="M19 4h-2V3a1 1 0 0 0-2 0v1H9V3a1 1 0 0 0-2 0v1H5a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3m1 15a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-7h16Zm0-9H4V7a1 1 0 0 1 1-1h2v1a1 1 0 0 0 2 0V6h6v1a1 1 0 0 0 2 0V6h2a1 1 0 0 1 1 1Z" />
+                    </svg>
+                    <span>Lịch sử đặt sân</span>
             </h2>
 
             <div class="overflow-x-auto">
@@ -83,7 +87,14 @@
                         @forelse($booking as $item)
                             <tr class="hover:bg-gray-50 transition">
                                 <td class="px-6 py-4 text-center font-medium break-words">
-                                    {{ $item->Fields->name }}
+                                    <div class="flex flex-col">
+                                        <span class="font-semibold text-gray-800 break-words">
+                                            {{ $item->Fields->facility->name ?? 'N/A' }}
+                                        </span>
+                                        <span class="text-xs text-gray-500 break-words">
+                                            {{ $item->Fields->name }}
+                                        </span>
+                                    </div>
                                 </td>
 
                                 <td class="px-6 py-4 text-center whitespace-nowrap">

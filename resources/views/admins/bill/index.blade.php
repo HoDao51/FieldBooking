@@ -46,7 +46,6 @@
                         <th class="px-6 py-3 text-left">Khách hàng</th>
                         <th class="px-6 py-3 text-center">Sân</th>
                         <th class="px-6 py-3 text-center">Số tiền</th>
-                        <th class="px-6 py-3 text-center">Trạng thái</th>
                         <th class="px-6 py-3 text-center">Thời gian</th>
                         <th class="px-6 py-3 text-center">Thao tác</th>
                     </tr>
@@ -73,23 +72,6 @@
 
                             <td class="text-center font-semibold text-green-600">
                                 {{ number_format($bill->amount) }}đ
-                            </td>
-
-                            <td class="text-center">
-                                @if ($bill->status == 1)
-                                    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
-                                        Đã thanh toán
-                                    </span>
-                                @elseif ($bill->status == 0)
-                                    <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-semibold">
-                                        Đã hủy
-                                    </span>
-                                @else
-                                    <span
-                                        class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-semibold">
-                                        Chờ thanh toán
-                                    </span>
-                                @endif
                             </td>
 
                             <td class="text-center whitespace-nowrap">
