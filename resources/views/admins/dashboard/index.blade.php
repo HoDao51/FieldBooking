@@ -19,7 +19,7 @@
 
         <div class="flex-1 flex flex-col">
             <main class="overflow-auto">
-                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                     <div class="bg-white p-5 rounded-xl shadow flex items-center gap-4 min-w-0">
                         <div class="bg-blue-100 p-3 rounded-lg text-blue-700">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 36 36"
@@ -81,22 +81,57 @@
                         </div>
                     </div>
 
-                    <div class="bg-white p-5 rounded-xl shadow flex items-center gap-4 min-w-0">
-                        <div class="bg-green-100 p-3 rounded-lg text-green-700">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 scale-125 opacity-80" viewBox="0 0 56 56"
-                                fill="currentColor">
-                                <path fill-rule="evenodd"
-                                    d="M29 30v10c3.519-.316 5-2.287 5-4.89c0-2.507-1.152-3.99-5-5.11m-3-5v-9c-3.273.415-5 2.33-5 4.43s1.364 3.647 5 4.57m2.84.737l1.072.277C35.784 27.423 39 29.917 39 34.836c0 5.658-4.466 8.868-10.16 9.284V48h-2.523v-3.88c-5.672-.439-10.16-3.741-10.317-9.284h4.622c.402 2.702 2.1 4.688 5.695 5.08V29.849l-.916-.231c-5.672-1.363-8.731-3.996-8.731-8.684c0-5.173 4.02-8.591 9.647-9.03V8h2.523v3.903c5.582.462 9.624 3.926 9.803 9.169h-4.645c-.29-2.91-2.3-4.596-5.158-4.966z" />
-                            </svg>
-                        </div>
-                        <div class="min-w-0 flex-1">
-                            <h2 class="text-lg xl:text-2xl font-bold text-green-600 leading-tight break-all"
-                                title="{{ number_format($revenue) }}đ">
-                                {{ $formattedRevenue }}
-                            </h2>
-                            <p class="text-gray-500 text-sm mt-1">
+                </div>
+
+                <div class="bg-white rounded-xl shadow border border-gray-200 p-5 mb-6">
+                    <div class="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-4 mb-5">
+                        <div>
+                            <h2 class="flex items-center gap-2 text-xl font-bold text-gray-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-green-600" viewBox="0 0 56 56"
+                                    fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                        d="M29 30v10c3.519-.316 5-2.287 5-4.89c0-2.507-1.152-3.99-5-5.11m-3-5v-9c-3.273.415-5 2.33-5 4.43s1.364 3.647 5 4.57m2.84.737l1.072.277C35.784 27.423 39 29.917 39 34.836c0 5.658-4.466 8.868-10.16 9.284V48h-2.523v-3.88c-5.672-.439-10.16-3.741-10.317-9.284h4.622c.402 2.702 2.1 4.688 5.695 5.08V29.849l-.916-.231c-5.672-1.363-8.731-3.996-8.731-8.684c0-5.173 4.02-8.591 9.647-9.03V8h2.523v3.903c5.582.462 9.624 3.926 9.803 9.169h-4.645c-.29-2.91-2.3-4.596-5.158-4.966z" />
+                                </svg>
                                 Doanh thu
+                            </h2>
+                            <p class="text-3xl font-bold text-green-600 mt-2" title="{{ number_format($revenue) }}đ">
+                                {{ $formattedRevenue }}
                             </p>
+                        </div>
+
+                        <form method="GET" action="{{ route('admins.index') }}"
+                            class="grid grid-cols-1 sm:grid-cols-[1fr_1fr_auto] gap-3 items-end">
+                            <div>
+                                <label for="from_date" class="block text-sm font-semibold text-gray-700 mb-1">Từ ngày</label>
+                                <input type="date" id="from_date" name="from_date"
+                                    value="{{ $fromDate->toDateString() }}"
+                                    class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+                            </div>
+                            <div>
+                                <label for="to_date" class="block text-sm font-semibold text-gray-700 mb-1">Đến ngày</label>
+                                <input type="date" id="to_date" name="to_date"
+                                    value="{{ $toDate->toDateString() }}"
+                                    class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500">
+                            </div>
+                            <button type="submit"
+                                class="bg-green-600 text-white font-semibold rounded-lg px-4 py-2 text-sm hover:bg-green-700">
+                                Lọc
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <div class="min-w-[640px] h-72 flex items-end gap-3 border-l border-b border-gray-200 px-4 pt-4 pb-8">
+                            @foreach ($revenueChart as $item)
+                                <div class="flex-1 h-full flex flex-col justify-end items-center gap-2 min-w-[52px]">
+                                    <div class="w-full flex-1 flex items-end justify-center">
+                                        <div class="w-full max-w-12 bg-green-500 rounded-t hover:bg-green-600 transition"
+                                            style="height: {{ max(($item['revenue'] / $maxRevenue) * 100, $item['revenue'] > 0 ? 4 : 0) }}%;"
+                                            title="{{ $item['label'] }}: {{ number_format($item['revenue']) }}đ"></div>
+                                    </div>
+                                    <div class="text-xs text-gray-500 whitespace-nowrap">{{ $item['label'] }}</div>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
