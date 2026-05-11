@@ -64,7 +64,7 @@
 
         <div class="flex-1 bg-white rounded-xl shadow p-8">
             <h2 class="text-2xl font-bold mb-6 flex items-center space-x-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 24 24">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="#222C3A" viewBox="0 0 24 24">
                     <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                         stroke-width="2"
                         d="M19.618 21.25c0-3.602-4.016-6.53-7.618-6.53s-7.618 2.928-7.618 6.53M12 11.456a4.353 4.353 0 1 0 0-8.706a4.353 4.353 0 0 0 0 8.706" />

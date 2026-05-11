@@ -52,7 +52,7 @@
                 </a>
 
                 <a href="{{ route('customer.logout') }}"
-                    class="flex items-center space-x-2 block px-3 py-2 rounded text-red-600 font-semibold hover:bg-red-100">
+                    class="flex items-center space-x-2 block px-3 py-2 rounded text-red-600 font-semibold hover:bg-red-600 hover:text-white">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 32 32">
                         <path fill="currentColor" stroke="none"
                             d="M26 4h2v24h-2zM11.414 20.586L7.828 17H22v-2H7.828l3.586-3.586L10 10l-6 6l6 6z" />
@@ -64,7 +64,7 @@
 
         <div class="flex-1 bg-white rounded-xl shadow p-5">
             <h2 class="text-2xl font-bold mb-4 flex items-center space-x-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor" stroke-width="1.8">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v5l3 2" />
                     <path stroke-linecap="round" stroke-linejoin="round" d="M22 12a10 10 0 1 1-3.2-7.3" />
@@ -105,9 +105,9 @@
 
                                 <td class="px-6 py-4 text-center whitespace-nowrap">
                                     @if ($bill->paid_at)
-                                        {{ \Carbon\Carbon::parse($bill->paid_at)->format('d/m/Y') }}
+                                        {{ \Carbon\Carbon::parse($bill->paid_at)->format('d/m/Y H:i') }}
                                     @else
-                                        {{ $bill->created_at->format('d/m/Y') }}
+                                        {{ $bill->created_at->format('d/m/Y H:i') }}
                                     @endif
                                 </td>
 
@@ -177,7 +177,7 @@
                                 </td>
 
                                 <td class="px-6 py-4 text-center whitespace-nowrap">
-                                    {{ $refund->created_at->format('d/m/Y') }}
+                                    {{ $refund->created_at->format('d/m/Y H:i') }}
                                 </td>
 
                                 <td class="px-6 py-4 text-center">

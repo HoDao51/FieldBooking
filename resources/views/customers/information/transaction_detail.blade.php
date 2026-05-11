@@ -51,7 +51,7 @@
                 </a>
 
                 <a href="{{ route('customer.logout') }}"
-                    class="flex items-center space-x-2 block px-3 py-2 rounded text-red-600 font-semibold hover:bg-red-100">
+                    class="flex items-center space-x-2 block px-3 py-2 rounded text-red-600 font-semibold hover:bg-red-600 hover:text-white">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 32 32">
                         <path fill="currentColor" stroke="none"
                             d="M26 4h2v24h-2zM11.414 20.586L7.828 17H22v-2H7.828l3.586-3.586L10 10l-6 6l6 6z" />
@@ -63,12 +63,19 @@
 
         <div class="flex-1 bg-white rounded-xl shadow p-6">
             <div class="flex items-center justify-between mb-6 border-b border-gray-200 pb-4">
-                <h2 class="text-2xl font-bold text-gray-800">
-                    Chi tiết giao dịch
+                <h2 class="text-2xl font-bold text-gray-800 flex items-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 512 512">
+                        <path fill="currentColor" fill-rule="evenodd"
+                            d="M256 42.667C138.18 42.667 42.667 138.179 42.667 256c0 117.82 95.513 213.334 213.333 213.334c117.822 0 213.334-95.513 213.334-213.334S373.822 42.667 256 42.667m0 384c-94.105 0-170.666-76.561-170.666-170.667S161.894 85.334 256 85.334c94.107 0 170.667 76.56 170.667 170.666S350.107 426.667 256 426.667m26.714-256c0 15.468-11.262 26.667-26.497 26.667c-15.851 0-26.837-11.2-26.837-26.963c0-15.15 11.283-26.37 26.837-26.37c15.235 0 26.497 11.22 26.497 26.666m-48 64h42.666v128h-42.666z" />
+                    </svg>
+                    <span>Chi tiết giao dịch</span>
                 </h2>
-                <a href="{{ route('information.transactionHistory') }}" class="text-green-600 hover:text-green-700 font-semibold flex items-center gap-1">
+                <a href="{{ route('information.transactionHistory') }}"
+                    class="text-green-600 hover:text-green-700 font-semibold flex items-center gap-1">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+                        <path fill-rule="evenodd"
+                            d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+                            clip-rule="evenodd" />
                     </svg>
                     Quay lại
                 </a>
@@ -78,15 +85,21 @@
             <div class="mb-8 bg-gray-50 p-5 rounded-lg border border-gray-200">
                 <h3 class="text-lg font-semibold text-gray-800 mb-3">Thông tin sân bóng</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700">
-                    <p><span class="w-24 inline-block text-gray-500">Cụm sân:</span> <span class="font-medium">{{ $booking->Fields->facility->name ?? 'N/A' }}</span></p>
-                    <p><span class="w-24 inline-block text-gray-500">Sân:</span> <span class="font-medium">{{ $booking->Fields->name }}</span></p>
-                    <p><span class="w-24 inline-block text-gray-500">Ngày đặt:</span> <span class="font-medium">{{ \Carbon\Carbon::parse($booking->bookingDate)->format('d/m/Y') }}</span></p>
-                    <p><span class="w-24 inline-block text-gray-500">Khung giờ:</span> <span class="font-medium text-green-600 bg-green-100 px-2 py-0.5 rounded">{{ \Carbon\Carbon::parse($booking->TimeSlot->startTime)->format('H:i') }} - {{ \Carbon\Carbon::parse($booking->TimeSlot->endTime)->format('H:i') }}</span></p>
+                    <p><span class="w-24 inline-block text-gray-500">Cụm sân:</span> <span
+                            class="font-medium">{{ $booking->Fields->facility->name ?? 'N/A' }}</span></p>
+                    <p><span class="w-24 inline-block text-gray-500">Sân:</span> <span
+                            class="font-medium">{{ $booking->Fields->name }}</span></p>
+                    <p><span class="w-24 inline-block text-gray-500">Ngày đặt:</span> <span
+                            class="font-medium">{{ \Carbon\Carbon::parse($booking->bookingDate)->format('d/m/Y') }}</span>
+                    </p>
+                    <p><span class="w-24 inline-block text-gray-500">Khung giờ:</span> <span
+                            class="font-medium text-green-600 bg-green-100 px-2 py-0.5 rounded">{{ \Carbon\Carbon::parse($booking->TimeSlot->startTime)->format('H:i') }}
+                            - {{ \Carbon\Carbon::parse($booking->TimeSlot->endTime)->format('H:i') }}</span></p>
                 </div>
             </div>
 
             <!-- Lịch sử thanh toán -->
-            @if($booking->Bills->count() > 0 && request('type') !== 'refund')
+            @if ($booking->Bills->count() > 0 && request('type') !== 'refund')
                 <div class="mb-8">
                     <h3 class="text-lg font-semibold text-gray-800 mb-3">Giao dịch thanh toán</h3>
                     <div class="overflow-x-auto">
@@ -102,10 +115,12 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($booking->Bills as $bill)
+                                @foreach ($booking->Bills as $bill)
                                     <tr>
-                                        <td class="px-4 py-3 border-b border-gray-200 text-gray-600">#{{ $bill->id }}</td>
-                                        <td class="px-4 py-3 border-b border-gray-200">{{ $bill->PaymentMethod->name }}</td>
+                                        <td class="px-4 py-3 border-b border-gray-200 text-gray-600">#{{ $bill->id }}
+                                        </td>
+                                        <td class="px-4 py-3 border-b border-gray-200">{{ $bill->PaymentMethod->name }}
+                                        </td>
                                         <td class="px-4 py-3 border-b border-gray-200">
                                             @if ($bill->payment_type == 1)
                                                 Đặt cọc 50%
@@ -122,14 +137,15 @@
                                                 <span class="text-yellow-600 font-medium">Đang chờ</span>
                                             @endif
                                         </td>
-                                        <td class="px-4 py-3 border-b border-gray-200 text-right font-semibold text-green-600">
+                                        <td
+                                            class="px-4 py-3 border-b border-gray-200 text-right font-semibold text-green-600">
                                             {{ number_format($bill->amount) }}đ
                                         </td>
                                         <td class="px-4 py-3 border-b border-gray-200 text-right text-gray-500">
                                             @if ($bill->paid_at)
-                                                {{ \Carbon\Carbon::parse($bill->paid_at)->format('d/m/Y') }}
+                                                {{ \Carbon\Carbon::parse($bill->paid_at)->format('d/m/Y H:i') }}
                                             @else
-                                                {{ $bill->created_at->format('d/m/Y') }}
+                                                {{ $bill->created_at->format('d/m/Y H:i') }}
                                             @endif
                                         </td>
                                     </tr>
@@ -141,22 +157,25 @@
             @endif
 
             <!-- Giao dịch hoàn tiền -->
-            @if($booking->refund && request('type') !== 'bill')
+            @if ($booking->refund && request('type') !== 'bill')
                 <div>
                     <h3 class="text-lg font-semibold text-gray-800 mb-3">Giao dịch hoàn tiền (Hủy sân)</h3>
                     <div class="bg-red-50 border border-red-100 rounded-lg p-5">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                                 <p class="text-sm text-gray-500 mb-1">Số tiền hoàn lại</p>
-                                <p class="text-xl font-bold text-red-600">{{ number_format($booking->refund->amount) }}đ</p>
+                                <p class="text-xl font-bold text-red-600">{{ number_format($booking->refund->amount) }}đ
+                                </p>
                             </div>
                             <div>
                                 <p class="text-sm text-gray-500 mb-1">Thời gian hủy</p>
-                                <p class="text-gray-800 font-medium">{{ $booking->refund->created_at->format('d/m/Y') }}</p>
+                                <p class="text-gray-800 font-medium">
+                                    {{ $booking->refund->created_at->format('d/m/Y H:i') }}</p>
                             </div>
                             <div class="md:col-span-2">
                                 <p class="text-sm text-gray-500 mb-1">Lý do hủy</p>
-                                <p class="text-gray-800 bg-white p-3 rounded border border-red-100">{{ $booking->refund->reason }}</p>
+                                <p class="text-gray-800 bg-white p-3 rounded border border-red-100">
+                                    {{ $booking->refund->reason }}</p>
                             </div>
                         </div>
                     </div>
