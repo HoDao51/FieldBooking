@@ -82,7 +82,10 @@
         <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-6">
             <!-- Doanh thu theo tháng -->
             <div class="bg-white rounded-xl shadow border border-gray-200 p-5">
-                <h2 class="text-xl font-bold text-gray-800 mb-4 border-b border-gray-400 pb-2">Doanh thu năm {{ $currentYear }}</h2>
+                <h2 class="flex justify-between items-center text-xl font-bold text-gray-800 mb-4 border-b border-gray-400 pb-2">
+                    <span>Doanh thu năm {{ $currentYear }}</span>
+                    <span class="text-blue-600 text-lg">{{ number_format(array_sum($monthlyRevenues), 0, ',', '.') }}đ</span>
+                </h2>
                 <div class="relative h-72">
                     <canvas id="monthlyChart"></canvas>
                 </div>
@@ -90,7 +93,10 @@
 
             <!-- Doanh thu theo ngày -->
             <div class="bg-white rounded-xl shadow border border-gray-200 p-5">
-                <h2 class="text-xl font-bold text-gray-800 mb-4 border-b border-gray-400 pb-2">Doanh thu tháng {{ $currentMonth }}/{{ $currentYear }}</h2>
+                <h2 class="flex justify-between items-center text-xl font-bold text-gray-800 mb-4 border-b border-gray-400 pb-2">
+                    <span>Doanh thu tháng {{ $currentMonth }}/{{ $currentYear }}</span>
+                    <span class="text-blue-600 text-lg">{{ number_format(array_sum($dailyRevenues), 0, ',', '.') }}đ</span>
+                </h2>
                 <div class="relative h-72">
                     <canvas id="dailyChart"></canvas>
                 </div>
@@ -100,19 +106,16 @@
         <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-6">
             <!-- Top Sân -->
             <div class="bg-white rounded-xl shadow border border-gray-200 p-5">
-                <h2 class="flex items-center justify-between gap-2 text-xl font-bold text-gray-800 mb-4 border-b border-gray-400 pb-2">
-                    <span class="flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-500" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                        </svg>
-                        Sân được đặt nhiều nhất
-                    </span>
-                    <a href="{{ route('thongKe.san') }}" class="text-sm font-normal text-blue-600 hover:underline">Xem chi tiết</a>
+                <h2 class="flex items-center gap-2 text-xl font-bold text-gray-800 mb-4 border-b border-gray-400 pb-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-500" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                    </svg>
+                    Sân được đặt nhiều nhất
                 </h2>
                 <div class="space-y-4">
                     @forelse($mostBookedFields as $index => $stat)
-                        <a href="{{ route('sanBong.edit', $stat->Fields->id) }}" class="block flex items-center gap-4 p-3 rounded-lg border border-gray-100 bg-gray-50 hover:bg-gray-100 transition shadow-sm cursor-pointer">
+                        <a href="{{ route('thongKe.san', ['facility_id' => $stat->Fields->facility_id]) }}" class="block flex items-center gap-4 p-3 rounded-lg border border-gray-100 bg-gray-50 hover:bg-gray-100 transition shadow-sm cursor-pointer">
                             <div class="flex-shrink-0 relative">
                                 @if($stat->Fields->images->count() > 0)
                                     <img src="{{ asset('storage/' . $stat->Fields->images->first()->name) }}" alt="Sân" class="w-16 h-16 rounded-lg object-cover border border-gray-200">
@@ -143,35 +146,29 @@
 
             <!-- Top Khung giờ theo cụm -->
             <div class="bg-white rounded-xl shadow border border-gray-200 p-5">
-                <h2 class="flex items-center justify-between gap-2 text-xl font-bold text-gray-800 mb-4 border-b border-gray-400 pb-2">
-                    <span class="flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-purple-500" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="10" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2" />
-                        </svg>
-                        Khung giờ phổ biến theo Cụm sân
-                    </span>
-                    <a href="{{ route('thongKe.khungGio') }}" class="text-sm font-normal text-purple-600 hover:underline">Xem chi tiết</a>
+                <h2 class="flex items-center gap-2 text-xl font-bold text-gray-800 mb-4 border-b border-gray-400 pb-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-purple-500" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2" />
+                    </svg>
+                    Khung giờ phổ biến theo Cụm sân
                 </h2>
                 <div class="space-y-4 max-h-[300px] overflow-y-auto pr-2">
                     @forelse($topTimeSlotsByFacility as $facilityName => $slots)
-                        <div>
-                            <h3
-                                class="font-semibold text-gray-700 bg-gray-100 px-3 py-2 rounded mb-2 border-l-4 border-purple-500">
-                                {{ $facilityName }}</h3>
+                        <a href="{{ route('thongKe.khungGio', ['facility_id' => $slots->first()->facility_id]) }}" class="block p-3 rounded-lg border border-gray-100 bg-gray-50 hover:bg-gray-100 transition shadow-sm cursor-pointer">
+                            <h3 class="font-bold text-gray-800 mb-2 border-l-4 border-purple-500 pl-2">
+                                Cụm: {{ $facilityName }}
+                            </h3>
                             <div class="flex flex-wrap gap-2">
                                 @foreach ($slots as $slot)
-                                    <div
-                                        class="bg-green-50 border border-green-200 rounded-lg px-3 py-1.5 text-sm flex items-center gap-2 shadow-sm">
-                                        <span
-                                            class="font-medium text-green-700">{{ \Carbon\Carbon::parse($slot->TimeSlot->startTime)->format('H:i') }}
-                                            -
-                                            {{ \Carbon\Carbon::parse($slot->TimeSlot->endTime)->format('H:i') }}</span>
+                                    <div class="bg-purple-50 border border-purple-200 rounded-lg px-2.5 py-1.5 text-sm flex items-center gap-2 shadow-sm">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                        <span class="font-medium text-purple-800">{{ \Carbon\Carbon::parse($slot->TimeSlot->startTime)->format('H:i') }} - {{ \Carbon\Carbon::parse($slot->TimeSlot->endTime)->format('H:i') }}</span>
                                     </div>
                                 @endforeach
                             </div>
-                        </div>
+                        </a>
                     @empty
                         <div class="text-gray-500 text-center py-4">Chưa có dữ liệu đặt sân</div>
                     @endforelse

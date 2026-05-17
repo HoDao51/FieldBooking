@@ -6,6 +6,7 @@ use App\Models\Booking;
 use App\Models\Customer;
 use App\Models\Field;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
@@ -16,14 +17,6 @@ class DashboardController extends Controller
         $customers = Customer::count();
         $fields = Field::count();
         $bookings = Booking::count();
-        $revenue = Booking::whereIn('status', [1, 3])->sum('totalPrice');
-        $formattedRevenue = number_format($revenue) . 'đ';
-
-        if ($revenue >= 1000000000) {
-            $formattedRevenue = rtrim(rtrim(number_format($revenue / 1000000000, 2, ',', '.'), '0'), ',') . ' tỷ';
-        } elseif ($revenue >= 1000000) {
-            $formattedRevenue = rtrim(rtrim(number_format($revenue / 1000000, 2, ',', '.'), '0'), ',') . ' triệu';
-        }
 
         $booking = Booking::with(['Fields', 'TimeSlot', 'PaymentMethod', 'Bills'])
             ->orderBy('status', 'asc')
@@ -53,6 +46,7 @@ class DashboardController extends Controller
         $topTimeSlotsByFacility = Booking::join('fields', 'bookings.field_id', '=', 'fields.id')
             ->join('facilities', 'fields.facility_id', '=', 'facilities.id')
             ->select(
+                'facilities.id as facility_id',
                 'facilities.name as facility_name',
                 'bookings.time_id',
                 DB::raw('count(*) as total_bookings'),
@@ -60,7 +54,7 @@ class DashboardController extends Controller
             )
             ->where('bookings.status', '!=', 2)
             ->with('TimeSlot:id,startTime,endTime')
-            ->groupBy('facilities.name', 'bookings.time_id')
+            ->groupBy('facilities.id', 'facilities.name', 'bookings.time_id')
             ->orderByDesc('facility_total')
             ->orderByDesc('total_bookings')
             ->get()
@@ -103,15 +97,15 @@ class DashboardController extends Controller
         }
 
         return view('admins.dashboard.index', compact(
-            'booking', 'customers', 'fields', 'bookings', 'formattedRevenue', 
+            'booking', 'customers', 'fields', 'bookings', 
             'mostBookedFields', 'topTimeSlotsByFacility', 'monthlyRevenues', 'dailyRevenues',
             'currentYear', 'currentMonth'
         ));
     }
 
-    public function detailedFields()
+    public function detailedFields(Request $request)
     {
-        $mostBookedFields = Booking::join('fields', 'bookings.field_id', '=', 'fields.id')
+        $query = Booking::join('fields', 'bookings.field_id', '=', 'fields.id')
             ->join('facilities', 'fields.facility_id', '=', 'facilities.id')
             ->select(
                 'bookings.field_id',
@@ -119,39 +113,48 @@ class DashboardController extends Controller
                 DB::raw('count(*) as total_bookings')
             )
             ->where('bookings.status', '!=', 2)
-            ->with(['Fields.facility', 'Fields.FieldType', 'Fields.images'])
-            ->groupBy('bookings.field_id', 'facilities.name')
+            ->with(['Fields.facility', 'Fields.FieldType', 'Fields.images']);
+
+        if ($request->has('facility_id')) {
+            $query->where('facilities.id', $request->facility_id);
+        }
+
+        $mostBookedFields = $query->groupBy('bookings.field_id', 'facilities.name')
             ->orderByDesc('total_bookings')
             ->get()
-            ->groupBy('facility_name')
-            ->map(function ($items) {
-                // Get all fields per facility, not just the first one if we wanted "chi tiết", wait...
-                // If it's detailed, maybe we want all fields without grouping by facility to just 1?
-                // The current query groups by facility_name, maps and returns only the first item per facility.
-                // For detailed, let's keep all items per facility or just return all fields ordered by bookings.
-                return $items;
-            });
+            ->groupBy('facility_name');
 
         return view('admins.dashboard.detailed_fields', compact('mostBookedFields'));
     }
 
-    public function detailedTimeSlots()
+    public function detailedTimeSlots(Request $request)
     {
-        $topTimeSlotsByFacility = Booking::join('fields', 'bookings.field_id', '=', 'fields.id')
+        $query = Booking::join('fields', 'bookings.field_id', '=', 'fields.id')
             ->join('facilities', 'fields.facility_id', '=', 'facilities.id')
             ->select(
+                'facilities.id as facility_id',
                 'facilities.name as facility_name',
+                'fields.id as field_id',
+                'fields.name as field_name',
                 'bookings.time_id',
                 DB::raw('count(*) as total_bookings'),
                 DB::raw('sum(count(*)) over (partition by facilities.name) as facility_total')
             )
             ->where('bookings.status', '!=', 2)
-            ->with('TimeSlot:id,startTime,endTime')
-            ->groupBy('facilities.name', 'bookings.time_id')
+            ->with('TimeSlot:id,startTime,endTime');
+
+        if ($request->has('facility_id')) {
+            $query->where('facilities.id', $request->facility_id);
+        }
+
+        $topTimeSlotsByFacility = $query->groupBy('facilities.id', 'facilities.name', 'fields.id', 'fields.name', 'bookings.time_id')
             ->orderByDesc('facility_total')
             ->orderByDesc('total_bookings')
             ->get()
-            ->groupBy('facility_name');
+            ->groupBy('facility_name')
+            ->map(function ($facilities) {
+                return $facilities->groupBy('field_name');
+            });
 
         return view('admins.dashboard.detailed_timeslots', compact('topTimeSlotsByFacility'));
     }
