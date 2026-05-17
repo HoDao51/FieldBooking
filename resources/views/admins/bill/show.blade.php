@@ -101,8 +101,7 @@
                                                     <span class="text-yellow-600 font-medium">Đang chờ</span>
                                                 @endif
                                             </td>
-                                            <td
-                                                class="px-4 py-3 font-semibold text-green-600">
+                                            <td class="px-4 py-3 font-semibold text-green-600">
                                                 {{ number_format($bill->amount) }}đ
                                             </td>
                                             <td class="px-4 py-3 text-gray-500">
