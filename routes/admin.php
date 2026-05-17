@@ -14,8 +14,9 @@ use App\Http\Controllers\TimeSlotController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'admin'])->group(function () {
-    // Trang chính admin
     Route::get('/admins', [DashboardController::class, 'index'])->name('admins.index');
+    Route::get('/admins/thong-ke/san-dat-nhieu', [DashboardController::class, 'detailedFields'])->name('thongKe.san');
+    Route::get('/admins/thong-ke/khung-gio', [DashboardController::class, 'detailedTimeSlots'])->name('thongKe.khungGio');
 
     Route::resource('admins/nhanVien', EmployeeController::class);
     Route::post('admins/nhanVien/{nhanVien}/restore', [EmployeeController::class, 'restore'])->name('nhanVien.restore');
@@ -36,8 +37,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('admins/lichSuGiaoDich', [BillController::class, 'index'])->name('lichSuGiaoDich.index');
     Route::get('admins/lichSuGiaoDich/{booking_id}', [BillController::class, 'show'])->name('lichSuGiaoDich.show');
     Route::post('admins/donDatSan/store-at-field', [BookingController::class, 'storeAtField'])->name('donDatSan.storeAtField');
-    Route::put('/don-dat-san/{id}/confirm', [BookingController::class, 'confirm'])->name('donDatSan.confirm');
-    Route::put('/don-dat-san/{id}/reject', [BookingController::class, 'reject'])->name('donDatSan.reject');
     Route::get('/don-dat-san/{id}/complete', [BookingController::class, 'completePage'])->name('donDatSan.completePage');
     Route::put('/don-dat-san/{id}/complete', [BookingController::class, 'complete'])->name('donDatSan.complete');
     Route::get('/don-dat-san/{id}/cancel', [BookingController::class, 'cancelPage'])->name('donDatSan.cancelPage');

@@ -17,7 +17,7 @@
             </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 mb-6">
             <div class="bg-white p-5 rounded-xl shadow flex items-center gap-4 min-w-0">
                 <div class="bg-blue-100 p-3 rounded-lg text-blue-700">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 36 36"
@@ -77,22 +77,22 @@
                     </p>
                 </div>
             </div>
+        </div>
 
-            <div class="bg-white p-5 rounded-xl shadow flex items-center gap-4 min-w-0">
-                <div class="bg-green-100 p-3 rounded-lg text-green-700">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 scale-125 opacity-80" viewBox="0 0 56 56"
-                        fill="currentColor">
-                        <path fill-rule="evenodd"
-                            d="M29 30v10c3.519-.316 5-2.287 5-4.89c0-2.507-1.152-3.99-5-5.11m-3-5v-9c-3.273.415-5 2.33-5 4.43s1.364 3.647 5 4.57m2.84.737l1.072.277C35.784 27.423 39 29.917 39 34.836c0 5.658-4.466 8.868-10.16 9.284V48h-2.523v-3.88c-5.672-.439-10.16-3.741-10.317-9.284h4.622c.402 2.702 2.1 4.688 5.695 5.08V29.849l-.916-.231c-5.672-1.363-8.731-3.996-8.731-8.684c0-5.173 4.02-8.591 9.647-9.03V8h2.523v3.903c5.582.462 9.624 3.926 9.803 9.169h-4.645c-.29-2.91-2.3-4.596-5.158-4.966z" />
-                    </svg>
+        <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-6">
+            <!-- Doanh thu theo tháng -->
+            <div class="bg-white rounded-xl shadow border border-gray-200 p-5">
+                <h2 class="text-xl font-bold text-gray-800 mb-4 border-b border-gray-400 pb-2">Doanh thu năm {{ $currentYear }}</h2>
+                <div class="relative h-72">
+                    <canvas id="monthlyChart"></canvas>
                 </div>
-                <div class="min-w-0 flex-1">
-                    <h2 class="text-lg xl:text-2xl font-bold text-green-600 leading-tight break-all">
-                        {{ $formattedRevenue }}
-                    </h2>
-                    <p class="text-gray-500 text-sm mt-1">
-                        Doanh thu
-                    </p>
+            </div>
+
+            <!-- Doanh thu theo ngày -->
+            <div class="bg-white rounded-xl shadow border border-gray-200 p-5">
+                <h2 class="text-xl font-bold text-gray-800 mb-4 border-b border-gray-400 pb-2">Doanh thu tháng {{ $currentMonth }}/{{ $currentYear }}</h2>
+                <div class="relative h-72">
+                    <canvas id="dailyChart"></canvas>
                 </div>
             </div>
         </div>
@@ -100,39 +100,59 @@
         <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-6">
             <!-- Top Sân -->
             <div class="bg-white rounded-xl shadow border border-gray-200 p-5">
-                <h2 class="flex items-center gap-2 text-xl font-bold text-gray-800 mb-4 border-b border-gray-400 pb-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-500" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                    </svg>
-                    Sân được đặt nhiều nhất
+                <h2 class="flex items-center justify-between gap-2 text-xl font-bold text-gray-800 mb-4 border-b border-gray-400 pb-2">
+                    <span class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-500" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                        </svg>
+                        Sân được đặt nhiều nhất
+                    </span>
+                    <a href="{{ route('thongKe.san') }}" class="text-sm font-normal text-blue-600 hover:underline">Xem chi tiết</a>
                 </h2>
-                <ul class="divide-y divide-gray-200">
-                    @forelse($mostBookedFields as $stat)
-                        <li class="py-3 flex justify-between items-center">
-                            <div>
-                                <p class="font-semibold text-gray-800">{{ $stat->Fields->name }}</p>
-                                <p class="text-sm text-gray-500">{{ $stat->Fields->facility->name ?? 'N/A' }}</p>
+                <div class="space-y-4">
+                    @forelse($mostBookedFields as $index => $stat)
+                        <a href="{{ route('sanBong.edit', $stat->Fields->id) }}" class="block flex items-center gap-4 p-3 rounded-lg border border-gray-100 bg-gray-50 hover:bg-gray-100 transition shadow-sm cursor-pointer">
+                            <div class="flex-shrink-0 relative">
+                                @if($stat->Fields->images->count() > 0)
+                                    <img src="{{ asset('storage/' . $stat->Fields->images->first()->name) }}" alt="Sân" class="w-16 h-16 rounded-lg object-cover border border-gray-200">
+                                @else
+                                    <div class="w-16 h-16 rounded-lg bg-gray-200 flex items-center justify-center text-gray-500">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                                    </div>
+                                @endif
                             </div>
-                            <span
-                                class="bg-blue-100 text-blue-800 text-sm font-semibold px-3 py-1 rounded-full border border-blue-200">{{ $stat->total_bookings }}
-                                lượt đặt</span>
-                        </li>
+                            <div class="flex-1 min-w-0">
+                                <h3 class="font-bold text-gray-800 text-base truncate">{{ $stat->Fields->name }}</h3>
+                                <p class="text-sm text-gray-500 truncate flex items-center gap-1">
+                                    <span class="font-medium">Cụm:</span> {{ $stat->facility_name ?? 'N/A' }}
+                                </p>
+                                <p class="text-xs text-blue-600 mt-1 font-medium bg-blue-100 inline-block px-2 py-0.5 rounded">{{ $stat->Fields->FieldType->name ?? 'N/A' }}</p>
+                            </div>
+                            <div class="flex flex-col items-end gap-1">
+                                <span class="bg-blue-50 text-blue-700 text-sm font-bold px-3 py-1.5 rounded-lg border border-blue-200 whitespace-nowrap shadow-sm">
+                                    {{ $stat->total_bookings }} lượt
+                                </span>
+                            </div>
+                        </a>
                     @empty
-                        <li class="py-3 text-gray-500 text-center">Chưa có dữ liệu đặt sân</li>
+                        <div class="py-8 text-gray-500 text-center bg-gray-50 rounded-lg border border-dashed border-gray-300">Chưa có dữ liệu đặt sân</div>
                     @endforelse
-                </ul>
+                </div>
             </div>
 
             <!-- Top Khung giờ theo cụm -->
             <div class="bg-white rounded-xl shadow border border-gray-200 p-5">
-                <h2 class="flex items-center gap-2 text-xl font-bold text-gray-800 mb-4 border-b border-gray-400 pb-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-purple-500" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10" />
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2" />
-                    </svg>
-                    Khung giờ phổ biến theo Cụm sân
+                <h2 class="flex items-center justify-between gap-2 text-xl font-bold text-gray-800 mb-4 border-b border-gray-400 pb-2">
+                    <span class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-purple-500" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2" />
+                        </svg>
+                        Khung giờ phổ biến theo Cụm sân
+                    </span>
+                    <a href="{{ route('thongKe.khungGio') }}" class="text-sm font-normal text-purple-600 hover:underline">Xem chi tiết</a>
                 </h2>
                 <div class="space-y-4 max-h-[300px] overflow-y-auto pr-2">
                     @forelse($topTimeSlotsByFacility as $facilityName => $slots)
@@ -302,4 +322,83 @@
             </div>
         @endif
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const monthlyLabels = {!! json_encode(array_map(function($m) { return 'Tháng ' . $m; }, array_keys($monthlyRevenues))) !!};
+            const monthlyData = {!! json_encode(array_values($monthlyRevenues)) !!};
+
+            const ctxMonthly = document.getElementById('monthlyChart').getContext('2d');
+            new Chart(ctxMonthly, {
+                type: 'bar',
+                data: {
+                    labels: monthlyLabels,
+                    datasets: [{
+                        label: 'Doanh thu',
+                        data: monthlyData,
+                        backgroundColor: 'rgba(59, 130, 246, 0.7)',
+                        borderColor: 'rgb(59, 130, 246)',
+                        borderWidth: 1,
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    if(value >= 1000000) return value / 1000000 + 'M';
+                                    if(value >= 1000) return value / 1000 + 'K';
+                                    return value;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const dailyLabels = {!! json_encode(array_map(function($d) { return 'Ngày ' . $d; }, array_keys($dailyRevenues))) !!};
+            const dailyData = {!! json_encode(array_values($dailyRevenues)) !!};
+
+            const ctxDaily = document.getElementById('dailyChart').getContext('2d');
+            new Chart(ctxDaily, {
+                type: 'line',
+                data: {
+                    labels: dailyLabels,
+                    datasets: [{
+                        label: 'Doanh thu',
+                        data: dailyData,
+                        backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                        borderColor: 'rgb(16, 185, 129)',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        fill: true,
+                        pointBackgroundColor: 'rgb(16, 185, 129)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    if(value >= 1000000) return value / 1000000 + 'M';
+                                    if(value >= 1000) return value / 1000 + 'K';
+                                    return value;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 @endsection
