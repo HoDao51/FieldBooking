@@ -86,15 +86,20 @@
     @endguest
 
     @auth
+        @php
+            $customer = auth()->user()->customers;
+        @endphp
+
+        @if ($customer)
         <div class="relative inline-block text-left">
             <button id="profileBtn" class="flex items-center gap-3 px-3 py-2 rounded-lg transition" aria-haspopup="true"
                 aria-expanded="false">
                 <div class="w-12 h-12 rounded-full flex items-center justify-center text-green-600 font-semibold">
-                    @if (auth()->user()->customers->avatar == null)
+                    @if ($customer->avatar == null)
                         <img src="{{ asset('images/sbcf-default-avatar.png') }}"
                             class="w-full h-full object-cover rounded-full border-2 border-gray-300">
                     @else
-                        <img src="{{ asset('storage/' . auth()->user()->customers->avatar) }}"
+                        <img src="{{ asset('storage/' . $customer->avatar) }}"
                             class="w-full h-full object-cover rounded-full border-2 border-gray-300">
                     @endif
                 </div>
@@ -144,5 +149,12 @@
                 </a>
             </div>
         </div>
+        @else
+            <div class="flex items-center gap-4">
+                <a href="{{ route('customer.logout') }}" class="text-gray-600 hover:text-green-600">
+                    Đăng xuất
+                </a>
+            </div>
+        @endif
     @endauth
 </div>

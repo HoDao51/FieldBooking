@@ -60,8 +60,11 @@
                             <div class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
                                 @foreach ($facilityFields as $item)
                                     <a href="{{ route('san.show', $item->id) }}?date={{ $date }}"
-                                        class="rounded-xl border px-4 py-3 shadow-sm transition
-                                        {{ $item->id === $field->id ? 'border-green-600 bg-green-50 text-green-700' : 'border-gray-200 bg-white hover:border-green-300 hover:bg-green-50' }}">
+                                        @class([
+                                            'rounded-xl border px-4 py-3 shadow-sm transition',
+                                            'border-green-600 bg-green-50 text-green-700' => $item->id === $field->id,
+                                            'border-gray-200 bg-white hover:border-green-300 hover:bg-green-50' => $item->id !== $field->id,
+                                        ])>
                                         <div class="flex items-start justify-between gap-3">
                                             <div>
                                                 <p class="font-semibold">{{ $item->fieldType->name }}</p>
@@ -122,7 +125,7 @@
                     <form method="GET" action="{{ route('san.show', $field->id) }}" class="mb-6">
                         <input type="date" name="date" value="{{ $date }}" onchange="this.form.submit()"
                             class="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 text-gray-700 shadow-sm transition focus:bg-white focus:outline-none focus:ring-1 focus:ring-green-400"
-                            min="{{ date('Y-m-d') }}">
+                            >
                     </form>
 
                     @if ($morning->isEmpty() && $afternoon->isEmpty() && $evening->isEmpty())

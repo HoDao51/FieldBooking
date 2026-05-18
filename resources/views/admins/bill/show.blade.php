@@ -47,7 +47,13 @@
                             bóng</h3>
                         <div class="space-y-3">
                             <p><span class="text-gray-500 w-32 inline-block">Cụm sân:</span> <span
-                                    class="font-medium text-gray-800">{{ $booking->Fields->facility->name ?? 'N/A' }}</span>
+                                    class="font-medium text-gray-800">
+                                    @if ($booking->Fields->facility)
+                                        {{ $booking->Fields->facility->name }}
+                                    @else
+                                        N/A
+                                    @endif
+                                </span>
                             </p>
                             <p><span class="text-gray-500 w-32 inline-block">Sân:</span> <span
                                     class="font-medium text-gray-800">{{ $booking->Fields->name }}</span></p>

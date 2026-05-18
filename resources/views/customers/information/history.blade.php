@@ -20,8 +20,11 @@
 
             <div class="mt-8 space-y-2 text-left">
                 <a href="{{ route('information.index') }}"
-                    class="flex items-center space-x-2 block px-3 py-2 rounded hover:text-green-600 font-semibold
-                    {{ request()->routeIs('information.index') ? 'bg-green-100 text-green-600 font-semibold' : 'hover:bg-green-100' }}">
+                    @class([
+                        'flex items-center space-x-2 block px-3 py-2 rounded hover:text-green-600 font-semibold',
+                        'bg-green-100 text-green-600' => request()->routeIs('information.index'),
+                        'hover:bg-green-100' => !request()->routeIs('information.index'),
+                    ])>
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 24 24">
                         <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                             stroke-width="2"
@@ -31,8 +34,11 @@
                 </a>
 
                 <a href="{{ route('information.history') }}"
-                    class="flex items-center space-x-2 block px-3 py-2 rounded hover:text-green-600 font-semibold
-                    {{ request()->routeIs('information.history') ? 'bg-green-100 text-green-600 font-semibold' : 'hover:bg-green-100' }}">
+                    @class([
+                        'flex items-center space-x-2 block px-3 py-2 rounded hover:text-green-600 font-semibold',
+                        'bg-green-100 text-green-600' => request()->routeIs('information.history'),
+                        'hover:bg-green-100' => !request()->routeIs('information.history'),
+                    ])>
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 24 24">
                         <path fill="currentColor" stroke="none"
                             d="M19 4h-2V3a1 1 0 0 0-2 0v1H9V3a1 1 0 0 0-2 0v1H5a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3m1 15a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-7h16Zm0-9H4V7a1 1 0 0 1 1-1h2v1a1 1 0 0 0 2 0V6h6v1a1 1 0 0 0 2 0V6h2a1 1 0 0 1 1 1Z" />
@@ -41,8 +47,11 @@
                 </a>
 
                 <a href="{{ route('information.transactionHistory') }}"
-                    class="flex items-center space-x-2 block px-3 py-2 rounded hover:text-green-600 font-semibold
-                    {{ request()->routeIs('information.transactionHistory') ? 'bg-green-100 text-green-600 font-semibold' : 'hover:bg-green-100' }}">
+                    @class([
+                        'flex items-center space-x-2 block px-3 py-2 rounded hover:text-green-600 font-semibold',
+                        'bg-green-100 text-green-600' => request()->routeIs('information.transactionHistory'),
+                        'hover:bg-green-100' => !request()->routeIs('information.transactionHistory'),
+                    ])>
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor" stroke-width="1.8">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v5l3 2" />
@@ -89,7 +98,11 @@
                                 <td class="px-6 py-4 text-center font-medium break-words">
                                     <div class="flex flex-col">
                                         <span class="font-semibold text-gray-800 break-words">
-                                            {{ $item->Fields->facility->name ?? 'N/A' }}
+                                            @if ($item->Fields->facility)
+                                                {{ $item->Fields->facility->name }}
+                                            @else
+                                                N/A
+                                            @endif
                                         </span>
                                         <span class="text-xs text-gray-500 break-words">
                                             {{ $item->Fields->name }}

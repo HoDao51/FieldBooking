@@ -100,22 +100,7 @@
             </table>
         </div>
 
-        @if ($bills->hasPages())
-            <div class="flex justify-center items-center gap-2 mt-6">
-                @for ($i = 1; $i <= $bills->lastPage(); $i++)
-                    @if ($i == $bills->currentPage())
-                        <span class="px-4 py-2 bg-green-600 text-white rounded">
-                            {{ $i }}
-                        </span>
-                    @else
-                        <a href="{{ $bills->url($i) }}"
-                            class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-green-500 hover:text-white transition">
-                            {{ $i }}
-                        </a>
-                    @endif
-                @endfor
-            </div>
-        @endif
+        @include('admins.components.pagination', ['paginator' => $bills])
 
         <h2 class="text-xl font-semibold text-gray-800 mb-3 mt-10 border-b border-gray-200 pb-2">Giao dịch hoàn tiền (Khách
             hủy sân)</h2>
@@ -176,22 +161,10 @@
             </table>
         </div>
 
-        @if ($refunds->hasPages())
-            <div class="flex justify-center items-center gap-2 mt-6 mb-8">
-                @for ($i = 1; $i <= $refunds->lastPage(); $i++)
-                    @if ($i == $refunds->currentPage())
-                        <span class="px-4 py-2 bg-green-600 text-white rounded">
-                            {{ $i }}
-                        </span>
-                    @else
-                        <a href="{{ $refunds->url($i) }}"
-                            class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-green-500 hover:text-white transition">
-                            {{ $i }}
-                        </a>
-                    @endif
-                @endfor
-            </div>
-        @endif
+        @include('admins.components.pagination', [
+            'paginator' => $refunds,
+            'containerClass' => 'flex justify-center items-center gap-2 mt-6 mb-8 flex-wrap',
+        ])
     </div>
 
 

@@ -113,7 +113,7 @@
                                         data: {
                                             name: "{{ $item->name }}",
                                             address: "{{ $item->address }}",
-                                            cluster_name: "{{ $item->facility?->name ?? '' }}",
+                                            cluster_name: "@if ($item->facility){{ $item->facility->name }}@endif",
                                             type_id: "{{ $item->type_id }}",
                                             status: "{{ $item->status }}",
                                             images: @json($item->images)
@@ -146,22 +146,10 @@
             </table>
         </div>
 
-        @if ($sanBong->hasPages())
-            <div class="flex justify-center items-center gap-2 mt-4">
-                @for ($i = 1; $i <= $sanBong->lastPage(); $i++)
-                    @if ($i == $sanBong->currentPage())
-                        <span class="px-4 py-2 bg-green-600 text-white rounded">
-                            {{ $i }}
-                        </span>
-                    @else
-                        <a href="{{ $sanBong->url($i) }}"
-                            class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-green-500 hover:text-white transition">
-                            {{ $i }}
-                        </a>
-                    @endif
-                @endfor
-            </div>
-        @endif
+        @include('admins.components.pagination', [
+            'paginator' => $sanBong,
+            'containerClass' => 'flex justify-center items-center gap-2 mt-4 flex-wrap',
+        ])
     </div>
     @include('admins.field._create_modal')
     @include('admins.field._edit_modal')

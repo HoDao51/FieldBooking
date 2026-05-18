@@ -120,21 +120,31 @@
                                 @if($stat->Fields->images->count() > 0)
                                     <img src="{{ asset('storage/' . $stat->Fields->images->first()->name) }}" alt="Sân" class="w-16 h-16 rounded-lg object-cover border border-gray-200">
                                 @else
-                                    <div class="w-16 h-16 rounded-lg bg-gray-200 flex items-center justify-center text-gray-500">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                                    </div>
+                                    <img src="{{ asset('images/banner-client-placeholder.jpg') }}"
+                                                class="w-16 h-16 rounded-lg object-cover border border-gray-200">
                                 @endif
                             </div>
                             <div class="flex-1 min-w-0">
                                 <h3 class="font-bold text-gray-800 text-base truncate">{{ $stat->Fields->name }}</h3>
                                 <p class="text-sm text-gray-500 truncate flex items-center gap-1">
-                                    <span class="font-medium">Cụm:</span> {{ $stat->facility_name ?? 'N/A' }}
+                                    <span class="font-medium">Cụm:</span>
+                                    @if ($stat->facility_name)
+                                        {{ $stat->facility_name }}
+                                    @else
+                                        N/A
+                                    @endif
                                 </p>
-                                <p class="text-xs text-blue-600 mt-1 font-medium bg-blue-100 inline-block px-2 py-0.5 rounded">{{ $stat->Fields->FieldType->name ?? 'N/A' }}</p>
+                                <p class="text-xs text-blue-600 mt-1 font-medium bg-blue-100 inline-block px-2 py-0.5 rounded">
+                                    @if ($stat->Fields->FieldType)
+                                        {{ $stat->Fields->FieldType->name }}
+                                    @else
+                                        N/A
+                                    @endif
+                                </p>
                             </div>
                             <div class="flex flex-col items-end gap-1">
                                 <span class="bg-blue-50 text-blue-700 text-sm font-bold px-3 py-1.5 rounded-lg border border-blue-200 whitespace-nowrap shadow-sm">
-                                    {{ $stat->total_bookings }} lượt
+                                    {{ $stat->total_bookings }} lượt đặt
                                 </span>
                             </div>
                         </a>
@@ -154,7 +164,7 @@
                     </svg>
                     Khung giờ phổ biến theo Cụm sân
                 </h2>
-                <div class="space-y-4 max-h-[300px] overflow-y-auto pr-2">
+                <div class="space-y-4 max-h-[320px] overflow-y-auto pr-2">
                     @forelse($topTimeSlotsByFacility as $facilityName => $slots)
                         <a href="{{ route('thongKe.khungGio', ['facility_id' => $slots->first()->facility_id]) }}" class="block p-3 rounded-lg border border-gray-100 bg-gray-50 hover:bg-gray-100 transition shadow-sm cursor-pointer">
                             <h3 class="font-bold text-gray-800 mb-2 border-l-4 border-purple-500 pl-2">
@@ -302,22 +312,7 @@
             </table>
         </div>
 
-        @if ($booking->hasPages())
-            <div class="flex justify-center items-center gap-2 mt-6">
-                @for ($i = 1; $i <= $booking->lastPage(); $i++)
-                    @if ($i == $booking->currentPage())
-                        <span class="px-4 py-2 bg-green-600 text-white rounded">
-                            {{ $i }}
-                        </span>
-                    @else
-                        <a href="{{ $booking->url($i) }}"
-                            class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-green-500 hover:text-white transition">
-                            {{ $i }}
-                        </a>
-                    @endif
-                @endfor
-            </div>
-        @endif
+        @include('admins.components.pagination', ['paginator' => $booking])
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

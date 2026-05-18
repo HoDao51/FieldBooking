@@ -49,6 +49,7 @@ class CustomerController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => 2,
         ]);
 
         $name = $request->name;

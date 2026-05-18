@@ -18,13 +18,17 @@ class CustomerAuthController extends Controller
     }
     public function PostLogin(CustomerLoginRequest $request)
     {
-        $credentials = $request->only('email', 'password');
+        $user = User::where('email', $request->email)
+            ->where('role', 2)
+            ->whereHas('customers', function ($query) {
+                $query->where('status', 0);
+            })
+            ->first();
 
-        if (Auth::attempt($credentials)) {
-            // Đăng nhập thành công
+        if ($user && Hash::check($request->password, $user->password)) {
+            Auth::login($user);
             $request->session()->regenerate();
 
-            $role = Auth::user()->role;
             return redirect()->route('home');
         }
 
@@ -45,6 +49,7 @@ class CustomerAuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => 2,
         ]);
 
         $name = $request->name;

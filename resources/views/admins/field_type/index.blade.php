@@ -85,20 +85,10 @@
             </table>
         </div>
 
-        @if ($fieldTypes->hasPages())
-            <div class="mt-4 flex items-center justify-center gap-2">
-                @for ($i = 1; $i <= $fieldTypes->lastPage(); $i++)
-                    @if ($i == $fieldTypes->currentPage())
-                        <span class="rounded bg-green-600 px-4 py-2 text-white">{{ $i }}</span>
-                    @else
-                        <a href="{{ $fieldTypes->url($i) }}"
-                            class="rounded bg-gray-200 px-4 py-2 text-gray-700 transition hover:bg-green-500 hover:text-white">
-                            {{ $i }}
-                        </a>
-                    @endif
-                @endfor
-            </div>
-        @endif
+        @include('admins.components.pagination', [
+            'paginator' => $fieldTypes,
+            'containerClass' => 'mt-4 flex items-center justify-center gap-2 flex-wrap',
+        ])
     </div>
 
     @include('admins.field_type._create_modal')

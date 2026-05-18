@@ -50,10 +50,10 @@ class UpdateFieldPriceRequest extends FormRequest
                 'exists:time_slots,id',
                 Rule::unique('field_prices')
                     ->ignore($fieldPriceId)
-                    ->where(fn ($query) =>
+                    ->where(function ($query) {
                         $query->where('field_id', $this->field_id)
-                              ->where('day_of_week', $this->day_of_week)
-                    )
+                            ->where('day_of_week', $this->day_of_week);
+                    })
             ],
 
             'day_of_week' => [

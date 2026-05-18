@@ -28,13 +28,13 @@
                         data-configured-time-slots='@json($configuredTimeSlots)'
                         class="appearance-none text-[#4B5563] w-full border border-gray-300 rounded-md px-3 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-green-400">
                         <option value="">-- Chọn ngày --</option>
-                        <option value="0" {{ old('day_of_week') === 0 ? 'selected' : '' }}>Chủ nhật</option>
-                        <option value="1" {{ old('day_of_week') == 1 ? 'selected' : '' }}>Thứ 2</option>
-                        <option value="2" {{ old('day_of_week') == 2 ? 'selected' : '' }}>Thứ 3</option>
-                        <option value="3" {{ old('day_of_week') == 3 ? 'selected' : '' }}>Thứ 4</option>
-                        <option value="4" {{ old('day_of_week') == 4 ? 'selected' : '' }}>Thứ 5</option>
-                        <option value="5" {{ old('day_of_week') == 5 ? 'selected' : '' }}>Thứ 6</option>
-                        <option value="6" {{ old('day_of_week') == 6 ? 'selected' : '' }}>Thứ 7</option>
+                        <option value="0" @selected(old('day_of_week') === 0)>Chủ nhật</option>
+                        <option value="1" @selected(old('day_of_week') == 1)>Thứ 2</option>
+                        <option value="2" @selected(old('day_of_week') == 2)>Thứ 3</option>
+                        <option value="3" @selected(old('day_of_week') == 3)>Thứ 4</option>
+                        <option value="4" @selected(old('day_of_week') == 4)>Thứ 5</option>
+                        <option value="5" @selected(old('day_of_week') == 5)>Thứ 6</option>
+                        <option value="6" @selected(old('day_of_week') == 6)>Thứ 7</option>
                     </select>
 
                     <!-- icon -->
@@ -64,8 +64,7 @@
 
                         <option value="">-- Chọn khung giờ --</option>
                         @foreach($timeSlots as $slot)
-                            <option value="{{ $slot->id }}"
-                                {{ old('time_id') == $slot->id ? 'selected' : '' }}>
+                            <option value="{{ $slot->id }}" @selected(old('time_id') == $slot->id)>
                                 {{ $slot->startTime }} - {{ $slot->endTime }}
                             </option>
                         @endforeach

@@ -86,20 +86,10 @@
             </table>
         </div>
 
-        @if ($paymentMethods->hasPages())
-            <div class="mt-4 flex items-center justify-center gap-2">
-                @for ($i = 1; $i <= $paymentMethods->lastPage(); $i++)
-                    @if ($i == $paymentMethods->currentPage())
-                        <span class="rounded bg-green-600 px-4 py-2 text-white">{{ $i }}</span>
-                    @else
-                        <a href="{{ $paymentMethods->url($i) }}"
-                            class="rounded bg-gray-200 px-4 py-2 text-gray-700 transition hover:bg-green-500 hover:text-white">
-                            {{ $i }}
-                        </a>
-                    @endif
-                @endfor
-            </div>
-        @endif
+        @include('admins.components.pagination', [
+            'paginator' => $paymentMethods,
+            'containerClass' => 'mt-4 flex items-center justify-center gap-2 flex-wrap',
+        ])
     </div>
 
     @include('admins.payment_method._create_modal')

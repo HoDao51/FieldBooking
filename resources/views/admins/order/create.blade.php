@@ -68,8 +68,11 @@
                             <div class="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
                                 @foreach ($facilityFields as $item)
                                     <a href="{{ route('donDatSan.create') }}?facility_id={{ $selectedFacility->id }}&field_id={{ $item->id }}&date={{ $date }}"
-                                        class="rounded-xl border px-4 py-3 shadow-sm transition
-                                        {{ $selectedField && $item->id == $selectedField->id ? 'border-green-600 bg-green-50 text-green-700' : 'border-gray-200 bg-white hover:border-green-300 hover:bg-green-50' }}">
+                                        @class([
+                                            'rounded-xl border px-4 py-3 shadow-sm transition',
+                                            'border-green-600 bg-green-50 text-green-700' => $selectedField && $item->id == $selectedField->id,
+                                            'border-gray-200 bg-white hover:border-green-300 hover:bg-green-50' => !$selectedField || $item->id != $selectedField->id,
+                                        ])>
                                         <div class="flex items-start justify-between gap-3">
                                             <div>
                                                 <p class="font-semibold">{{ $item->fieldType->name }}</p>

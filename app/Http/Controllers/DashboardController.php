@@ -59,6 +59,10 @@ class DashboardController extends Controller
             ->orderByDesc('total_bookings')
             ->get()
             ->groupBy('facility_name')
+            ->sortByDesc(function ($items) {
+                return $items->first()->facility_total;
+            })
+            ->take(3)
             ->map(function ($items) {
                 return $items->take(3);
             });
@@ -151,7 +155,17 @@ class DashboardController extends Controller
             ->orderByDesc('facility_total')
             ->orderByDesc('total_bookings')
             ->get()
-            ->groupBy('facility_name')
+            ->groupBy('facility_name');
+
+        if (!$request->has('facility_id')) {
+            $topTimeSlotsByFacility = $topTimeSlotsByFacility
+                ->sortByDesc(function ($items) {
+                    return $items->first()->facility_total;
+                })
+                ->take(3);
+        }
+
+        $topTimeSlotsByFacility = $topTimeSlotsByFacility
             ->map(function ($facilities) {
                 return $facilities->groupBy('field_name');
             });

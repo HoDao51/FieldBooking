@@ -9,7 +9,7 @@
                     stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                 </svg>
-                <span>Chi tiết Sân được đặt nhiều nhất</span>
+                <span>Chi tiết Sân được đặt nhiều</span>
             </h1>
             <p class="text-gray-500 mt-1">Danh sách chi tiết xếp hạng số lượt đặt của tất cả các sân theo từng cụm</p>
         </div>

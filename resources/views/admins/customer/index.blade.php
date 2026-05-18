@@ -194,22 +194,10 @@
                 </table>
             </div>
 
-            @if ($khachHang->hasPages())
-                <div class="flex justify-center items-center gap-2 mt-4 mb-3">
-                    @for ($i = 1; $i <= $khachHang->lastPage(); $i++)
-                        @if ($i == $khachHang->currentPage())
-                            <span class="px-4 py-2 bg-green-600 text-white rounded">
-                                {{ $i }}
-                            </span>
-                        @else
-                            <a href="{{ $khachHang->url($i) }}"
-                                class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-green-500 hover:text-white transition">
-                                {{ $i }}
-                            </a>
-                        @endif
-                    @endfor
-                </div>
-            @endif
+            @include('admins.components.pagination', [
+                'paginator' => $khachHang,
+                'containerClass' => 'flex justify-center items-center gap-2 mt-4 mb-3 flex-wrap',
+            ])
         </div>
         @include('admins.customer._create_modal')
         @include('admins.customer._edit_modal')

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -12,17 +14,18 @@ class AuthController extends Controller
         return view('admins.auth.login');
     }
     public function postLogin(LoginRequest $request) {
-        $credentials = $request->only('email', 'password');
+        $user = User::where('email', $request->email)
+            ->whereIn('role', [0, 1])
+            ->whereHas('employees', function ($query) {
+                $query->where('status', 0);
+            })
+            ->first();
 
-        if (Auth::attempt($credentials)){
-            // Đăng nhập thành công
+        if ($user && Hash::check($request->password, $user->password)){
+            Auth::login($user);
             $request->session()->regenerate();
 
-            $role = Auth::user()->role;
-
-            if ($role === 0 || $role === 1) {
-                return redirect()->route('admins.index');
-            }
+            return redirect()->route('admins.index');
         }
 
         return back()->withErrors([
