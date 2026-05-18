@@ -277,7 +277,10 @@ class BookingController extends Controller
         $date = $request->date;
         $price = $request->price;
         $time_id = $request->time_id;
-        $payments = PaymentMethod::where('name', 'NOT LIKE', '%thanh toán tiền mặt%')->get();
+        $payments = PaymentMethod::where('name', 'NOT LIKE', '%thanh toán tiền mặt%')
+            ->where('name', 'NOT LIKE', '%Vi dien tu MOMO%')
+            ->get();
+
         $depositPrice = $price / 2;
 
         $time = date('H:i', strtotime($timeSlot->startTime)) . ' - ' . date('H:i', strtotime($timeSlot->endTime));

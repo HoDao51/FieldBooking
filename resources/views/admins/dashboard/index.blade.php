@@ -82,9 +82,11 @@
         <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-6">
             <!-- Doanh thu theo tháng -->
             <div class="bg-white rounded-xl shadow border border-gray-200 p-5">
-                <h2 class="flex justify-between items-center text-xl font-bold text-gray-800 mb-4 border-b border-gray-400 pb-2">
+                <h2
+                    class="flex justify-between items-center text-xl font-bold text-gray-800 mb-4 border-b border-gray-400 pb-2">
                     <span>Doanh thu năm {{ $currentYear }}</span>
-                    <span class="text-blue-600 text-lg font-bold">{{ number_format(array_sum($monthlyRevenues), 0, ',', '.') }}đ</span>
+                    <span
+                        class="text-blue-600 text-lg font-bold">{{ number_format(array_sum($monthlyRevenues), 0, ',', '.') }}đ</span>
                 </h2>
                 <div class="relative h-72">
                     <canvas id="monthlyChart"></canvas>
@@ -94,20 +96,28 @@
             <!-- Doanh thu theo ngày -->
             <div class="bg-white rounded-xl shadow border border-gray-200 p-5">
                 <div class="flex justify-between items-center mb-4 border-b border-gray-400 pb-2">
-                    <form action="{{ route('admins.index') }}" method="GET" class="flex items-center gap-2" id="filterForm">
+                    <form action="{{ route('admins.index') }}" method="GET" class="flex items-center gap-2"
+                        id="filterForm">
                         <span class="text-xl font-bold text-gray-800">Doanh thu</span>
-                        <select name="month" class="border border-gray-300 rounded px-2 py-1 text-base font-bold text-gray-800 focus:outline-none focus:border-blue-500 bg-gray-50 cursor-pointer" onchange="document.getElementById('filterForm').submit()">
-                            @for($i = 1; $i <= 12; $i++)
-                                <option value="{{ $i }}" @if($currentMonth == $i) selected @endif>Tháng {{ $i }}</option>
+                        <select name="month"
+                            class="border border-gray-300 rounded px-2 py-1 text-base font-bold text-gray-800 focus:outline-none focus:border-blue-500 bg-gray-50 cursor-pointer"
+                            onchange="document.getElementById('filterForm').submit()">
+                            @for ($i = 1; $i <= 12; $i++)
+                                <option value="{{ $i }}" @if ($currentMonth == $i) selected @endif>Tháng
+                                    {{ $i }}</option>
                             @endfor
                         </select>
-                        <select name="year" class="border border-gray-300 rounded px-2 py-1 text-base font-bold text-gray-800 focus:outline-none focus:border-blue-500 bg-gray-50 cursor-pointer" onchange="document.getElementById('filterForm').submit()">
-                            @for($i = date('Y') + 1; $i >= date('Y') - 5; $i--)
-                                <option value="{{ $i }}" @if($currentYear == $i) selected @endif>Năm {{ $i }}</option>
+                        <select name="year"
+                            class="border border-gray-300 rounded px-2 py-1 text-base font-bold text-gray-800 focus:outline-none focus:border-blue-500 bg-gray-50 cursor-pointer"
+                            onchange="document.getElementById('filterForm').submit()">
+                            @for ($i = date('Y') + 1; $i >= date('Y') - 5; $i--)
+                                <option value="{{ $i }}" @if ($currentYear == $i) selected @endif>Năm
+                                    {{ $i }}</option>
                             @endfor
                         </select>
                     </form>
-                    <span class="text-blue-600 text-lg font-bold">{{ number_format(array_sum($dailyRevenues), 0, ',', '.') }}đ</span>
+                    <span
+                        class="text-blue-600 text-lg font-bold">{{ number_format(array_sum($dailyRevenues), 0, ',', '.') }}đ</span>
                 </div>
                 <div class="relative h-72">
                     <canvas id="dailyChart"></canvas>
@@ -127,41 +137,38 @@
                 </h2>
                 <div class="space-y-4">
                     @forelse($mostBookedFields as $index => $stat)
-                        <a href="{{ route('thongKe.san', ['facility_id' => $stat->Fields->facility_id]) }}" class="block flex items-center gap-4 p-3 rounded-lg border border-gray-100 bg-gray-50 hover:bg-gray-100 transition shadow-sm cursor-pointer">
+                        <a href="{{ route('thongKe.san', ['facility_id' => $stat->Fields->facility_id]) }}"
+                            class="block flex items-center gap-4 p-3 rounded-lg border border-gray-100 bg-gray-50 hover:bg-gray-100 transition shadow-sm cursor-pointer">
                             <div class="flex-shrink-0 relative">
-                                @if($stat->Fields->images->count() > 0)
-                                    <img src="{{ asset('storage/' . $stat->Fields->images->first()->name) }}" alt="Sân" class="w-16 h-16 rounded-lg object-cover border border-gray-200">
+                                @if ($stat->Fields->images->count() > 0)
+                                    <img src="{{ asset('storage/' . $stat->Fields->images->first()->name) }}"
+                                        alt="Sân" class="w-16 h-16 rounded-lg object-cover border border-gray-200">
                                 @else
                                     <img src="{{ asset('images/banner-client-placeholder.jpg') }}"
-                                                class="w-16 h-16 rounded-lg object-cover border border-gray-200">
+                                        class="w-16 h-16 rounded-lg object-cover border border-gray-200">
                                 @endif
                             </div>
                             <div class="flex-1 min-w-0">
                                 <h3 class="font-bold text-gray-800 text-base truncate">{{ $stat->Fields->name }}</h3>
                                 <p class="text-sm text-gray-500 truncate flex items-center gap-1">
-                                    <span class="font-medium">Cụm:</span>
-                                    @if ($stat->facility_name)
-                                        {{ $stat->facility_name }}
-                                    @else
-                                        N/A
-                                    @endif
+                                    {{ $stat->facility_name }}
                                 </p>
-                                <p class="text-xs text-blue-600 mt-1 font-medium bg-blue-100 inline-block px-2 py-0.5 rounded">
-                                    @if ($stat->Fields->FieldType)
-                                        {{ $stat->Fields->FieldType->name }}
-                                    @else
-                                        N/A
-                                    @endif
+                                <p
+                                    class="text-xs text-blue-600 mt-1 font-medium bg-blue-100 inline-block px-2 py-0.5 rounded">
+                                    {{ $stat->Fields->FieldType->name }}
                                 </p>
                             </div>
                             <div class="flex flex-col items-end gap-1">
-                                <span class="bg-blue-50 text-blue-700 text-sm font-bold px-3 py-1.5 rounded-lg border border-blue-200 whitespace-nowrap shadow-sm">
+                                <span
+                                    class="bg-blue-50 text-blue-700 text-sm font-bold px-3 py-1.5 rounded-lg border border-blue-200 whitespace-nowrap shadow-sm">
                                     {{ $stat->total_bookings }} lượt đặt
                                 </span>
                             </div>
                         </a>
                     @empty
-                        <div class="py-8 text-gray-500 text-center bg-gray-50 rounded-lg border border-dashed border-gray-300">Chưa có dữ liệu đặt sân</div>
+                        <div
+                            class="py-8 text-gray-500 text-center bg-gray-50 rounded-lg border border-dashed border-gray-300">
+                            Chưa có dữ liệu đặt sân</div>
                     @endforelse
                 </div>
             </div>
@@ -178,15 +185,23 @@
                 </h2>
                 <div class="space-y-4 max-h-[320px] overflow-y-auto pr-2">
                     @forelse($topTimeSlotsByFacility as $facilityName => $slots)
-                        <a href="{{ route('thongKe.khungGio', ['facility_id' => $slots->first()->facility_id]) }}" class="block p-3 rounded-lg border border-gray-100 bg-gray-50 hover:bg-gray-100 transition shadow-sm cursor-pointer">
+                        <a href="{{ route('thongKe.khungGio', ['facility_id' => $slots->first()->facility_id]) }}"
+                            class="block p-3 rounded-lg border border-gray-100 bg-gray-50 hover:bg-gray-100 transition shadow-sm cursor-pointer">
                             <h3 class="font-bold text-gray-800 mb-2 border-l-4 border-purple-500 pl-2">
-                                Cụm: {{ $facilityName }}
+                                {{ $facilityName }}
                             </h3>
                             <div class="flex flex-wrap gap-2">
                                 @foreach ($slots as $slot)
-                                    <div class="bg-purple-50 border border-purple-200 rounded-lg px-2.5 py-1.5 text-sm flex items-center gap-2 shadow-sm">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                        <span class="font-medium text-purple-800">{{ \Carbon\Carbon::parse($slot->TimeSlot->startTime)->format('H:i') }} - {{ \Carbon\Carbon::parse($slot->TimeSlot->endTime)->format('H:i') }}</span>
+                                    <div
+                                        class="bg-purple-50 border border-purple-200 rounded-lg px-2.5 py-1.5 text-sm flex items-center gap-2 shadow-sm">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-purple-500"
+                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        <span
+                                            class="font-medium text-purple-800">{{ \Carbon\Carbon::parse($slot->TimeSlot->startTime)->format('H:i') }}
+                                            - {{ \Carbon\Carbon::parse($slot->TimeSlot->endTime)->format('H:i') }}</span>
                                     </div>
                                 @endforeach
                             </div>
@@ -336,8 +351,12 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const monthlyLabels = {!! json_encode(array_map(function($m) { return 'Tháng ' . $m; }, array_keys($monthlyRevenues))) !!};
+        document.addEventListener('DOMContentLoaded', function() {
+            const monthlyLabels = {!! json_encode(
+                array_map(function ($m) {
+                    return 'Tháng ' . $m;
+                }, array_keys($monthlyRevenues)),
+            ) !!};
             const monthlyData = {!! json_encode(array_values($monthlyRevenues)) !!};
 
             const ctxMonthly = document.getElementById('monthlyChart').getContext('2d');
@@ -357,14 +376,18 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
                     scales: {
                         y: {
                             beginAtZero: true,
                             ticks: {
                                 callback: function(value) {
-                                    if(value >= 1000000) return value / 1000000 + 'M';
-                                    if(value >= 1000) return value / 1000 + 'K';
+                                    if (value >= 1000000) return value / 1000000 + 'M';
+                                    if (value >= 1000) return value / 1000 + 'K';
                                     return value;
                                 }
                             }
@@ -373,7 +396,11 @@
                 }
             });
 
-            const dailyLabels = {!! json_encode(array_map(function($d) { return 'Ngày ' . $d; }, array_keys($dailyRevenues))) !!};
+            const dailyLabels = {!! json_encode(
+                array_map(function ($d) {
+                    return 'Ngày ' . $d;
+                }, array_keys($dailyRevenues)),
+            ) !!};
             const dailyData = {!! json_encode(array_values($dailyRevenues)) !!};
 
             const ctxDaily = document.getElementById('dailyChart').getContext('2d');
@@ -395,14 +422,18 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
                     scales: {
                         y: {
                             beginAtZero: true,
                             ticks: {
                                 callback: function(value) {
-                                    if(value >= 1000000) return value / 1000000 + 'M';
-                                    if(value >= 1000) return value / 1000 + 'K';
+                                    if (value >= 1000000) return value / 1000000 + 'M';
+                                    if (value >= 1000) return value / 1000 + 'K';
                                     return value;
                                 }
                             }

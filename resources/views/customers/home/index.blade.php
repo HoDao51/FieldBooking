@@ -91,14 +91,22 @@
                     <h2 class="text-2xl font-bold">Sân nổi bật</h2>
                     <p class="text-gray-500">Những sân được đặt nhiều nhất tuần này</p>
                 </div>
-                <a href="{{ route('home.search') }}" class="text-green-600 font-semibold hover:underline">
-                    Xem tất cả ->
+                <a href="{{ route('home.search') }}" class="flex items-center gap-1 text-green-600 font-semibold hover:text-green-700">
+                    <span>Xem tất cả</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1.78em" height="1em" viewBox="0 0 16 9">
+                        <path d="M0 0h16v9H0z" fill="none" />
+                        <path fill="currentColor"
+                            d="M12.5 5h-9c-.28 0-.5-.22-.5-.5s.22-.5.5-.5h9c.28 0 .5.22.5.5s-.22.5-.5.5" />
+                        <path fill="currentColor"
+                            d="M10 8.5a.47.47 0 0 1-.35-.15c-.2-.2-.2-.51 0-.71l3.15-3.15l-3.15-3.15c-.2-.2-.2-.51 0-.71s.51-.2.71 0l3.5 3.5c.2.2.2.51 0 .71l-3.5 3.5c-.1.1-.23.15-.35.15Z" />
+                    </svg>
                 </a>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 @foreach ($facilities as $facility)
-                    <div class="bg-white rounded-xl shadow hover:shadow-xl hover:-translate-y-1 transition duration-300 ease-in-out group">
+                    <div
+                        class="bg-white rounded-xl shadow hover:shadow-xl hover:-translate-y-1 transition duration-300 ease-in-out group">
                         <div class="overflow-hidden rounded-t-xl">
                             <a href="{{ route('san.show', $facility->representativeFieldId) }}">
                                 @if ($facility->representativeImage)
@@ -129,8 +137,10 @@
                                 </div>
 
                                 <div class="flex items-start gap-2 text-gray-500 text-sm">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-green-600 mt-0.5 shrink-0" viewBox="0 0 24 24">
-                                        <path fill="currentColor" d="M10 13H3a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1v-7a1 1 0 0 0-1-1m-1 7H4v-5h5ZM21 2h-7a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1m-1 7h-5V4h5Zm1 4h-7a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1v-7a1 1 0 0 0-1-1m-1 7h-5v-5h5ZM10 2H3a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1M9 9H4V4h5Z"/>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-green-600 mt-0.5 shrink-0"
+                                        viewBox="0 0 24 24">
+                                        <path fill="currentColor"
+                                            d="M10 13H3a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1v-7a1 1 0 0 0-1-1m-1 7H4v-5h5ZM21 2h-7a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1m-1 7h-5V4h5Zm1 4h-7a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1v-7a1 1 0 0 0-1-1m-1 7h-5v-5h5ZM10 2H3a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1M9 9H4V4h5Z" />
                                     </svg>
                                     <span>{{ $facility->fields->count() }} sân</span>
                                 </div>
