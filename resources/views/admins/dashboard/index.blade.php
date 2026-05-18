@@ -84,7 +84,7 @@
             <div class="bg-white rounded-xl shadow border border-gray-200 p-5">
                 <h2 class="flex justify-between items-center text-xl font-bold text-gray-800 mb-4 border-b border-gray-400 pb-2">
                     <span>Doanh thu năm {{ $currentYear }}</span>
-                    <span class="text-blue-600 text-lg">{{ number_format(array_sum($monthlyRevenues), 0, ',', '.') }}đ</span>
+                    <span class="text-blue-600 text-lg font-bold">{{ number_format(array_sum($monthlyRevenues), 0, ',', '.') }}đ</span>
                 </h2>
                 <div class="relative h-72">
                     <canvas id="monthlyChart"></canvas>
@@ -93,10 +93,22 @@
 
             <!-- Doanh thu theo ngày -->
             <div class="bg-white rounded-xl shadow border border-gray-200 p-5">
-                <h2 class="flex justify-between items-center text-xl font-bold text-gray-800 mb-4 border-b border-gray-400 pb-2">
-                    <span>Doanh thu tháng {{ $currentMonth }}/{{ $currentYear }}</span>
-                    <span class="text-blue-600 text-lg">{{ number_format(array_sum($dailyRevenues), 0, ',', '.') }}đ</span>
-                </h2>
+                <div class="flex justify-between items-center mb-4 border-b border-gray-400 pb-2">
+                    <form action="{{ route('admins.index') }}" method="GET" class="flex items-center gap-2" id="filterForm">
+                        <span class="text-xl font-bold text-gray-800">Doanh thu</span>
+                        <select name="month" class="border border-gray-300 rounded px-2 py-1 text-base font-bold text-gray-800 focus:outline-none focus:border-blue-500 bg-gray-50 cursor-pointer" onchange="document.getElementById('filterForm').submit()">
+                            @for($i = 1; $i <= 12; $i++)
+                                <option value="{{ $i }}" @if($currentMonth == $i) selected @endif>Tháng {{ $i }}</option>
+                            @endfor
+                        </select>
+                        <select name="year" class="border border-gray-300 rounded px-2 py-1 text-base font-bold text-gray-800 focus:outline-none focus:border-blue-500 bg-gray-50 cursor-pointer" onchange="document.getElementById('filterForm').submit()">
+                            @for($i = date('Y') + 1; $i >= date('Y') - 5; $i--)
+                                <option value="{{ $i }}" @if($currentYear == $i) selected @endif>Năm {{ $i }}</option>
+                            @endfor
+                        </select>
+                    </form>
+                    <span class="text-blue-600 text-lg font-bold">{{ number_format(array_sum($dailyRevenues), 0, ',', '.') }}đ</span>
+                </div>
                 <div class="relative h-72">
                     <canvas id="dailyChart"></canvas>
                 </div>
@@ -224,7 +236,14 @@
                             </td>
 
                             <td class="text-center">
-                                {{ $item->Fields->name }}
+                                <div class="flex flex-col">
+                                    <span class="font-semibold text-gray-800">
+                                        {{ $item->Fields->facility->name }}
+                                    </span>
+                                    <span class="text-xs text-gray-500">
+                                        {{ $item->Fields->name }}
+                                    </span>
+                                </div>
                             </td>
 
                             <td class="text-center whitespace-nowrap">

@@ -72,7 +72,14 @@
                             </td>
 
                             <td class="text-center">
-                                {{ $item->Fields->name }}
+                                <div class="flex flex-col">
+                                    <span class="font-semibold text-gray-800">
+                                        {{ $item->Fields->facility->name }}
+                                    </span>
+                                    <span class="text-xs text-gray-500">
+                                        {{ $item->Fields->name }}
+                                    </span>
+                                </div>
                             </td>
 
                             <td class="text-center">

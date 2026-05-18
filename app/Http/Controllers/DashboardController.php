@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         Booking::updateCompletedBookings();
 
@@ -67,8 +67,8 @@ class DashboardController extends Controller
                 return $items->take(3);
             });
 
-        $currentYear = date('Y');
-        $currentMonth = date('m');
+        $currentYear = $request->input('year', date('Y'));
+        $currentMonth = $request->input('month', date('m'));
         $daysInMonth = cal_days_in_month(CAL_GREGORIAN, $currentMonth, $currentYear);
 
         $monthlyRevenues = [];
