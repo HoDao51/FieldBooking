@@ -17,6 +17,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admins', [DashboardController::class, 'index'])->name('admins.index');
     Route::get('/admins/thong-ke/san-dat-nhieu', [DashboardController::class, 'detailedFields'])->name('thongKe.san');
     Route::get('/admins/thong-ke/khung-gio', [DashboardController::class, 'detailedTimeSlots'])->name('thongKe.khungGio');
+    Route::get('/admin/bookings-by-month', [DashboardController::class, 'bookingsByMonth'])->name('bookingsByMonth');
 
     Route::resource('admins/nhanVien', EmployeeController::class);
     Route::post('admins/nhanVien/{nhanVien}/restore', [EmployeeController::class, 'restore'])->name('nhanVien.restore');

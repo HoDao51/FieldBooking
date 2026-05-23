@@ -89,7 +89,7 @@
                         class="text-blue-600 text-lg font-bold">{{ number_format(array_sum($monthlyRevenues), 0, ',', '.') }}đ</span>
                 </h2>
                 <div class="relative h-72">
-                    <canvas id="monthlyChart"></canvas>
+                    <canvas id="monthlyChart" class="cursor-pointer"></canvas>
                 </div>
             </div>
 
@@ -350,22 +350,43 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const monthlyLabels = {!! json_encode(
-                array_map(function ($m) {
-                    return 'Tháng ' . $m;
-                }, array_keys($monthlyRevenues)),
-            ) !!};
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const moneyFormatter = value => {
+                if (value >= 1000000) return value / 1000000 + 'M';
+                if (value >= 1000) return value / 1000 + 'K';
+                return value;
+            };
+
+            const commonOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: moneyFormatter
+                        }
+                    }
+                }
+            };
+
+            const monthlyLabels = {!! json_encode(array_map(fn($m) => 'Tháng ' . $m, array_keys($monthlyRevenues))) !!};
+
             const monthlyData = {!! json_encode(array_values($monthlyRevenues)) !!};
 
-            const ctxMonthly = document.getElementById('monthlyChart').getContext('2d');
-            new Chart(ctxMonthly, {
+            new Chart(document.getElementById('monthlyChart'), {
                 type: 'bar',
                 data: {
                     labels: monthlyLabels,
                     datasets: [{
-                        label: 'Doanh thu',
                         data: monthlyData,
                         backgroundColor: 'rgba(59, 130, 246, 0.7)',
                         borderColor: 'rgb(59, 130, 246)',
@@ -374,73 +395,38 @@
                     }]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                callback: function(value) {
-                                    if (value >= 1000000) return value / 1000000 + 'M';
-                                    if (value >= 1000) return value / 1000 + 'K';
-                                    return value;
-                                }
-                            }
-                        }
+                    ...commonOptions,
+                    onClick: (_, elements) => {
+                        if (!elements.length) return;
+
+                        const month = elements[0].index + 1;
+
+                        window.location.href =
+                            `/admin/bookings-by-month?month=${month}&year={{ $currentYear }}`;
                     }
                 }
             });
 
-            const dailyLabels = {!! json_encode(
-                array_map(function ($d) {
-                    return 'Ngày ' . $d;
-                }, array_keys($dailyRevenues)),
-            ) !!};
+            const dailyLabels = {!! json_encode(array_map(fn($d) => 'Ngày ' . $d, array_keys($dailyRevenues))) !!};
+
             const dailyData = {!! json_encode(array_values($dailyRevenues)) !!};
 
-            const ctxDaily = document.getElementById('dailyChart').getContext('2d');
-            new Chart(ctxDaily, {
+            new Chart(document.getElementById('dailyChart'), {
                 type: 'line',
                 data: {
                     labels: dailyLabels,
                     datasets: [{
-                        label: 'Doanh thu',
                         data: dailyData,
                         backgroundColor: 'rgba(16, 185, 129, 0.2)',
                         borderColor: 'rgb(16, 185, 129)',
                         borderWidth: 2,
                         tension: 0.3,
-                        fill: true,
-                        pointBackgroundColor: 'rgb(16, 185, 129)'
+                        fill: true
                     }]
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                callback: function(value) {
-                                    if (value >= 1000000) return value / 1000000 + 'M';
-                                    if (value >= 1000) return value / 1000 + 'K';
-                                    return value;
-                                }
-                            }
-                        }
-                    }
-                }
+                options: commonOptions
             });
+
         });
     </script>
 @endsection

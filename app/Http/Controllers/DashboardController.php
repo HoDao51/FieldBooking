@@ -101,9 +101,16 @@ class DashboardController extends Controller
         }
 
         return view('admins.dashboard.index', compact(
-            'booking', 'customers', 'fields', 'bookings', 
-            'mostBookedFields', 'topTimeSlotsByFacility', 'monthlyRevenues', 'dailyRevenues',
-            'currentYear', 'currentMonth'
+            'booking',
+            'customers',
+            'fields',
+            'bookings',
+            'mostBookedFields',
+            'topTimeSlotsByFacility',
+            'monthlyRevenues',
+            'dailyRevenues',
+            'currentYear',
+            'currentMonth'
         ));
     }
 
@@ -171,5 +178,24 @@ class DashboardController extends Controller
             });
 
         return view('admins.dashboard.detailed_timeslots', compact('topTimeSlotsByFacility'));
+    }
+
+    public function bookingsByMonth(Request $request)
+    {
+        $month = $request->month;
+        $year = $request->year;
+
+        $bookings = Booking::with(['Fields', 'TimeSlot', 'Bills.PaymentMethod'])
+            ->whereIn('status', [1, 3])
+            ->whereYear('created_at', $year)
+            ->whereMonth('created_at', $month)
+            ->orderByDesc('created_at')
+            ->paginate(10);
+
+        return view('admins.dashboard.bookings_by_month', compact(
+            'bookings',
+            'month',
+            'year'
+        ));
     }
 }
