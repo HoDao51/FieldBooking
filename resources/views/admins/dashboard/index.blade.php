@@ -82,12 +82,23 @@
         <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-6">
             <!-- Doanh thu theo tháng -->
             <div class="bg-white rounded-xl shadow border border-gray-200 p-5">
-                <h2
-                    class="flex justify-between items-center text-xl font-bold text-gray-800 mb-4 border-b border-gray-400 pb-2">
-                    <span>Doanh thu năm {{ $currentYear }}</span>
+                <div class="flex justify-between items-center mb-4 border-b border-gray-400 pb-2">
+                    <form action="{{ route('admins.index') }}" method="GET" class="flex items-center gap-2"
+                        id="filterYearForm">
+                        <input type="hidden" name="month" value="{{ $currentMonth }}">
+                        <span class="text-xl font-bold text-gray-800">Doanh thu năm</span>
+                        <select name="year"
+                            class="border border-gray-300 rounded px-2 py-1 text-base font-bold text-gray-800 focus:outline-none focus:border-blue-500 bg-gray-50 cursor-pointer"
+                            onchange="document.getElementById('filterYearForm').submit()">
+                            @for ($i = date('Y') + 1; $i >= date('Y') - 5; $i--)
+                                <option value="{{ $i }}" @if ($currentYear == $i) selected @endif>
+                                    {{ $i }}</option>
+                            @endfor
+                        </select>
+                    </form>
                     <span
                         class="text-blue-600 text-lg font-bold">{{ number_format(array_sum($monthlyRevenues), 0, ',', '.') }}đ</span>
-                </h2>
+                </div>
                 <div class="relative h-72">
                     <canvas id="monthlyChart" class="cursor-pointer"></canvas>
                 </div>

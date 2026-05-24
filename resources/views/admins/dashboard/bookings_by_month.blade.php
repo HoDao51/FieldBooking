@@ -24,41 +24,29 @@
 
     <div class="bg-white rounded-xl shadow border border-gray-200 overflow-hidden">
         <table class="min-w-full text-sm">
-
             <thead class="bg-gray-200 text-gray-800 uppercase text-xs">
                 <tr>
                     <th class="px-6 py-3 text-left">
                         Khách hàng
                     </th>
-
                     <th class="px-6 py-3 text-center">
                         Sân
                     </th>
-
                     <th class="px-6 py-3 text-center">
                         Ngày đặt
                     </th>
-
                     <th class="px-6 py-3 text-center">
                         Khung giờ
                     </th>
-
                     <th class="px-6 py-3 text-center">
                         Thanh toán
-                    </th>
-
-                    <th class="px-6 py-3 text-center">
-                        Trạng thái
                     </th>
                 </tr>
             </thead>
 
             <tbody class="divide-y divide-gray-200">
-
                 @forelse($bookings as $item)
-
                 <tr class="hover:bg-gray-50">
-
                     <td class="px-6 py-4">
                         <div class="flex flex-col">
                             <span class="font-semibold text-gray-800">
@@ -101,13 +89,10 @@
                         </p>
 
                         @if ($item->Bills->first())
-
                         <p class="italic">
                             {{ $item->Bills->first()->PaymentMethod->name }}
                         </p>
-
                         @if ($item->Bills->first()->payment_type == 1)
-
                         <p class="text-xs text-gray-500">
                             Đặt cọc:
                             {{ number_format($item->Bills->first()->amount) }}đ
@@ -123,37 +108,6 @@
 
                         @endif
                     </td>
-
-                    <td class="text-center whitespace-nowrap">
-
-                        @if ($item->status == 0)
-
-                        <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">
-                            Chờ thanh toán
-                        </span>
-
-                        @elseif ($item->status == 1)
-
-                        <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-semibold">
-                            Đã thanh toán
-                        </span>
-
-                        @elseif ($item->status == 2)
-
-                        <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded-full text-xs font-semibold">
-                            Đã hủy
-                        </span>
-
-                        @elseif ($item->status == 3)
-
-                        <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
-                            Hoàn thành
-                        </span>
-
-                        @endif
-
-                    </td>
-
                 </tr>
 
                 @empty
