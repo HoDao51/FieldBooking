@@ -142,22 +142,7 @@
                 </table>
             </div>
 
-            @if ($bills->hasPages())
-                <div class="flex justify-center items-center gap-2 mt-4">
-                    @for ($i = 1; $i <= $bills->lastPage(); $i++)
-                        @if ($i == $bills->currentPage())
-                            <span class="px-4 py-2 bg-green-600 text-white rounded">
-                                {{ $i }}
-                            </span>
-                        @else
-                            <a href="{{ $bills->url($i) }}"
-                                class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-green-500 hover:text-white transition">
-                                {{ $i }}
-                            </a>
-                        @endif
-                    @endfor
-                </div>
-            @endif
+            @include('admins.components.pagination', ['paginator' => $bills])
 
             <h3 class="text-lg font-semibold text-gray-700 mb-2 mt-8 border-b border-gray-200 pb-1">Giao dịch hoàn tiền</h3>
             <div class="overflow-x-auto">
@@ -215,22 +200,7 @@
                 </table>
             </div>
 
-            @if ($refunds->hasPages())
-                <div class="flex justify-center items-center gap-2 mt-4">
-                    @for ($i = 1; $i <= $refunds->lastPage(); $i++)
-                        @if ($i == $refunds->currentPage())
-                            <span class="px-4 py-2 bg-green-600 text-white rounded">
-                                {{ $i }}
-                            </span>
-                        @else
-                            <a href="{{ $refunds->url($i) }}"
-                                class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-green-500 hover:text-white transition">
-                                {{ $i }}
-                            </a>
-                        @endif
-                    @endfor
-                </div>
-            @endif
+            @include('admins.components.pagination', ['paginator' => $refunds])
         </div>
     </div>
 
