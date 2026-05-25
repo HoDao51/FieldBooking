@@ -182,15 +182,16 @@ class DashboardController extends Controller
 
     public function bookingsByMonth(Request $request)
     {
-        $month = $request->month;
-        $year = $request->year;
+        $month = $request->input('month', date('m'));
+        $year = $request->input('year', date('Y'));
 
         $bookings = Booking::with(['Fields', 'TimeSlot', 'Bills.PaymentMethod'])
             ->whereIn('status', [1, 3])
             ->whereYear('created_at', $year)
             ->whereMonth('created_at', $month)
             ->orderByDesc('created_at')
-            ->paginate(10);
+            ->paginate(10)
+            ->withQueryString();
 
         return view('admins.dashboard.bookings_by_month', compact(
             'bookings',

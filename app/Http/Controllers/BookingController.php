@@ -373,7 +373,7 @@ class BookingController extends Controller
             ]);
         }
 
-        Mail::to($booking->Customer->email)->send(new CancelOrder($booking));
+        Mail::to($booking->contactEmail)->send(new CancelOrder($booking, $request->reason));
 
         return redirect()
             ->route('donDatSan.index')

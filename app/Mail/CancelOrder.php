@@ -17,7 +17,7 @@ class CancelOrder extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(public Booking $booking)
+    public function __construct(public Booking $booking, public string $reason)
     {
         //
     }

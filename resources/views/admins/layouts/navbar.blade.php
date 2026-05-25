@@ -1,5 +1,5 @@
 <header class="flex items-center justify-between border-b border-gray-200 px-6 py-1 bg-white">
-    <a href="">
+    <a href=" {{route('admins.index')}} ">
         <div class="flex items-center">
             <div class="text-green-600 pr-2 ">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10" fill="none" viewBox="0 0 24 24"
