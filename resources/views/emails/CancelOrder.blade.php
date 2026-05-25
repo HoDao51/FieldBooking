@@ -9,7 +9,7 @@
         <h2 style="color:#d32f2f;">Thông báo hủy đơn đặt sân</h2>
         <p>Kính gửi quý khách <strong>{{ $booking->contactName }}</strong>,</p>
 
-        <p>Rất tiếc, đơn đặt sân của quý khách đã bị hủy
+        <p>Đơn đặt sân của quý khách đã bị hủy
             với lý do: <strong style="color:#d32f2f;">{{ $reason }}</strong>.
         </p>
 

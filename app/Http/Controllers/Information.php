@@ -58,7 +58,7 @@ class Information extends Controller
             ->where('customer_id', Auth::user()->customers->id);
 
         $booking = $query
-            ->orderByRaw("FIELD(status, 0, 1, 3, 2, 4)")
+            ->orderByRaw("FIELD(status, 2, 0, 1, 3, 4)")
             ->orderBy('id', 'desc')
             ->paginate(5, ['*'], 'booking_page')
             ->withQueryString();

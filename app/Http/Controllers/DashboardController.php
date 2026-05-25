@@ -21,7 +21,7 @@ class DashboardController extends Controller
         $booking = Booking::with(['Fields', 'TimeSlot', 'PaymentMethod', 'Bills'])
             ->orderBy('status', 'asc')
             ->orderBy('id', 'desc')
-            ->paginate(3)
+            ->paginate(6)
             ->withQueryString();
 
         $mostBookedFields = Booking::join('fields', 'bookings.field_id', '=', 'fields.id')
