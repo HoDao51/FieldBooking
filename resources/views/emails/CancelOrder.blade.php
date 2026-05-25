@@ -9,12 +9,8 @@
         <h2 style="color:#d32f2f;">Thông báo hủy đơn đặt sân</h2>
         <p>Kính gửi quý khách <strong>{{ $booking->Customer->name }}</strong>,</p>
 
-        <p>Rất tiếc, đơn đặt sân của quý khách đã bị hủy 
-            @if($booking->refund)
-                với lý do: <strong style="color:#d32f2f;">{{ $booking->refund->reason }}</strong>.
-            @else
-                (không có lý do cụ thể).
-            @endif
+        <p>Rất tiếc, đơn đặt sân của quý khách đã bị hủy
+            với lý do: <strong style="color:#d32f2f;">{{ $booking->refund->reason }}</strong>.
         </p>
 
         <p>Nếu có sai sót hoặc cần hỗ trợ thêm, vui lòng liên hệ với quản trị viên để được giải quyết.</p>
