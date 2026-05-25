@@ -6,6 +6,7 @@ use App\Http\Requests\CancelBookingRequest;
 use App\Http\Requests\CheckoutRequest;
 use App\Http\Requests\StoreBookingRequest;
 use App\Http\Requests\StoreDirectBookingRequest;
+use App\Mail\CancelOrder;
 use App\Models\Booking;
 use App\Models\Customer;
 use App\Models\Facility;
@@ -15,6 +16,7 @@ use App\Models\Refund;
 use App\Models\TimeSlot;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class BookingController extends Controller
 {
@@ -370,6 +372,8 @@ class BookingController extends Controller
                 'reason' => $request->reason,
             ]);
         }
+
+        Mail::to($booking->Customer->email)->send(new CancelOrder($booking));
 
         return redirect()
             ->route('donDatSan.index')
