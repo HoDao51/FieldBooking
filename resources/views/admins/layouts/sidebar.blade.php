@@ -1,11 +1,22 @@
 <aside class="w-72 bg-white border-r border-gray-200 text-gray-800 p-4 h-full flex flex-col">
     <nav class="flex flex-col space-y-2 flex-1">
-        <a href="{{ route('admins.index') }}"
-            @class([
-                'flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold',
-                'bg-green-200 text-green-800' => request()->routeIs('admins.index'),
-                'hover:bg-green-200' => !request()->routeIs('admins.index'),
-            ])>
+        <a href="{{ route('admins.index') }}" @class([
+            'flex items-center space-x-2 px-3 py-2 rounded font-semibold',
+            'bg-green-200 text-green-800' => request()->routeIs([
+                'admins.index',
+                'bookingsByMonth',
+                'detailedFields',
+                'thongKe.san',
+                'thongKe.khungGio',
+            ]),
+            'hover:bg-green-200 hover:text-green-800' => !request()->routeIs([
+                'admins.index',
+                'bookingsByMonth',
+                'detailedFields',
+                'thongKe.san',
+                'thongKe.khungGio',
+            ]),
+        ])>
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 opacity-60" fill="#222C3A" viewBox="0 0 24 24"
                 stroke="currentColor" stroke-width="0">
                 <path fill="currentColor"
@@ -15,12 +26,11 @@
         </a>
 
         @if (auth()->user()->role == 0)
-            <a href="{{ route('nhanVien.index') }}"
-                @class([
-                    'flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold',
-                    'bg-green-200 text-green-800' => request()->routeIs('nhanVien.*'),
-                    'hover:bg-green-200' => !request()->routeIs('nhanVien.*'),
-                ])>
+            <a href="{{ route('nhanVien.index') }}" @class([
+                'flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold',
+                'bg-green-200 text-green-800' => request()->routeIs('nhanVien.*'),
+                'hover:bg-green-200' => !request()->routeIs('nhanVien.*'),
+            ])>
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 36 36"
                     stroke="currentColor" stroke-width="0">
                     <path fill="currentColor"
@@ -37,12 +47,11 @@
         @endif
 
         @if (auth()->user()->role == 0)
-            <a href="{{ route('khachHang.index') }}"
-                @class([
-                    'flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold',
-                    'bg-green-200 text-green-800' => request()->routeIs('khachHang.*'),
-                    'hover:bg-green-200' => !request()->routeIs('khachHang.*'),
-                ])>
+            <a href="{{ route('khachHang.index') }}" @class([
+                'flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold',
+                'bg-green-200 text-green-800' => request()->routeIs('khachHang.*'),
+                'hover:bg-green-200' => !request()->routeIs('khachHang.*'),
+            ])>
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 24 24"
                     stroke="currentColor" stroke-width="0">
                     <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -56,24 +65,23 @@
             </a>
         @endif
 
-        <a href="{{ route('loaiSan.index') }}"
-            @class([
-                'flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold',
-                'bg-green-200 text-green-800' => request()->routeIs('loaiSan.*'),
-                'hover:bg-green-200' => !request()->routeIs('loaiSan.*'),
-            ])>
+        <a href="{{ route('loaiSan.index') }}" @class([
+            'flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold',
+            'bg-green-200 text-green-800' => request()->routeIs('loaiSan.*'),
+            'hover:bg-green-200' => !request()->routeIs('loaiSan.*'),
+        ])>
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 opacity-70" fill="#222C3A" viewBox="0 0 24 24">
-                <path fill="currentColor" d="M20 18H4V8h16m0-2h-8l-2-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2"/>
+                <path fill="currentColor"
+                    d="M20 18H4V8h16m0-2h-8l-2-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2" />
             </svg>
             <span>Quản lý loại sân</span>
         </a>
 
-        <a href="{{ route('sanBong.index') }}"
-            @class([
-                'flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold',
-                'bg-green-200 text-green-800' => request()->routeIs('sanBong.*'),
-                'hover:bg-green-200' => !request()->routeIs('sanBong.*'),
-            ])>
+        <a href="{{ route('sanBong.index') }}" @class([
+            'flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold',
+            'bg-green-200 text-green-800' => request()->routeIs('sanBong.*'),
+            'hover:bg-green-200' => !request()->routeIs('sanBong.*'),
+        ])>
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 256 256"
                 stroke="currentColor" stroke-width="3">
                 <path fill="currentColor"
@@ -82,12 +90,11 @@
             <span>Quản lý sân bóng</span>
         </a>
 
-        <a href="{{ route('cauHinhGiaGio.index') }}"
-            @class([
-                'flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold',
-                'bg-green-200 text-green-800' => request()->routeIs('cauHinhGiaGio.*'),
-                'hover:bg-green-200' => !request()->routeIs('cauHinhGiaGio.*'),
-            ])>
+        <a href="{{ route('cauHinhGiaGio.index') }}" @class([
+            'flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold',
+            'bg-green-200 text-green-800' => request()->routeIs('cauHinhGiaGio.*'),
+            'hover:bg-green-200' => !request()->routeIs('cauHinhGiaGio.*'),
+        ])>
             <span class="w-6 h-6 flex items-center justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 scale-125 opacity-80" viewBox="0 0 56 56"
                     fill="currentColor">
@@ -98,12 +105,11 @@
             <span>Cấu hình giá giờ</span>
         </a>
 
-        <a href="{{ route('donDatSan.index') }}"
-            @class([
-                'flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold',
-                'bg-green-200 text-green-800' => request()->routeIs('donDatSan.*'),
-                'hover:bg-green-200' => !request()->routeIs('donDatSan.*'),
-            ])>
+        <a href="{{ route('donDatSan.index') }}" @class([
+            'flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold',
+            'bg-green-200 text-green-800' => request()->routeIs('donDatSan.*'),
+            'hover:bg-green-200' => !request()->routeIs('donDatSan.*'),
+        ])>
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 16 16"
                 stroke="currentColor" stroke-width="0">
                 <path fill="none" stroke="currentColor" stroke-linejoin="round"
@@ -112,25 +118,27 @@
             <span>Quản lý đơn đặt</span>
         </a>
 
-        <a href="{{ route('phuongThucThanhToan.index') }}"
-            @class([
-                'flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold',
-                'bg-green-200 text-green-800' => request()->routeIs('phuongThucThanhToan.*'),
-                'hover:bg-green-200' => !request()->routeIs('phuongThucThanhToan.*'),
-            ])>
+        <a href="{{ route('phuongThucThanhToan.index') }}" @class([
+            'flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold',
+            'bg-green-200 text-green-800' => request()->routeIs(
+                'phuongThucThanhToan.*'),
+            'hover:bg-green-200' => !request()->routeIs('phuongThucThanhToan.*'),
+        ])>
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 512 512">
-                <rect width="416" height="320" x="48" y="96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" rx="56" ry="56"/>
-                <path fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="60" d="M48 192h416M128 300h48v20h-48z"/>
+                <rect width="416" height="320" x="48" y="96" fill="none" stroke="currentColor"
+                    stroke-linecap="round" stroke-linejoin="round" stroke-width="32" rx="56" ry="56" />
+                <path fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="60"
+                    d="M48 192h416M128 300h48v20h-48z" />
             </svg>
             <span>Phương thức thanh toán</span>
         </a>
-        <a href="{{ route('lichSuGiaoDich.index') }}"
-            @class([
-                'flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold',
-                'bg-green-200 text-green-800' => request()->routeIs('lichSuGiaoDich.*'),
-                'hover:bg-green-200' => !request()->routeIs('lichSuGiaoDich.*'),
-            ])>
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <a href="{{ route('lichSuGiaoDich.index') }}" @class([
+            'flex items-center space-x-2 px-3 py-2 rounded hover:text-green-800 font-semibold',
+            'bg-green-200 text-green-800' => request()->routeIs('lichSuGiaoDich.*'),
+            'hover:bg-green-200' => !request()->routeIs('lichSuGiaoDich.*'),
+        ])>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1.8">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v5l3 2" />
                 <path stroke-linecap="round" stroke-linejoin="round" d="M22 12a10 10 0 1 1-3.2-7.3" />
             </svg>
