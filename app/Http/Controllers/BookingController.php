@@ -37,7 +37,7 @@ class BookingController extends Controller
         }
 
         $booking = $query
-            ->orderBy('status', 'asc')
+            ->orderByRaw("FIELD(status, 4, 0, 1, 3, 2)")
             ->orderBy('id', 'desc')
             ->paginate(4)
             ->withQueryString();
@@ -360,24 +360,39 @@ class BookingController extends Controller
     public function cancel(CancelBookingRequest $request, $id)
     {
         $booking = Booking::with('Bills')->findOrFail($id);
-        $paidAmount = $booking->Bills->sum('amount');
 
-        $booking->update(['status' => 2]);
-        $booking->Bills()->update(['status' => 0]);
+        if ($booking->customer_id === null) {
+            $paidAmount = $booking->Bills->sum('amount');
 
-        if ($paidAmount > 0) {
-            Refund::create([
-                'booking_id' => $booking->id,
-                'amount' => $paidAmount,
-                'reason' => $request->reason,
+            $booking->update([
+                'status' => 2,
+                'cancel_reason' => $request->reason,
             ]);
+            $booking->Bills()->update(['status' => 0]);
+
+            if ($paidAmount > 0) {
+                Refund::create([
+                    'booking_id' => $booking->id,
+                    'amount' => $paidAmount,
+                    'reason' => $request->reason,
+                ]);
+            }
+
+            Mail::to($booking->contactEmail)->send(new CancelOrder($booking, $request->reason));
+
+            return redirect()
+                ->route('donDatSan.index')
+                ->with('success', 'Hủy đơn đặt sân thành công!');
+        } else {
+            $booking->update([
+                'status' => 4,
+                'cancel_reason' => $request->reason,
+            ]);
+
+            return redirect()
+                ->route('donDatSan.index')
+                ->with('success', 'Yêu cầu hủy đặt sân đã được ghi nhận. Khách hàng sẽ xác nhận hủy trên hệ thống của họ.');
         }
-
-        Mail::to($booking->contactEmail)->send(new CancelOrder($booking, $request->reason));
-
-        return redirect()
-            ->route('donDatSan.index')
-            ->with('success', 'Hủy đơn đặt sân thành công!');
     }
 
     private function getBookingSessionData($request, $customerId)

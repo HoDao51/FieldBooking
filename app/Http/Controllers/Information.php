@@ -58,7 +58,7 @@ class Information extends Controller
             ->where('customer_id', Auth::user()->customers->id);
 
         $booking = $query
-            ->orderByRaw("FIELD(status, 2, 0, 1, 3, 4)")
+            ->orderByRaw("FIELD(status, 4, 0, 1, 3, 2)")
             ->orderBy('id', 'desc')
             ->paginate(5, ['*'], 'booking_page')
             ->withQueryString();
@@ -96,5 +96,54 @@ class Information extends Controller
             ->findOrFail($booking_id);
 
         return view('customers.information.transaction_detail', compact('booking'));
+    }
+
+    public function confirmCancel($id)
+    {
+        $booking = Booking::with('Bills')
+            ->where('customer_id', Auth::user()->customers->id)
+            ->findOrFail($id);
+
+        if ($booking->status != 4) {
+            return redirect()->back()->with('error', 'Đơn hàng không ở trạng thái chờ xác nhận hủy.');
+        }
+
+        $paidAmount = $booking->Bills->sum('amount');
+
+        $booking->update(['status' => 2]);
+        $booking->Bills()->update(['status' => 0]);
+
+        if ($paidAmount > 0) {
+            \App\Models\Refund::updateOrCreate(
+                ['booking_id' => $booking->id],
+                [
+                    'amount' => $paidAmount,
+                    'reason' => $booking->cancel_reason ?? 'Admin hủy sân',
+                ]
+            );
+        }
+
+        \Illuminate\Support\Facades\Mail::to($booking->contactEmail)
+            ->send(new \App\Mail\CancelOrder($booking, $booking->cancel_reason ?? 'Admin hủy sân'));
+
+        return redirect()->route('information.history')->with('success', 'Bạn đã xác nhận hủy đặt sân thành công.');
+    }
+
+    public function rejectCancel($id)
+    {
+        $booking = Booking::where('customer_id', Auth::user()->customers->id)
+            ->findOrFail($id);
+
+        if ($booking->status != 4) {
+            return redirect()->back()->with('error', 'Đơn hàng không ở trạng thái chờ xác nhận hủy.');
+        }
+
+        // Restore to paid status (1) — adjust if your app tracks a different previous status
+        $booking->update([
+            'status' => 1,
+            'cancel_reason' => null,
+        ]);
+
+        return redirect()->route('information.history')->with('success', 'Bạn đã từ chối yêu cầu hủy đặt sân.');
     }
 }

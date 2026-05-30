@@ -22,6 +22,7 @@ class Booking extends Model
         'time_id',
         'customer_id',
         'employee_id',
+        'cancel_reason',
     ];
 
     public function Fields()

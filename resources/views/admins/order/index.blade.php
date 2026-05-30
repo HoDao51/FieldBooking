@@ -116,8 +116,7 @@
                                         Chờ thanh toán
                                     </span>
                                 @elseif ($item->status == 1)
-                                    <span
-                                        class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-semibold">
+                                    <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-semibold">
                                         Đã thanh toán
                                     </span>
                                 @elseif ($item->status == 2)
@@ -127,6 +126,10 @@
                                 @elseif ($item->status == 3)
                                     <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
                                         Hoàn thành
+                                    </span>
+                                @elseif ($item->status == 4)
+                                    <span class="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-xs font-semibold">
+                                        Chờ khách xác nhận hủy
                                     </span>
                                 @endif
                             </td>
@@ -154,6 +157,10 @@
                                 @elseif ($item->status == 3)
                                     <span class="text-green-600 font-semibold">
                                         Đã hoàn thành
+                                    </span>
+                                @elseif ($item->status == 4)
+                                    <span class="text-orange-600 font-semibold">
+                                        Chờ phản hồi
                                     </span>
                                 @endif
                             </td>

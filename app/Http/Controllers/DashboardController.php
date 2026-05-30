@@ -19,7 +19,7 @@ class DashboardController extends Controller
         $bookings = Booking::count();
 
         $booking = Booking::with(['Fields', 'TimeSlot', 'PaymentMethod', 'Bills'])
-            ->orderBy('status', 'asc')
+            ->orderByRaw("FIELD(status, 4, 0, 1, 3, 2)")
             ->orderBy('id', 'desc')
             ->paginate(6)
             ->withQueryString();

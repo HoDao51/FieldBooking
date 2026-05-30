@@ -25,6 +25,8 @@ Route::prefix('customer')->group(function () {
     Route::get('/information', [Information::class, 'index'])->name('information.index');
     Route::post('/information', [Information::class, 'postProfile'])->name('information.postProfile');
     Route::get('/information/history', [Information::class, 'history'])->name('information.history');
+    Route::post('/information/history/{id}/confirm-cancel', [Information::class, 'confirmCancel'])->name('information.confirmCancel');
+    Route::post('/information/history/{id}/reject-cancel', [Information::class, 'rejectCancel'])->name('information.rejectCancel');
     Route::get('/information/transaction-history', [Information::class, 'transactionHistory'])->name('information.transactionHistory');
     Route::get('/information/transaction-history/{booking_id}', [Information::class, 'showTransaction'])->name('information.showTransaction');
 

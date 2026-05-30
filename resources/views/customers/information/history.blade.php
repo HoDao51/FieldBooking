@@ -1,4 +1,4 @@
-﻿@extends('customers.layouts.app')
+@extends('customers.layouts.app')
 
 @section('content')
     <div class="flex items-start max-w-6xl mx-auto mt-5 mb-10 gap-6">
@@ -158,6 +158,28 @@
                                             class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold">
                                             Hoàn thành
                                         </span>
+                                    @elseif ($item->status == 4)
+                                        <div class="flex flex-col items-center gap-1.5">
+                                            <span
+                                                class="bg-orange-100 text-orange-700 px-3 py-1 rounded-full text-xs font-semibold">
+                                                Yêu cầu hủy (Chờ xác nhận)
+                                            </span>
+                                            <div class="flex items-center gap-2">
+                                                <form action="{{ route('information.confirmCancel', $item->id) }}" method="POST" class="inline">
+                                                    @csrf
+                                                    <button type="submit" onclick="return confirm('Bạn có chắc chắn muốn xác nhận hủy đặt sân này?')" class="bg-red-500 hover:bg-red-600 text-white font-medium text-xs px-2.5 py-1 rounded shadow transition">
+                                                        Xác nhận
+                                                    </button>
+                                                </form>
+
+                                                <form action="{{ route('information.rejectCancel', $item->id) }}" method="POST" class="inline">
+                                                    @csrf
+                                                    <button type="submit" onclick="return confirm('Bạn có chắc chắn muốn từ chối yêu cầu hủy đặt sân này?')" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-medium text-xs px-2.5 py-1 rounded shadow transition">
+                                                        Từ chối
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
                                     @endif
                                 </td>
                             </tr>
