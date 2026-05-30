@@ -73,10 +73,23 @@
     @endif
 
     <div class="flex items-center gap-2">
-        <a href="{{ route('information.history', auth()->user()->id) }}" class="relative flex items-center justify-center w-12 h-12 rounded-full bg-gray-100 hover:bg-gray-200">
+        @auth
+            @php
+                $customer = auth()->user()->customers;
+            @endphp
+
+            @if ($customer)
+                <a href="{{ route('information.history', auth()->user()->id) }}"
+                    class="relative flex items-center justify-center w-12 h-12 rounded-full bg-gray-100 hover:bg-gray-200">
+                @else
+                    <a href="#"
+                        class="relative flex items-center justify-center w-12 h-12 rounded-full bg-gray-100 hover:bg-gray-200">
+            @endif
             <!-- Badge thông báo -->
-            <span id="bookingBadge" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center" style="display: none;">0</span>
-            
+            <span id="bookingBadge"
+                class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center"
+                style="display: none;">0</span>
+
             <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-gray-500" viewBox="0 0 24 24">
                 <path d="M0 0h24v24H0z" fill="none" />
                 <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
@@ -101,7 +114,8 @@
                     </path>
                 </g>
             </svg>
-        </a>
+            </a>
+        @endauth
 
         @guest
             <div class="flex items-center gap-4">
@@ -192,22 +206,22 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Hàm lấy số lượng booking status = 4
-    function updateBookingBadge() {
-        @auth
-        fetch('{{ route("booking.countStatus4") }}')
-            .then(response => response.json())
-            .then(data => {
-                const badge = document.getElementById('bookingBadge');
-                if (data.count > 0) {
-                    badge.textContent = data.count;
-                    badge.style.display = 'flex';
-                } else {
-                    badge.style.display = 'none';
-                }
-            })
-            .catch(error => console.error('Error fetching booking count:', error));
+    document.addEventListener('DOMContentLoaded', function() {
+        // Hàm lấy số lượng booking status = 4
+        function updateBookingBadge() {
+            @auth
+            fetch('{{ route('booking.countStatus4') }}')
+                .then(response => response.json())
+                .then(data => {
+                    const badge = document.getElementById('bookingBadge');
+                    if (data.count > 0) {
+                        badge.textContent = data.count;
+                        badge.style.display = 'flex';
+                    } else {
+                        badge.style.display = 'none';
+                    }
+                })
+                .catch(error => console.error('Error fetching booking count:', error));
         @endauth
     }
 
@@ -223,5 +237,5 @@ document.addEventListener('DOMContentLoaded', function() {
             updateBookingBadge();
         }
     });
-});
+    });
 </script>
