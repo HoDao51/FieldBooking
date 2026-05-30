@@ -199,4 +199,27 @@ class DashboardController extends Controller
             'year'
         ));
     }
+
+    public function bookingsByDay(Request $request)
+    {
+        $day = $request->input('day', date('d'));
+        $month = $request->input('month', date('m'));
+        $year = $request->input('year', date('Y'));
+
+        $bookings = Booking::with(['Fields', 'TimeSlot', 'Bills.PaymentMethod'])
+            ->whereIn('status', [1, 3])
+            ->whereYear('created_at', $year)
+            ->whereMonth('created_at', $month)
+            ->whereDay('created_at', $day)
+            ->orderByDesc('created_at')
+            ->paginate(10)
+            ->withQueryString();
+
+        return view('admins.dashboard.bookings_by_day', compact(
+            'bookings',
+            'day',
+            'month',
+            'year'
+        ));
+    }
 }

@@ -131,7 +131,7 @@
                         class="text-blue-600 text-lg font-bold">{{ number_format(array_sum($dailyRevenues), 0, ',', '.') }}đ</span>
                 </div>
                 <div class="relative h-72">
-                    <canvas id="dailyChart"></canvas>
+                    <canvas id="dailyChart" class="cursor-pointer"></canvas>
                 </div>
             </div>
         </div>
@@ -435,7 +435,17 @@
                         fill: true
                     }]
                 },
-                options: commonOptions
+                options: {
+                    ...commonOptions,
+                    onClick: (_, elements) => {
+                        if (!elements.length) return;
+
+                        const day = elements[0].index + 1;
+
+                        window.location.href =
+                            `/admin/bookings-by-day?day=${day}&month={{ $currentMonth }}&year={{ $currentYear }}`;
+                    }
+                }
             });
 
         });
