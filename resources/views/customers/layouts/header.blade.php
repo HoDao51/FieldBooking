@@ -72,89 +72,156 @@
         </div>
     @endif
 
-    @guest
-        <div class="flex items-center gap-4">
-            <a href="{{ route('customer.login') }}" class="text-gray-600 hover:text-green-600">
-                Đăng nhập
-            </a>
+    <div class="flex items-center gap-2">
+        <a href="{{ route('information.history', auth()->user()->id) }}" class="relative flex items-center justify-center w-12 h-12 rounded-full bg-gray-100 hover:bg-gray-200">
+            <!-- Badge thông báo -->
+            <span id="bookingBadge" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center" style="display: none;">0</span>
+            
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-gray-500" viewBox="0 0 24 24">
+                <path d="M0 0h24v24H0z" fill="none" />
+                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                    <path stroke-dasharray="4" d="M12 3v2">
+                        <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.2s" values="4;0" />
+                        <animateTransform attributeName="transform" dur="6s" keyTimes="0;0.05;0.15;0.2;1"
+                            repeatCount="indefinite" type="rotate" values="0 12 3;3 12 3;-3 12 3;0 12 3;0 12 3" />
+                    </path>
+                    <path stroke-dasharray="30" stroke-dashoffset="30"
+                        d="M12 5c-3.31 0 -6 2.69 -6 6l0 6c-1 0 -2 1 -2 2h8M12 5c3.31 0 6 2.69 6 6l0 6c1 0 2 1 2 2h-8">
+                        <animateTransform attributeName="transform" dur="6s" keyTimes="0;0.05;0.15;0.2;1"
+                            repeatCount="indefinite" type="rotate" values="0 12 3;3 12 3;-3 12 3;0 12 3;0 12 3" />
+                        <animate fill="freeze" attributeName="stroke-dashoffset" begin="0.2s" dur="0.4s"
+                            to="0" />
+                    </path>
+                    <path stroke-dasharray="10" stroke-dashoffset="10" d="M10 20c0 1.1 0.9 2 2 2c1.1 0 2 -0.9 2 -2">
+                        <animateTransform attributeName="transform" begin="0.2s" dur="6s"
+                            keyTimes="0;0.05;0.15;0.2;1" repeatCount="indefinite" type="rotate"
+                            values="0 12 8;6 12 8;-6 12 8;0 12 8;0 12 8" />
+                        <animate fill="freeze" attributeName="stroke-dashoffset" begin="0.7s" dur="0.2s"
+                            to="0" />
+                    </path>
+                </g>
+            </svg>
+        </a>
 
-            <a href="{{ route('customer.register') }}"
-                class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
-                Đăng ký
-            </a>
-        </div>
-    @endguest
-
-    @auth
-        @php
-            $customer = auth()->user()->customers;
-        @endphp
-
-        @if ($customer)
-        <div class="relative inline-block text-left">
-            <button id="profileBtn" class="flex items-center gap-3 px-3 py-2 rounded-lg transition" aria-haspopup="true"
-                aria-expanded="false">
-                <div class="w-12 h-12 rounded-full flex items-center justify-center text-green-600 font-semibold">
-                    @if ($customer->avatar == null)
-                        <img src="{{ asset('images/sbcf-default-avatar.png') }}"
-                            class="w-full h-full object-cover rounded-full border-2 border-gray-300">
-                    @else
-                        <img src="{{ asset('storage/' . $customer->avatar) }}"
-                            class="w-full h-full object-cover rounded-full border-2 border-gray-300">
-                    @endif
-                </div>
-
-                <div class="text-left leading-tight">
-                    <p class="font-semibold text-gray-800">{{ auth()->user()->name }}</p>
-                </div>
-
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-500 ml-1" fill="none"
-                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                </svg>
-            </button>
-
-            <div id="profileDropdown"
-                class="hidden absolute right-0 mt-2 w-60 bg-white shadow-lg border border-gray-200 rounded-lg p-2 z-50">
-
-                <a href="{{ route('information.index') }}"
-                    class="flex items-center gap-2 font-semibold block px-4 py-2 text-green-600 hover:bg-green-100 rounded-md mb-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                    </svg>
-                    Thông tin cá nhân
-                </a>
-
-                <a href="{{ route('information.history', auth()->user()->id) }}"
-                    class="flex items-center gap-2 font-semibold block px-4 py-2 text-green-600 hover:bg-green-100 rounded-md">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" stroke="currentColor"
-                        stroke-width="0">
-                        <path fill="currentColor"
-                            d="M19 4h-2V3a1 1 0 0 0-2 0v1H9V3a1 1 0 0 0-2 0v1H5a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3m1 15a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-7h16Zm0-9H4V7a1 1 0 0 1 1-1h2v1a1 1 0 0 0 2 0V6h6v1a1 1 0 0 0 2 0V6h2a1 1 0 0 1 1 1Z" />
-                    </svg>
-                    Lịch sử đặt sân
-                </a>
-
-                <hr class="my-2 border-gray-300">
-
-                <a href="{{ route('customer.logout') }}"
-                    class="flex items-center gap-2 font-semibold block px-4 py-2 text-red-600 hover:bg-red-600 hover:text-white rounded-md">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 32 32">
-                        <path fill="currentColor" stroke="none"
-                            d="M26 4h2v24h-2zM11.414 20.586L7.828 17H22v-2H7.828l3.586-3.586L10 10l-6 6l6 6z" />
-                    </svg>
-                    Đăng xuất
-                </a>
-            </div>
-        </div>
-        @else
+        @guest
             <div class="flex items-center gap-4">
-                <a href="{{ route('customer.logout') }}" class="text-gray-600 hover:text-green-600">
-                    Đăng xuất
+                <a href="{{ route('customer.login') }}" class="text-gray-600 hover:text-green-600">
+                    Đăng nhập
+                </a>
+
+                <a href="{{ route('customer.register') }}"
+                    class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
+                    Đăng ký
                 </a>
             </div>
-        @endif
-    @endauth
+        @endguest
+
+        @auth
+            @php
+                $customer = auth()->user()->customers;
+            @endphp
+
+            @if ($customer)
+                <div class="relative inline-block text-left">
+                    <button id="profileBtn" class="flex items-center gap-3 px-3 py-2 rounded-lg transition"
+                        aria-haspopup="true" aria-expanded="false">
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center text-green-600 font-semibold">
+                            @if ($customer->avatar == null)
+                                <img src="{{ asset('images/sbcf-default-avatar.png') }}"
+                                    class="w-full h-full object-cover rounded-full border-2 border-gray-300">
+                            @else
+                                <img src="{{ asset('storage/' . $customer->avatar) }}"
+                                    class="w-full h-full object-cover rounded-full border-2 border-gray-300">
+                            @endif
+                        </div>
+
+                        <div class="text-left leading-tight">
+                            <p class="font-semibold text-gray-800">{{ auth()->user()->name }}</p>
+                        </div>
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-500 ml-1" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+
+                    <div id="profileDropdown"
+                        class="hidden absolute right-0 mt-2 w-60 bg-white shadow-lg border border-gray-200 rounded-lg p-2 z-50">
+
+                        <a href="{{ route('information.index') }}"
+                            class="flex items-center gap-2 font-semibold block px-4 py-2 text-green-600 hover:bg-green-100 rounded-md mb-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                            </svg>
+                            Thông tin cá nhân
+                        </a>
+
+                        <a href="{{ route('information.history', auth()->user()->id) }}"
+                            class="flex items-center gap-2 font-semibold block px-4 py-2 text-green-600 hover:bg-green-100 rounded-md">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="0">
+                                <path fill="currentColor"
+                                    d="M19 4h-2V3a1 1 0 0 0-2 0v1H9V3a1 1 0 0 0-2 0v1H5a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3m1 15a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-7h16Zm0-9H4V7a1 1 0 0 1 1-1h2v1a1 1 0 0 0 2 0V6h6v1a1 1 0 0 0 2 0V6h2a1 1 0 0 1 1 1Z" />
+                            </svg>
+                            Lịch sử đặt sân
+                        </a>
+
+                        <hr class="my-2 border-gray-300">
+
+                        <a href="{{ route('customer.logout') }}"
+                            class="flex items-center gap-2 font-semibold block px-4 py-2 text-red-600 hover:bg-red-600 hover:text-white rounded-md">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="#222C3A" viewBox="0 0 32 32">
+                                <path fill="currentColor" stroke="none"
+                                    d="M26 4h2v24h-2zM11.414 20.586L7.828 17H22v-2H7.828l3.586-3.586L10 10l-6 6l6 6z" />
+                            </svg>
+                            Đăng xuất
+                        </a>
+                    </div>
+                </div>
+            @else
+                <div class="flex items-center gap-4">
+                    <a href="{{ route('customer.logout') }}" class="text-gray-600 hover:text-green-600">
+                        Đăng xuất
+                    </a>
+                </div>
+            @endif
+        @endauth
+    </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Hàm lấy số lượng booking status = 4
+    function updateBookingBadge() {
+        @auth
+        fetch('{{ route("booking.countStatus4") }}')
+            .then(response => response.json())
+            .then(data => {
+                const badge = document.getElementById('bookingBadge');
+                if (data.count > 0) {
+                    badge.textContent = data.count;
+                    badge.style.display = 'flex';
+                } else {
+                    badge.style.display = 'none';
+                }
+            })
+            .catch(error => console.error('Error fetching booking count:', error));
+        @endauth
+    }
+
+    // Cập nhật badge khi tải trang
+    updateBookingBadge();
+
+    // Cập nhật badge mỗi 30 giây
+    setInterval(updateBookingBadge, 30000);
+
+    // Cập nhật badge khi user quay lại tab
+    document.addEventListener('visibilitychange', function() {
+        if (!document.hidden) {
+            updateBookingBadge();
+        }
+    });
+});
+</script>

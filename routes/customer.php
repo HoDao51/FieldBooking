@@ -21,6 +21,7 @@ Route::prefix('customer')->group(function () {
     Route::get('/checkout', [BookingController::class,'checkout'])->name('booking.checkout');
     Route::post('/booking/store', [BookingController::class,'store'])->name('booking.store');
     Route::get('/booking/success/{id}', [BookingController::class,'success'])->name('booking.success');
+    Route::get('/booking/count-status-4', [BookingController::class,'getBookingCountStatus4'])->name('booking.countStatus4');
 
     Route::get('/information', [Information::class, 'index'])->name('information.index');
     Route::post('/information', [Information::class, 'postProfile'])->name('information.postProfile');
