@@ -15,7 +15,7 @@
 
         <p>Nếu có sai sót hoặc cần hỗ trợ thêm, vui lòng liên hệ với quản trị viên để được giải quyết.</p>
 
-        <p style="margin-top:20px;">Trân trọng,<br>
+        <p style="margin-top:20px;">Trân trọng.<br>
     </div>
 </body>
 </html>

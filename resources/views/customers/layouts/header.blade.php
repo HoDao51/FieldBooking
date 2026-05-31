@@ -74,16 +74,12 @@
 
     <div class="flex items-center gap-2">
         @auth
-            @php
-                $customer = auth()->user()->customers;
-            @endphp
-
-            @if ($customer)
+            @if (auth()->user()->customers)
                 <a href="{{ route('information.history', auth()->user()->id) }}"
                     class="relative flex items-center justify-center w-12 h-12 rounded-full bg-gray-100 hover:bg-gray-200">
-                @else
-                    <a href="#"
-                        class="relative flex items-center justify-center w-12 h-12 rounded-full bg-gray-100 hover:bg-gray-200">
+            @else
+                <a href="#"
+                    class="relative flex items-center justify-center w-12 h-12 rounded-full bg-gray-100 hover:bg-gray-200">
             @endif
             <!-- Badge thông báo -->
             <span id="bookingBadge"
@@ -131,20 +127,16 @@
         @endguest
 
         @auth
-            @php
-                $customer = auth()->user()->customers;
-            @endphp
-
-            @if ($customer)
+            @if (auth()->user()->customers)
                 <div class="relative inline-block text-left">
                     <button id="profileBtn" class="flex items-center gap-3 px-3 py-2 rounded-lg transition"
                         aria-haspopup="true" aria-expanded="false">
                         <div class="w-12 h-12 rounded-full flex items-center justify-center text-green-600 font-semibold">
-                            @if ($customer->avatar == null)
+                            @if (auth()->user()->customers->avatar == null)
                                 <img src="{{ asset('images/sbcf-default-avatar.png') }}"
                                     class="w-full h-full object-cover rounded-full border-2 border-gray-300">
                             @else
-                                <img src="{{ asset('storage/' . $customer->avatar) }}"
+                                <img src="{{ asset('storage/' . auth()->user()->customers->avatar) }}"
                                     class="w-full h-full object-cover rounded-full border-2 border-gray-300">
                             @endif
                         </div>
@@ -205,11 +197,11 @@
     </div>
 </div>
 
+@auth
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Hàm lấy số lượng booking status = 4
         function updateBookingBadge() {
-            @auth
             fetch('{{ route('booking.countStatus4') }}')
                 .then(response => response.json())
                 .then(data => {
@@ -222,20 +214,20 @@
                     }
                 })
                 .catch(error => console.error('Error fetching booking count:', error));
-        @endauth
-    }
-
-    // Cập nhật badge khi tải trang
-    updateBookingBadge();
-
-    // Cập nhật badge mỗi 30 giây
-    setInterval(updateBookingBadge, 30000);
-
-    // Cập nhật badge khi user quay lại tab
-    document.addEventListener('visibilitychange', function() {
-        if (!document.hidden) {
-            updateBookingBadge();
         }
-    });
+
+        // Cập nhật badge khi tải trang
+        updateBookingBadge();
+
+        // Cập nhật badge mỗi 30 giây
+        setInterval(updateBookingBadge, 30000);
+
+        // Cập nhật badge khi user quay lại tab
+        document.addEventListener('visibilitychange', function() {
+            if (!document.hidden) {
+                updateBookingBadge();
+            }
+        });
     });
 </script>
+@endauth

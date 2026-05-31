@@ -412,13 +412,9 @@ class BookingController extends Controller
 
     public function getBookingCountStatus4()
     {
-        $user = Auth::user();
-        
-        if (!$user || !$user->customers) {
-            return response()->json(['count' => 0]);
-        }
+        $customer = Auth::user()->customers;
 
-        $count = Booking::where('customer_id', $user->customers->id)
+        $count = Booking::where('customer_id', $customer->id)
             ->where('status', 4)
             ->count();
 
